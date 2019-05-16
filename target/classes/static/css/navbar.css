@@ -1,0 +1,31 @@
+.navbar-default {
+	background-color: gray;
+	border-color: #E7E7E7;
+}
+
+.navbar-default .navbar-header > a {
+	color : white;
+}
+
+.navbar-default .navbar-nav > li > a {
+	color: white;
+}
+
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus
+{
+	background-color : lightblue;
+}
+
+.navbar-default .navbar-nav > .active > a
+{
+	/*background-color: CornflowerBlue ;*/
+	background-color: DarkOrange;
+	color: white;
+}
+
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus
+{
+	background-color: lightblue;
+}
