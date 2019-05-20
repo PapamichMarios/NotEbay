@@ -57,6 +57,7 @@
 			<artifactId>jdbc-driver</artifactId>
 			<version>1.0.51</version>
 		</dependency>
+
 	</dependencies>
 
 	<build>

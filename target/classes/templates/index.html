@@ -1,18 +1,24 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
     <title> Καλώς Ήρθατε</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/navbar.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/structure.css}">
+
+    <!-- necessary -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+
+    <!-- css -->
+    <link rel="stylesheet" type="text/css" href="/css/navbar.css">
+
 </head>
 
-<body class="background-color">
+<body>
+
+<div id="navbar"> </div>
 
 <!-- include navigation bar -->
-<div th:replace="../static/fragments/navbar :: navbar"></div>
+<script src="/reactjs/build/navbar.bundle.js"> </script>
 
 </body>
 </html>
