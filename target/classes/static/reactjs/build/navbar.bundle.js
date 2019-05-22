@@ -42470,7 +42470,7 @@ function (_React$Component) {
         className: "mr-auto"
       }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_1__["NavItem"], null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_1__["Nav"].Link, {
         href: "#home"
-      }, "\u0391\u03C1\u03C7\u03B9\u03BA\u03AE \u03A3\u03B5\u03BB\u03AF\u03B4\u03B1")), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_1__["NavItem"], null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_1__["Form"], {
+      }, "Home")), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_1__["NavItem"], null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_1__["Form"], {
         inline: true
       }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_1__["FormControl"], {
         type: "text",

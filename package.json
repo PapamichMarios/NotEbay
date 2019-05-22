@@ -25,7 +25,11 @@
     "build": "webpack --mode production",
     "dev": "webpack --mode development"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "reactjs",
+    "REST",
+    "Spring Data"
+  ],
+  "author": "Marios Papamichalopoulos & Georgios Michas",
   "license": "ISC"
 }

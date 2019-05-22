@@ -14,7 +14,7 @@ class NavBar extends React.Component{
 
                 <Nav className="mr-auto">
                   <NavItem>
-                    <Nav.Link href="#home">Αρχική Σελίδα</Nav.Link>
+                    <Nav.Link href="#home">Home</Nav.Link>
                   </NavItem>
 
                   <NavItem>

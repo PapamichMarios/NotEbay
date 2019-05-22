@@ -2,7 +2,9 @@ const path = require('path');
 
 module.exports = {
   entry: {
-	navbar: './src/main/resources/static/reactjs/components/navbar.js'
+	navbar: './src/main/resources/static/reactjs/components/navbar.js',
+	signup: './src/main/resources/static/reactjs/components/signup.js',
+	index:  './src/main/resources/static/reactjs/components/index.js'
   },
   mode: 'development',
   devtool: 'source-map',
