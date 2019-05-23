@@ -14,29 +14,33 @@ class NavBar extends React.Component{
 
                 <Nav className="mr-auto">
                   <NavItem>
-                    <Nav.Link href="#home">Home</Nav.Link>
-                  </NavItem>
-
-                  <NavItem>
                     <Form inline>
                       <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-                      <Button variant="outline-info">Search</Button>
+                      <Button variant="outline-success">Search</Button>
                     </Form>
                   </NavItem>
                 </Nav>
 
-                <Nav className="justify-content-right">
+                <Nav className="justify-content-end">
                   <NavItem>
-                    <Nav.Link href="#">
-                      <Button variant="info">
+                    <Nav.Link href="/home">
+                      <Button variant="dark">
+                        Home
+                      </Button>
+                    </Nav.Link>
+                  </NavItem>
+
+                  <NavItem>
+                    <Nav.Link href="/signup">
+                      <Button variant="outline-warning">
                         Signup
                       </Button>
                     </Nav.Link>
                   </NavItem>
 
                   <NavItem>
-                    <Nav.Link href="#">
-                       <Button variant="dark">
+                    <Nav.Link href="/login">
+                       <Button variant="outline-info">
                         Login
                        </Button>
                     </Nav.Link>

@@ -41808,12 +41808,16 @@ function (_React$Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Signup).call(this, props, context));
     _this.state = {
-      firstName: '',
-      lastName: '',
       username: '',
       password: '',
       repassword: '',
-      email: ''
+      firstName: '',
+      lastName: '',
+      email: '',
+      phoneNumber: '',
+      address: '',
+      country: '',
+      tin: ''
     };
     return _this;
   }
@@ -41833,22 +41837,30 @@ function (_React$Component) {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          firstName: this.state.firstName,
-          lastName: this.state.lastName,
           username: this.state.username,
           password: this.state.password,
           repassword: this.state.repassword,
-          email: this.state.email
+          firstName: this.state.firstName,
+          lastName: this.state.lastName,
+          email: this.state.email,
+          phoneNumber: this.state.phoneNumber,
+          address: this.state.address,
+          country: this.state.country,
+          tin: this.state.tin
         })
       });
       console.log(this.state.firstName);
       this.setState({
-        firstName: '',
-        lastName: '',
         username: '',
         password: '',
         repassword: '',
-        email: ''
+        firstName: '',
+        lastName: '',
+        email: '',
+        phoneNumber: '',
+        address: '',
+        country: '',
+        tin: ''
       });
     }
   }, {
@@ -41874,38 +41886,66 @@ function (_React$Component) {
         method: this.props.method,
         onSubmit: this.onSubmit
       }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Group, {
-        controlId: "formFirstName"
-      }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Control, {
-        type: "text",
-        placeholder: "First Name"
-      })), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Group, {
-        controlId: "formLastName"
-      }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Control, {
-        type: "text",
-        placeholder: "Last Name"
-      })), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Group, {
         controlId: "formUsername"
       }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Control, {
         type: "text",
+        name: "username",
         placeholder: "Username"
       })), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Group, {
         controlId: "formPassword"
       }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Control, {
         type: "password",
+        name: "password",
         placeholder: "Password"
       })), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Group, {
         controlId: "formRepeatPassword"
       }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Control, {
         type: "password",
+        name: "repassword",
         placeholder: "Re-enter Password"
+      })), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Group, {
+        controlId: "formFirstName"
+      }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Control, {
+        type: "text",
+        name: "firstName",
+        placeholder: "First Name"
+      })), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Group, {
+        controlId: "formLastName"
+      }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Control, {
+        type: "text",
+        name: "lastName",
+        placeholder: "Last Name"
       })), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Group, {
         controlId: "emailForm"
       }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Control, {
         type: "email",
+        name: "email",
         placeholder: "E-mail"
       }), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Text, {
         className: "text-muted"
-      }, "We'll never share your email with anyone else.")), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["ButtonToolbar"], {
+      }, "We'll never share your email with anyone else.")), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Group, {
+        controlId: "formPhoneNumber"
+      }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Control, {
+        type: "text",
+        name: "phoneNumber",
+        placeholder: "Phone Number"
+      })), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Group, {
+        controlId: "formAddress"
+      }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Control, {
+        type: "text",
+        name: "address",
+        placeholder: "Address"
+      })), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Group, {
+        controlId: "formCountry"
+      }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Control, {
+        as: "select",
+        name: "country",
+        placeholder: "Country"
+      }, React.createElement("option", null, "Country"), React.createElement("option", null, "Greece"), React.createElement("option", null, "USA"), React.createElement("option", null, "UK"))), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Group, null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Control, {
+        type: "text",
+        name: "tin",
+        placeholder: "TIN"
+      })), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["ButtonToolbar"], {
         size: "lg"
       }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Button"], {
         type: "submit",

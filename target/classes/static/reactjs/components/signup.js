@@ -8,12 +8,16 @@ export default class Signup extends React.Component {
         super(props, context);
 
         this.state = {
-            firstName: '',
-            lastName: '',
             username: '',
             password: '',
             repassword:'',
-            email: ''};
+            firstName: '',
+            lastName: '',
+            email: '',
+            phoneNumber: '',
+            address: '',
+            country: '',
+            tin: '' };
     }
 
     onChange(e) {
@@ -31,23 +35,31 @@ export default class Signup extends React.Component {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                        firstName: this.state.firstName,
-                        lastName: this.state.lastName,
                         username: this.state.username,
                         password: this.state.password,
                         repassword: this.state.repassword,
-                        email: this.state.email })
+                        firstName: this.state.firstName,
+                        lastName: this.state.lastName,
+                        email: this.state.email,
+                        phoneNumber: this.state.phoneNumber,
+                        address: this.state.address,
+                        country: this.state.country,
+                        tin: this.state.tin})
         });
 
         console.log(this.state.firstName);
 
         this.setState({
-            firstName: '',
-            lastName: '',
             username: '',
             password: '',
-            repassword: '',
-            email: '' });
+            repassword:'',
+            firstName: '',
+            lastName: '',
+            email: '',
+            phoneNumber: '',
+            address: '',
+            country: '',
+            tin: '' });
     }
 
     render() {
@@ -64,31 +76,52 @@ export default class Signup extends React.Component {
                                       method={this.props.method}
                                       onSubmit={this.onSubmit}>
 
-                                      <Form.Group controlId="formFirstName">
-                                        <Form.Control type="text" placeholder="First Name" />
-                                      </Form.Group>
-
-                                      <Form.Group controlId="formLastName">
-                                        <Form.Control type="text" placeholder="Last Name" />
-                                      </Form.Group>
-
                                       <Form.Group controlId="formUsername">
-                                        <Form.Control type="text" placeholder="Username" />
+                                        <Form.Control type="text" name="username" placeholder="Username" />
                                       </Form.Group>
 
                                       <Form.Group controlId="formPassword">
-                                        <Form.Control type="password" placeholder="Password" />
+                                        <Form.Control type="password" name="password" placeholder="Password" />
                                       </Form.Group>
 
                                       <Form.Group controlId="formRepeatPassword">
-                                        <Form.Control type="password" placeholder="Re-enter Password" />
+                                        <Form.Control type="password" name="repassword" placeholder="Re-enter Password" />
+                                      </Form.Group>
+
+                                      <Form.Group controlId="formFirstName">
+                                        <Form.Control type="text" name="firstName" placeholder="First Name" />
+                                      </Form.Group>
+
+                                      <Form.Group controlId="formLastName">
+                                        <Form.Control type="text" name="lastName" placeholder="Last Name" />
                                       </Form.Group>
 
                                       <Form.Group controlId="emailForm">
-                                        <Form.Control type="email" placeholder="E-mail" />
+                                        <Form.Control type="email" name="email" placeholder="E-mail" />
                                         <Form.Text className="text-muted">
                                           We'll never share your email with anyone else.
                                         </Form.Text>
+                                      </Form.Group>
+
+                                      <Form.Group controlId="formPhoneNumber">
+                                        <Form.Control type="text" name="phoneNumber" placeholder="Phone Number" />
+                                      </Form.Group>
+
+                                      <Form.Group controlId="formAddress">
+                                        <Form.Control type="text" name="address" placeholder="Address" />
+                                      </Form.Group>
+
+                                      <Form.Group controlId="formCountry">
+                                        <Form.Control as="select" name="country" placeholder="Country">
+                                          <option>Country</option>
+                                          <option>Greece</option>
+                                          <option>USA</option>
+                                          <option>UK</option>
+                                        </Form.Control>
+                                      </Form.Group>
+
+                                      <Form.Group>
+                                        <Form.Control type="text" name="tin" placeholder="TIN" />
                                       </Form.Group>
 
                                       <ButtonToolbar size="lg">

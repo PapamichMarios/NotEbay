@@ -587,7 +587,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 
 exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js")(false);
 // Module
-exports.push([module.i, ".highlighted\n{\n    background-color : dodgerblue;\n}\n\n.highlighted2\n{\n    background-color : green;\n}", ""]);
+exports.push([module.i, ".highlighted{\n    background-color : orange\n}", ""]);
 
 
 
@@ -42468,26 +42468,28 @@ function (_React$Component) {
         id: "basic-navbar-nav"
       }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_1__["Nav"], {
         className: "mr-auto"
-      }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_1__["NavItem"], null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_1__["Nav"].Link, {
-        href: "#home"
-      }, "Home")), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_1__["NavItem"], null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_1__["Form"], {
+      }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_1__["NavItem"], null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_1__["Form"], {
         inline: true
       }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_1__["FormControl"], {
         type: "text",
         placeholder: "Search",
         className: "mr-sm-2"
       }), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_1__["Button"], {
-        variant: "outline-info"
+        variant: "outline-success"
       }, "Search")))), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_1__["Nav"], {
-        className: "justify-content-right"
+        className: "justify-content-end"
       }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_1__["NavItem"], null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_1__["Nav"].Link, {
-        href: "#"
-      }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_1__["Button"], {
-        variant: "info"
-      }, "Signup"))), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_1__["NavItem"], null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_1__["Nav"].Link, {
-        href: "#"
+        href: "/home"
       }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_1__["Button"], {
         variant: "dark"
+      }, "Home"))), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_1__["NavItem"], null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_1__["Nav"].Link, {
+        href: "/signup"
+      }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_1__["Button"], {
+        variant: "outline-warning"
+      }, "Signup"))), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_1__["NavItem"], null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_1__["Nav"].Link, {
+        href: "/login"
+      }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_1__["Button"], {
+        variant: "outline-info"
       }, "Login"))))));
     }
   }]);
