@@ -7,6 +7,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 -- -----------------------------------------------------
 -- Schema ted_db
 -- -----------------------------------------------------
+DROP SCHEMA IF EXISTS `ted_db` ;
 
 -- -----------------------------------------------------
 -- Schema ted_db
@@ -18,7 +19,7 @@ USE `ted_db` ;
 -- Table `ted_db`.`roles`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ted_db`.`roles` (
-  `id` INT NOT NULL,
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(80) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
@@ -28,18 +29,21 @@ ENGINE = InnoDB;
 -- Table `ted_db`.`users`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ted_db`.`users` (
-  `id` INT NOT NULL,
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(80) NOT NULL,
   `password` VARCHAR(45) NOT NULL,
-  `name` VARCHAR(80) NOT NULL,
-  `surname` VARCHAR(80) NOT NULL,
-  `phone` VARCHAR(45) NOT NULL,
-  `vat_num` VARCHAR(80) NOT NULL,
+  `first_name` VARCHAR(80) NOT NULL,
+  `last_name` VARCHAR(80) NOT NULL,
+  `phone` VARCHAR(45) NULL,
+  `vat_num` VARCHAR(80) NULL,
   `street_address` VARCHAR(150) NULL,
-  `geo_location` GEOMETRYCOLLECTION NULL,
+  `geo_location` POINT NULL,
+  `email` VARCHAR(80) NOT NULL,
+  `enabled` TINYINT(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `username_UNIQUE` (`username` ASC),
-  UNIQUE INDEX `password_UNIQUE` (`password` ASC))
+  UNIQUE INDEX `password_UNIQUE` (`password` ASC),
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC))
 ENGINE = InnoDB;
 
 
@@ -47,8 +51,8 @@ ENGINE = InnoDB;
 -- Table `ted_db`.`user_roles`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ted_db`.`user_roles` (
-  `role_id` INT NOT NULL,
-  `user_id` INT NOT NULL,
+  `role_id` BIGINT NOT NULL,
+  `user_id` BIGINT NOT NULL,
   PRIMARY KEY (`role_id`, `user_id`),
   INDEX `fk_roles_has_user_user1_idx` (`user_id` ASC),
   INDEX `fk_roles_has_user_roles_idx` (`role_id` ASC),
