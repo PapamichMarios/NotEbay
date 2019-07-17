@@ -42,16 +42,13 @@ public class UserController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private RoleRepository roleRepository;
-
-    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private JwtTokenProvider tokenProvider;
@@ -63,43 +60,7 @@ public class UserController {
     @PostMapping("users")
     @ResponseBody
     public ResponseEntity<?> signUp(@Valid @RequestBody SignUpRequest signUpRequest) {
-        // Check if the user already exists
-        userRepository.findByUsername(signUpRequest.getUsername())
-                .ifPresent((s) -> {
-                    throw new UserExistsException("A user with the same username already exists.");
-                });
-
-        userRepository.findByEmail(signUpRequest.getEmail())
-                .ifPresent((s) -> {
-                    throw new UserExistsException("A user with the same email already exists.");
-                });
-
-        // Create a user object from the request
-        User user = new User(
-                signUpRequest.getFirstName(),
-                signUpRequest.getLastName(),
-                signUpRequest.getUsername(),
-                signUpRequest.getPassword(),
-                signUpRequest.getEmail(),
-                true
-        );
-
-        // Encrypt the password
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-
-        Role userRole = roleRepository.findByName(RoleName.ROLE_VISITOR); // change it in the future
-        if (userRole == null) {
-            throw new AppException("User Role not set.");
-        }
-        user.setRoles(Collections.singleton(userRole));
-
-        User result = userRepository.save(user);
-
-        URI uri = ServletUriComponentsBuilder
-                .fromCurrentContextPath().path("/users/{username}")
-                .buildAndExpand(result.getUsername()).toUri();
-
-        return ResponseEntity.created(uri).body(new ApiResponse(true, "User created successfully."));
+        return userService.insertUser(signUpRequest);
     }
 
     @PostMapping("signin")

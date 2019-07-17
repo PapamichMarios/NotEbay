@@ -149,4 +149,6 @@ public class User {
     public Point getGeo_location() { return geo_location; }
 
     public void setGeo_location(Point geo_location) { this.geo_location = geo_location; }
+
+    public void addRole(Role role) { this.roles.add(role); }
 }

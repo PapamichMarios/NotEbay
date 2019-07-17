@@ -31,7 +31,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `ted_db`.`users` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(80) NOT NULL,
-  `password` VARCHAR(45) NOT NULL,
+  `password` VARCHAR(150) NOT NULL,
   `first_name` VARCHAR(80) NOT NULL,
   `last_name` VARCHAR(80) NOT NULL,
   `phone` VARCHAR(45) NULL,

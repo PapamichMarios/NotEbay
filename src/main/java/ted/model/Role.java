@@ -2,7 +2,6 @@ package ted.model;
 
 import javax.persistence.*;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -29,6 +28,8 @@ public class Role {
         this.id = id;
     }
 
+    public Role(RoleName name, User user) { this.name = name; this.addUser(user); }
+
     public RoleName getName() {
         return name;
     }
@@ -44,4 +45,6 @@ public class Role {
     public void setUsers(Set<User> users) {
         this.users = users;
     }
+
+    public void addUser(User user) { this.users.add(user); }
 }
