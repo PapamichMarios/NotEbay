@@ -2,16 +2,23 @@ package ted.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import ted.exception.BadRequestException;
 import ted.exception.ResourceNotFoundException;
 import ted.exception.UserExistsException;
 import ted.model.*;
-//import ted.repository.RoleRepository;
 import ted.repository.UserRepository;
+import ted.request.SignInRequest;
 import ted.request.SignUpRequest;
 import ted.response.ApiResponse;
+import ted.response.SignInResponse;
+import ted.security.JwtTokenProvider;
 import ted.security.UserDetailsImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,15 +32,21 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    //@Autowired
-    //private RoleRepository roleRepository;
-
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private JwtTokenProvider tokenProvider;
+
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
-    public ResponseEntity<?> insertUser(SignUpRequest signUpRequest) {
+    public ResponseEntity<?> signUpUser(SignUpRequest signUpRequest) {
 
         // Check if the user already exists
         userRepository.findByUsername(signUpRequest.getUsername())
@@ -66,6 +79,29 @@ public class UserService {
                 .fromCurrentContextPath().path("/users/{username}")
                 .buildAndExpand(result.getUsername()).toUri();
         return ResponseEntity.created(uri).body(new ApiResponse(true, "User created successfully."));
+    }
+
+    public ResponseEntity<?> signInUser(SignInRequest signInRequest) {
+        // Check if the user exists
+        System.out.println("Going to authenticate things <<<<<<<<<<<<,");
+        User user = userRepository.findByUsername(signInRequest.getUsername()).orElse(null);
+        System.out.println("User name : " + user.getUsername() + "<-----");
+        System.out.println("Password of user : " + user.getPassword() + "-------------------");
+        if (user == null) {
+            throw new BadRequestException("Invalid username or password.");
+        }
+
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        signInRequest.getUsername(),
+                        signInRequest.getPassword()
+                )
+        );
+        System.out.println("all went ok maybe");
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String jwt = tokenProvider.generateToken(authentication);
+
+        return ResponseEntity.ok(new SignInResponse(jwt, user.getUsername(), user.getFirstName(), user.getLastName()));
     }
 
     public User updateUserById(Long userId, SignUpRequest userRequest, UserDetailsImpl currentUser) {

@@ -1,8 +1,8 @@
-Json for sign up
 {
 	"firstName":"George",
 	"lastName": "Michas",
 	"username": "player1",
 	"password": "123456789",
-	"email": "geomixas@hotmai.com"
+	"email": "geomixas@hotmai.com",
+	"role": "ROLE_VISITOR"
 }
