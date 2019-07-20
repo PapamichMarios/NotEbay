@@ -50,6 +50,11 @@ public class UserDetailsImpl implements UserDetails {
                 new SimpleGrantedAuthority(role.getName().name())
         ).collect(Collectors.toList());
 
+        // To Debug Roles , uncomment
+        //for (int i = 0; i < authorities.size(); i++) {
+        //    System.out.println(authorities.get(i));
+        //}
+
         return new UserDetailsImpl(
                 user.getId(),
                 user.getFirstName(),

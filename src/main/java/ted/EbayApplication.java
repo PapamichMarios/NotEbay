@@ -10,13 +10,35 @@ import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
 */
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.stereotype.Component;
+import ted.repository.UserRepository;
+import ted.model.*;
+import ted.service.UserService;
+
+import java.util.List;
+import java.util.Optional;
 
 @SpringBootApplication
 public class EbayApplication {
+
 	public static void main(String[] args) {
 		SpringApplication.run(EbayApplication.class, args);
+	}
+
+	// Create admin on the fly
+	@Component
+	public class CommandLineAppStartupRunner implements CommandLineRunner {
+		@Autowired
+		UserService userService;
+
+		@Override
+		public void run(String... args) throws Exception {
+			userService.createAdmin();
+		}
 	}
 
 	// In case we want to redirect http to https

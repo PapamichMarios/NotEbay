@@ -46,6 +46,17 @@ public class UserService {
 
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
+    public void createAdmin() {
+        // if admin exists just return
+        if (userRepository.findByUsername("ADM") != null) return;
+
+        // Create admin
+        User admin = new User("Tom", "McDonald", "ADM", "ADMIN123", "adm@flo.com", false);
+        Role ad_role = new Role(RoleName.ROLE_ADMIN);
+        admin.addRole(ad_role);
+        User result = userRepository.save(admin);
+    }
+
     public ResponseEntity<?> signUpUser(SignUpRequest signUpRequest) {
 
         // Check if the user already exists
@@ -83,10 +94,8 @@ public class UserService {
 
     public ResponseEntity<?> signInUser(SignInRequest signInRequest) {
         // Check if the user exists
-        System.out.println("Going to authenticate things <<<<<<<<<<<<,");
         User user = userRepository.findByUsername(signInRequest.getUsername()).orElse(null);
-        System.out.println("User name : " + user.getUsername() + "<-----");
-        System.out.println("Password of user : " + user.getPassword() + "-------------------");
+
         if (user == null) {
             throw new BadRequestException("Invalid username or password.");
         }
