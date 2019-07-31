@@ -45,8 +45,8 @@ public class User {
     @Column(name = "enabled")
     private boolean enabled;
 
-    @Column(name = "vat_num")
-    private String vatNum; // AFM
+    @Column(name = "tin")
+    private String tin; // AFM
 
     @Column(name = "street_address")
     private String streetAddress; // AFM
@@ -134,14 +134,6 @@ public class User {
         this.streetAddress = streetAddress;
     }
 
-    public String getVatNum() {
-        return vatNum;
-    }
-
-    public void setVatNum(String vatNum) {
-        this.vatNum = vatNum;
-    }
-
     public boolean getEnabled() { return enabled; }
 
     public void setEnabled(boolean enabled) { this.enabled = enabled; }
@@ -151,4 +143,12 @@ public class User {
     public void setGeo_location(Point geo_location) { this.geo_location = geo_location; }
 
     public void addRole(Role role) { this.roles.add(role); }
+
+    public String getTin() {
+        return tin;
+    }
+
+    public void setTin(String tin) {
+        this.tin = tin;
+    }
 }

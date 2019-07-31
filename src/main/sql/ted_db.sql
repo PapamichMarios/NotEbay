@@ -18,6 +18,8 @@ USE `ted_db` ;
 -- -----------------------------------------------------
 -- Table `ted_db`.`roles`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `ted_db`.`roles` ;
+
 CREATE TABLE IF NOT EXISTS `ted_db`.`roles` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(80) NOT NULL,
@@ -28,6 +30,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `ted_db`.`users`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `ted_db`.`users` ;
+
 CREATE TABLE IF NOT EXISTS `ted_db`.`users` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(80) NOT NULL,
@@ -35,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `ted_db`.`users` (
   `first_name` VARCHAR(80) NOT NULL,
   `last_name` VARCHAR(80) NOT NULL,
   `phone` VARCHAR(45) NULL,
-  `vat_num` VARCHAR(80) NULL,
+  `tin` VARCHAR(80) NULL,
   `street_address` VARCHAR(150) NULL,
   `geo_location` POINT NULL,
   `email` VARCHAR(80) NOT NULL,
@@ -50,6 +54,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `ted_db`.`user_roles`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `ted_db`.`user_roles` ;
+
 CREATE TABLE IF NOT EXISTS `ted_db`.`user_roles` (
   `role_id` BIGINT NOT NULL,
   `user_id` BIGINT NOT NULL,

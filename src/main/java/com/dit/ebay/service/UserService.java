@@ -94,7 +94,7 @@ public class UserService {
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentContextPath().path("/users/{username}")
                 .buildAndExpand(result.getUsername()).toUri();
-        return ResponseEntity.created(uri).body(new ApiResponse(true, "User created successfully."));
+        return ResponseEntity.created(uri).body(new ApiResponse(true, "User created successfully.", user));
     }
 
     public ResponseEntity<?> signInUser(SignInRequest signInRequest) {
