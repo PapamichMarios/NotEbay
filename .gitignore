@@ -11,4 +11,4 @@ build
 *.tar.gz
 *.rar
 
-./src/main/resources/application.properties
+/src/main/resources/application.properties
