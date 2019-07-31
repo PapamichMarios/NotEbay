@@ -1,0 +1,1 @@
+role: admin, seller, bidder, visitor

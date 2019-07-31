@@ -14,10 +14,13 @@ export default class Signup extends React.Component {
             firstName: '',
             lastName: '',
             email: '',
-            phoneNumber: '',
+            phone: '',
             address: '',
             country: '',
             tin: '' };
+
+        this.onChange = this.onChange.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
     }
 
     onChange(e) {
@@ -28,26 +31,36 @@ export default class Signup extends React.Component {
 
     onSubmit(e) {
         e.preventDefault();
+        console.log(this.state.username);
+        console.log(this.state.password);
+        console.log(this.state.firstName);
+        console.log(this.state.lastName);
+        console.log(this.state.email);
+        console.log(this.state.role);
+        console.log(this.state.phone);
+        console.log(this.state.address);
+        console.log(this.state.country);
+        console.log(this.state.tin);
 
-        fetch(this.props.formAction, {
+        fetch(this.props.action, {
             headers: {
-                'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
+            method: this.props.method,
             body: JSON.stringify({
-                        username: this.state.username,
-                        password: this.state.password,
-                        repassword: this.state.repassword,
-                        firstName: this.state.firstName,
-                        lastName: this.state.lastName,
-                        email: this.state.email,
-                        phoneNumber: this.state.phoneNumber,
-                        address: this.state.address,
-                        country: this.state.country,
-                        tin: this.state.tin})
-        });
-
-        console.log(this.state.firstName);
+                        username:   this.state.username,
+                        password:   this.state.password,
+                        firstName:  this.state.firstName,
+                        lastName:   this.state.lastName,
+                        email:      this.state.email,
+                        role: 'ROLE_VISITOR'})
+                        //phone: this.state.phone,
+                        //address: this.state.address,
+                        //country: this.state.country,
+                        //tin: this.state.tin})
+        }).then(res => res.json())
+          .then(response => console.log('Success:', JSON.stringify(response)))
+          .catch(error => console.error('Error:', error));
 
         this.setState({
             username: '',
@@ -56,7 +69,7 @@ export default class Signup extends React.Component {
             firstName: '',
             lastName: '',
             email: '',
-            phoneNumber: '',
+            phone: '',
             address: '',
             country: '',
             tin: '' });
@@ -77,42 +90,42 @@ export default class Signup extends React.Component {
                                       onSubmit={this.onSubmit}>
 
                                       <Form.Group controlId="formUsername">
-                                        <Form.Control type="text" name="username" placeholder="Username" />
+                                        <Form.Control type="text" name="username" placeholder="Username" onChange={this.onChange} />
                                       </Form.Group>
 
                                       <Form.Group controlId="formPassword">
-                                        <Form.Control type="password" name="password" placeholder="Password" />
+                                        <Form.Control type="password" name="password" placeholder="Password" onChange={this.onChange} />
                                       </Form.Group>
 
                                       <Form.Group controlId="formRepeatPassword">
-                                        <Form.Control type="password" name="repassword" placeholder="Re-enter Password" />
+                                        <Form.Control type="password" name="repassword" placeholder="Re-enter Password" onChange={this.onChange} />
                                       </Form.Group>
 
                                       <Form.Group controlId="formFirstName">
-                                        <Form.Control type="text" name="firstName" placeholder="First Name" />
+                                        <Form.Control type="text" name="firstName" placeholder="First Name" onChange={this.onChange} />
                                       </Form.Group>
 
                                       <Form.Group controlId="formLastName">
-                                        <Form.Control type="text" name="lastName" placeholder="Last Name" />
+                                        <Form.Control type="text" name="lastName" placeholder="Last Name" onChange={this.onChange} />
                                       </Form.Group>
 
                                       <Form.Group controlId="emailForm">
-                                        <Form.Control type="email" name="email" placeholder="E-mail" />
+                                        <Form.Control type="email" name="email" placeholder="E-mail" onChange={this.onChange} />
                                         <Form.Text className="text-muted">
                                           We'll never share your email with anyone else.
                                         </Form.Text>
                                       </Form.Group>
 
-                                      <Form.Group controlId="formPhoneNumber">
-                                        <Form.Control type="text" name="phoneNumber" placeholder="Phone Number" />
+                                      <Form.Group controlId="formPhone">
+                                        <Form.Control type="text" name="phone" placeholder="Phone Number" onChange={this.onChange} />
                                       </Form.Group>
 
                                       <Form.Group controlId="formAddress">
-                                        <Form.Control type="text" name="address" placeholder="Address" />
+                                        <Form.Control type="text" name="address" placeholder="Address" onChange={this.onChange} />
                                       </Form.Group>
 
                                       <Form.Group controlId="formCountry">
-                                        <Form.Control as="select" name="country" placeholder="Country">
+                                        <Form.Control as="select" name="country" placeholder="Country" onChange={this.onChange}>
                                           <option>Country</option>
                                           <option>Greece</option>
                                           <option>USA</option>
@@ -121,7 +134,7 @@ export default class Signup extends React.Component {
                                       </Form.Group>
 
                                       <Form.Group>
-                                        <Form.Control type="text" name="tin" placeholder="TIN" />
+                                        <Form.Control type="text" name="tin" placeholder="TIN" onChange={this.onChange} />
                                       </Form.Group>
 
                                       <ButtonToolbar size="lg">
@@ -142,8 +155,8 @@ export default class Signup extends React.Component {
 
 // App.propTypes = { action: React.PropTypes.string.isRequired, method: React.PropTypes.string}
 Signup.defaultProps = {
-    action: 'http://localhost:8080/signup',
-    method: 'post'
+    action: '/api/users',
+    method: 'POST'
 };
 
 
