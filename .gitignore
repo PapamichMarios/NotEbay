@@ -13,4 +13,4 @@ build
 
 target/*
 
-src/main/java/resources/application.properties
+src/main/resources/application.properties
