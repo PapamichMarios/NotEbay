@@ -3,7 +3,7 @@
 
 bin
 build
-.idea
+.idea/*
 
 *.war
 *.ear
