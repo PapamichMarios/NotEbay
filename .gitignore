@@ -12,3 +12,5 @@ build
 *.rar
 
 /src/main/resources/application.properties
+
+/target/
