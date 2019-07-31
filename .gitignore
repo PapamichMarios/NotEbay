@@ -10,3 +10,5 @@ build
 *.zip
 *.tar.gz
 *.rar
+
+./src/main/resources/application.properties
