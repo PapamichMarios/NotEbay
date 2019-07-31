@@ -48,7 +48,9 @@ public class UserService {
 
     public void createAdmin() {
         // if admin exists just return
-        if (userRepository.findByUsername("ADM") != null) return;
+        if (userRepository.findByUsername("ADM").orElse(null) != null) {
+            return;
+        }
 
         // Create admin
         User admin = new User("Tom", "McDonald", "ADM", "ADMIN123", "adm@flo.com", false);

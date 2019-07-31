@@ -4,7 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-//@RequestMapping("/app")
+@RequestMapping("/api")
 public class HomeController {
 
     // Forward everything to front end except from ./<whatever>
