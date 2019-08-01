@@ -43,8 +43,8 @@ class Login extends React.Component {
           //handle success
           .then(response => console.log('Success:', JSON.stringify(response)))
 
-          //handle the errors from the back-end
-          .catch(error => console.error('ErrgiHEor:', error));
+          //handle errors from the back-end
+          .catch(error => console.error('Error:', error));
 
         this.setState({
             username: '',
