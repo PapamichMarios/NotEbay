@@ -28,6 +28,7 @@ import org.slf4j.LoggerFactory;
 
 import java.net.URI;
 import java.util.Collections;
+import java.util.List;
 
 @Service
 public class UserService {
@@ -49,6 +50,34 @@ public class UserService {
 
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
+    public void insertRandomUsers() {
+
+        // If we find 1 just return
+        if (userRepository.findByUsername("michas").orElse(null) != null) {
+            return;
+        }
+
+        User user = new User("George", "Michas", "michas", passwordEncoder.encode("michas"), "michas@flo.com", true);
+        Role ad_role = new Role(RoleName.ROLE_SELLER);
+        user.addRole(ad_role);
+        userRepository.save(user);
+
+        user = new User("Marios", "Papas", "papas", passwordEncoder.encode("papas"), "papas@flo.com", true);
+        ad_role = new Role(RoleName.ROLE_SELLER);
+        user.addRole(ad_role);
+        userRepository.save(user);
+
+        user = new User("Kostas", "Liotos", "liotos", passwordEncoder.encode("liotos"), "liotos@flo.com", true);
+        ad_role = new Role(RoleName.ROLE_BIDDER);
+        user.addRole(ad_role);
+        userRepository.save(user);
+
+        user = new User("Tasos", "Mantas", "mantas", passwordEncoder.encode("mantas"), "fake_student@flo.com", true);
+        ad_role = new Role(RoleName.ROLE_BIDDER);
+        user.addRole(ad_role);
+        userRepository.save(user);
+    }
+
     public void createAdmin() {
         // if admin exists just return
         if (userRepository.findByUsername("ADM").orElse(null) != null) {
@@ -56,7 +85,7 @@ public class UserService {
         }
 
         // Create admin
-        User admin = new User("Tom", "McDonald", "ADM", "ADMIN123", "adm@flo.com", false);
+        User admin = new User("Tom", "McDonald", "ADM", passwordEncoder.encode("ADMIN123"), "adm@flo.com", true);
         Role ad_role = new Role(RoleName.ROLE_ADMIN);
         admin.addRole(ad_role);
         User result = userRepository.save(admin);
@@ -111,7 +140,7 @@ public class UserService {
                         signInRequest.getPassword()
                 )
         );
-        System.out.println("all went ok maybe");
+        //System.out.println("all went ok maybe");
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = tokenProvider.generateToken(authentication);
 
@@ -139,5 +168,12 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
 
         return userRepository.save(user);
+    }
+
+    /*
+     * ADMIN : get all the users
+     */
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
     }
 }

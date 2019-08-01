@@ -49,7 +49,7 @@ public class User {
     private String tin; // AFM
 
     @Column(name = "street_address")
-    private String streetAddress; // AFM
+    private String streetAddress;
 
     @JsonIgnore // maybe change it later
     @Column(name = "geo_location", columnDefinition = "Point")

@@ -32,7 +32,12 @@ public class EbayApplication {
 
 		@Override
 		public void run(String... args) throws Exception {
+			// Creates Admin on the fly
 			userService.createAdmin();
+
+			// Creates 2 random users on the fly
+			// 2 Sellers , 2 Bidders
+			userService.insertRandomUsers();
 		}
 	}
 

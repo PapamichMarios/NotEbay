@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import com.dit.ebay.security.UserDetailsImpl;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -27,6 +28,9 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
+    /*
+     * The following endpoints are for all Users
+     */
     @PostMapping("users")
     @ResponseBody
     public ResponseEntity<?> signUp(@Valid @RequestBody SignUpRequest signUpRequest) {
@@ -38,18 +42,31 @@ public class UserController {
         return userService.signInUser(signInRequest);
     }
 
-    //we use SignUpRequest because it has the fields for the update
+    // we use SignUpRequest because it has the fields for the update
+    // test endpoint
     @PutMapping("/users/{userId}")
-    @PreAuthorize("hasRole('ROLE_VISITOR')")
+    //@PreAuthorize("hasRole('ROLE_VISITOR')")
     public User updateUserById(@PathVariable(value = "userId") Long userId,
                                @Valid @RequestBody SignUpRequest userRequest,
                                @Valid @CurrentUser UserDetailsImpl currentUser) {
         return userService.updateUserById(userId, userRequest, currentUser);
     }
 
+    // test endpoint
     @GetMapping("/users/current")
-    @PreAuthorize("hasRole('ROLE_VISITOR')")
+    //@PreAuthorize("hasRole('ROLE_VISITOR')")
     public Optional<User> getUserTest(@Valid @CurrentUser UserDetailsImpl currentUser) {
+        // this code isn't good we only use services here
+        // TODO : changed it or remove it
         return userRepository.findByUsername(currentUser.getUsername());
+    }
+
+    /*
+     * The following endpoints are for ADMIN Only
+     */
+    @GetMapping("/users/all")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public List<User> getAllUsers(@Valid @CurrentUser UserDetailsImpl currentUser) {
+        return userService.getAllUsers();
     }
 }
