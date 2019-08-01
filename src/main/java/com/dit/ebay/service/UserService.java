@@ -173,7 +173,7 @@ public class UserService {
     /*
      * ADMIN : get all the users
      */
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public List<User> getAllUsers(Long adminId) {
+        return userRepository.findAllUsersAdmin(adminId);
     }
 }

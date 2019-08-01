@@ -64,9 +64,12 @@ public class UserController {
     /*
      * The following endpoints are for ADMIN Only
      */
+    // Returns all Users in the database to display it
     @GetMapping("/users/all")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public List<User> getAllUsers(@Valid @CurrentUser UserDetailsImpl currentUser) {
-        return userService.getAllUsers();
+        return userService.getAllUsers(currentUser.getId());
     }
+
+
 }
