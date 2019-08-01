@@ -61,7 +61,7 @@ export default class Signup extends React.Component {
                         //address: this.state.address,
                         //country: this.state.country,
                         //tin: this.state.tin})
-        }).then(res => res.json())
+        }).then(response => response.json())
           .then(response => console.log('Success:', JSON.stringify(response)))
           .catch(error => console.error('Error:', error));
 

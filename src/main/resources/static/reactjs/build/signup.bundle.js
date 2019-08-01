@@ -49673,8 +49673,8 @@ function (_React$Component) {
         //country: this.state.country,
         //tin: this.state.tin})
 
-      }).then(function (res) {
-        return res.json();
+      }).then(function (response) {
+        return response.json();
       }).then(function (response) {
         return console.log('Success:', JSON.stringify(response));
       })["catch"](function (error) {

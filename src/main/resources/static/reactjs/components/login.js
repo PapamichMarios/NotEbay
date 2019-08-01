@@ -25,6 +25,10 @@ class Login extends React.Component {
 
     onSubmit(e){
         e.preventDefault();
+
+        //check the passwords are matching
+
+        //make the request
         fetch(this.props.action, {
             headers: {
                 'Content-Type': 'application/json',
@@ -34,8 +38,9 @@ class Login extends React.Component {
                 username: this.state.username,
                 password: this.state.password
             })
-        }).then(res => res.json())
+        }).then(response => response.json())
           .then(response => console.log('Success:', JSON.stringify(response)))
+          //handle the errors from the back-end
           .catch(error => console.error('Error:', error));
 
         this.setState({
