@@ -21,6 +21,7 @@ export default class Signup extends React.Component {
             country: '',
             tin: '' };
 
+        //binding this to submethods
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
     }
@@ -81,7 +82,7 @@ export default class Signup extends React.Component {
         return (
                 <Container>
                 <Card border="dark">
-                  <Card.Header as="h3" className="text-center bg-dark" style={{color:'white' }} >Signup</Card.Header>
+                  <Card.Header as="h3" className="text-center bg-dark" style={{color:'white' }}> Signup </Card.Header>
                   <Card.Body>
                     <Card.Title className="text-center"> Join our community! </Card.Title>
                       <Form id="signup-form"

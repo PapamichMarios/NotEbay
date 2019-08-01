@@ -49630,7 +49630,8 @@ function (_React$Component) {
       address: '',
       country: '',
       tin: ''
-    };
+    }; //binding this to submethods
+
     _this.onChange = _this.onChange.bind(_assertThisInitialized(_this));
     _this.onSubmit = _this.onSubmit.bind(_assertThisInitialized(_this));
     return _this;
@@ -49703,7 +49704,7 @@ function (_React$Component) {
         style: {
           color: 'white'
         }
-      }, "Signup"), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Card"].Body, null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Card"].Title, {
+      }, " Signup "), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Card"].Body, null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Card"].Title, {
         className: "text-center"
       }, " Join our community! "), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"], {
         id: "signup-form",
