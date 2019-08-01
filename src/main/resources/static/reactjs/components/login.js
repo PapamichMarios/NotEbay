@@ -1,6 +1,8 @@
 const React = require('react');
 const ReactDOM = require('react-dom');
-import { Container, Row, Col, Card, Form, ButtonToolbar, Button } from 'react-bootstrap';
+
+import { Container, Row, Col, Card, Form, ButtonToolbar, Button, InputGroup } from 'react-bootstrap';
+import { FaUser, FaLock } from 'react-icons/fa';
 
 class Login extends React.Component {
 
@@ -25,6 +27,8 @@ class Login extends React.Component {
 
     onSubmit(e){
         e.preventDefault();
+
+        //make the request
         fetch(this.props.action, {
             headers: {
                 'Content-Type': 'application/json',
@@ -34,9 +38,13 @@ class Login extends React.Component {
                 username: this.state.username,
                 password: this.state.password
             })
-        }).then(res => res.json())
+        }).then(response => response.json())
+
+          //handle success
           .then(response => console.log('Success:', JSON.stringify(response)))
-          .catch(error => console.error('Error:', error));
+
+          //handle the errors from the back-end
+          .catch(error => console.error('ErrgiHEor:', error));
 
         this.setState({
             username: '',
@@ -58,11 +66,21 @@ class Login extends React.Component {
                           onSubmit={this.onSubmit}>
 
                           <Form.Group controlId="formUsername">
-                            <Form.Control type="text" name="username" onChange={this.onChange} placeholder="Username" />
+                            <InputGroup>
+                              <InputGroup.Prepend>
+                                <InputGroup.Text> <FaUser/> </InputGroup.Text>
+                              </InputGroup.Prepend>
+                              <Form.Control type="text" name="username" onChange={this.onChange} placeholder="Username" />
+                            </InputGroup>
                           </Form.Group>
 
                           <Form.Group controlId="formPassword">
-                            <Form.Control type="password" name="password" onChange={this.onChange} placeholder="Password" />
+                            <InputGroup>
+                              <InputGroup.Prepend>
+                                <InputGroup.Text> <FaLock/> </InputGroup.Text>
+                              </InputGroup.Prepend>
+                              <Form.Control type="password" name="password" onChange={this.onChange} placeholder="Password" />
+                            </InputGroup>
                           </Form.Group>
 
                           <ButtonToolbar size="lg">

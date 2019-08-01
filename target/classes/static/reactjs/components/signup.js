@@ -34,17 +34,10 @@ export default class Signup extends React.Component {
 
     onSubmit(e) {
         e.preventDefault();
-        console.log(this.state.username);
-        console.log(this.state.password);
-        console.log(this.state.firstName);
-        console.log(this.state.lastName);
-        console.log(this.state.email);
-        console.log(this.state.role);
-        console.log(this.state.phone);
-        console.log(this.state.address);
-        console.log(this.state.country);
-        console.log(this.state.tin);
 
+        //check passwords are matching
+
+        //make the request
         fetch(this.props.action, {
             headers: {
                 'Content-Type': 'application/json'
@@ -61,8 +54,12 @@ export default class Signup extends React.Component {
                         //address: this.state.address,
                         //country: this.state.country,
                         //tin: this.state.tin})
-        }).then(res => res.json())
+        }).then(response => response.json())
+
+          //handle success
           .then(response => console.log('Success:', JSON.stringify(response)))
+
+          //handle errors from the back-end
           .catch(error => console.error('Error:', error));
 
         this.setState({

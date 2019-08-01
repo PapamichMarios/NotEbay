@@ -49645,17 +49645,9 @@ function (_React$Component) {
   }, {
     key: "onSubmit",
     value: function onSubmit(e) {
-      e.preventDefault();
-      console.log(this.state.username);
-      console.log(this.state.password);
-      console.log(this.state.firstName);
-      console.log(this.state.lastName);
-      console.log(this.state.email);
-      console.log(this.state.role);
-      console.log(this.state.phone);
-      console.log(this.state.address);
-      console.log(this.state.country);
-      console.log(this.state.tin);
+      e.preventDefault(); //check passwords are matching
+      //make the request
+
       fetch(this.props.action, {
         headers: {
           'Content-Type': 'application/json'
@@ -49673,11 +49665,13 @@ function (_React$Component) {
         //country: this.state.country,
         //tin: this.state.tin})
 
-      }).then(function (res) {
-        return res.json();
       }).then(function (response) {
+        return response.json();
+      }) //handle success
+      .then(function (response) {
         return console.log('Success:', JSON.stringify(response));
-      })["catch"](function (error) {
+      }) //handle errors from the back-end
+      ["catch"](function (error) {
         return console.error('Error:', error);
       });
       this.setState({
