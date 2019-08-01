@@ -2,7 +2,10 @@ import '../../css/navbar.css';
 
 const React = require('react');
 const ReactDOM = require('react-dom');
-import { Navbar, Nav, NavItem, NavDropdown, MenuItem, Form, FormControl, Button} from 'react-bootstrap';
+
+import { Navbar, Nav, NavItem, NavDropdown, MenuItem, Form, FormControl, Button } from 'react-bootstrap';
+import { FaSearch, FaHome } from 'react-icons/fa';
+import { GoSignIn } from 'react-icons/go';
 
 class NavBar extends React.Component{
     render() {
@@ -16,7 +19,9 @@ class NavBar extends React.Component{
                   <NavItem>
                     <Form inline>
                       <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-                      <Button variant="outline-success">Search</Button>
+                      <Button variant="outline-success">
+                        <FaSearch/>
+                      </Button>
                     </Form>
                   </NavItem>
                 </Nav>
@@ -24,9 +29,9 @@ class NavBar extends React.Component{
                 <Nav className="justify-content-end">
                   <NavItem>
                     <Nav.Link href="/home">
-                      <Button variant="dark">
-                        Home
-                      </Button>
+                        <Button variant="dark">
+                          <FaHome/>
+                        </Button>
                     </Nav.Link>
                   </NavItem>
 
@@ -40,8 +45,8 @@ class NavBar extends React.Component{
 
                   <NavItem>
                     <Nav.Link href="/login">
-                       <Button variant="outline-info">
-                        Login
+                       <Button variant="outline-info" >
+                        Login <GoSignIn/>
                        </Button>
                     </Nav.Link>
                   </NavItem>

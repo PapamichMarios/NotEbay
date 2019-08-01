@@ -1,6 +1,8 @@
 const React = require('react');
 const ReactDOM = require('react-dom');
-import { ButtonGroup, ButtonToolbar, Container, Row, Col, Form, Button, Card} from 'react-bootstrap';
+
+import { ButtonGroup, ButtonToolbar, Container, Row, Col, Form, Button, Card, InputGroup } from 'react-bootstrap';
+import { FaUser, FaLock, FaEnvelope, FaPhone, FaHome, FaGlobe, FaFile } from 'react-icons/fa';
 
 export default class Signup extends React.Component {
 
@@ -86,71 +88,139 @@ export default class Signup extends React.Component {
                         action={this.props.action}
                         method={this.props.method}
                         onSubmit={this.onSubmit} >
-                        <Row>
-                          <Col>
-                            <Form.Group controlId="formUsername" md = {{span:4}}>
-                              <Form.Control type="text" name="username" placeholder="Username" onChange={this.onChange} />
+                        <Form.Row>
+
+                          <Col md = {{span : 6}}>
+                            <Form.Group controlId="formUsername">
+                              <InputGroup>
+                                <InputGroup.Prepend>
+                                  <InputGroup.Text> <FaUser/> </InputGroup.Text>
+                                </InputGroup.Prepend>
+                                <Form.Control type="text" name="username" placeholder="Username" onChange={this.onChange} />
+                              </InputGroup>
                             </Form.Group>
 
-                            <Form.Group controlId="formPassword" md = {{span:4}}>
-                              <Form.Control type="password" name="password" placeholder="Password" onChange={this.onChange} />
+                            <Form.Group controlId="formPassword">
+                              <InputGroup>
+                                <InputGroup.Prepend>
+                                  <InputGroup.Text> <FaLock/> </InputGroup.Text>
+                                </InputGroup.Prepend>
+                                <Form.Control type="password" name="password" placeholder="Password" onChange={this.onChange} />
+                              </InputGroup>
                             </Form.Group>
 
-                            <Form.Group controlId="formRepeatPassword" md = {{span:4}}>
-                              <Form.Control type="password" name="repassword" placeholder="Re-enter Password" onChange={this.onChange} />
+                            <Form.Group controlId="formRepeatPassword">
+                              <InputGroup>
+                                <InputGroup.Prepend>
+                                  <InputGroup.Text> <FaLock/> </InputGroup.Text>
+                                </InputGroup.Prepend>
+                                <Form.Control type="password" name="repassword" placeholder="Re-enter Password" onChange={this.onChange} />
+                              </InputGroup>
                             </Form.Group>
 
-                            <Form.Group controlId="formFirstName" md = {{span:4}}>
-                              <Form.Control type="text" name="firstName" placeholder="First Name" onChange={this.onChange} />
+                            <Form.Group controlId="formFirstName">
+                              <InputGroup>
+                                <InputGroup.Prepend>
+                                  <InputGroup.Text> <FaUser/> </InputGroup.Text>
+                                </InputGroup.Prepend>
+                                <Form.Control type="text" name="firstName" placeholder="First Name" onChange={this.onChange} />
+                              </InputGroup>
                             </Form.Group>
 
-                            <Form.Group controlId="formLastName" md = {{span:4}}>
-                              <Form.Control type="text" name="lastName" placeholder="Last Name" onChange={this.onChange} />
+                            <Form.Group controlId="formLastName">
+                              <InputGroup>
+                                <InputGroup.Prepend>
+                                  <InputGroup.Text> <FaUser/> </InputGroup.Text>
+                                </InputGroup.Prepend>
+                                <Form.Control type="text" name="lastName" placeholder="Last Name" onChange={this.onChange} />
+                              </InputGroup>
                             </Form.Group>
 
-                            <Form.Group controlId="emailForm" md = {{span:4}}>
-                              <Form.Control type="email" name="email" placeholder="E-mail" onChange={this.onChange} />
+                            <Form.Group controlId="emailForm">
+                              <InputGroup>
+                                <InputGroup.Prepend>
+                                  <InputGroup.Text> <FaEnvelope/> </InputGroup.Text>
+                                </InputGroup.Prepend>
+                                <Form.Control type="email" name="email" placeholder="E-mail" onChange={this.onChange} />
+                              </InputGroup>
+
                               <Form.Text className="text-muted">
                                 We'll never share your email with anyone else.
                               </Form.Text>
                             </Form.Group>
 
-                            <Form.Group controlId="formPhone" md = {{span:4}}>
-                              <Form.Control type="text" name="phone" placeholder="Phone Number" onChange={this.onChange} />
+                            <Form.Group controlId="formPhone">
+                              <InputGroup>
+                                <InputGroup.Prepend>
+                                  <InputGroup.Text> <FaPhone/> </InputGroup.Text>
+                                </InputGroup.Prepend>
+                                <Form.Control type="text" name="phone" placeholder="Phone Number" onChange={this.onChange} />
+                              </InputGroup>
                             </Form.Group>
 
-                            <Form.Group>
-                              <Form.Control type="text" name="tin" placeholder="TIN" onChange={this.onChange} />
+                            <Form.Group controlId="formTIN">
+                              <InputGroup>
+                                <InputGroup.Prepend>
+                                  <InputGroup.Text> <FaFile/> </InputGroup.Text>
+                                </InputGroup.Prepend>
+                                <Form.Control type="text" name="tin" placeholder="TIN" onChange={this.onChange} />
+                              </InputGroup>
                             </Form.Group>
                           </Col>
 
                           <Col>
                             <Form.Group controlId="formAddress">
-                              <Form.Control type="text" name="address" placeholder="Address" onChange={this.onChange} />
+                              <InputGroup>
+                                <InputGroup.Prepend>
+                                  <InputGroup.Text> <FaHome/> </InputGroup.Text>
+                                </InputGroup.Prepend>
+                                <Form.Control type="text" name="address" placeholder="Address" onChange={this.onChange} />
+                              </InputGroup>
                             </Form.Group>
 
                             <Form.Group controlId="formCity">
-                              <Form.Control type="text" name="city" placeholder="City" onChange={this.onChange} />
+                              <InputGroup>
+                                <InputGroup.Prepend>
+                                  <InputGroup.Text> <FaHome/> </InputGroup.Text>
+                                </InputGroup.Prepend>
+                                <Form.Control type="text" name="city" placeholder="City" onChange={this.onChange} />
+                              </InputGroup>
+                            </Form.Group>
+                          </Col>
+
+                          <Col>
+                            <Form.Group controlId="formPostalCode">
+                              <InputGroup>
+                                <InputGroup.Prepend>
+                                  <InputGroup.Text> <FaEnvelope/> </InputGroup.Text>
+                                </InputGroup.Prepend>
+                                <Form.Control type="text" name="postalCode" placeholder="Postal Code" onChange={this.onChange} />
+                              </InputGroup>
                             </Form.Group>
 
                             <Form.Group controlId="formCountry">
-                              <Form.Control type="text" name="country" placeholder="Country" onChange={this.onChange} />
+                              <InputGroup>
+                                <InputGroup.Prepend>
+                                  <InputGroup.Text> <FaGlobe/> </InputGroup.Text>
+                                </InputGroup.Prepend>
+                                <Form.Control type="text" name="country" placeholder="Country" onChange={this.onChange} />
+                              </InputGroup>
                             </Form.Group>
+                          </Col>
+                        </Form.Row>
 
-                            <Form.Group controlId="formPostalCode">
-                              <Form.Control type="text" name="postalCode" placeholder="Postal Code" onChange={this.onChange} />
-                            </Form.Group>
-
+                        <Form.Row className>
+                          <Col>
                             <p className="font-small white-text d-flex justify-content-end">
-                              Have an account?
+                              Already have an account?
                               <a href="/login" className="green-text ml-1 font-weight-bold">
                                 Log in
                               </a>
                             </p>
                           </Col>
-                        </Row>
+                        </Form.Row>
 
-                        <Row className="justify-content-md-center">
+                        <Form.Row className="justify-content-md-center">
                           <ButtonToolbar size="lg">
                             <Col>
                               <Button type="submit" variant="dark" block> Submit </Button>
@@ -160,7 +230,7 @@ export default class Signup extends React.Component {
                               <Button type="reset" variant="danger" block> Reset </Button>
                             </Col>
                           </ButtonToolbar>
-                        </Row>
+                        </Form.Row>
                       </Form>
                     </Card.Body>
                   </Card>
