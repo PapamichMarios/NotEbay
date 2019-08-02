@@ -1,3 +1,11 @@
 .highlighted{
     background-color : orange
 }
+
+.button-margin{
+    margin-right : 5px;
+}
+
+.navbar-margin{
+    margin-bottom: 25px;
+}

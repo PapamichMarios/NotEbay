@@ -3,13 +3,15 @@ import '../../css/navbar.css';
 const React = require('react');
 const ReactDOM = require('react-dom');
 
-import { Navbar, Nav, NavItem, NavDropdown, MenuItem, Form, FormControl, Button } from 'react-bootstrap';
+import { NavLink } from "react-router-dom";
+import { Navbar, Nav, NavItem, NavDropdown, MenuItem, Form, FormControl, Button, br } from 'react-bootstrap';
 import { FaSearch, FaHome } from 'react-icons/fa';
 import { GoSignIn } from 'react-icons/go';
 
-class NavBar extends React.Component{
+export default class NavBar extends React.Component{
     render() {
         return (
+          <div className="navbar-margin">
             <Navbar bg="dark" variant="dark">
               <Navbar.Brand href="/welcome">NotEbay</Navbar.Brand>
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -27,38 +29,34 @@ class NavBar extends React.Component{
                 </Nav>
 
                 <Nav className="justify-content-end">
-                  <NavItem>
-                    <Nav.Link href="/home">
-                        <Button variant="dark">
-                          <FaHome/>
-                        </Button>
-                    </Nav.Link>
-                  </NavItem>
+                    <NavLink to="/home">
+                      <NavItem className="button-margin">
+                          <Button variant="dark">
+                            <FaHome />
+                          </Button>
+                      </NavItem>
+                    </NavLink>
 
-                  <NavItem>
-                    <Nav.Link href="/signup">
-                      <Button variant="outline-warning">
-                        Signup
-                      </Button>
-                    </Nav.Link>
-                  </NavItem>
+                    <NavLink to="/signup">
+                      <NavItem className="button-margin">
+                          <Button variant="outline-warning">
+                            Signup
+                          </Button>
+                      </NavItem>
+                    </NavLink>
 
-                  <NavItem>
-                    <Nav.Link href="/login">
-                       <Button variant="outline-info" >
-                        Login <GoSignIn/>
-                       </Button>
-                    </Nav.Link>
-                  </NavItem>
+                    <NavLink to="/login">
+                      <NavItem className="button-margin">
+                           <Button variant="outline-info" >
+                            Login <GoSignIn />
+                           </Button>
+                      </NavItem>
+                    </NavLink>
                 </Nav>
 
               </Navbar.Collapse>
             </Navbar>
+          </div>
         );
     }
 }
-
-ReactDOM.render(
-	<NavBar />,
-	document.getElementById('navbar')
-)

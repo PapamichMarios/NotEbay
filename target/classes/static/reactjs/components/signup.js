@@ -253,9 +253,3 @@ Signup.defaultProps = {
     action: '/app/users',
     method: 'POST'
 };
-
-
-ReactDOM.render(
-	<Signup />,
-	document.getElementById('signupForm')
-)

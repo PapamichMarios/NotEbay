@@ -50489,7 +50489,6 @@ Signup.defaultProps = {
   action: '/app/users',
   method: 'POST'
 };
-ReactDOM.render(React.createElement(Signup, null), document.getElementById('signupForm'));
 
 /***/ })
 

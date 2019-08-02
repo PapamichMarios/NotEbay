@@ -4,7 +4,7 @@ const ReactDOM = require('react-dom');
 import { Container, Row, Col, Card, Form, ButtonToolbar, Button, InputGroup } from 'react-bootstrap';
 import { FaUser, FaLock } from 'react-icons/fa';
 
-class Login extends React.Component {
+export default class Login extends React.Component {
 
     constructor(props, context) {
         super(props, context);
@@ -16,6 +16,7 @@ class Login extends React.Component {
 
         //binding this to submethods
         this.onChange = this.onChange.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
     }
 
@@ -102,9 +103,3 @@ Login.defaultProps = {
     action: 'app/signin',
     method: 'POST'
 };
-
-
-ReactDOM.render(
-    <Login />,
-  document.getElementById('loginForm')
-)
