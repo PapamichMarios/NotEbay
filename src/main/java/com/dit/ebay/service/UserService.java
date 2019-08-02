@@ -29,6 +29,7 @@ import org.slf4j.LoggerFactory;
 import java.net.URI;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -175,5 +176,9 @@ public class UserService {
      */
     public List<User> getAllUsers(Long adminId) {
         return userRepository.findAllUsersAdmin(adminId);
+    }
+
+    public Optional<User> getUserById(Long userId) {
+        return userRepository.findById(userId);
     }
 }

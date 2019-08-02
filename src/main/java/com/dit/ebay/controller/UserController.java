@@ -42,28 +42,11 @@ public class UserController {
         return userService.signInUser(signInRequest);
     }
 
-    // we use SignUpRequest because it has the fields for the update
-    // test endpoint
-    @PutMapping("/users/{userId}")
-    //@PreAuthorize("hasRole('ROLE_VISITOR')")
-    public User updateUserById(@PathVariable(value = "userId") Long userId,
-                               @Valid @RequestBody SignUpRequest userRequest,
-                               @Valid @CurrentUser UserDetailsImpl currentUser) {
-        return userService.updateUserById(userId, userRequest, currentUser);
-    }
-
-    // test endpoint
-    @GetMapping("/users/current")
-    //@PreAuthorize("hasRole('ROLE_VISITOR')")
-    public Optional<User> getUserTest(@Valid @CurrentUser UserDetailsImpl currentUser) {
-        // this code isn't good we only use services here
-        // TODO : changed it or remove it
-        return userRepository.findByUsername(currentUser.getUsername());
-    }
 
     /*
      * The following endpoints are for ADMIN Only
      */
+
     // Returns all Users in the database to display it
     @GetMapping("/users/all")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -71,5 +54,12 @@ public class UserController {
         return userService.getAllUsers(currentUser.getId());
     }
 
-
+    // Given an Id of a user
+    // Admin gets his profile
+    @GetMapping("/users/{userId}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public Optional<User> getUserById(@PathVariable(value = "userId") Long userId,
+                                      @Valid @CurrentUser UserDetailsImpl currentUser) {
+        return userService.getUserById(userId);
+    }
 }
