@@ -46,8 +46,8 @@ public class UserController {
     /*
      * The following endpoints are for ADMIN Only
      */
-
     // Returns all Users in the database to display it
+    // Maybe change it from /users/all => /users
     @GetMapping("/users/all")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public List<User> getAllUsers(@Valid @CurrentUser UserDetailsImpl currentUser) {
@@ -59,7 +59,7 @@ public class UserController {
     @GetMapping("/users/{userId}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public User getUserById(@PathVariable(value = "userId") Long userId,
-                                      @Valid @CurrentUser UserDetailsImpl currentUser) {
+                            @Valid @CurrentUser UserDetailsImpl currentUser) {
         return userService.getUserById(userId);
     }
 }

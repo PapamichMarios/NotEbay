@@ -55,6 +55,15 @@ public class User {
     @Column(name = "geo_location", columnDefinition = "Point")
     private Point geo_location;
 
+    @Column(name = "postal_code")
+    private String postalCode;
+
+    @Column(name = "country")
+    private String country;
+
+    @Column(name = "city")
+    private String city;
+
     @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "user_roles",
@@ -65,13 +74,32 @@ public class User {
     public User () {
     }
 
-    public User(String firstName, String lastName, String username, String password, String email, boolean enabled) {
+    public User(String firstName, String lastName, String username,
+                String password, String email, boolean enabled) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.password = password;
         this.email = email;
         this.enabled = enabled;
+    }
+
+    public User(String firstName, String lastName, String username,
+                String password, String email, boolean enabled,
+                String tin, String streetAddress, Point geo_location,
+                String postalCode, String country, String city) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.enabled = enabled;
+        this.tin = tin;
+        this.streetAddress = streetAddress;
+        this.geo_location = geo_location;
+        this.postalCode = postalCode;
+        this.country = country;
+        this.city = city;
     }
 
     public Long getId() {
@@ -151,4 +179,16 @@ public class User {
     public void setTin(String tin) {
         this.tin = tin;
     }
+
+    public String getCountry() { return country; }
+
+    public void setCountry(String country) { this.country = country; }
+
+    public String getPostalCode() { return postalCode; }
+
+    public void setPostalCode(String postalCode) { this.postalCode = postalCode; }
+
+    public String getCity() { return city; }
+
+    public void setCity(String city) { this.city = city; }
 }
