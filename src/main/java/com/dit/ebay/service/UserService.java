@@ -178,7 +178,7 @@ public class UserService {
         return userRepository.findAllUsersAdmin(adminId);
     }
 
-    public Optional<User> getUserById(Long userId) {
-        return userRepository.findById(userId);
+    public User getUserById(Long userId) {
+        return userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
     }
 }

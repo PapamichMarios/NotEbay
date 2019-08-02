@@ -58,7 +58,7 @@ public class UserController {
     // Admin gets his profile
     @GetMapping("/users/{userId}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public Optional<User> getUserById(@PathVariable(value = "userId") Long userId,
+    public User getUserById(@PathVariable(value = "userId") Long userId,
                                       @Valid @CurrentUser UserDetailsImpl currentUser) {
         return userService.getUserById(userId);
     }
