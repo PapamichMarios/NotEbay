@@ -10,16 +10,20 @@ export default class Signup extends React.Component {
         super(props, context);
 
         this.state = {
-            username: '',
-            password: '',
-            repassword:'',
-            firstName: '',
-            lastName: '',
-            email: '',
-            phone: '',
-            address: '',
-            country: '',
-            tin: '' };
+            username:       '',
+            password:       '',
+            repassword:     '',
+            firstName:      '',
+            lastName:       '',
+            email:          '',
+            role:           '',
+            phone:          '',
+            streetAddress:  '',
+            country:        '',
+            tin:            '',
+            city:           '',
+            postalCode:     ''
+        };
 
         //binding this to submethods
         this.onChange = this.onChange.bind(this);
@@ -44,16 +48,19 @@ export default class Signup extends React.Component {
             },
             method: this.props.method,
             body: JSON.stringify({
-                        username:   this.state.username,
-                        password:   this.state.password,
-                        firstName:  this.state.firstName,
-                        lastName:   this.state.lastName,
-                        email:      this.state.email,
-                        role:       'ROLE_VISITOR'})
-                        //phone: this.state.phone,
-                        //address: this.state.address,
-                        //country: this.state.country,
-                        //tin: this.state.tin})
+                        username:       this.state.username,
+                        password:       this.state.password,
+                        firstName:      this.state.firstName,
+                        lastName:       this.state.lastName,
+                        email:          this.state.email,
+                        role:           'ROLE_VISITOR',
+                        phone:          this.state.phone,
+                        streetAddress:  this.state.address,
+                        country:        this.state.country,
+                        postalCode:     this.state.postalCode,
+                        city:           this.state.city,
+                        tin:            this.state.tin
+                   })
         }).then(response => response.json())
 
           //handle success
@@ -63,16 +70,20 @@ export default class Signup extends React.Component {
           .catch(error => console.error('Error:', error));
 
         this.setState({
-            username: '',
-            password: '',
-            repassword:'',
-            firstName: '',
-            lastName: '',
-            email: '',
-            phone: '',
-            address: '',
-            country: '',
-            tin: '' });
+            username:       '',
+            password:       '',
+            repassword:     '',
+            firstName:      '',
+            lastName:       '',
+            email:          '',
+            role:           '',
+            phone:          '',
+            streetAddress:  '',
+            country:        '',
+            tin:            '',
+            postalCode:     '',
+            city:           ''
+        });
     }
 
     render() {
@@ -172,7 +183,7 @@ export default class Signup extends React.Component {
                                 <InputGroup.Prepend>
                                   <InputGroup.Text> <FaHome/> </InputGroup.Text>
                                 </InputGroup.Prepend>
-                                <Form.Control type="text" name="address" placeholder="Address" onChange={this.onChange} />
+                                <Form.Control type="text" name="streetAddress" placeholder="Address" onChange={this.onChange} />
                               </InputGroup>
                             </Form.Group>
 
