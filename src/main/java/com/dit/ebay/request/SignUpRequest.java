@@ -46,6 +46,9 @@ public class SignUpRequest {
     @Size(max = 45)
     private String city;
 
+    @Size(max = 45)
+    private String phone;
+
     public String getFirstName() { return firstName; }
 
     public void setFirstName(String firstName) { this.firstName = firstName; }
@@ -93,4 +96,8 @@ public class SignUpRequest {
     public String getCity() { return city; }
 
     public void setCity(String city) { this.city = city; }
+
+    public String getPhone() { return phone; }
+
+    public void setPhone(String phone) { this.phone = phone; }
 }

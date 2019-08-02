@@ -118,7 +118,8 @@ public class UserService {
                 signUpRequest.getGeo_location(),
                 signUpRequest.getPostalCode(),
                 signUpRequest.getCountry(),
-                signUpRequest.getCity()
+                signUpRequest.getCity(),
+                signUpRequest.getPhone()
         );
 
         // Encrypt the password

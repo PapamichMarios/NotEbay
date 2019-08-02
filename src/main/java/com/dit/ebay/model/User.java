@@ -45,6 +45,10 @@ public class User {
     @Column(name = "enabled")
     private boolean enabled;
 
+    @Column(name = "phone")
+    private String phone; // AFM
+
+
     @Column(name = "tin")
     private String tin; // AFM
 
@@ -87,7 +91,7 @@ public class User {
     public User(String firstName, String lastName, String username,
                 String password, String email, boolean enabled,
                 String tin, String streetAddress, Point geo_location,
-                String postalCode, String country, String city) {
+                String postalCode, String country, String city, String phone) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
@@ -100,6 +104,7 @@ public class User {
         this.postalCode = postalCode;
         this.country = country;
         this.city = city;
+        this.phone = phone;
     }
 
     public Long getId() {
@@ -191,4 +196,12 @@ public class User {
     public String getCity() { return city; }
 
     public void setCity(String city) { this.city = city; }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 }
