@@ -55,7 +55,7 @@ export default class Signup extends React.Component {
                         email:          this.state.email,
                         role:           'ROLE_VISITOR',
                         phone:          this.state.phone,
-                        streetAddress:  this.state.address,
+                        streetAddress:  this.state.streetAddress,
                         country:        this.state.country,
                         postalCode:     this.state.postalCode,
                         city:           this.state.city,
