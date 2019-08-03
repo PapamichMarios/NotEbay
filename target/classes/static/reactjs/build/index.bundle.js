@@ -54768,7 +54768,6 @@ if (false) {}
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return App; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _navbar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./navbar */ "./src/main/resources/static/reactjs/components/navbar.js");
@@ -54779,6 +54778,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -54787,9 +54788,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
@@ -54808,18 +54809,51 @@ var App =
 function (_React$Component) {
   _inherits(App, _React$Component);
 
-  function App() {
+  function App(props) {
+    var _this;
+
     _classCallCheck(this, App);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(App).apply(this, arguments));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(App).call(this, props));
+    _this.handleLogin = _this.handleLogin.bind(_assertThisInitialized(_this));
+    _this.handleLogout = _this.handleLogout.bind(_assertThisInitialized(_this));
+    return _this;
   }
 
   _createClass(App, [{
+    key: "handleLogin",
+    value: function handleLogin() {
+      //redirect
+      this.props.history.push("/welcome");
+    }
+  }, {
+    key: "handleLogout",
+    value: function handleLogout() {
+      //remove token from the session
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('tokenType');
+      localStorage.removeItem('username');
+      localStorage.removeItem('firstName');
+      localStorage.removeItem('lastName'); //redirect
+
+      this.props.history.push("/welcome");
+      console.log(localStorage.getItem('accessToken'));
+    }
+  }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      console.log(localStorage.getItem('accessToken'));
+    }
+  }, {
     key: "render",
     value: function render() {
+      var _this2 = this;
+
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "App"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_6__["BrowserRouter"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_navbar__WEBPACK_IMPORTED_MODULE_1__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_6__["Switch"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_6__["Route"], {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_navbar__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        onLogout: this.handleLogout
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_6__["Switch"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_6__["Route"], {
         exact: true,
         path: "/",
         component: _homepage__WEBPACK_IMPORTED_MODULE_2__["default"]
@@ -54834,21 +54868,25 @@ function (_React$Component) {
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_6__["Route"], {
         exact: true,
         path: "/login",
-        component: _login__WEBPACK_IMPORTED_MODULE_3__["default"]
+        render: function render(props) {
+          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_login__WEBPACK_IMPORTED_MODULE_3__["default"], _extends({}, props, {
+            onLogin: _this2.handleLogin
+          }));
+        }
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_6__["Route"], {
         exact: true,
         path: "/signup",
         component: _signup__WEBPACK_IMPORTED_MODULE_4__["default"]
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_6__["Route"], {
         component: _errors_error404__WEBPACK_IMPORTED_MODULE_5__["default"]
-      })))));
+      }))));
     }
   }]);
 
   return App;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
-
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_6__["withRouter"])(App));
 
 /***/ }),
 
@@ -55033,19 +55071,18 @@ var Login =
 function (_React$Component) {
   _inherits(Login, _React$Component);
 
-  function Login(props, context) {
+  function Login(props) {
     var _this;
 
     _classCallCheck(this, Login);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Login).call(this, props, context));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Login).call(this, props));
     _this.state = {
       username: '',
-      password: '' //binding this to submethods
+      password: ''
+    }; //binding this to submethods
 
-    };
     _this.onChange = _this.onChange.bind(_assertThisInitialized(_this));
-    _this.onSubmit = _this.onSubmit.bind(_assertThisInitialized(_this));
     _this.onSubmit = _this.onSubmit.bind(_assertThisInitialized(_this));
     return _this;
   }
@@ -55058,6 +55095,8 @@ function (_React$Component) {
   }, {
     key: "onSubmit",
     value: function onSubmit(e) {
+      var _this2 = this;
+
       e.preventDefault(); //make the request
 
       fetch(this.props.action, {
@@ -55073,7 +55112,14 @@ function (_React$Component) {
         return response.json();
       }) //handle success
       .then(function (response) {
-        return console.log('Success:', JSON.stringify(response));
+        //add response to session
+        localStorage.setItem('accessToken', response.accessToken);
+        localStorage.setItem('tokenType', response.tokenType);
+        localStorage.setItem('username', response.username);
+        localStorage.setItem('firstName', response.firstName);
+        localStorage.setItem('lastName', response.lastName); //redirect
+
+        _this2.props.onLogin();
       }) //handle errors from the back-end
       ["catch"](function (error) {
         return console.error('Error:', error);
@@ -55190,57 +55236,95 @@ var NavBar =
 function (_React$Component) {
   _inherits(NavBar, _React$Component);
 
-  function NavBar() {
+  function NavBar(props) {
     _classCallCheck(this, NavBar);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(NavBar).apply(this, arguments));
+    return _possibleConstructorReturn(this, _getPrototypeOf(NavBar).call(this, props));
   }
 
   _createClass(NavBar, [{
     key: "render",
     value: function render() {
-      return React.createElement("div", {
-        className: "navbar-margin"
-      }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Navbar"], {
-        bg: "dark",
-        variant: "dark"
-      }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Navbar"].Brand, {
-        href: "/welcome"
-      }, "NotEbay"), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Navbar"].Toggle, {
-        "aria-controls": "basic-navbar-nav"
-      }), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Navbar"].Collapse, {
-        id: "basic-navbar-nav"
-      }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Nav"], {
-        className: "mr-auto"
-      }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["NavItem"], null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Form"], {
-        inline: true
-      }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["FormControl"], {
-        type: "text",
-        placeholder: "Search",
-        className: "mr-sm-2"
-      }), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Button"], {
-        variant: "outline-success"
-      }, React.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_3__["FaSearch"], null))))), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Nav"], {
-        className: "justify-content-end"
-      }, React.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["NavLink"], {
-        to: "/home"
-      }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["NavItem"], {
-        className: "button-margin"
-      }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Button"], {
-        variant: "dark"
-      }, React.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_3__["FaHome"], null)))), React.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["NavLink"], {
-        to: "/signup"
-      }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["NavItem"], {
-        className: "button-margin"
-      }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Button"], {
-        variant: "outline-warning"
-      }, "Signup"))), React.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["NavLink"], {
-        to: "/login"
-      }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["NavItem"], {
-        className: "button-margin"
-      }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Button"], {
-        variant: "outline-info"
-      }, "Login ", React.createElement(react_icons_go__WEBPACK_IMPORTED_MODULE_4__["GoSignIn"], null))))))));
+      if (localStorage.getItem('accessToken') !== null) {
+        return React.createElement("div", {
+          className: "navbar-margin"
+        }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Navbar"], {
+          bg: "dark",
+          variant: "dark"
+        }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Navbar"].Brand, {
+          href: "/welcome"
+        }, "NotEbay"), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Navbar"].Toggle, {
+          "aria-controls": "basic-navbar-nav"
+        }), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Navbar"].Collapse, {
+          id: "basic-navbar-nav"
+        }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Nav"], {
+          className: "mr-auto"
+        }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["NavItem"], null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Form"], {
+          inline: true
+        }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["FormControl"], {
+          type: "text",
+          placeholder: "Search",
+          className: "mr-sm-2"
+        }), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Button"], {
+          variant: "outline-success"
+        }, React.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_3__["FaSearch"], null))))), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Nav"], {
+          className: "justify-content-end"
+        }, React.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["NavLink"], {
+          to: "/home"
+        }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["NavItem"], {
+          className: "button-margin"
+        }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Button"], {
+          variant: "dark"
+        }, React.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_3__["FaHome"], null)))), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["NavItem"], {
+          className: "button-margin"
+        }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Button"], {
+          variant: "outline-danger",
+          onClick: this.props.onLogout
+        }, "Logout ", React.createElement(react_icons_go__WEBPACK_IMPORTED_MODULE_4__["GoSignOut"], null)))))));
+      } else {
+        return React.createElement("div", {
+          className: "navbar-margin"
+        }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Navbar"], {
+          bg: "dark",
+          variant: "dark"
+        }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Navbar"].Brand, {
+          href: "/welcome"
+        }, "NotEbay"), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Navbar"].Toggle, {
+          "aria-controls": "basic-navbar-nav"
+        }), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Navbar"].Collapse, {
+          id: "basic-navbar-nav"
+        }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Nav"], {
+          className: "mr-auto"
+        }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["NavItem"], null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Form"], {
+          inline: true
+        }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["FormControl"], {
+          type: "text",
+          placeholder: "Search",
+          className: "mr-sm-2"
+        }), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Button"], {
+          variant: "outline-success"
+        }, React.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_3__["FaSearch"], null))))), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Nav"], {
+          className: "justify-content-end"
+        }, React.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["NavLink"], {
+          to: "/home"
+        }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["NavItem"], {
+          className: "button-margin"
+        }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Button"], {
+          variant: "dark"
+        }, React.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_3__["FaHome"], null)))), React.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["NavLink"], {
+          to: "/signup"
+        }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["NavItem"], {
+          className: "button-margin"
+        }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Button"], {
+          variant: "outline-warning"
+        }, "Signup"))), React.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["NavLink"], {
+          to: "/login"
+        }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["NavItem"], {
+          className: "button-margin"
+        }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Button"], {
+          variant: "outline-info"
+        }, "Login ", React.createElement(react_icons_go__WEBPACK_IMPORTED_MODULE_4__["GoSignIn"], null))))))));
+      }
     }
   }]);
 

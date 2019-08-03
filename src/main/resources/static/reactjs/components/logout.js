@@ -50,7 +50,7 @@ export default class Login extends React.Component {
             localStorage.setItem('firstName', response.firstName);
             localStorage.setItem('lastName', response.lastName);
 
-            //redirect
+            //redirece
             this.props.onLogin();
           })
 

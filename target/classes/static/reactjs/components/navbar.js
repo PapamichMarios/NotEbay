@@ -6,57 +6,102 @@ const ReactDOM = require('react-dom');
 import { NavLink } from "react-router-dom";
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem, Form, FormControl, Button, br } from 'react-bootstrap';
 import { FaSearch, FaHome } from 'react-icons/fa';
-import { GoSignIn } from 'react-icons/go';
+import { GoSignIn, GoSignOut } from 'react-icons/go';
 
 export default class NavBar extends React.Component{
+    constructor(props) {
+        super(props);
+    }
+
     render() {
-        return (
-          <div className="navbar-margin">
-            <Navbar bg="dark" variant="dark">
-              <Navbar.Brand href="/welcome">NotEbay</Navbar.Brand>
-              <Navbar.Toggle aria-controls="basic-navbar-nav" />
-              <Navbar.Collapse id="basic-navbar-nav">
+        if(localStorage.getItem('accessToken') !== null) {
+            return (
+              <div className="navbar-margin">
+                <Navbar bg="dark" variant="dark">
+                  <Navbar.Brand href="/welcome">NotEbay</Navbar.Brand>
+                  <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                  <Navbar.Collapse id="basic-navbar-nav">
 
-                <Nav className="mr-auto">
-                  <NavItem>
-                    <Form inline>
-                      <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-                      <Button variant="outline-success">
-                        <FaSearch/>
-                      </Button>
-                    </Form>
-                  </NavItem>
-                </Nav>
-
-                <Nav className="justify-content-end">
-                    <NavLink to="/home">
-                      <NavItem className="button-margin">
-                          <Button variant="dark">
-                            <FaHome />
+                    <Nav className="mr-auto">
+                      <NavItem>
+                        <Form inline>
+                          <FormControl type="text" placeholder="Search" className="mr-sm-2" />
+                          <Button variant="outline-success">
+                            <FaSearch/>
                           </Button>
+                        </Form>
                       </NavItem>
-                    </NavLink>
+                    </Nav>
 
-                    <NavLink to="/signup">
-                      <NavItem className="button-margin">
-                          <Button variant="outline-warning">
-                            Signup
+                    <Nav className="justify-content-end">
+                        <NavLink to="/home">
+                          <NavItem className="button-margin">
+                              <Button variant="dark">
+                                <FaHome />
+                              </Button>
+                          </NavItem>
+                        </NavLink>
+
+                          <NavItem className="button-margin">
+                               <Button variant="outline-danger" onClick={this.props.onLogout}>
+                                Logout <GoSignOut />
+                               </Button>
+                          </NavItem>
+                    </Nav>
+
+                  </Navbar.Collapse>
+                </Navbar>
+              </div>
+            );
+        } else {
+            return (
+              <div className="navbar-margin">
+                <Navbar bg="dark" variant="dark">
+                  <Navbar.Brand href="/welcome">NotEbay</Navbar.Brand>
+                  <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                  <Navbar.Collapse id="basic-navbar-nav">
+
+                    <Nav className="mr-auto">
+                      <NavItem>
+                        <Form inline>
+                          <FormControl type="text" placeholder="Search" className="mr-sm-2" />
+                          <Button variant="outline-success">
+                            <FaSearch/>
                           </Button>
+                        </Form>
                       </NavItem>
-                    </NavLink>
+                    </Nav>
 
-                    <NavLink to="/login">
-                      <NavItem className="button-margin">
-                           <Button variant="outline-info" >
-                            Login <GoSignIn />
-                           </Button>
-                      </NavItem>
-                    </NavLink>
-                </Nav>
+                    <Nav className="justify-content-end">
+                        <NavLink to="/home">
+                          <NavItem className="button-margin">
+                              <Button variant="dark">
+                                <FaHome />
+                              </Button>
+                          </NavItem>
+                        </NavLink>
 
-              </Navbar.Collapse>
-            </Navbar>
-          </div>
-        );
+                        <NavLink to="/signup">
+                          <NavItem className="button-margin">
+                              <Button variant="outline-warning">
+                                Signup
+                              </Button>
+                          </NavItem>
+                        </NavLink>
+
+                        <NavLink to="/login">
+                          <NavItem className="button-margin">
+                               <Button variant="outline-info" >
+                                Login <GoSignIn />
+                               </Button>
+                          </NavItem>
+                        </NavLink>
+                    </Nav>
+
+                  </Navbar.Collapse>
+                </Navbar>
+              </div>
+            );
+        }
     }
 }
