@@ -1,1 +1,4 @@
 role: admin, seller, bidder, visitor
+
+1. emfanisi minumatatwn otan ginetai signup, login kai logout
+2. kataskeufi profile kai messages pages

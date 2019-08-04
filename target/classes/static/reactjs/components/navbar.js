@@ -5,7 +5,8 @@ const ReactDOM = require('react-dom');
 
 import { NavLink } from "react-router-dom";
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem, Form, FormControl, Button, br } from 'react-bootstrap';
-import { FaSearch, FaHome } from 'react-icons/fa';
+
+import { FaSearch, FaHome, FaUser, FaEnvelope } from 'react-icons/fa';
 import { GoSignIn, GoSignOut } from 'react-icons/go';
 
 export default class NavBar extends React.Component{
@@ -27,7 +28,7 @@ export default class NavBar extends React.Component{
                         <Form inline>
                           <FormControl type="text" placeholder="Search" className="mr-sm-2" />
                           <Button variant="outline-success">
-                            <FaSearch/>
+                            <FaSearch />
                           </Button>
                         </Form>
                       </NavItem>
@@ -38,6 +39,22 @@ export default class NavBar extends React.Component{
                           <NavItem className="button-margin">
                               <Button variant="dark">
                                 <FaHome />
+                              </Button>
+                          </NavItem>
+                        </NavLink>
+
+                        <NavLink to="/profile">
+                          <NavItem className="button-margin">
+                              <Button variant="dark">
+                                <FaUser />
+                              </Button>
+                          </NavItem>
+                        </NavLink>
+
+                        <NavLink to="/inbox">
+                          <NavItem className="button-margin">
+                              <Button variant="dark">
+                                <FaEnvelope />
                               </Button>
                           </NavItem>
                         </NavLink>
