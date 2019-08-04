@@ -19,7 +19,7 @@ export default class NavBar extends React.Component{
             return (
               <div className="navbar-margin">
                 <Navbar bg="dark" variant="dark">
-                  <Navbar.Brand href="/welcome">NotEbay</Navbar.Brand>
+                  <Navbar.Brand href="/welcome">BidIt</Navbar.Brand>
                   <Navbar.Toggle aria-controls="basic-navbar-nav" />
                   <Navbar.Collapse id="basic-navbar-nav">
 
@@ -74,7 +74,7 @@ export default class NavBar extends React.Component{
             return (
               <div className="navbar-margin">
                 <Navbar bg="dark" variant="dark">
-                  <Navbar.Brand href="/welcome">NotEbay</Navbar.Brand>
+                  <Navbar.Brand href="/welcome">BidIt</Navbar.Brand>
                   <Navbar.Toggle aria-controls="basic-navbar-nav" />
                   <Navbar.Collapse id="basic-navbar-nav">
 

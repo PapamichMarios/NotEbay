@@ -55324,7 +55324,7 @@ function (_React$Component) {
           variant: "dark"
         }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Navbar"].Brand, {
           href: "/welcome"
-        }, "NotEbay"), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Navbar"].Toggle, {
+        }, "BidIt"), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Navbar"].Toggle, {
           "aria-controls": "basic-navbar-nav"
         }), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Navbar"].Collapse, {
           id: "basic-navbar-nav"
@@ -55372,7 +55372,7 @@ function (_React$Component) {
           variant: "dark"
         }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Navbar"].Brand, {
           href: "/welcome"
-        }, "NotEbay"), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Navbar"].Toggle, {
+        }, "BidIt"), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Navbar"].Toggle, {
           "aria-controls": "basic-navbar-nav"
         }), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Navbar"].Collapse, {
           id: "basic-navbar-nav"
@@ -55541,7 +55541,10 @@ function (_React$Component) {
       country: '',
       tin: '',
       city: '',
-      postalCode: ''
+      postalCode: '',
+      hasError: false,
+      success: false,
+      errorMsg: ''
     }; //binding this to submethods
 
     _this.onChange = _this.onChange.bind(_assertThisInitialized(_this));
@@ -55557,8 +55560,18 @@ function (_React$Component) {
   }, {
     key: "onSubmit",
     value: function onSubmit(e) {
+      var _this2 = this;
+
       e.preventDefault(); //check passwords are matching
-      //make the request
+
+      if (this.state.password !== this.state.repassword) {
+        this.setState({
+          hasError: true,
+          errorMsg: 'Passwords given do not match.'
+        });
+        return;
+      } //make the request
+
 
       fetch(this.props.action, {
         headers: {
@@ -55581,157 +55594,161 @@ function (_React$Component) {
         })
       }).then(function (response) {
         return response.json();
-      }) //handle success
+      }) //print response
       .then(function (response) {
-        return console.log('Success:', JSON.stringify(response));
-      }) //handle errors from the back-end
+        console.log('response:' + JSON.stringify(response));
+
+        if (!response.success) {
+          _this2.setState({
+            hasError: true,
+            errorMsg: response.message
+          });
+        } else {
+          _this2.setState({
+            success: true
+          });
+        }
+      }) //handle promise error
       ["catch"](function (error) {
         return console.error('Error:', error);
-      });
-      this.setState({
-        username: '',
-        password: '',
-        repassword: '',
-        firstName: '',
-        lastName: '',
-        email: '',
-        role: '',
-        phone: '',
-        streetAddress: '',
-        country: '',
-        tin: '',
-        postalCode: '',
-        city: ''
       });
     }
   }, {
     key: "render",
     value: function render() {
-      return React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Container"], null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Card"], {
-        border: "dark"
-      }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Card"].Header, {
-        as: "h3",
-        className: "text-center bg-dark",
-        style: {
-          color: 'white'
-        }
-      }, " Signup "), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Card"].Body, null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Card"].Title, {
-        className: "text-center"
-      }, " Join our community! "), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"], {
-        id: "signup-form",
-        action: this.props.action,
-        method: this.props.method,
-        onSubmit: this.onSubmit
-      }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Row, null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Col"], {
-        md: {
-          span: 6
-        }
-      }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Group, {
-        controlId: "formUsername"
-      }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"], null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"].Prepend, null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"].Text, null, " ", React.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_1__["FaUser"], null), " ")), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Control, {
-        type: "text",
-        name: "username",
-        placeholder: "Username",
-        onChange: this.onChange
-      }))), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Group, {
-        controlId: "formPassword"
-      }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"], null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"].Prepend, null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"].Text, null, " ", React.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_1__["FaLock"], null), " ")), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Control, {
-        type: "password",
-        name: "password",
-        placeholder: "Password",
-        onChange: this.onChange
-      }))), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Group, {
-        controlId: "formRepeatPassword"
-      }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"], null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"].Prepend, null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"].Text, null, " ", React.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_1__["FaLock"], null), " ")), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Control, {
-        type: "password",
-        name: "repassword",
-        placeholder: "Re-enter Password",
-        onChange: this.onChange
-      }))), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Group, {
-        controlId: "formFirstName"
-      }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"], null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"].Prepend, null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"].Text, null, " ", React.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_1__["FaUser"], null), " ")), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Control, {
-        type: "text",
-        name: "firstName",
-        placeholder: "First Name",
-        onChange: this.onChange
-      }))), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Group, {
-        controlId: "formLastName"
-      }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"], null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"].Prepend, null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"].Text, null, " ", React.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_1__["FaUser"], null), " ")), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Control, {
-        type: "text",
-        name: "lastName",
-        placeholder: "Last Name",
-        onChange: this.onChange
-      }))), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Group, {
-        controlId: "emailForm"
-      }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"], null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"].Prepend, null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"].Text, null, " ", React.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_1__["FaEnvelope"], null), " ")), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Control, {
-        type: "email",
-        name: "email",
-        placeholder: "E-mail",
-        onChange: this.onChange
-      })), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Text, {
-        className: "text-muted"
-      }, "We'll never share your email with anyone else.")), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Group, {
-        controlId: "formPhone"
-      }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"], null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"].Prepend, null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"].Text, null, " ", React.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_1__["FaPhone"], null), " ")), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Control, {
-        type: "text",
-        name: "phone",
-        placeholder: "Phone Number",
-        onChange: this.onChange
-      }))), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Group, {
-        controlId: "formTIN"
-      }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"], null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"].Prepend, null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"].Text, null, " ", React.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_1__["FaFile"], null), " ")), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Control, {
-        type: "text",
-        name: "tin",
-        placeholder: "TIN",
-        onChange: this.onChange
-      })))), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Col"], null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Group, {
-        controlId: "formAddress"
-      }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"], null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"].Prepend, null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"].Text, null, " ", React.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_1__["FaHome"], null), " ")), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Control, {
-        type: "text",
-        name: "streetAddress",
-        placeholder: "Address",
-        onChange: this.onChange
-      }))), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Group, {
-        controlId: "formCity"
-      }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"], null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"].Prepend, null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"].Text, null, " ", React.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_1__["FaHome"], null), " ")), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Control, {
-        type: "text",
-        name: "city",
-        placeholder: "City",
-        onChange: this.onChange
-      })))), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Col"], null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Group, {
-        controlId: "formPostalCode"
-      }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"], null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"].Prepend, null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"].Text, null, " ", React.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_1__["FaEnvelope"], null), " ")), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Control, {
-        type: "text",
-        name: "postalCode",
-        placeholder: "Postal Code",
-        onChange: this.onChange
-      }))), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Group, {
-        controlId: "formCountry"
-      }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"], null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"].Prepend, null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"].Text, null, " ", React.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_1__["FaGlobe"], null), " ")), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Control, {
-        type: "text",
-        name: "country",
-        placeholder: "Country",
-        onChange: this.onChange
-      }))))), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Row, {
-        className: true
-      }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Col"], null, React.createElement("p", {
-        className: "font-small white-text d-flex justify-content-end"
-      }, "Already have an account?", React.createElement("a", {
-        href: "/login",
-        className: "green-text ml-1 font-weight-bold"
-      }, "Log in")))), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Row, {
-        className: "justify-content-md-center"
-      }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["ButtonToolbar"], {
-        size: "lg"
-      }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Col"], null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Button"], {
-        type: "submit",
-        variant: "dark",
-        block: true
-      }, " Submit ")), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Col"], null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Button"], {
-        type: "reset",
-        variant: "danger",
-        block: true
-      }, " Reset "))))))));
+      if (this.state.success) {
+        return React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Container"], null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Alert"], {
+          variant: "success"
+        }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Alert"].Heading, null, " One more step to welcome you to our community! "), React.createElement("p", null, " A well trained and authorised admin is going to review your application. "), React.createElement("p", null, " We promise it will not take long! In the meantime, feel free to browse auctions and items.")));
+      } else {
+        return React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Container"], null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Card"], {
+          border: "dark"
+        }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Card"].Header, {
+          as: "h3",
+          className: "text-center bg-dark",
+          style: {
+            color: 'white'
+          }
+        }, " Signup "), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Card"].Body, null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Card"].Title, {
+          className: "text-center"
+        }, " Join our community! "), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"], {
+          id: "signup-form",
+          action: this.props.action,
+          method: this.props.method,
+          onSubmit: this.onSubmit
+        }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Row, null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Col"], {
+          md: {
+            span: 6
+          }
+        }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Group, {
+          controlId: "formUsername"
+        }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"], null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"].Prepend, null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"].Text, null, " ", React.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_1__["FaUser"], null), " ")), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Control, {
+          type: "text",
+          name: "username",
+          placeholder: "Username",
+          onChange: this.onChange
+        }))), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Group, {
+          controlId: "formPassword"
+        }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"], null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"].Prepend, null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"].Text, null, " ", React.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_1__["FaLock"], null), " ")), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Control, {
+          type: "password",
+          name: "password",
+          placeholder: "Password",
+          onChange: this.onChange
+        }))), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Group, {
+          controlId: "formRepeatPassword"
+        }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"], null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"].Prepend, null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"].Text, null, " ", React.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_1__["FaLock"], null), " ")), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Control, {
+          type: "password",
+          name: "repassword",
+          placeholder: "Re-enter Password",
+          onChange: this.onChange
+        }))), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Group, {
+          controlId: "formFirstName"
+        }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"], null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"].Prepend, null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"].Text, null, " ", React.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_1__["FaUser"], null), " ")), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Control, {
+          type: "text",
+          name: "firstName",
+          placeholder: "First Name",
+          onChange: this.onChange
+        }))), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Group, {
+          controlId: "formLastName"
+        }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"], null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"].Prepend, null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"].Text, null, " ", React.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_1__["FaUser"], null), " ")), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Control, {
+          type: "text",
+          name: "lastName",
+          placeholder: "Last Name",
+          onChange: this.onChange
+        }))), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Group, {
+          controlId: "emailForm"
+        }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"], null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"].Prepend, null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"].Text, null, " ", React.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_1__["FaEnvelope"], null), " ")), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Control, {
+          type: "email",
+          name: "email",
+          placeholder: "E-mail",
+          onChange: this.onChange
+        })), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Text, {
+          className: "text-muted"
+        }, "We'll never share your email with anyone else.")), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Group, {
+          controlId: "formPhone"
+        }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"], null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"].Prepend, null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"].Text, null, " ", React.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_1__["FaPhone"], null), " ")), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Control, {
+          type: "text",
+          name: "phone",
+          placeholder: "Phone Number",
+          onChange: this.onChange
+        }))), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Group, {
+          controlId: "formTIN"
+        }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"], null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"].Prepend, null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"].Text, null, " ", React.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_1__["FaFile"], null), " ")), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Control, {
+          type: "text",
+          name: "tin",
+          placeholder: "TIN",
+          onChange: this.onChange
+        })))), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Col"], null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Group, {
+          controlId: "formAddress"
+        }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"], null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"].Prepend, null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"].Text, null, " ", React.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_1__["FaHome"], null), " ")), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Control, {
+          type: "text",
+          name: "streetAddress",
+          placeholder: "Address",
+          onChange: this.onChange
+        }))), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Group, {
+          controlId: "formCity"
+        }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"], null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"].Prepend, null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"].Text, null, " ", React.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_1__["FaHome"], null), " ")), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Control, {
+          type: "text",
+          name: "city",
+          placeholder: "City",
+          onChange: this.onChange
+        })))), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Col"], null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Group, {
+          controlId: "formPostalCode"
+        }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"], null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"].Prepend, null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"].Text, null, " ", React.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_1__["FaEnvelope"], null), " ")), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Control, {
+          type: "text",
+          name: "postalCode",
+          placeholder: "Postal Code",
+          onChange: this.onChange
+        }))), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Group, {
+          controlId: "formCountry"
+        }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"], null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"].Prepend, null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["InputGroup"].Text, null, " ", React.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_1__["FaGlobe"], null), " ")), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Control, {
+          type: "text",
+          name: "country",
+          placeholder: "Country",
+          onChange: this.onChange
+        }))))), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Row, {
+          className: true
+        }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Col"], null, React.createElement("p", {
+          className: "font-small white-text d-flex justify-content-end"
+        }, "Already have an account?", React.createElement("a", {
+          href: "/login",
+          className: "green-text ml-1 font-weight-bold"
+        }, "Log in")))), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Row, {
+          className: "justify-content-md-center"
+        }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["ButtonToolbar"], {
+          size: "lg"
+        }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Col"], null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Button"], {
+          type: "submit",
+          variant: "dark",
+          block: true
+        }, " Submit ")), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Col"], null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Button"], {
+          type: "reset",
+          variant: "danger",
+          block: true
+        }, " Reset ")))), this.state.hasError ? React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Row, null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Col"], null, React.createElement("br", null), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Alert"], {
+          variant: "danger"
+        }, this.state.errorMsg))) : React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Row, null)))));
+      }
     }
   }]);
 
