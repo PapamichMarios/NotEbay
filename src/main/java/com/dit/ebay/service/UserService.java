@@ -4,6 +4,7 @@ import com.dit.ebay.exception.BadRequestException;
 import com.dit.ebay.model.Role;
 import com.dit.ebay.model.RoleName;
 import com.dit.ebay.model.User;
+import com.dit.ebay.repository.RoleRepository;
 import com.dit.ebay.repository.UserRepository;
 import com.dit.ebay.request.SignInRequest;
 import com.dit.ebay.request.SignUpRequest;
@@ -35,16 +36,19 @@ import java.util.Optional;
 public class UserService {
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired
     private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private UserService userService;
 
     @Autowired
     private JwtTokenProvider tokenProvider;
@@ -152,7 +156,9 @@ public class UserService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = tokenProvider.generateToken(authentication);
 
-        return ResponseEntity.ok(new SignInResponse(jwt, user.getUsername(), user.getFirstName(), user.getLastName()));
+        return ResponseEntity.ok(new SignInResponse(jwt, user.getUsername(),
+                                user.getFirstName(), user.getLastName(),
+                                roleRepository.findRoleAdminById(user.getId())));
     }
 
     public User updateUserById(Long userId, SignUpRequest userRequest, UserDetailsImpl currentUser) {
