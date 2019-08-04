@@ -55150,7 +55150,9 @@ function (_React$Component) {
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Login).call(this, props));
     _this.state = {
       username: '',
-      password: ''
+      password: '',
+      hasError: false,
+      errorMsg: ''
     }; //binding this to submethods
 
     _this.onChange = _this.onChange.bind(_assertThisInitialized(_this));
@@ -55183,21 +55185,26 @@ function (_React$Component) {
         return response.json();
       }) //handle success
       .then(function (response) {
-        //add response to session
-        localStorage.setItem('accessToken', response.accessToken);
-        localStorage.setItem('tokenType', response.tokenType);
-        localStorage.setItem('username', response.username);
-        localStorage.setItem('firstName', response.firstName);
-        localStorage.setItem('lastName', response.lastName); //redirect
+        console.log('logInResponse:' + JSON.stringify(response));
 
-        _this2.props.onLogin();
+        if (response.error) {
+          _this2.setState({
+            hasError: true,
+            errorMsg: response.message
+          });
+        } else {
+          //add response to session
+          localStorage.setItem('accessToken', response.accessToken);
+          localStorage.setItem('tokenType', response.tokenType);
+          localStorage.setItem('username', response.username);
+          localStorage.setItem('firstName', response.firstName);
+          localStorage.setItem('lastName', response.lastName); //redirect
+
+          _this2.props.onLogin();
+        }
       }) //handle errors from the back-end
       ["catch"](function (error) {
         return console.error('Error:', error);
-      });
-      this.setState({
-        username: '',
-        password: ''
       });
     }
   }, {
@@ -55242,7 +55249,9 @@ function (_React$Component) {
         type: "submit",
         variant: "dark",
         block: true
-      }, " Submit "))))))));
+      }, " Submit ")), this.state.hasError ? React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Row, null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Col"], null, React.createElement("br", null), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Alert"], {
+        variant: "danger"
+      }, this.state.errorMsg))) : React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_0__["Form"].Row, null)))))));
     }
   }]);
 
@@ -55316,7 +55325,7 @@ function (_React$Component) {
   _createClass(NavBar, [{
     key: "render",
     value: function render() {
-      if (localStorage.getItem('accessToken') !== null) {
+      if (localStorage.getItem('accessToken') !== null && localStorage.getItem('accessToken') !== undefined) {
         return React.createElement("div", {
           className: "navbar-margin"
         }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Navbar"], {
@@ -55596,7 +55605,7 @@ function (_React$Component) {
         return response.json();
       }) //print response
       .then(function (response) {
-        console.log('response:' + JSON.stringify(response));
+        console.log('signUpResponse:' + JSON.stringify(response));
 
         if (!response.success) {
           _this2.setState({
