@@ -1,7 +1,7 @@
 const React = require('react');
 const ReactDOM = require('react-dom');
 
-import { Container, Row, Col, Card, Form, ButtonToolbar, Button, InputGroup } from 'react-bootstrap';
+import { Container, Row, Col, Card, Form, ButtonToolbar, Button, InputGroup, Alert } from 'react-bootstrap';
 import { FaUser, FaLock } from 'react-icons/fa';
 
 export default class Login extends React.Component {
@@ -10,7 +10,10 @@ export default class Login extends React.Component {
         super(props);
         this.state = {
             username: '',
-            password: ''
+            password: '',
+
+            hasError: false,
+            errorMsg: ''
         };
 
         //binding this to submethods
@@ -41,26 +44,29 @@ export default class Login extends React.Component {
 
           //handle success
           .then(response => {
+            console.log('logInResponse:' + JSON.stringify(response));
 
-            //add response to session
-            localStorage.setItem('accessToken', response.accessToken);
-            localStorage.setItem('tokenType', response.tokenType);
+            if (response.error) {
+                this.setState({
+                    hasError: true,
+                    errorMsg: response.message
+                })
+            } else {
+                //add response to session
+                localStorage.setItem('accessToken', response.accessToken);
+                localStorage.setItem('tokenType', response.tokenType);
 
-            localStorage.setItem('username', response.username);
-            localStorage.setItem('firstName', response.firstName);
-            localStorage.setItem('lastName', response.lastName);
+                localStorage.setItem('username', response.username);
+                localStorage.setItem('firstName', response.firstName);
+                localStorage.setItem('lastName', response.lastName);
 
-            //redirect
-            this.props.onLogin();
+                //redirect
+                this.props.onLogin();
+            }
           })
 
           //handle errors from the back-end
           .catch(error => console.error('Error:', error));
-
-        this.setState({
-            username: '',
-            password: ''
-        });
     }
 
     render() {
@@ -97,6 +103,20 @@ export default class Login extends React.Component {
                           <ButtonToolbar size="lg">
                             <Button type="submit" variant="dark" block> Submit </Button>
                           </ButtonToolbar>
+
+                          { this.state.hasError ? (
+                              <Form.Row>
+                                <Col>
+                                  <br />
+                                  <Alert variant="danger">
+                                      {this.state.errorMsg}
+                                  </Alert>
+                                </Col>
+                              </Form.Row>
+                          ) : (
+                              <Form.Row>
+                              </Form.Row>
+                          )}
 
                         </Form>
                     </Card.Body>

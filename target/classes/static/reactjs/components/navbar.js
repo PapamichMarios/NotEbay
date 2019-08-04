@@ -15,7 +15,7 @@ export default class NavBar extends React.Component{
     }
 
     render() {
-        if(localStorage.getItem('accessToken') !== null) {
+        if((localStorage.getItem('accessToken') !== null) && (localStorage.getItem('accessToken') !== undefined)) {
             return (
               <div className="navbar-margin">
                 <Navbar bg="dark" variant="dark">
