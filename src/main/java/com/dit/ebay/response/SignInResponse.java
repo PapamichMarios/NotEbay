@@ -8,12 +8,14 @@ public class SignInResponse {
     private String username;
     private String firstName;
     private String lastName;
+    private boolean isAdmin; // True is admin else false
 
-    public SignInResponse(String accessToken, String username, String firstName, String lastName) {
+    public SignInResponse(String accessToken, String username, String firstName, String lastName, boolean isAdmin) {
         this.accessToken = accessToken;
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.isAdmin = isAdmin;
     }
 
     public String getAccessToken() {
@@ -55,4 +57,8 @@ public class SignInResponse {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+
+    public boolean isAdmin() { return isAdmin; }
+
+    public void setAdmin(boolean admin) { isAdmin = admin; }
 }
