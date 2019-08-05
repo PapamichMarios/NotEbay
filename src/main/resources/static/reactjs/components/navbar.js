@@ -35,13 +35,19 @@ export default class NavBar extends React.Component{
                     </Nav>
 
                     <Nav className="justify-content-end">
-                        <NavLink to="/users">
-                          <NavItem className="button-margin">
-                              <Button variant="outline-light">
-                                <FaDatabase />
-                              </Button>
-                          </NavItem>
-                        </NavLink>
+
+                        { localStorage.getItem("isAdmin") ? (
+                            <NavLink to="/users">
+                              <NavItem className="button-margin">
+                                  <Button variant="outline-light">
+                                    <FaDatabase />
+                                  </Button>
+                              </NavItem>
+                            </NavLink>
+                          ) : (
+                            null
+                          )
+                        }
 
                         <NavLink to="/home">
                           <NavItem className="button-margin">

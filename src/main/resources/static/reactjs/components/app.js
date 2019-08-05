@@ -5,8 +5,8 @@ import Home     from './homepage';
 import Login    from './login';
 import Signup   from './signup';
 import Page404  from './errors/error404';
-import Profile  from './profile';
-import Inbox    from './inbox';
+import Profile  from './user/profile';
+import Inbox    from './user/inbox';
 
 import Users    from './admin/users';
 
@@ -32,6 +32,7 @@ class App extends React.Component {
         localStorage.removeItem('username');
         localStorage.removeItem('firstName');
         localStorage.removeItem('lastName');
+        localStorage.removeItem('isAdmin');
 
         //redirect
         this.props.history.push("/welcome");

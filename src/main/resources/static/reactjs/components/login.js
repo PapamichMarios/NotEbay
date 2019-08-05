@@ -62,8 +62,8 @@ export default class Login extends React.Component {
                 localStorage.setItem('lastName', response.lastName);
 
                 //add admin privileges
-                if (response.isAdmin) {
-                    localStorage.setItem('isAdmin', response.isAdmin);
+                if (response.admin) {
+                    localStorage.setItem('isAdmin', response.admin);
                 }
 
                 //redirect
