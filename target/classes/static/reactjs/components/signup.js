@@ -57,6 +57,7 @@ export default class Signup extends React.Component {
         //make the request
         fetch(this.props.action, {
             headers: {
+                'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
             method: this.props.method,

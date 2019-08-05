@@ -6,7 +6,7 @@ const ReactDOM = require('react-dom');
 import { NavLink } from "react-router-dom";
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem, Form, FormControl, Button, br } from 'react-bootstrap';
 
-import { FaSearch, FaHome, FaUser, FaEnvelope } from 'react-icons/fa';
+import { FaSearch, FaHome, FaUser, FaComments, FaDatabase } from 'react-icons/fa';
 import { GoSignIn, GoSignOut } from 'react-icons/go';
 
 export default class NavBar extends React.Component{
@@ -35,6 +35,14 @@ export default class NavBar extends React.Component{
                     </Nav>
 
                     <Nav className="justify-content-end">
+                        <NavLink to="/users">
+                          <NavItem className="button-margin">
+                              <Button variant="outline-light">
+                                <FaDatabase />
+                              </Button>
+                          </NavItem>
+                        </NavLink>
+
                         <NavLink to="/home">
                           <NavItem className="button-margin">
                               <Button variant="dark">
@@ -54,7 +62,7 @@ export default class NavBar extends React.Component{
                         <NavLink to="/inbox">
                           <NavItem className="button-margin">
                               <Button variant="dark">
-                                <FaEnvelope />
+                                <FaComments />
                               </Button>
                           </NavItem>
                         </NavLink>

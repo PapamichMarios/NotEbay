@@ -8,6 +8,8 @@ import Page404  from './errors/error404';
 import Profile  from './profile';
 import Inbox    from './inbox';
 
+import Users    from './admin/users';
+
 import { BrowserRouter as Router, Switch, Route, withRouter } from 'react-router-dom';
 
 class App extends React.Component {
@@ -53,6 +55,9 @@ class App extends React.Component {
                 <Route exact path="/signup"  component={Signup} />
                 <Route exact path="/profile" component={Profile} />
                 <Route exact path="/inbox"   component={Inbox} />
+
+                <Route exact path="/users"  component={Users} />
+
                 <Route component={Page404} />
               </Switch>
             </div>

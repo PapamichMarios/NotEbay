@@ -33,7 +33,8 @@ export default class Login extends React.Component {
         //make the request
         fetch(this.props.action, {
             headers: {
-                'Content-Type': 'application/json',
+                'Accept' : 'application/json',
+                'Content-Type': 'application/json'
             },
             method: this.props.method,
             body: JSON.stringify({
@@ -59,6 +60,11 @@ export default class Login extends React.Component {
                 localStorage.setItem('username', response.username);
                 localStorage.setItem('firstName', response.firstName);
                 localStorage.setItem('lastName', response.lastName);
+
+                //add admin privileges
+                if (response.isAdmin) {
+                    localStorage.setItem('isAdmin', response.isAdmin);
+                }
 
                 //redirect
                 this.props.onLogin();
