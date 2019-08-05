@@ -1,0 +1,12 @@
+.body-text {
+    font-size: 12px;
+}
+
+.header {
+    font-size: 14px;
+    color: black;
+}
+
+.full-vertical {
+    height: 100vh;
+}
