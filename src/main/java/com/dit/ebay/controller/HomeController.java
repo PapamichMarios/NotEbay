@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 public class HomeController {
 
     // Forward everything to front end except from ./<whatever>
-    @RequestMapping(value = {"/welcome", "/home", "/", "/signup", "/login", "/users", "/profile/**"}, method = RequestMethod.GET )
+    @RequestMapping(value = {"/welcome", "/home", "/", "/signup", "/login", "/users", "/users/**", "/profile/**"}, method = RequestMethod.GET )
     public String index() {
         return "index";
     }

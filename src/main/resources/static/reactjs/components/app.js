@@ -9,6 +9,7 @@ import Profile  from './user/profile';
 import Inbox    from './user/inbox';
 
 import Users    from './admin/users';
+import User     from './admin/user';
 
 import { BrowserRouter as Router, Switch, Route, withRouter } from 'react-router-dom';
 
@@ -58,6 +59,7 @@ class App extends React.Component {
                 <Route exact path="/inbox"   component={Inbox} />
 
                 <Route exact path="/users"  component={Users} />
+                <Route path="/users/:id"    component={User} />
 
                 <Route component={Page404} />
               </Switch>
