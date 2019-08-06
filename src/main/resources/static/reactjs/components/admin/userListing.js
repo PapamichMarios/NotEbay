@@ -24,7 +24,7 @@ export default class UserListing extends React.Component {
 
     render() {
       return (
-        <Container>
+        <Container fluid>
             <Card border="dark">
                 <Card.Header as="h3" className="text-center bg-dark" style={{color:'white'}}> User Database </Card.Header>
                     <Card.Body>

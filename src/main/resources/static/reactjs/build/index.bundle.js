@@ -54852,7 +54852,9 @@ function (_React$Component) {
   _createClass(UserListing, [{
     key: "render",
     value: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_1__["Container"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_1__["Card"], {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_1__["Container"], {
+        fluid: true
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_1__["Card"], {
         border: "dark"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_1__["Card"].Header, {
         as: "h3",
@@ -55506,20 +55508,17 @@ function (_React$Component) {
           className: "mr-auto"
         }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["NavItem"], null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Form"], {
           inline: true
-        }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["FormControl"], {
+        }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["InputGroup"], null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["InputGroup"].Prepend, null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["InputGroup"].Text, null, React.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_3__["FaSearch"], null))), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Form"].Control, {
           type: "text",
-          placeholder: "Search",
-          className: "mr-sm-2"
-        }), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Button"], {
-          variant: "outline-success"
-        }, React.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_3__["FaSearch"], null))))), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Nav"], {
+          placeholder: "Search here.."
+        }))))), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Nav"], {
           className: "justify-content-end"
         }, localStorage.getItem("isAdmin") ? React.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["NavLink"], {
           to: "/users"
         }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["NavItem"], {
           className: "button-margin"
         }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Button"], {
-          variant: "outline-light"
+          variant: "outline-primary"
         }, React.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_3__["FaDatabase"], null)))) : null, React.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["NavLink"], {
           to: "/home"
         }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["NavItem"], {
@@ -55560,13 +55559,10 @@ function (_React$Component) {
           className: "mr-auto"
         }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["NavItem"], null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Form"], {
           inline: true
-        }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["FormControl"], {
+        }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["InputGroup"], null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["InputGroup"].Prepend, null, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["InputGroup"].Text, null, React.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_3__["FaSearch"], null))), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Form"].Control, {
           type: "text",
-          placeholder: "Search",
-          className: "mr-sm-2"
-        }), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Button"], {
-          variant: "outline-success"
-        }, React.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_3__["FaSearch"], null))))), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Nav"], {
+          placeholder: "Search here.."
+        }))))), React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Nav"], {
           className: "justify-content-end"
         }, React.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["NavLink"], {
           to: "/home"
@@ -55575,18 +55571,18 @@ function (_React$Component) {
         }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Button"], {
           variant: "dark"
         }, React.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_3__["FaHome"], null)))), React.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["NavLink"], {
-          to: "/signup"
-        }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["NavItem"], {
-          className: "button-margin"
-        }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Button"], {
-          variant: "outline-warning"
-        }, "Signup"))), React.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["NavLink"], {
           to: "/login"
         }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["NavItem"], {
           className: "button-margin"
         }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Button"], {
-          variant: "outline-info"
-        }, "Login ", React.createElement(react_icons_go__WEBPACK_IMPORTED_MODULE_4__["GoSignIn"], null))))))));
+          variant: "outline-light"
+        }, "Login ", React.createElement(react_icons_go__WEBPACK_IMPORTED_MODULE_4__["GoSignIn"], null)))), React.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["NavLink"], {
+          to: "/signup"
+        }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["NavItem"], {
+          className: "button-margin"
+        }, React.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Button"], {
+          variant: "dark"
+        }, "Signup")))))));
       }
     }
   }]);
@@ -56025,8 +56021,7 @@ function (_React$Component) {
       }, " Awaiting Address "))))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_1__["Col"], {
         md: 10
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_1__["Tabs"], {
-        defaultActiveKey: "profile",
-        transition: "true"
+        defaultActiveKey: "profile"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_1__["Tab"], {
         eventKey: "profile",
         title: "Profile"

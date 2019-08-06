@@ -1,3 +1,9 @@
 role: admin, seller, bidder, visitor
 
 - kataskeufi profile kai messages pages
+- users/id
+- roles sto signup
+- navbar products dropdown
+- google maps sto signup
+- na checkarw gia xss
+

@@ -4,7 +4,7 @@ const React = require('react');
 const ReactDOM = require('react-dom');
 
 import { NavLink } from "react-router-dom";
-import { Navbar, Nav, NavItem, NavDropdown, MenuItem, Form, FormControl, Button, br } from 'react-bootstrap';
+import { Navbar, Nav, NavItem, NavDropdown, MenuItem, Form, FormControl, Button, InputGroup, Col } from 'react-bootstrap';
 
 import { FaSearch, FaHome, FaUser, FaComments, FaDatabase } from 'react-icons/fa';
 import { GoSignIn, GoSignOut } from 'react-icons/go';
@@ -26,10 +26,14 @@ export default class NavBar extends React.Component{
                     <Nav className="mr-auto">
                       <NavItem>
                         <Form inline>
-                          <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-                          <Button variant="outline-success">
-                            <FaSearch />
-                          </Button>
+                            <InputGroup>
+                                <InputGroup.Prepend>
+                                    <InputGroup.Text>
+                                        <FaSearch/>
+                                    </InputGroup.Text>
+                                </InputGroup.Prepend>
+                                <Form.Control type="text" placeholder="Search here.." />
+                            </InputGroup>
                         </Form>
                       </NavItem>
                     </Nav>
@@ -39,7 +43,7 @@ export default class NavBar extends React.Component{
                         { localStorage.getItem("isAdmin") ? (
                             <NavLink to="/users">
                               <NavItem className="button-margin">
-                                  <Button variant="outline-light">
+                                  <Button variant="outline-primary">
                                     <FaDatabase />
                                   </Button>
                               </NavItem>
@@ -95,10 +99,14 @@ export default class NavBar extends React.Component{
                     <Nav className="mr-auto">
                       <NavItem>
                         <Form inline>
-                          <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-                          <Button variant="outline-success">
-                            <FaSearch/>
-                          </Button>
+                            <InputGroup>
+                                <InputGroup.Prepend>
+                                    <InputGroup.Text>
+                                        <FaSearch/>
+                                    </InputGroup.Text>
+                                </InputGroup.Prepend>
+                                <Form.Control type="text" placeholder="Search here.." />
+                            </InputGroup>
                         </Form>
                       </NavItem>
                     </Nav>
@@ -112,19 +120,19 @@ export default class NavBar extends React.Component{
                           </NavItem>
                         </NavLink>
 
-                        <NavLink to="/signup">
+                        <NavLink to="/login">
                           <NavItem className="button-margin">
-                              <Button variant="outline-warning">
-                                Signup
-                              </Button>
+                               <Button variant="outline-light" >
+                                Login <GoSignIn />
+                               </Button>
                           </NavItem>
                         </NavLink>
 
-                        <NavLink to="/login">
+                        <NavLink to="/signup">
                           <NavItem className="button-margin">
-                               <Button variant="outline-info" >
-                                Login <GoSignIn />
-                               </Button>
+                              <Button variant="dark">
+                                Signup
+                              </Button>
                           </NavItem>
                         </NavLink>
                     </Nav>
