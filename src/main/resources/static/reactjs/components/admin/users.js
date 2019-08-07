@@ -1,11 +1,13 @@
 import React    from 'react';
-import UserListing from './userListing.js'
+import UserListing from './userListing.js';
+import Loading from '../utils/loading.js';
 
 export default class Users extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            users : []
+            users: [],
+            loading: true
         }
     }
 
@@ -24,10 +26,19 @@ export default class Users extends React.Component {
                     users: data
                 });
             });
+
+        //set loading
+        setTimeout(() => {
+          this.setState({loading: false})
+        },650)
     }
 
     render() {
-      return <UserListing users={this.state.users} />
+      if (this.state.loading) {
+        return <Loading />
+      } else {
+        return <UserListing users={this.state.users} />
+      }
     }
 }
 

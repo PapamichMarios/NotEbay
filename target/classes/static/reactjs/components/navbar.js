@@ -7,7 +7,8 @@ import { NavLink } from "react-router-dom";
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem, Form, FormControl, Button, InputGroup, Col } from 'react-bootstrap';
 
 import { FaSearch, FaHome, FaUser, FaComments, FaDatabase } from 'react-icons/fa';
-import { GoSignIn, GoSignOut } from 'react-icons/go';
+import { MdPlaylistAddCheck } from 'react-icons/md';
+import { GoSignIn, GoSignOut, GoChecklist } from 'react-icons/go';
 
 export default class NavBar extends React.Component{
     constructor(props) {
@@ -52,6 +53,21 @@ export default class NavBar extends React.Component{
                             null
                           )
                         }
+
+                        { localStorage.getItem("isAdmin") ? (
+                            <NavLink to="/applications">
+                              <NavItem className="button-margin">
+                                  <Button variant="outline-primary">
+                                    <GoChecklist />
+                                  </Button>
+                              </NavItem>
+                            </NavLink>
+                          ) : (
+                            null
+                          )
+                        }
+
+
 
                         <NavLink to="/home">
                           <NavItem className="button-margin">

@@ -1,5 +1,6 @@
 const React = require('react');
 const ReactDOM = require('react-dom');
+import LoadingButton from './utils/loadingButton.js';
 
 import { Container, Row, Col, Card, Form, ButtonToolbar, Button, InputGroup, Alert } from 'react-bootstrap';
 import { FaUser, FaLock } from 'react-icons/fa';
@@ -13,7 +14,8 @@ export default class Login extends React.Component {
             password: '',
 
             hasError: false,
-            errorMsg: ''
+            errorMsg: '',
+            loading: false
         };
 
         //binding this to submethods
@@ -29,6 +31,9 @@ export default class Login extends React.Component {
 
     onSubmit(e){
         e.preventDefault();
+
+        //set loading
+         this.setState({loading: true});
 
         //make the request
         fetch(this.props.action, {
@@ -67,7 +72,7 @@ export default class Login extends React.Component {
                 }
 
                 //redirect
-                this.props.onLogin();
+                setTimeout( () => {this.props.onLogin()}, 650);
             }
           })
 
@@ -106,9 +111,19 @@ export default class Login extends React.Component {
                             </InputGroup>
                           </Form.Group>
 
-                          <ButtonToolbar size="lg">
-                            <Button type="submit" variant="dark" block> Submit </Button>
-                          </ButtonToolbar>
+
+                          { this.state.loading ? (
+                              <ButtonToolbar size="lg">
+                                <Button type="submit" variant="dark" block disabled>
+                                  Loading...
+                                  <LoadingButton />
+                                </Button>
+                              </ButtonToolbar>
+                          ) : (
+                              <ButtonToolbar size="lg">
+                                <Button type="submit" variant="dark" block> Submit </Button>
+                              </ButtonToolbar>
+                          )}
 
                           { this.state.hasError ? (
                               <Form.Row>
