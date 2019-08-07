@@ -1,6 +1,7 @@
 const React = require('react');
 const ReactDOM = require('react-dom');
 import LoadingButton from './utils/loadingButton.js';
+import * as Constants from './utils/constants.js';
 
 import { Container, Row, Col, Card, Form, ButtonToolbar, Button, InputGroup, Alert } from 'react-bootstrap';
 import { FaUser, FaLock } from 'react-icons/fa';
@@ -72,7 +73,9 @@ export default class Login extends React.Component {
                 }
 
                 //redirect
-                setTimeout( () => {this.props.onLogin()}, 650);
+                setTimeout( () => {
+                    this.props.onLogin()
+                }, Constants.TIMEOUT_DURATION);
             }
           })
 

@@ -9,7 +9,7 @@ import Profile      from './user/profile';
 import Inbox        from './user/inbox';
 
 import Users        from './admin/users';
-import User         from './admin/user';
+import User         from './admin/userProfile';
 import Applications from './admin/applications'
 
 import { BrowserRouter as Router, Switch, Route, withRouter } from 'react-router-dom';
