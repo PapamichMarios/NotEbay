@@ -48,7 +48,6 @@ public class User {
     @Column(name = "phone")
     private String phone; // AFM
 
-
     @Column(name = "tin")
     private String tin; // AFM
 
@@ -68,12 +67,42 @@ public class User {
     @Column(name = "city")
     private String city;
 
+    /*
+     * For all Users
+     */
     @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id", referencedColumnName="id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName="id"))
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
+    )
     private Set<Role> roles = new HashSet<>();
+
+    /*
+     * Only for users with role : SELLER (Items)
+     */
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<Item> items = new HashSet<>();
+
+    /*
+     * Only for users with role : BIDDER (Bids)
+     */
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<Bid> bids = new HashSet<>();
+
+    /*
+     * ---Bidder/SellerRatings---
+     */
+    @JsonIgnore
+    @OneToMany(mappedBy = "userBidder", cascade = CascadeType.ALL)
+    private Set<BidderRating> bdRatings = new HashSet<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "userSeller", cascade = CascadeType.ALL)
+    private Set<SellerRating> slRatings = new HashSet<>();
 
     public User () {
     }
@@ -203,6 +232,22 @@ public class User {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public Set<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(Set<Item> items) {
+        this.items = items;
+    }
+
+    public Set<Bid> getBids() {
+        return bids;
+    }
+
+    public void setBids(Set<Bid> bids) {
+        this.bids = bids;
     }
 
 }
