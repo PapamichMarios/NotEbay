@@ -1,11 +1,14 @@
 import React    from 'react';
-import UserListing from './userListing.js'
+import UserListing from './userListing.js';
+import Loading from '../utils/loading.js';
+import * as Constants from '../utils/constants.js';
 
 export default class Users extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            users : []
+            users: [],
+            loading: true
         }
     }
 
@@ -13,7 +16,7 @@ export default class Users extends React.Component {
         fetch(this.props.action, {
                headers: {
                    'Content-Type': 'application/json',
-                   'Authorization': localStorage.getItem('tokenType') + ' ' + localStorage.getItem('accessToken')
+                   'Authorization': Constants.ACCESS_TOKEN
                },
                method: this.props.method
             })
@@ -24,10 +27,19 @@ export default class Users extends React.Component {
                     users: data
                 });
             });
+
+        //set loading
+        setTimeout(() => {
+          this.setState({loading: false})
+        }, Constants.TIMEOUT_DURATION)
     }
 
     render() {
-      return <UserListing users={this.state.users} />
+      if (this.state.loading) {
+        return <Loading />
+      } else {
+        return <UserListing users={this.state.users} />
+      }
     }
 }
 

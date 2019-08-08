@@ -1,15 +1,16 @@
-import React    from 'react';
+import React        from 'react';
 
-import NavBar   from './navbar';
-import Home     from './homepage';
-import Login    from './login';
-import Signup   from './signup';
-import Page404  from './errors/error404';
-import Profile  from './user/profile';
-import Inbox    from './user/inbox';
+import NavBar       from './navbar';
+import Home         from './homepage';
+import Login        from './login';
+import Signup       from './signup';
+import Page404      from './errors/error404';
+import Profile      from './user/profile';
+import Inbox        from './user/inbox';
 
-import Users    from './admin/users';
-import User     from './admin/user';
+import Users        from './admin/users';
+import User         from './admin/userProfile';
+import Applications from './admin/applications'
 
 import { BrowserRouter as Router, Switch, Route, withRouter } from 'react-router-dom';
 
@@ -50,16 +51,17 @@ class App extends React.Component {
               <NavBar onLogout={this.handleLogout}/>
 
               <Switch>
-                <Route exact path="/"        component={Home}   />
-                <Route exact path="/welcome" component={Home}   />
-                <Route exact path="/home"    component={Home}   />
+                <Route exact path="/"             component={Home}   />
+                <Route exact path="/welcome"      component={Home}   />
+                <Route exact path="/home"         component={Home}   />
                 <Route exact path="/login"   render={(props) => <Login {...props} onLogin={this.handleLogin} />} />
-                <Route exact path="/signup"  component={Signup} />
-                <Route exact path="/profile" component={Profile} />
-                <Route exact path="/inbox"   component={Inbox} />
+                <Route exact path="/signup"       component={Signup} />
+                <Route exact path="/profile"      component={Profile} />
+                <Route exact path="/inbox"        component={Inbox} />
 
-                <Route exact path="/users"  component={Users} />
-                <Route path="/users/:id"    component={User} />
+                <Route exact path="/users"        component={Users} />
+                <Route path="/users/:id"          component={User} />
+                <Route exact path="/applications" component={Applications} />
 
                 <Route component={Page404} />
               </Switch>

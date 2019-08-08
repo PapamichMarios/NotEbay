@@ -53,8 +53,8 @@ export default class Profile extends React.Component {
                     <Col md={10}>
                         <Tabs defaultActiveKey="profile">
                           <Tab eventKey="profile" title="Profile"> </Tab>
-                          <Tab eventKey="bids" title="Bids" disabled> </Tab>
-                          <Tab eventKey="auctions" title="Auctions" disabled> </Tab>
+                          <Tab eventKey="pastBids" title="Past Bids" disabled> </Tab>
+                          <Tab eventKey="activeBids" title="Active Bids" disabled> </Tab>
                         </Tabs>
                     </Col>
                 </Row>

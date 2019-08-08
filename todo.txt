@@ -1,9 +1,9 @@
 role: admin, seller, bidder, visitor
+loading se kathe get
 
-- kataskeufi profile kai messages pages
-- users/id na ftiaksw to styling
 - roles sto signup
 - navbar products dropdown
 - google maps sto signup
-- na checkarw gia xss
-- na balw loading
+- xss
+- selida apodoxis aitisewn signup
+- session gia xristi pou kanie signup
