@@ -1,13 +1,17 @@
 const React = require('react');
 const ReactDOM = require('react-dom');
+import Geocode from 'react-geocode';
+
+import '../../css/utils/map.css';
+import OpenStreetMapWrapper from './utils/openstreetmapswrapper.js';
 
 import { ButtonGroup, ButtonToolbar, Container, Row, Col, Form, Button, Card, InputGroup, Alert } from 'react-bootstrap';
 import { FaUser, FaLock, FaEnvelope, FaPhone, FaHome, FaGlobe, FaFile } from 'react-icons/fa';
 
 export default class Signup extends React.Component {
 
-    constructor(props, context) {
-        super(props, context);
+    constructor(props) {
+        super(props);
 
         this.state = {
             username:       '',
@@ -23,6 +27,8 @@ export default class Signup extends React.Component {
             tin:            '',
             city:           '',
             postalCode:     '',
+            lat:            '',
+            lng:            '',
 
             hasError:       false,
             success:        false,
@@ -98,7 +104,6 @@ export default class Signup extends React.Component {
     }
 
     render() {
-
         if (this.state.success) {
             return (
                 <Container>
@@ -120,9 +125,9 @@ export default class Signup extends React.Component {
                             action={this.props.action}
                             method={this.props.method}
                             onSubmit={this.onSubmit} >
-                            <Form.Row>
 
-                              <Col md = {{span : 6}}>
+                            <Form.Row>
+                              <Col>
                                 <Form.Group controlId="formUsername">
                                   <InputGroup>
                                     <InputGroup.Prepend>
@@ -131,7 +136,33 @@ export default class Signup extends React.Component {
                                     <Form.Control type="text" name="username" placeholder="Username" onChange={this.onChange} />
                                   </InputGroup>
                                 </Form.Group>
+                              </Col>
 
+                              <Col>
+                                <Form.Group controlId="formAddress">
+                                  <InputGroup>
+                                    <InputGroup.Prepend>
+                                      <InputGroup.Text> <FaHome/> </InputGroup.Text>
+                                    </InputGroup.Prepend>
+                                    <Form.Control type="text" name="streetAddress" placeholder="Address" onChange={this.onChange} />
+                                  </InputGroup>
+                                </Form.Group>
+                              </Col>
+
+                              <Col>
+                                <Form.Group controlId="formPostalCode">
+                                  <InputGroup>
+                                    <InputGroup.Prepend>
+                                      <InputGroup.Text> <FaEnvelope/> </InputGroup.Text>
+                                    </InputGroup.Prepend>
+                                    <Form.Control type="text" name="postalCode" placeholder="Postal Code" onChange={this.onChange} />
+                                  </InputGroup>
+                                </Form.Group>
+                              </Col>
+                            </Form.Row>
+
+                            <Form.Row>
+                              <Col>
                                 <Form.Group controlId="formPassword">
                                   <InputGroup>
                                     <InputGroup.Prepend>
@@ -140,7 +171,33 @@ export default class Signup extends React.Component {
                                     <Form.Control type="password" name="password" placeholder="Password" onChange={this.onChange} />
                                   </InputGroup>
                                 </Form.Group>
+                              </Col>
 
+                              <Col>
+                                <Form.Group controlId="formCity">
+                                  <InputGroup>
+                                    <InputGroup.Prepend>
+                                      <InputGroup.Text> <FaHome/> </InputGroup.Text>
+                                    </InputGroup.Prepend>
+                                    <Form.Control type="text" name="city" placeholder="City" onChange={this.onChange} />
+                                  </InputGroup>
+                                </Form.Group>
+                              </Col>
+
+                              <Col>
+                                <Form.Group controlId="formCountry">
+                                  <InputGroup>
+                                    <InputGroup.Prepend>
+                                      <InputGroup.Text> <FaGlobe/> </InputGroup.Text>
+                                    </InputGroup.Prepend>
+                                    <Form.Control type="text" name="country" placeholder="Country" onChange={this.onChange} />
+                                  </InputGroup>
+                                </Form.Group>
+                              </Col>
+                            </Form.Row>
+
+                            <Form.Row>
+                              <Col md={4}>
                                 <Form.Group controlId="formRepeatPassword">
                                   <InputGroup>
                                     <InputGroup.Prepend>
@@ -200,44 +257,10 @@ export default class Signup extends React.Component {
                                 </Form.Group>
                               </Col>
 
-                              <Col>
-                                <Form.Group controlId="formAddress">
-                                  <InputGroup>
-                                    <InputGroup.Prepend>
-                                      <InputGroup.Text> <FaHome/> </InputGroup.Text>
-                                    </InputGroup.Prepend>
-                                    <Form.Control type="text" name="streetAddress" placeholder="Address" onChange={this.onChange} />
-                                  </InputGroup>
-                                </Form.Group>
-
-                                <Form.Group controlId="formCity">
-                                  <InputGroup>
-                                    <InputGroup.Prepend>
-                                      <InputGroup.Text> <FaHome/> </InputGroup.Text>
-                                    </InputGroup.Prepend>
-                                    <Form.Control type="text" name="city" placeholder="City" onChange={this.onChange} />
-                                  </InputGroup>
-                                </Form.Group>
-                              </Col>
-
-                              <Col>
-                                <Form.Group controlId="formPostalCode">
-                                  <InputGroup>
-                                    <InputGroup.Prepend>
-                                      <InputGroup.Text> <FaEnvelope/> </InputGroup.Text>
-                                    </InputGroup.Prepend>
-                                    <Form.Control type="text" name="postalCode" placeholder="Postal Code" onChange={this.onChange} />
-                                  </InputGroup>
-                                </Form.Group>
-
-                                <Form.Group controlId="formCountry">
-                                  <InputGroup>
-                                    <InputGroup.Prepend>
-                                      <InputGroup.Text> <FaGlobe/> </InputGroup.Text>
-                                    </InputGroup.Prepend>
-                                    <Form.Control type="text" name="country" placeholder="Country" onChange={this.onChange} />
-                                  </InputGroup>
-                                </Form.Group>
+                              <Col md={8}>
+                                  <div className="leaflet">
+                                    <OpenStreetMapWrapper/>
+                                  </div>
                               </Col>
                             </Form.Row>
 
