@@ -27,15 +27,13 @@ public class SignUpRequest {
     @Email
     private String email;
 
-    private RoleName role;
-
     @Size(max = 80)
     private String tin; // AFM
 
     @Size(max = 150)
     private String streetAddress;
 
-    private Point geo_location;
+    private Point geoLocation;
 
     @Size(max = 45)
     private String postalCode;
@@ -69,10 +67,6 @@ public class SignUpRequest {
 
     public void setEmail(String email) { this.email = email; }
 
-    public void setRole(RoleName role) { this.role = role; }
-
-    public RoleName getRole() { return role; }
-
     public String getTin() { return tin; }
 
     public void setTin(String tin) { this.tin = tin; }
@@ -81,9 +75,9 @@ public class SignUpRequest {
 
     public void setStreetAddress(String streetAddress) { this.streetAddress = streetAddress; }
 
-    public Point getGeo_location() { return geo_location; }
+    public Point getGeoLocation() { return geoLocation; }
 
-    public void setGeo_location(Point geo_location) { this.geo_location = geo_location; }
+    public void setGeoLocation(Point geoLocation) { this.geoLocation = geoLocation; }
 
     public String getPostalCode() { return postalCode; }
 

@@ -29,6 +29,7 @@ import org.slf4j.LoggerFactory;
 
 import java.net.URI;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -63,23 +64,27 @@ public class UserService {
         }
 
         User user = new User("George", "Michas", "michas", passwordEncoder.encode("michas"), "michas@flo.com", true);
-        Role ad_role = new Role(RoleName.ROLE_SELLER);
-        user.addRole(ad_role);
+        // Insert always with both roles (Seller, Bidder)
+        user.addRole(new Role(RoleName.ROLE_BIDDER, user));
+        user.addRole(new Role(RoleName.ROLE_SELLER, user));
         userRepository.save(user);
 
         user = new User("Marios", "Papas", "papas", passwordEncoder.encode("papas"), "papas@flo.com", true);
-        ad_role = new Role(RoleName.ROLE_SELLER);
-        user.addRole(ad_role);
+        // Insert always with both roles (Seller, Bidder)
+        user.addRole(new Role(RoleName.ROLE_BIDDER, user));
+        user.addRole(new Role(RoleName.ROLE_SELLER, user));
         userRepository.save(user);
 
         user = new User("Kostas", "Liotos", "liotos", passwordEncoder.encode("liotos"), "liotos@flo.com", true);
-        ad_role = new Role(RoleName.ROLE_BIDDER);
-        user.addRole(ad_role);
+        // Insert always with both roles (Seller, Bidder)
+        user.addRole(new Role(RoleName.ROLE_BIDDER, user));
+        user.addRole(new Role(RoleName.ROLE_SELLER, user));
         userRepository.save(user);
 
         user = new User("Tasos", "Mantas", "mantas", passwordEncoder.encode("mantas"), "fake_student@flo.com", true);
-        ad_role = new Role(RoleName.ROLE_BIDDER);
-        user.addRole(ad_role);
+        // Insert always with both roles (Seller, Bidder)
+        user.addRole(new Role(RoleName.ROLE_BIDDER, user));
+        user.addRole(new Role(RoleName.ROLE_SELLER, user));
         userRepository.save(user);
     }
 
@@ -116,10 +121,10 @@ public class UserService {
                 signUpRequest.getUsername(),
                 signUpRequest.getPassword(),
                 signUpRequest.getEmail(),
-                true,
+                false,
                 signUpRequest.getTin(),
                 signUpRequest.getStreetAddress(),
-                signUpRequest.getGeo_location(),
+                signUpRequest.getGeoLocation(),
                 signUpRequest.getPostalCode(),
                 signUpRequest.getCountry(),
                 signUpRequest.getCity(),
@@ -128,8 +133,10 @@ public class UserService {
 
         // Encrypt the password
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        Role userRole = new Role(signUpRequest.getRole(), user);
-        user.setRoles(Collections.singleton(userRole));
+
+        // Insert always with both roles (Seller, Bidder)
+        user.addRole(new Role(RoleName.ROLE_BIDDER, user));
+        user.addRole(new Role(RoleName.ROLE_SELLER, user));
 
         User result = userRepository.save(user);
         URI uri = ServletUriComponentsBuilder
