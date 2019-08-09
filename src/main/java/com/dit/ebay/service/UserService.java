@@ -210,4 +210,12 @@ public class UserService {
 
         return userRepository.save(user);
     }
+
+    public ResponseEntity<?> deleteUserById(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+        userRepository.delete(user);
+
+        return ResponseEntity.ok().body(new ApiResponse(true, "User Deleted Successfully."));
+    }
 }

@@ -73,4 +73,13 @@ public class UserController {
                                  @Valid @CurrentUser UserDetailsImpl currentUser) {
         return userService.updateUserEnableById(userId, enableRequest);
     }
+
+    // Given an Id
+    // Admin deletes user
+    @DeleteMapping("/users/{userId}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<?> deleteUserById(@PathVariable(value = "userId") Long userId,
+                                            @Valid @CurrentUser UserDetailsImpl currentUser) {
+        return userService.deleteUserById(userId);
+    }
 }
