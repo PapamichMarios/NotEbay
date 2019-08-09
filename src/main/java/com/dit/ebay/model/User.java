@@ -55,7 +55,7 @@ public class User {
 
     @JsonIgnore // maybe change it later
     @Column(name = "geo_location", columnDefinition = "Point")
-    private Point geo_location;
+    private Point geoLocation;
 
     @Column(name = "postal_code")
     private String postalCode;
@@ -118,7 +118,7 @@ public class User {
 
     public User(String firstName, String lastName, String username,
                 String password, String email, boolean enabled,
-                String tin, String streetAddress, Point geo_location,
+                String tin, String streetAddress, Point geoLocation,
                 String postalCode, String country, String city, String phone) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -128,7 +128,7 @@ public class User {
         this.enabled = enabled;
         this.tin = tin;
         this.streetAddress = streetAddress;
-        this.geo_location = geo_location;
+        this.geoLocation = geoLocation;
         this.postalCode = postalCode;
         this.country = country;
         this.city = city;
@@ -199,9 +199,9 @@ public class User {
 
     public void setEnabled(boolean enabled) { this.enabled = enabled; }
 
-    public Point getGeo_location() { return geo_location; }
+    public Point getGeoLocation() { return geoLocation; }
 
-    public void setGeo_location(Point geo_location) { this.geo_location = geo_location; }
+    public void setGeoLocation(Point geo_location) { this.geoLocation = geoLocation; }
 
     public void addRole(Role role) { this.roles.add(role); }
 
