@@ -1,8 +1,8 @@
 .leaflet {
-    height: 95%;
-    widtch: 100%;
+    height: 300px;
+    width: 100%;
 }
 
 .leaflet-container {
-    height: 100%;
+    height: 300px;
 }
