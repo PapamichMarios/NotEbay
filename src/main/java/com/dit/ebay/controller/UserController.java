@@ -1,5 +1,6 @@
 package com.dit.ebay.controller;
 
+import com.dit.ebay.request.EnableRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import com.dit.ebay.model.User;
@@ -61,5 +62,15 @@ public class UserController {
     public User getUserById(@PathVariable(value = "userId") Long userId,
                             @Valid @CurrentUser UserDetailsImpl currentUser) {
         return userService.getUserById(userId);
+    }
+
+    // Given an Id
+    // Admin enables or disables him
+    @PutMapping("/users/{userId}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public User updateUserEnableById(@PathVariable(value = "userId") Long userId,
+                                 @Valid @RequestBody EnableRequest enableRequest,
+                                 @Valid @CurrentUser UserDetailsImpl currentUser) {
+        return userService.updateUserEnableById(userId, enableRequest);
     }
 }

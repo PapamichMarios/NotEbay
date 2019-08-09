@@ -1,28 +1,27 @@
 package com.dit.ebay.request;
-import com.dit.ebay.model.RoleName;
 import org.springframework.data.geo.Point;
 
 import javax.validation.constraints.*;
 
 public class SignUpRequest {
 
-    @NotBlank
+    @NotNull
     @Size(min = 2, max = 80)
     private String firstName;
 
-    @NotBlank
+    @NotNull
     @Size(min = 2, max = 80)
     private String lastName;
 
-    @NotBlank
+    @NotNull
     @Size(min = 4, max = 80)
     private String username;
 
-    @NotBlank
+    @NotNull
     @Size(min = 8, max = 45)
     private String password;
 
-    @NotBlank
+    @NotNull
     @Size(max = 80)
     @Email
     private String email;

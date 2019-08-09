@@ -41,7 +41,6 @@ public class User {
     @Column(name = "email")
     private String email;
 
-    @JsonIgnore
     @Column(name = "enabled")
     private boolean enabled;
 

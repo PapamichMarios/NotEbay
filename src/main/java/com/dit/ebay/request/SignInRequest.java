@@ -1,13 +1,13 @@
 package com.dit.ebay.request;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 public class SignInRequest {
 
-    @NotBlank
+    @NotNull
     private String username;
 
-    @NotBlank
+    @NotNull
     private String password;
 
     public String getUsername() {

@@ -6,6 +6,7 @@ import com.dit.ebay.model.RoleName;
 import com.dit.ebay.model.User;
 import com.dit.ebay.repository.RoleRepository;
 import com.dit.ebay.repository.UserRepository;
+import com.dit.ebay.request.EnableRequest;
 import com.dit.ebay.request.SignInRequest;
 import com.dit.ebay.request.SignUpRequest;
 import com.dit.ebay.response.ApiResponse;
@@ -200,5 +201,13 @@ public class UserService {
 
     public User getUserById(Long userId) {
         return userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+    }
+
+    public User updateUserEnableById(Long userId, EnableRequest enableRequest) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+        user.setEnabled(enableRequest.isEnable());
+
+        return userRepository.save(user);
     }
 }
