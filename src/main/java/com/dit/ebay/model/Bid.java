@@ -1,13 +1,12 @@
 package com.dit.ebay.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
@@ -29,51 +28,19 @@ public class Bid {
     @JoinColumn(name = "item_id", nullable = false)
     private Item item;
 
-    @Column(name = "description")
-    private String description;
-
     @Column(name = "bid_amount")
     private double bidAmount;
 
     @CreatedDate
-    @Column(name = "time_started")
-    private Timestamp timeStarted;
-
-    @Column(name = "time_ends")
-    private Timestamp timeEnds;
+    @Column(name = "bid_time")
+    private Timestamp bidTime;
 
     public Bid() {
 
     }
 
-    public Bid(String description, double bidAmount, Timestamp timeEnds) {
-        this.description = description;
+    public Bid(double bidAmount) {
         this.bidAmount = bidAmount;
-        this.timeEnds = timeEnds;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Timestamp getTimeStarted() {
-        return timeStarted;
-    }
-
-    public void setTimeStarted(Timestamp timeStarted) {
-        this.timeStarted = timeStarted;
-    }
-
-    public Timestamp getTimeEnds() {
-        return timeEnds;
-    }
-
-    public void setTimeEnds(Timestamp timeEnds) {
-        this.timeEnds = timeEnds;
     }
 
     public double getBidAmount() {

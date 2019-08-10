@@ -23,17 +23,6 @@ public class Category {
     @Column(name = "category")
     private String category;
 
-    @Column(name = "country")
-    private String country;
-
-    @JsonIgnore // maybe change it later
-    @Column(name = "location", columnDefinition = "Point")
-    private Point location;
-
-    @JsonIgnore
-    @Column(name = "image_path")
-    private String imagePath;
-
     public String getCategory() {
         return category;
     }
@@ -42,27 +31,11 @@ public class Category {
         this.category = category;
     }
 
-    public String getCountry() {
-        return country;
+    public Item getItem() {
+        return item;
     }
 
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public Point getLocation() {
-        return location;
-    }
-
-    public void setLocation(Point location) {
-        this.location = location;
-    }
-
-    public String getImagePath() {
-        return imagePath;
-    }
-
-    public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
+    public void setItem(Item item) {
+        this.item = item;
     }
 }

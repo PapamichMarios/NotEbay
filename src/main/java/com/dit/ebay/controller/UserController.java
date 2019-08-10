@@ -26,9 +26,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private UserRepository userRepository;
-
     /*
      * The following endpoints are for all Users
      */

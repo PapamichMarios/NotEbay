@@ -99,7 +99,7 @@ public class UserService {
         User admin = new User("Tom", "McDonald", "ADM", passwordEncoder.encode("ADMIN123"), "adm@flo.com", true);
         Role ad_role = new Role(RoleName.ROLE_ADMIN);
         admin.addRole(ad_role);
-        User result = userRepository.save(admin);
+        userRepository.save(admin);
     }
 
     public ResponseEntity<?> signUpUser(SignUpRequest signUpRequest) {
@@ -143,6 +143,7 @@ public class UserService {
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentContextPath().path("/users/{username}")
                 .buildAndExpand(result.getUsername()).toUri();
+
         return ResponseEntity.created(uri).body(new ApiResponse(true, "User created successfully.", user));
     }
 
