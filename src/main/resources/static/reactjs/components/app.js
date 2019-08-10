@@ -3,7 +3,7 @@ import React        from 'react';
 import NavBar       from './navbar';
 import Home         from './homepage';
 import Login        from './login';
-import Signup       from './signup';
+import Signup       from './signup/signup';
 import Page404      from './errors/error404';
 import Profile      from './user/profile';
 import Inbox        from './user/inbox';
