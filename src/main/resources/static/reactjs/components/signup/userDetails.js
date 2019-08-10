@@ -3,6 +3,8 @@ import React from 'react';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
+import SignUpHeader from './signupHeader.js';
+
 import { ButtonGroup, ButtonToolbar, Container, Row, Col, Form, Button, Card, InputGroup, Alert } from 'react-bootstrap';
 import { FaUser, FaEnvelope, FaPhone, FaHome, FaGlobe, FaFile } from 'react-icons/fa';
 
@@ -39,7 +41,17 @@ export default class UserDetails extends React.Component{
                 <Card border="dark">
                   <Card.Header as="h3" className="text-center bg-dark" style={{color:'white'}}> Signup </Card.Header>
                   <Card.Body>
-                    <Card.Title className="text-center"> Enter your personal details. </Card.Title>
+                    <SignUpHeader
+                        type={'user'}
+                        setAccountDetails={this.props.setAccountDetails}
+                        setUserDetails={this.props.setUserDetails}
+                        setLocationDetails={this.props.setLocationDetails}
+                        setOverviewDetails={this.props.setOverviewDetails}
+                    />
+
+                    <br />
+                    <br />
+
                     <Formik
                         initialValues={{
                             firstName: this.props.values.firstName,
@@ -250,7 +262,11 @@ export default class UserDetails extends React.Component{
                                     <Button variant="danger"  block onClick={this.back}> Back </Button>
                                 </Col>
 
-                                <Col md={{offset:8}}>
+                                <Col md={{offset:3}}>
+                                    <p> Step 2 of 4 </p>
+                                </Col>
+
+                                <Col md={{offset:4}}>
                                     <Button variant="success" block onClick={this.saveAndContinue}> Save and Continue </Button>
                                 </Col>
                             </Form.Row>

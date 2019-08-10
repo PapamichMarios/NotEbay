@@ -3,7 +3,9 @@ import React from 'react';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
-import { ButtonGroup, ButtonToolbar, Container, Row, Col, Button, Card, InputGroup, Alert, Form } from 'react-bootstrap';
+import SignUpHeader from './signupHeader.js';
+
+import { ButtonGroup, ButtonToolbar, Container, Row, Col, Button, Card, InputGroup, Alert, Form, Image } from 'react-bootstrap';
 import { FaUser, FaLock, FaEnvelope, FaPhone, FaHome, FaGlobe, FaFile } from 'react-icons/fa';
 
 export default class AccountDetails extends React.Component{
@@ -21,8 +23,8 @@ export default class AccountDetails extends React.Component{
         const AccountDetailsSchema = Yup.object({
             username: Yup.string().min(4, 'Too short!').max(30, 'Too long!').required(),
             email: Yup.string().email('Invalid email address').min(4, 'Too short!').max(30, 'Too long!').required(),
-            password: Yup.string().min(4, 'Too short!').max(30, 'Too long!').required(),
-            repassword: Yup.string().min(4, 'Too short!').max(30, 'Too long!').required()
+            password: Yup.string().min(8, 'Too short!').max(45, 'Too long!').required(),
+            repassword: Yup.string().min(8, 'Too short!').max(45, 'Too long!').required()
         });
 
         return (
@@ -30,7 +32,16 @@ export default class AccountDetails extends React.Component{
                 <Card border="dark">
                   <Card.Header as="h3" className="text-center bg-dark" style={{color:'white'}}> Signup </Card.Header>
                   <Card.Body>
-                    <Card.Title className="text-center"> Enter your account details. </Card.Title>
+                    <SignUpHeader
+                        type={'account'}
+                        setAccountDetails={this.props.setAccountDetails}
+                        setUserDetails={this.props.setUserDetails}
+                        setLocationDetails={this.props.setLocationDetails}
+                        setOverviewDetails={this.props.setOverviewDetails}
+                    />
+
+                    <br />
+                    <br />
                     <Formik
                         initialValues={{
                             username: this.props.values.username,
@@ -149,7 +160,11 @@ export default class AccountDetails extends React.Component{
                             </Form.Row>
 
                             <Form.Row>
-                                <Col md={{offset: 10}}>
+                                <Col md={{span:1, offset:5}}>
+                                    <p> Step 1 of 4 </p>
+                                </Col>
+
+                                <Col md={{offset: 4}}>
                                     <Button type="submit" variant="success" block> Save and Continue </Button>
                                 </Col>
                             </Form.Row>

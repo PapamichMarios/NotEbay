@@ -1,30 +1,51 @@
 import React from 'react';
 import '../../../css/utils/map.css';
+import '../../../css/signup/confirmation.css';
+
 import OpenStreetMapsWrapper from '../utils/openStreetMapsWrapper.js';
+import SignUpHeader from './signupHeader.js';
+
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
-import { ButtonGroup, ButtonToolbar, Container, Row, Col, Form, Button, Card, InputGroup } from 'react-bootstrap';
-import { FaUser, FaLock, FaEnvelope, FaPhone, FaHome, FaGlobe, FaFile } from 'react-icons/fa';
+import {Container, Row, Col, Form, Button, Card, Alert } from 'react-bootstrap';
 
 export default class Confirmation extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
+            show:false,
             hasError: false,
-            success:  false,
             errorMsg: ''
         }
 
+        this.hidePassword = this.hidePassword.bind(this);
+        this.showPassword = this.showPassword.bind(this);
+        this.back = this.back.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
+    }
+
+    showPassword() {
+        this.setState({
+            show:true
+        });
+    }
+
+    hidePassword() {
+        this.setState({
+            show:false
+        });
+    }
+
+    back(e) {
+        this.props.prevStep();
     }
 
     //confirmation submit
     onSubmit(e) {
-        e.preventDefault();
-
         //check passwords are matching
-        if ( this.props.password !== this.props.repassword)
+        if ( this.props.values.password !== this.props.values.repassword)
         {
             this.setState({
                 hasError: true,
@@ -42,18 +63,18 @@ export default class Confirmation extends React.Component {
             },
             method: this.props.method,
             body: JSON.stringify({
-                        username:       this.state.username,
-                        password:       this.state.password,
-                        firstName:      this.state.firstName,
-                        lastName:       this.state.lastName,
-                        email:          this.state.email,
+                        username:       this.props.values.username,
+                        password:       this.props.values.password,
+                        firstName:      this.props.values.firstName,
+                        lastName:       this.props.values.lastName,
+                        email:          this.props.values.email,
                         role:           'ROLE_VISITOR',
-                        phone:          this.state.phone,
-                        streetAddress:  this.state.streetAddress,
-                        country:        this.state.country,
-                        postalCode:     this.state.postalCode,
-                        city:           this.state.city,
-                        tin:            this.state.tin
+                        phone:          this.props.values.phone,
+                        streetAddress:  this.props.values.streetAddress,
+                        country:        this.props.values.country,
+                        postalCode:     this.props.values.postalCode,
+                        city:           this.props.values.city,
+                        tin:            this.props.values.tin
             })
         })
         .then(response => response.json())
@@ -67,9 +88,8 @@ export default class Confirmation extends React.Component {
                     errorMsg: response.message
                 });
             } else {
-                this.setState({
-                    success: true
-                });
+                //go to final success step
+                this.props.nextStep();
             }
         })
 
@@ -78,358 +98,258 @@ export default class Confirmation extends React.Component {
     }
 
     render() {
-        const ConfirmationSchema = Yup.object({
-            username: Yup.string().min(4, 'Too short!').max(30, 'Too long!').required(),
-            email: Yup.string().email('Invalid email address').min(4, 'Too short!').max(30, 'Too long!').required(),
-            password: Yup.string().min(4, 'Too short!').max(30, 'Too long!').required(),
-            repassword: Yup.string().min(4, 'Too short!').max(30, 'Too long!').required(),
-            firstName: Yup.string().min(2, 'Too short!').max(30, 'Too long!').required(),
-            lastName: Yup.string().min(2, 'Too short!').max(30, 'Too long!').required(),
-            phone: Yup.number().positive().min(1000000, 'Too short!').required(),
-            tin: Yup.number().positive().min(1000000, 'Too short!').required(),
-            streetAddress: Yup.string().min(2, 'Too short!').max(30, 'Too long!').required(),
-            postalCode: Yup.number().positive().min(1000, 'Too short!').max(100000, 'Too long!').required(),
-            country: Yup.string().min(2, 'Too short!').max(30, 'Too long!').required(),
-            city: Yup.string().min(2, 'Too short!').max(30, 'Too long!').required()
-        });
-
         return (
             <Container>
                 <Card border="dark">
                   <Card.Header as="h3" className="text-center bg-dark" style={{color:'white'}}> Signup </Card.Header>
                   <Card.Body>
-                    <Card.Title className="text-center"> Confirm your account details. </Card.Title>
-                    <Formik
-                        initialValues={{
-                            username: this.props.values.username,
-                            email: this.props.values.email,
-                            password: this.props.values.password,
-                            repassword: this.props.values.repassword,
-                            firstName: this.props.values.firstName,
-                            lastName: this.props.values.lastName,
-                            phone: this.props.values.phone,
-                            tin: this.props.values.tin,
-                            streetAddress: this.props.values.streetAddress,
-                            postalCode: this.props.values.postalCode,
-                            country: this.props.values.country,
-                            city: this.props.values.city
-                        }}
-                        validationSchema={ConfirmationSchema}
-                        onSubmit={this.saveAndContinue}
-                    >
-                    {({
-                        handleSubmit,
-                        handleChange,
-                        handleBlur,
-                        isValid,
-                        isInvalid,
-                        errors,
-                        touched,
-                        values
-                    }) => (
-                        <Form noValidate onSubmit={handleSubmit}>
-                            <Form.Row>
-                                <Col>
-                                    <Form.Group controlId="formUsername">
-                                      <InputGroup>
-                                        <InputGroup.Prepend>
-                                          <InputGroup.Text> <FaUser/> </InputGroup.Text>
-                                        </InputGroup.Prepend>
-                                        <Form.Control
-                                            type="text"
-                                            name="username"
-                                            placeholder="Username"
-                                            onChange={e => {
-                                                handleChange(e)
-                                                this.props.onChange(e);
-                                            }}
-                                            value={values.username}
-                                            onBlur={handleBlur}
-                                            isValid={!errors.username && touched.username}
-                                            isInvalid={errors.username && touched.username}
-                                            />
-                                        <Form.Control.Feedback type="invalid"> {errors.username}</Form.Control.Feedback>
-                                      </InputGroup>
-                                    </Form.Group>
-                                </Col>
+                    <SignUpHeader
+                        type={'overview'}
+                        setAccountDetails={this.props.setAccountDetails}
+                        setUserDetails={this.props.setUserDetails}
+                        setLocationDetails={this.props.setLocationDetails}
+                        setOverviewDetails={this.props.setOverviewDetails}
+                    />
 
-                                <Col>
-                                    <Form.Group controlId="formAddress">
-                                      <InputGroup>
-                                        <InputGroup.Prepend>
-                                          <InputGroup.Text> <FaHome/> </InputGroup.Text>
-                                        </InputGroup.Prepend>
-                                        <Form.Control
-                                            type="text"
-                                            name="streetAddress"
-                                            placeholder="Address"
-                                            value={values.streetAddress}
-                                            onChange={ e => {
-                                                handleChange(e)
-                                                this.props.onChange(e)
-                                            }}
-                                            onBlur={handleBlur}
-                                            isValid={!errors.streetAddress && touched.streetAddress}
-                                            isInvalid={errors.streetAddress && touched.streetAddress}
-                                            />
-                                        <Form.Control.Feedback type="invalid"> {errors.streetAddress} </Form.Control.Feedback>
-                                      </InputGroup>
-                                    </Form.Group>
-                                </Col>
+                    <br />
+                    <br />
 
-                                <Col>
-                                    <Form.Group controlId="formPostalCode">
-                                      <InputGroup>
-                                        <InputGroup.Prepend>
-                                          <InputGroup.Text> <FaEnvelope/> </InputGroup.Text>
-                                        </InputGroup.Prepend>
-                                        <Form.Control
-                                            type="text"
-                                            name="postalCode"
-                                            placeholder="Postal Code"
-                                            value={values.postalCode}
-                                            onChange={ e => {
-                                                handleChange(e)
-                                                this.props.onChange(e)
-                                            }}
-                                            onBlur={handleBlur}
-                                            isValid={!errors.postalCode && touched.postalCode}
-                                            isInvalid={errors.postalCode && touched.postalCode}
-                                            />
-                                        <Form.Control.Feedback type="invalid"> {errors.postalCode} </Form.Control.Feedback>
-                                      </InputGroup>
-                                    </Form.Group>
-                                </Col>
-                            </Form.Row>
+                    <Form>
+                        <Form.Row>
+                            <Col>
+                               <Form.Group as={Row} controlId="formUsername">
+                                 <Form.Label column> <b> Username: </b> </Form.Label>
+                                 <Col>
+                                   <Form.Control
+                                        plaintext
+                                        readOnly
+                                        defaultValue={this.props.values.username}
+                                        className="col-user"
+                                   />
+                                 </Col>
+                               </Form.Group>
+                            </Col>
 
-                            <Form.Row>
-                                <Col>
-                                    <Form.Group controlId="emailForm">
-                                      <InputGroup>
-                                        <InputGroup.Prepend>
-                                          <InputGroup.Text> <FaEnvelope/> </InputGroup.Text>
-                                        </InputGroup.Prepend>
-                                        <Form.Control
-                                            type="email"
-                                            name="email"
-                                            placeholder="E-mail"
-                                            onChange={e => {
-                                                handleChange(e)
-                                                this.props.onChange(e);
-                                            }}
-                                            value={values.email}
-                                            onBlur={handleBlur}
-                                            isValid={!errors.email && touched.email}
-                                            isInvalid={errors.email && touched.email}
-                                             />
-                                        <Form.Control.Feedback type="invalid"> {errors.email} </Form.Control.Feedback>
-                                      </InputGroup>
-                                    </Form.Group>
-                                </Col>
+                            <Col>
+                               <Form.Group as={Row} controlId="formStreetAddress">
+                                 <Form.Label column> <b> Street Address: </b> </Form.Label>
+                                 <Col>
+                                   <Form.Control
+                                        plaintext
+                                        readOnly
+                                        defaultValue={this.props.values.streetAddress}
+                                        className="col-user"
+                                    />
+                                 </Col>
+                               </Form.Group>
+                            </Col>
 
-                                <Col>
-                                    <Form.Group controlId="formCity">
-                                      <InputGroup>
-                                        <InputGroup.Prepend>
-                                          <InputGroup.Text> <FaHome/> </InputGroup.Text>
-                                        </InputGroup.Prepend>
-                                        <Form.Control
-                                            type="text"
-                                            name="city"
-                                            value={values.city}
-                                            placeholder="City"
-                                            onChange={ e => {
-                                                handleChange(e)
-                                                this.props.onChange(e)
-                                            }}
-                                            onBlur={handleBlur}
-                                            isValid={!errors.city && touched.city}
-                                            isInvalid={errors.city && touched.city}
-                                            />
-                                        <Form.Control.Feedback type="invalid"> {errors.city} </Form.Control.Feedback>
-                                      </InputGroup>
-                                    </Form.Group>
-                                </Col>
+                            <Col>
+                               <Form.Group as={Row} controlId="formPostalCode">
+                                 <Form.Label column> <b> Postal Code: </b></Form.Label>
+                                 <Col>
+                                   <Form.Control
+                                        plaintext
+                                        readOnly
+                                        defaultValue={this.props.values.postalCode}
+                                        className="col-user"
+                                   />
+                                 </Col>
+                               </Form.Group>
+                            </Col>
+                        </Form.Row>
 
-                                <Col>
-                                    <Form.Group controlId="formCountry">
-                                      <InputGroup>
-                                        <InputGroup.Prepend>
-                                          <InputGroup.Text> <FaGlobe/> </InputGroup.Text>
-                                        </InputGroup.Prepend>
-                                        <Form.Control
-                                            type="text"
-                                            name="country"
-                                            value={values.country}
-                                            placeholder="Country"
-                                            onChange={ e => {
-                                                handleChange(e)
-                                                this.props.onChange(e)
-                                            }}
-                                            onBlur={handleBlur}
-                                            isValid={!errors.country && touched.country}
-                                            isInvalid={errors.country && touched.country}
-                                            />
-                                        <Form.Control.Feedback type="invalid"> {errors.country} </Form.Control.Feedback>
-                                      </InputGroup>
-                                    </Form.Group>
-                                </Col>
-                            </Form.Row>
+                        <Form.Row>
+                            <Col>
+                               <Form.Group as={Row} controlId="formEmail">
+                                 <Form.Label column> <b> Email: </b> </Form.Label>
+                                 <Col>
+                                   <Form.Control
+                                        plaintext
+                                        readOnly
+                                        defaultValue={this.props.values.email}
+                                        className="col-user"
+                                    />
+                                 </Col>
+                               </Form.Group>
+                           </Col>
 
-                            <Form.Row>
-                                <Col md={4}>
-                                    <Form.Group controlId="formPassword">
-                                      <InputGroup>
-                                        <InputGroup.Prepend>
-                                          <InputGroup.Text> <FaLock/> </InputGroup.Text>
-                                        </InputGroup.Prepend>
+                            <Col>
+                                <Form.Group as={Row} controlId="formCity">
+                                    <Form.Label column> <b> City: </b> </Form.Label>
+                                    <Col>
                                         <Form.Control
-                                            type="password"
-                                            name="password"
-                                            placeholder="Password"
-                                            value={values.password}
-                                            onChange={e => {
-                                                handleChange(e)
-                                                this.props.onChange(e);
-                                            }}
-                                            onBlur={handleBlur}
-                                            isValid={!errors.password && touched.password}
-                                            isInvalid={errors.password && touched.password}
-                                            />
-                                        <Form.Control.Feedback type="invalid"> {errors.password} </Form.Control.Feedback>
-                                      </InputGroup>
-                                    </Form.Group>
+                                            plaintext
+                                            readOnly
+                                            defaultValue={this.props.values.city}
+                                            className="col-user"
+                                        />
+                                    </Col>
+                                </Form.Group>
+                            </Col>
 
-                                    <Form.Group controlId="formRepeatPassword">
-                                      <InputGroup>
-                                        <InputGroup.Prepend>
-                                          <InputGroup.Text> <FaLock/> </InputGroup.Text>
-                                        </InputGroup.Prepend>
+                            <Col>
+                                <Form.Group as={Row} controlId="formCountry">
+                                    <Form.Label column> <b> Country: </b> </Form.Label>
+                                    <Col>
                                         <Form.Control
-                                            type="password"
-                                            name="repassword"
-                                            placeholder="Re-enter Password"
-                                            value={values.repassword}
-                                            onChange={e => {
-                                                handleChange(e)
-                                                this.props.onChange(e);
-                                            }}
-                                            onBlur={handleBlur}
-                                            isValid={!errors.repassword && touched.repassword}
-                                            isInvalid={errors.repassword && touched.repassword}
-                                            />
-                                        <Form.Control.Feedback type="invalid"> {errors.repassword} </Form.Control.Feedback>
-                                      </InputGroup>
-                                    </Form.Group>
+                                            plaintext
+                                            readOnly
+                                            defaultValue={this.props.values.country}
+                                            className="col-user"
+                                        />
+                                    </Col>
+                                </Form.Group>
+                            </Col>
+                        </Form.Row>
 
-                                    <Form.Group controlId="formFirstName">
-                                      <InputGroup>
-                                        <InputGroup.Prepend>
-                                          <InputGroup.Text> <FaUser/> </InputGroup.Text>
-                                        </InputGroup.Prepend>
-                                        <Form.Control
-                                            type="text"
-                                            name="firstName"
-                                            placeholder="First Name"
-                                            onChange={ e => {
-                                                handleChange(e)
-                                                this.props.onChange(e)
-                                            }}
-                                            value={values.firstName}
-                                            onBlur={handleBlur}
-                                            isValid={!errors.firstName && touched.firstName}
-                                            isInvalid={errors.firstName && touched.firstName}
-                                            />
-                                        <Form.Control.Feedback type="invalid"> {errors.firstName} </Form.Control.Feedback>
-                                      </InputGroup>
-                                    </Form.Group>
+                        <Form.Row>
+                            <Col md={4}>
+                                { !this.state.show ? (
+                                    <div>
+                                        <Form.Group as={Row}>
+                                            <Form.Label column> <b> Password: </b> </Form.Label>
+                                            <Col>
+                                                <Form.Control
+                                                    type="password"
+                                                    plaintext
+                                                    readOnly
+                                                    defaultValue={this.props.values.password}
+                                                    className="col-user"
+                                                />
+                                            </Col>
+                                        </Form.Group>
 
-                                    <Form.Group controlId="formLastName">
-                                      <InputGroup>
-                                        <InputGroup.Prepend>
-                                          <InputGroup.Text> <FaUser/> </InputGroup.Text>
-                                        </InputGroup.Prepend>
-                                        <Form.Control
-                                            type="text"
-                                            name="lastName"
-                                            placeholder="Last Name"
-                                            value={values.lastName}
-                                            onChange={ e => {
-                                                handleChange(e)
-                                                this.props.onChange(e)
-                                            }}
-                                            onBlur={handleBlur}
-                                            isValid={!errors.lastName && touched.lastName}
-                                            isInvalid={errors.lastName && touched.lastName}
-                                            />
-                                        <Form.Control.Feedback type="invalid"> {errors.lastName}</Form.Control.Feedback>
-                                      </InputGroup>
-                                    </Form.Group>
-
-                                    <Form.Group controlId="formPhone">
-                                      <InputGroup>
-                                        <InputGroup.Prepend>
-                                          <InputGroup.Text> <FaPhone/> </InputGroup.Text>
-                                        </InputGroup.Prepend>
-                                        <Form.Control
-                                            type="text"
-                                            name="phone"
-                                            placeholder="Phone Number"
-                                            value={values.phone}
-                                            onChange={ e => {
-                                                handleChange(e)
-                                                this.props.onChange(e)
-                                            }}
-                                            onBlur={handleBlur}
-                                            isValid={!errors.phone && touched.phone}
-                                            isInvalid={errors.phone && touched.phone}
-                                            />
-                                        <Form.Control.Feedback type="invalid"> {errors.phone}</Form.Control.Feedback>
-                                      </InputGroup>
-                                    </Form.Group>
-
-                                    <Form.Group controlId="formTIN">
-                                      <InputGroup>
-                                        <InputGroup.Prepend>
-                                          <InputGroup.Text> <FaFile/> </InputGroup.Text>
-                                        </InputGroup.Prepend>
-                                        <Form.Control
-                                            type="text"
-                                            name="tin"
-                                            placeholder="TIN"
-                                            value={values.tin}
-                                            onChange={ e => {
-                                                handleChange(e)
-                                                this.props.onChange(e)
-                                            }}
-                                            onBlur={handleBlur}
-                                            isValid={!errors.tin && touched.tin}
-                                            isInvalid={errors.tin && touched.tin}
-                                            />
-                                        <Form.Control.Feedback type="invalid"> {errors.tin}</Form.Control.Feedback>
-                                      </InputGroup>
-                                    </Form.Group>
-                                </Col>
-
-                                <Col md={8}>
-                                    <div className="leaflet">
-                                        <OpenStreetMapsWrapper set={false} location={this.props.location} />
+                                         <Form.Group as={Row}>
+                                            <Form.Label column> <b> Repeat Password: </b> </Form.Label>
+                                            <Col>
+                                                <Form.Control
+                                                    type="password"
+                                                    plaintext
+                                                    readOnly
+                                                    defaultValue={this.props.values.repassword}
+                                                    className="col-user"
+                                                />
+                                                <Form.Check type="checkbox" label="Show Passwords" onClick={this.showPassword} />
+                                            </Col>
+                                        </Form.Group>
                                     </div>
-                                </Col>
-                            </Form.Row>
+                                    ) : (
+                                    <div>
+                                        <Form.Group as={Row}>
+                                            <Form.Label column> <b> Password: </b> </Form.Label>
+                                            <Col>
+                                                <Form.Control
+                                                    type="text"
+                                                    plaintext
+                                                    readOnly
+                                                    defaultValue={this.props.values.password}
+                                                    className="col-user"
+                                                    onClick={() => this.type='text'}
+                                                />
+                                            </Col>
+                                        </Form.Group>
 
-                            <Form.Row>
-                                <Col md={{span: 2}}>
-                                    <Button variant="danger"  block onClick={this.back}> Back </Button>
-                                </Col>
+                                         <Form.Group as={Row}>
+                                            <Form.Label column> <b> Repeat Password: </b> </Form.Label>
+                                            <Col>
+                                                <Form.Control
+                                                    type="text"
+                                                    plaintext
+                                                    readOnly
+                                                    defaultValue={this.props.values.repassword}
+                                                    className="col-user"
+                                                />
+                                                <Form.Check type="checkbox" label="Hide Passwords" onClick={this.hidePassword} />
+                                            </Col>
+                                        </Form.Group>
+                                    </div>
+                                    )
+                                }
+                                 <Form.Group as={Row} controlId="formFirstName">
+                                    <Form.Label column> <b> First Name: </b> </Form.Label>
+                                    <Col>
+                                        <Form.Control
+                                            plaintext
+                                            readOnly
+                                            defaultValue={this.props.values.firstName}
+                                            className="col-user"
+                                        />
+                                    </Col>
+                                </Form.Group>
 
-                                <Col md={{offset:8}}>
-                                    <Button variant="dark" block onClick={this.saveAndContinue}> Submit </Button>
-                                </Col>
-                            </Form.Row>
-                        </Form>
-                    )}
-                    </Formik>
+                                 <Form.Group as={Row} controlId="formLastName">
+                                    <Form.Label column> <b> Last Name: </b> </Form.Label>
+                                    <Col>
+                                        <Form.Control
+                                            plaintext
+                                            readOnly
+                                            defaultValue={this.props.values.lastName}
+                                            className="col-user"
+                                        />
+                                    </Col>
+                                </Form.Group>
+
+                                 <Form.Group as={Row} controlId="formPhone">
+                                    <Form.Label column> <b> Phone Number: </b> </Form.Label>
+                                    <Col>
+                                        <Form.Control
+                                            plaintext
+                                            readOnly
+                                            defaultValue={this.props.values.phone}
+                                            className="col-user"
+                                        />
+                                    </Col>
+                                </Form.Group>
+
+                                 <Form.Group as={Row} controlId="formTin">
+                                    <Form.Label column> <b> TIN: </b> </Form.Label>
+                                    <Col>
+                                        <Form.Control
+                                            plaintext
+                                            readOnly
+                                            defaultValue={this.props.values.tin}
+                                            className="col-user"
+                                        />
+                                    </Col>
+                                </Form.Group>
+                            </Col>
+
+                            <Col md={8}>
+                                <div className="leaflet">
+                                    <OpenStreetMapsWrapper set={false} location={this.props.location} />
+                                </div>
+                            </Col>
+                        </Form.Row>
+
+                        <Form.Row>
+                            <Col md={{span: 2}}>
+                                <Button variant="danger"  block onClick={this.back}> Back </Button>
+                            </Col>
+
+                            <Col md={{offset:3}}>
+                                <p> Step 4 of 4 </p>
+                            </Col>
+
+                            <Col md={{offset:4, span: 2}}>
+                                <Button variant="dark" block onClick={this.onSubmit}> Submit </Button>
+                            </Col>
+                        </Form.Row>
+
+                        { this.state.hasError ? (
+                                <Form.Row>
+                                    <Col>
+                                        <Alert variant="danger">
+                                            <p> {this.state.errorMsg} </p>
+                                        </Alert>
+                                    </Col>
+                                </Form.Row>
+                            ) : (
+                                null
+                            )
+                        }
+
+                    </Form>
                   </Card.Body>
                 </Card>
             </Container>
