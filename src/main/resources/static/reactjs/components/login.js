@@ -56,7 +56,8 @@ export default class Login extends React.Component {
             if (response.error) {
                 this.setState({
                     hasError: true,
-                    errorMsg: response.message
+                    errorMsg: response.message,
+                    loading: false
                 })
             } else {
                 //add response to session
