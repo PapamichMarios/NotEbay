@@ -14,23 +14,23 @@ export default class Signup extends React.Component {
         super(props);
 
         this.state = {
-            username:       '',
-            password:       '',
-            repassword:     '',
-            firstName:      '',
-            lastName:       '',
-            email:          '',
-            phone:          '',
-            streetAddress:  '',
-            country:        '',
-            tin:            '',
-            city:           '',
-            postalCode:     '',
-            lat:            '',
-            lng:            '',
+            username:           '',
+            password:           '',
+            confirmPassword:    '',
+            firstName:          '',
+            lastName:           '',
+            email:              '',
+            phone:              '',
+            streetAddress:      '',
+            country:            '',
+            tin:                '',
+            city:               '',
+            postalCode:         '',
+            lat:                '',
+            lng:                '',
 
-            success:        false,
-            step:           1
+            success:            false,
+            step:               1
         };
 
         //binding this to submethods
@@ -105,9 +105,9 @@ export default class Signup extends React.Component {
             return <SignUpSuccess />
         } else {
             const {step} = this.state;
-            const { username, password, repassword, firstName, lastName, email, phone, tin, lat, lng, streetAddress, city, country, postalCode } = this.state;
+            const { username, password, confirmPassword, firstName, lastName, email, phone, tin, lat, lng, streetAddress, city, country, postalCode } = this.state;
             const location = { streetAddress, city, country, postalCode };
-            const values = { username, email, password, repassword, firstName, lastName, phone, tin, lat, lng, streetAddress, city, country, postalCode };
+            const values = { username, email, password, confirmPassword, firstName, lastName, phone, tin, lat, lng, streetAddress, city, country, postalCode };
 
             switch(step) {
                 case 1:
@@ -148,7 +148,6 @@ export default class Signup extends React.Component {
                                 nextStep={this.nextStep}
                                 prevStep={this.prevStep}
                                 values={values}
-                                location={location}
                                 setAccountDetails={this.setAccountDetails}
                                 setUserDetails={this.setUserDetails}
                                 setLocationDetails={this.setLocationDetails}

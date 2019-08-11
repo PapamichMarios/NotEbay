@@ -45,7 +45,7 @@ export default class Confirmation extends React.Component {
     //confirmation submit
     onSubmit(e) {
         //check passwords are matching
-        if ( this.props.values.password !== this.props.values.repassword)
+        if ( this.props.values.password !== this.props.values.confirmPassword)
         {
             this.setState({
                 hasError: true,
@@ -68,13 +68,17 @@ export default class Confirmation extends React.Component {
                         firstName:      this.props.values.firstName,
                         lastName:       this.props.values.lastName,
                         email:          this.props.values.email,
-                        role:           'ROLE_VISITOR',
                         phone:          this.props.values.phone,
                         streetAddress:  this.props.values.streetAddress,
                         country:        this.props.values.country,
                         postalCode:     this.props.values.postalCode,
                         city:           this.props.values.city,
-                        tin:            this.props.values.tin
+                        tin:            this.props.values.tin,
+
+                        jgp: {
+                            geoLat: this.props.values.lat,
+                            geoLong: this.props.values.lng
+                        }
             })
         })
         .then(response => response.json())
@@ -221,13 +225,13 @@ export default class Confirmation extends React.Component {
                                         </Form.Group>
 
                                          <Form.Group as={Row}>
-                                            <Form.Label column> <b> Repeat Password: </b> </Form.Label>
+                                            <Form.Label column> <b> Confirm Password: </b> </Form.Label>
                                             <Col>
                                                 <Form.Control
                                                     type="password"
                                                     plaintext
                                                     readOnly
-                                                    defaultValue={this.props.values.repassword}
+                                                    defaultValue={this.props.values.confirmPassword}
                                                     className="col-user"
                                                 />
                                                 <Form.Check type="checkbox" label="Show Passwords" onClick={this.showPassword} />
@@ -251,13 +255,13 @@ export default class Confirmation extends React.Component {
                                         </Form.Group>
 
                                          <Form.Group as={Row}>
-                                            <Form.Label column> <b> Repeat Password: </b> </Form.Label>
+                                            <Form.Label column> <b> Confirm Password: </b> </Form.Label>
                                             <Col>
                                                 <Form.Control
                                                     type="text"
                                                     plaintext
                                                     readOnly
-                                                    defaultValue={this.props.values.repassword}
+                                                    defaultValue={this.props.values.confirmPassword}
                                                     className="col-user"
                                                 />
                                                 <Form.Check type="checkbox" label="Hide Passwords" onClick={this.hidePassword} />

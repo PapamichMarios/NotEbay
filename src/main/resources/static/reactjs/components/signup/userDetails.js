@@ -26,14 +26,14 @@ export default class UserDetails extends React.Component{
 
     render() {
         const UserDetailsSchema = Yup.object({
-            firstName: Yup.string().min(2, 'Too short!').max(30, 'Too long!').required(),
-            lastName: Yup.string().min(2, 'Too short!').max(30, 'Too long!').required(),
-            phone: Yup.number().positive().min(1000000, 'Too short!').required(),
-            tin: Yup.number().positive().min(1000000, 'Too short!').required(),
-            streetAddress: Yup.string().min(2, 'Too short!').max(30, 'Too long!').required(),
-            postalCode: Yup.number().positive().min(1000, 'Too short!').max(100000, 'Too long!').required(),
-            country: Yup.string().min(2, 'Too short!').max(30, 'Too long!').required(),
-            city: Yup.string().min(2, 'Too short!').max(30, 'Too long!').required()
+            firstName:      Yup.string().label('First Name').min(2, 'Too short!').max(30, 'Too long!').required(),
+            lastName:       Yup.string().label('Last Name').min(2, 'Too short!').max(30, 'Too long!').required(),
+            phone:          Yup.number().label('Phone Number').positive().min(1000000, 'Too short!').required(),
+            tin:            Yup.number().label('TIN').positive().min(1000000, 'Too short!').required(),
+            streetAddress:  Yup.string().label('Street Address').min(2, 'Too short!').max(30, 'Too long!').required(),
+            postalCode:     Yup.number().label('Postal Code').positive().min(1000, 'Too short!').max(100000, 'Too long!').required(),
+            country:        Yup.string().label('Country').min(2, 'Too short!').max(30, 'Too long!').required(),
+            city:           Yup.string().label('City').min(2, 'Too short!').max(30, 'Too long!').required()
         });
 
         return (

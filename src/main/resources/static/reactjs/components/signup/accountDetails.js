@@ -21,10 +21,14 @@ export default class AccountDetails extends React.Component{
 
     render(){
         const AccountDetailsSchema = Yup.object({
-            username: Yup.string().min(4, 'Too short!').max(30, 'Too long!').required(),
-            email: Yup.string().email('Invalid email address').min(4, 'Too short!').max(30, 'Too long!').required(),
-            password: Yup.string().min(8, 'Too short!').max(45, 'Too long!').required(),
-            repassword: Yup.string().min(8, 'Too short!').max(45, 'Too long!').required()
+            username:   Yup.string().label('Username').min(4, 'Too short!').max(30, 'Too long!').required(),
+            email:      Yup.string().label('Email').email('Invalid email address').min(4, 'Too short!').max(30, 'Too long!').required(),
+            password:   Yup.string().label('Password').min(8, 'Too short!').max(45, 'Too long!').required(),
+            confirmPassword: Yup.string().label('Confirm password').min(8, 'Too short!').max(45, 'Too long!').required()
+                                .test('passwords-match', 'Field Password and Confirm Password must match!',
+                                        function(value) {
+                                          return this.parent.password === value;
+                                        })
         });
 
         return (
@@ -47,7 +51,7 @@ export default class AccountDetails extends React.Component{
                             username: this.props.values.username,
                             email: this.props.values.email,
                             password: this.props.values.password,
-                            repassword: this.props.values.repassword
+                            confirmPassword: this.props.values.confirmPassword
                         }}
                         validationSchema={AccountDetailsSchema}
                         onSubmit={this.saveAndContinue}
@@ -135,25 +139,25 @@ export default class AccountDetails extends React.Component{
                                       </InputGroup>
                                     </Form.Group>
 
-                                    <Form.Group controlId="formRepeatPassword">
+                                    <Form.Group controlId="formConfirmPassword">
                                       <InputGroup>
                                         <InputGroup.Prepend>
                                           <InputGroup.Text> <FaLock/> </InputGroup.Text>
                                         </InputGroup.Prepend>
                                         <Form.Control
                                             type="password"
-                                            name="repassword"
-                                            placeholder="Re-enter Password"
-                                            value={values.repassword}
+                                            name="confirmPassword"
+                                            placeholder="Confirm Password"
+                                            value={values.confirmPassword}
                                             onChange={e => {
                                                 handleChange(e)
                                                 this.props.onChange(e);
                                             }}
                                             onBlur={handleBlur}
-                                            isValid={!errors.repassword && touched.repassword}
-                                            isInvalid={errors.repassword && touched.repassword}
+                                            isValid={!errors.confirmPassword && touched.confirmPassword}
+                                            isInvalid={errors.confirmPassword && touched.confirmPassword}
                                             />
-                                        <Form.Control.Feedback type="invalid"> {errors.repassword} </Form.Control.Feedback>
+                                        <Form.Control.Feedback type="invalid"> {errors.confirmPassword} </Form.Control.Feedback>
                                       </InputGroup>
                                     </Form.Group>
                                 </Col>
