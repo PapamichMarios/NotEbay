@@ -37,7 +37,7 @@ public class ItemService {
         // TODO : add more input to the constructor
         Item item = new Item(itemRequest.getName(), itemRequest.getDescription(), itemRequest.getTimeEnds(),
                              itemRequest.getBuyPrice(), itemRequest.getFirstBid(),
-                             null, null, null, null);
+                             null, null, null, null, null);
 
         item.setUser(user);
         Item result = itemRepository.save(item);

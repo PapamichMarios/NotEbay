@@ -3,9 +3,9 @@ package com.dit.ebay.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
-import org.springframework.data.geo.Point;
-
+import com.vividsolutions.jts.geom.Point;
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -53,9 +53,11 @@ public class User {
     @Column(name = "street_address")
     private String streetAddress;
 
-    @JsonIgnore // maybe change it later
-    @Column(name = "geo_location", columnDefinition = "Point")
-    private Point geoLocation;
+    @Column(name = "geo_lat", precision = 10, scale = 6)
+    private BigDecimal geoLat;
+
+    @Column(name = "geo_long", precision = 10, scale = 6)
+    private BigDecimal geoLong;
 
     @Column(name = "postal_code")
     private String postalCode;
@@ -118,7 +120,8 @@ public class User {
 
     public User(String firstName, String lastName, String username,
                 String password, String email, boolean enabled,
-                String tin, String streetAddress, Point geoLocation,
+                String tin, String streetAddress,
+                BigDecimal geoLat, BigDecimal geoLong,
                 String postalCode, String country, String city, String phone) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -128,7 +131,8 @@ public class User {
         this.enabled = enabled;
         this.tin = tin;
         this.streetAddress = streetAddress;
-        this.geoLocation = geoLocation;
+        this.geoLat = geoLat;
+        this.geoLong = geoLong;
         this.postalCode = postalCode;
         this.country = country;
         this.city = city;
@@ -199,10 +203,6 @@ public class User {
 
     public void setEnabled(boolean enabled) { this.enabled = enabled; }
 
-    public Point getGeoLocation() { return geoLocation; }
-
-    public void setGeoLocation(Point geo_location) { this.geoLocation = geoLocation; }
-
     public void addRole(Role role) { this.roles.add(role); }
 
     public String getTin() {
@@ -249,4 +249,19 @@ public class User {
         this.bids = bids;
     }
 
+    public BigDecimal getGeoLat() {
+        return geoLat;
+    }
+
+    public void setGeoLat(BigDecimal geoLat) {
+        this.geoLat = geoLat;
+    }
+
+    public BigDecimal getGeoLong() {
+        return geoLong;
+    }
+
+    public void setGeoLong(BigDecimal geoLong) {
+        this.geoLong = geoLong;
+    }
 }

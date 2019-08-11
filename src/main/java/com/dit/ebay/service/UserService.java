@@ -10,7 +10,11 @@ import com.dit.ebay.request.EnableRequest;
 import com.dit.ebay.request.SignInRequest;
 import com.dit.ebay.request.SignUpRequest;
 import com.dit.ebay.response.ApiResponse;
+import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.GeometryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.vividsolutions.jts.geom.Point;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -103,7 +107,6 @@ public class UserService {
     }
 
     public ResponseEntity<?> signUpUser(SignUpRequest signUpRequest) {
-
         // Check if the user already exists
         userRepository.findByUsername(signUpRequest.getUsername())
                 .ifPresent((s) -> {
@@ -115,6 +118,9 @@ public class UserService {
                     throw new UserExistsException("A user with the same email already exists.");
                 });
 
+        // Json Point => Java Point
+        JsonGeoPoint jgp = signUpRequest.getJgp();
+
         // Create a user object from the request
         User user = new User(
                 signUpRequest.getFirstName(),
@@ -125,7 +131,7 @@ public class UserService {
                 false,
                 signUpRequest.getTin(),
                 signUpRequest.getStreetAddress(),
-                signUpRequest.getGeoLocation(),
+                jgp.getGeoLat(), jgp.getGeoLong(),
                 signUpRequest.getPostalCode(),
                 signUpRequest.getCountry(),
                 signUpRequest.getCity(),

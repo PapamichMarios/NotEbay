@@ -3,6 +3,8 @@ import org.springframework.data.geo.Point;
 
 import javax.validation.constraints.*;
 
+import com.dit.ebay.model.JsonGeoPoint;
+
 public class SignUpRequest {
 
     @NotNull
@@ -32,7 +34,7 @@ public class SignUpRequest {
     @Size(max = 150)
     private String streetAddress;
 
-    private Point geoLocation;
+    private JsonGeoPoint jgp;  // TODO : Marios add geoLocation to your rest call
 
     @Size(max = 45)
     private String postalCode;
@@ -74,10 +76,6 @@ public class SignUpRequest {
 
     public void setStreetAddress(String streetAddress) { this.streetAddress = streetAddress; }
 
-    public Point getGeoLocation() { return geoLocation; }
-
-    public void setGeoLocation(Point geoLocation) { this.geoLocation = geoLocation; }
-
     public String getPostalCode() { return postalCode; }
 
     public void setPostalCode(String postalCode) { this.postalCode = postalCode; }
@@ -93,4 +91,12 @@ public class SignUpRequest {
     public String getPhone() { return phone; }
 
     public void setPhone(String phone) { this.phone = phone; }
+
+    public JsonGeoPoint getJgp() {
+        return jgp;
+    }
+
+    public void setJgp(JsonGeoPoint jgp) {
+        this.jgp = jgp;
+    }
 }

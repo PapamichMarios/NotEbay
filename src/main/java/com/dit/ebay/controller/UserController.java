@@ -4,7 +4,6 @@ import com.dit.ebay.request.EnableRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import com.dit.ebay.model.User;
-import com.dit.ebay.repository.UserRepository;
 import com.dit.ebay.request.SignInRequest;
 import com.dit.ebay.request.SignUpRequest;
 import com.dit.ebay.security.CurrentUser;
@@ -17,7 +16,6 @@ import com.dit.ebay.security.UserDetailsImpl;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/app")

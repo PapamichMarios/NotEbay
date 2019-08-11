@@ -6,6 +6,7 @@ import org.springframework.data.geo.Point;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.List;
@@ -59,18 +60,20 @@ public class Item {
     private int numOfBids;
 
     @CreatedDate
-    @Column(name = "time_started")
+    @Column(name = "time_started", precision = 10, scale = 6)
     private Timestamp timeStarted;
 
-    @Column(name = "time_ends")
+    @Column(name = "time_ends", precision = 10, scale = 6)
     private Timestamp timeEnds;
 
     @Column(name = "country")
     private String country;
 
-    @JsonIgnore // maybe change it later
-    @Column(name = "geo_location", columnDefinition = "Point")
-    private Point geoLocation;
+    @Column(name = "geo_lat")
+    private BigDecimal geoLat;
+
+    @Column(name = "geo_long")
+    private BigDecimal geoLong;
 
     @Column(name = "location")
     private String location;
@@ -85,7 +88,8 @@ public class Item {
 
     public Item(String name, String description, Timestamp timeEnds,
                 double buyPrice, double firstBid, String country,
-                Point geoLocation, String location, String imagePath) {
+                BigDecimal geoLat, BigDecimal geoLong,
+                String location, String imagePath) {
         this.name = name;
         this.description = description;
         this.timeEnds = timeEnds;
@@ -94,9 +98,10 @@ public class Item {
         this.firstBid = firstBid;  // can't be null
         this.numOfBids = 0;
         this.country = country;
-        this.geoLocation = geoLocation;
         this.location = location;
         this.imagePath = imagePath;
+        this.geoLat = geoLat;
+        this.geoLong = geoLong;
     }
 
     public double getCurrBestBid() {
@@ -199,17 +204,7 @@ public class Item {
         this.country = country;
     }
 
-    public Point getGeoLocation() {
-        return geoLocation;
-    }
-
-    public void setGeoLocation(Point geoLocation) {
-        this.geoLocation = geoLocation;
-    }
-
-    public String getLocation() {
-        return location;
-    }
+    public String getLocation() { return location; }
 
     public void setLocation(String location) {
         this.location = location;
@@ -221,5 +216,21 @@ public class Item {
 
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
+    }
+
+    public BigDecimal getGeoLat() {
+        return geoLat;
+    }
+
+    public void setGeoLat(BigDecimal geoLat) {
+        this.geoLat = geoLat;
+    }
+
+    public BigDecimal getGeoLong() {
+        return geoLong;
+    }
+
+    public void setGeoLong(BigDecimal geoLong) {
+        this.geoLong = geoLong;
     }
 }
