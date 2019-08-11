@@ -25,7 +25,7 @@ class App extends React.Component {
     handleLogin() {
         //redirect
         this.props.history.push("/welcome");
-        //location.reload();
+        location.reload();
     }
 
     handleLogout() {

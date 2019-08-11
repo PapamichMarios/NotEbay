@@ -3,6 +3,4 @@ loading se kathe get
 
 - navbar products dropdown
 - xss
-- selida apodoxis aitisewn signup
 - session gia xristi pou kanei signup(session: applicant)
-- progress bar signup
