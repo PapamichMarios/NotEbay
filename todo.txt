@@ -4,3 +4,4 @@ loading se kathe get
 - navbar products dropdown
 - xss
 - session gia xristi pou kanei signup(session: applicant)
+- applicationProfile.js

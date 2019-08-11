@@ -22,10 +22,16 @@ class App extends React.Component {
         this.handleLogout = this.handleLogout.bind(this);
     }
 
-    handleLogin() {
-        //redirect
-        this.props.history.push("/welcome");
-        location.reload();
+    handleLogin(isAdmin) {
+
+        //redirect after login
+        if(isAdmin) {
+            this.props.history.push("/users");
+            location.reload();
+        } else {
+            this.props.history.push("/welcome");
+            location.reload();
+        }
     }
 
     handleLogout() {
