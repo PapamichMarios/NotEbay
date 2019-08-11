@@ -8,9 +8,9 @@ import Page404      from './errors/error404';
 import Profile      from './user/profile';
 import Inbox        from './user/inbox';
 
-import Users        from './admin/users';
-import User         from './admin/userProfile';
-import Applications from './admin/applications'
+import Users        from './admin/users/users';
+import User         from './admin/users/userProfile';
+import Applications from './admin/applications/applications'
 
 import { BrowserRouter as Router, Switch, Route, withRouter } from 'react-router-dom';
 
@@ -25,6 +25,7 @@ class App extends React.Component {
     handleLogin() {
         //redirect
         this.props.history.push("/welcome");
+        //location.reload();
     }
 
     handleLogout() {
@@ -38,6 +39,7 @@ class App extends React.Component {
 
         //redirect
         this.props.history.push("/welcome");
+        location.reload();
     }
 
     componentDidMount() {

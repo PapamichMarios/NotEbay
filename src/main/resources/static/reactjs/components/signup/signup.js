@@ -148,6 +148,7 @@ export default class Signup extends React.Component {
                                 nextStep={this.nextStep}
                                 prevStep={this.prevStep}
                                 values={values}
+                                location={location}
                                 setAccountDetails={this.setAccountDetails}
                                 setUserDetails={this.setUserDetails}
                                 setLocationDetails={this.setLocationDetails}

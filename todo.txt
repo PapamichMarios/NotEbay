@@ -1,9 +1,8 @@
 role: admin, seller, bidder, visitor
 loading se kathe get
 
-- roles sto signup
 - navbar products dropdown
-- google maps sto signup
 - xss
 - selida apodoxis aitisewn signup
-- session gia xristi pou kanie signup
+- session gia xristi pou kanei signup(session: applicant)
+- progress bar signup

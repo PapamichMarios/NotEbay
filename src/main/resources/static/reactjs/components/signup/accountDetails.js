@@ -7,6 +7,7 @@ import SignUpHeader from './signupHeader.js';
 
 import { ButtonGroup, ButtonToolbar, Container, Row, Col, Button, Card, InputGroup, Alert, Form, Image } from 'react-bootstrap';
 import { FaUser, FaLock, FaEnvelope, FaPhone, FaHome, FaGlobe, FaFile } from 'react-icons/fa';
+import { FaArrowAltCircleRight, FaArrowAltCircleLeft} from 'react-icons/fa';
 
 export default class AccountDetails extends React.Component{
     constructor(props) {

@@ -69,9 +69,8 @@ export default class Login extends React.Component {
                 localStorage.setItem('lastName', response.lastName);
 
                 //add admin privileges
-                if (response.admin) {
-                    localStorage.setItem('isAdmin', response.admin);
-                }
+                localStorage.setItem('isAdmin', response.admin);
+                console.log('isAdmin ' + localStorage.getItem('isAdmin'));
 
                 //redirect
                 setTimeout( () => {
@@ -80,7 +79,7 @@ export default class Login extends React.Component {
             }
           })
 
-          //handle errors from the back-end
+          //handle error in promise
           .catch(error => console.error('Error:', error));
     }
 

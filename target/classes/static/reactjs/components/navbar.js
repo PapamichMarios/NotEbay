@@ -41,20 +41,20 @@ export default class NavBar extends React.Component{
 
                     <Nav className="justify-content-end">
 
-                        { localStorage.getItem("isAdmin") ? (
-                            <NavLink to="/users">
-                              <NavItem className="button-margin">
-                                  <Button variant="outline-primary">
-                                    <FaDatabase />
-                                  </Button>
-                              </NavItem>
-                            </NavLink>
+                        { localStorage.getItem("isAdmin") === 'true' ? (
+                                <NavLink to="/users">
+                                  <NavItem className="button-margin">
+                                      <Button variant="outline-primary">
+                                        <FaDatabase />
+                                      </Button>
+                                  </NavItem>
+                                </NavLink>
                           ) : (
                             null
                           )
                         }
 
-                        { localStorage.getItem("isAdmin") ? (
+                        { localStorage.getItem("isAdmin") === 'true' ? (
                             <NavLink to="/applications">
                               <NavItem className="button-margin">
                                   <Button variant="outline-primary">
@@ -66,8 +66,6 @@ export default class NavBar extends React.Component{
                             null
                           )
                         }
-
-
 
                         <NavLink to="/home">
                           <NavItem className="button-margin">
