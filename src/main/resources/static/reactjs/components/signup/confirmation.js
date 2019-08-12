@@ -2,7 +2,7 @@ import React from 'react';
 import '../../../css/utils/map.css';
 import '../../../css/signup/confirmation.css';
 
-import OpenStreetMapsWrapper from '../utils/openStreetMapsWrapper.js';
+import OpenStreetMapsWrapperLatLng from '../utils/openStreetMapsWrapperLatLng.js';
 import SignUpHeader from './signupHeader.js';
 
 import { Formik } from 'formik';
@@ -321,7 +321,7 @@ export default class Confirmation extends React.Component {
 
                             <Col md={7}>
                                 <div className="leaflet">
-                                    <OpenStreetMapsWrapper set={false} location={this.props.location} />
+                                    <OpenStreetMapsWrapperLatLng lat={this.props.values.lat} lng={this.props.values.lng} />
                                 </div>
                             </Col>
                         </Form.Row>
