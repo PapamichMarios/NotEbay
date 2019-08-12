@@ -43,7 +43,7 @@ export default class NavBar extends React.Component{
                         { localStorage.getItem("isAdmin") === 'true' ? (
                                 <NavLink to="/users">
                                   <NavItem className="button-margin">
-                                      <Button style={{borderWidth:'0px'}} variant="outline-primary">
+                                      <Button title="User Database" style={{borderWidth:'0px'}} variant="outline-primary">
                                         <FaDatabase />
                                       </Button>
                                   </NavItem>
@@ -56,7 +56,7 @@ export default class NavBar extends React.Component{
                         { localStorage.getItem("isAdmin") === 'true' ? (
                             <NavLink to="/applications">
                               <NavItem className="button-margin">
-                                  <Button style={{borderWidth:'0px'}} variant="outline-primary">
+                                  <Button title="Applications" style={{borderWidth:'0px'}} variant="outline-primary">
                                     <FaTasks />
                                   </Button>
                               </NavItem>
@@ -68,7 +68,7 @@ export default class NavBar extends React.Component{
 
                         <NavLink to="/home">
                           <NavItem className="button-margin">
-                              <Button variant="dark">
+                              <Button title="Home" variant="dark">
                                 <FaHome />
                               </Button>
                           </NavItem>
@@ -76,7 +76,7 @@ export default class NavBar extends React.Component{
 
                         <NavLink to="/auctions">
                           <NavItem className="button-margin">
-                              <Button variant="dark">
+                              <Button title="Auctions" variant="dark">
                                 <MdGavel />
                               </Button>
                           </NavItem>
@@ -84,7 +84,7 @@ export default class NavBar extends React.Component{
 
                         <NavLink to="/profile">
                           <NavItem className="button-margin">
-                              <Button variant="dark">
+                              <Button title="Profile" variant="dark">
                                 <FaUser />
                               </Button>
                           </NavItem>
@@ -92,14 +92,14 @@ export default class NavBar extends React.Component{
 
                         <NavLink to="/inbox">
                           <NavItem className="button-margin">
-                              <Button variant="dark">
+                              <Button title="Inbox" variant="dark">
                                 <FaComments />
                               </Button>
                           </NavItem>
                         </NavLink>
 
                           <NavItem className="button-margin">
-                               <Button variant="outline-danger" onClick={this.props.onLogout}>
+                               <Button title="Log Out" variant="outline-danger" onClick={this.props.onLogout}>
                                 Logout <FaSignOutAlt />
                                </Button>
                           </NavItem>
@@ -135,7 +135,7 @@ export default class NavBar extends React.Component{
                     <Nav className="justify-content-end">
                         <NavLink to="/home">
                           <NavItem className="button-margin">
-                              <Button variant="dark">
+                              <Button title="Home" variant="dark">
                                 <FaHome />
                               </Button>
                           </NavItem>
@@ -143,7 +143,7 @@ export default class NavBar extends React.Component{
 
                         <NavLink to="/login">
                           <NavItem className="button-margin">
-                               <Button variant="outline-light" >
+                               <Button title="Log In" variant="outline-light" >
                                 Login <FaSignInAlt />
                                </Button>
                           </NavItem>
@@ -151,7 +151,7 @@ export default class NavBar extends React.Component{
 
                         <NavLink to="/signup">
                           <NavItem className="button-margin">
-                              <Button variant="dark">
+                              <Button title="Sign Up" variant="dark">
                                 Signup
                               </Button>
                           </NavItem>

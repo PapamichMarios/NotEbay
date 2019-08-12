@@ -7,6 +7,7 @@ import Signup       from './signup/signup';
 import Page404      from './errors/error404';
 import Profile      from './user/profile';
 import Inbox        from './user/inbox';
+import Auctions     from './auctions/auctions';
 
 import Users        from './admin/users/users';
 import User         from './admin/users/userProfile';
@@ -68,6 +69,7 @@ class App extends React.Component {
                 <Route exact path="/signup"       component={Signup} />
                 <Route exact path="/profile"      component={Profile} />
                 <Route exact path="/inbox"        component={Inbox} />
+                <Route exact path="/auctions"     components={Auctions} />
 
                 <Route exact path="/users"        component={Users} />
                 <Route path="/users/:id"          component={User} />
