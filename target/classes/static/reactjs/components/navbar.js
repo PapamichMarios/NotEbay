@@ -74,7 +74,7 @@ export default class NavBar extends React.Component{
                           </NavItem>
                         </NavLink>
 
-                        <NavLink to="/auctions">
+                        <NavLink to="/auctionsHome">
                           <NavItem className="button-margin">
                               <Button title="Auctions" variant="dark">
                                 <MdGavel />

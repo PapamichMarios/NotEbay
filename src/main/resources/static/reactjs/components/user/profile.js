@@ -8,10 +8,6 @@ export default class Profile extends React.Component {
         super(props);
     }
 
-    componentDidMount() {
-
-    }
-
     render() {
         return (
                 <Row>
