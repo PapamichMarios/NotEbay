@@ -10,7 +10,9 @@ import Inbox        from './user/inbox';
 
 import Users        from './admin/users/users';
 import User         from './admin/users/userProfile';
-import Applications from './admin/applications/applications'
+
+import Applications from './admin/applications/applications';
+import Application  from './admin/applications/applicationProfile';
 
 import { BrowserRouter as Router, Switch, Route, withRouter } from 'react-router-dom';
 
@@ -62,14 +64,16 @@ class App extends React.Component {
                 <Route exact path="/"             component={Home}   />
                 <Route exact path="/welcome"      component={Home}   />
                 <Route exact path="/home"         component={Home}   />
-                <Route exact path="/login"   render={(props) => <Login {...props} onLogin={this.handleLogin} />} />
+                <Route exact path="/login"        render={(props) => <Login {...props} onLogin={this.handleLogin} />} />
                 <Route exact path="/signup"       component={Signup} />
                 <Route exact path="/profile"      component={Profile} />
                 <Route exact path="/inbox"        component={Inbox} />
 
                 <Route exact path="/users"        component={Users} />
                 <Route path="/users/:id"          component={User} />
+
                 <Route exact path="/applications" component={Applications} />
+                <Route path="/applications/:id"   component={Application} />
 
                 <Route component={Page404} />
               </Switch>

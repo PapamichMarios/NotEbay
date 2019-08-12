@@ -120,9 +120,9 @@ export default class Confirmation extends React.Component {
 
                     <Form>
                         <Form.Row>
-                            <Col>
+                            <Col md={5}>
                                <Form.Group as={Row} controlId="formUsername">
-                                 <Form.Label column> <b> Username: </b> </Form.Label>
+                                 <Form.Label column md="5"> <b> Username: </b> </Form.Label>
                                  <Col>
                                    <Form.Control
                                         plaintext
@@ -164,9 +164,9 @@ export default class Confirmation extends React.Component {
                         </Form.Row>
 
                         <Form.Row>
-                            <Col>
+                            <Col md={5}>
                                <Form.Group as={Row} controlId="formEmail">
-                                 <Form.Label column> <b> Email: </b> </Form.Label>
+                                 <Form.Label column md="5"> <b> Email: </b> </Form.Label>
                                  <Col>
                                    <Form.Control
                                         plaintext
@@ -208,11 +208,11 @@ export default class Confirmation extends React.Component {
                         </Form.Row>
 
                         <Form.Row>
-                            <Col md={4}>
+                            <Col md={5}>
                                 { !this.state.show ? (
                                     <div>
                                         <Form.Group as={Row}>
-                                            <Form.Label column> <b> Password: </b> </Form.Label>
+                                            <Form.Label column md="5"> <b> Password: </b> </Form.Label>
                                             <Col>
                                                 <Form.Control
                                                     type="password"
@@ -225,7 +225,7 @@ export default class Confirmation extends React.Component {
                                         </Form.Group>
 
                                          <Form.Group as={Row}>
-                                            <Form.Label column> <b> Confirm Password: </b> </Form.Label>
+                                            <Form.Label column md="5"> <b> Confirm Password: </b> </Form.Label>
                                             <Col>
                                                 <Form.Control
                                                     type="password"
@@ -241,7 +241,7 @@ export default class Confirmation extends React.Component {
                                     ) : (
                                     <div>
                                         <Form.Group as={Row}>
-                                            <Form.Label column> <b> Password: </b> </Form.Label>
+                                            <Form.Label column md="5"> <b> Password: </b> </Form.Label>
                                             <Col>
                                                 <Form.Control
                                                     type="text"
@@ -255,7 +255,7 @@ export default class Confirmation extends React.Component {
                                         </Form.Group>
 
                                          <Form.Group as={Row}>
-                                            <Form.Label column> <b> Confirm Password: </b> </Form.Label>
+                                            <Form.Label column md="5"> <b> Confirm Password: </b> </Form.Label>
                                             <Col>
                                                 <Form.Control
                                                     type="text"
@@ -271,7 +271,7 @@ export default class Confirmation extends React.Component {
                                     )
                                 }
                                  <Form.Group as={Row} controlId="formFirstName">
-                                    <Form.Label column> <b> First Name: </b> </Form.Label>
+                                    <Form.Label column md="5"> <b> First Name: </b> </Form.Label>
                                     <Col>
                                         <Form.Control
                                             plaintext
@@ -283,7 +283,7 @@ export default class Confirmation extends React.Component {
                                 </Form.Group>
 
                                  <Form.Group as={Row} controlId="formLastName">
-                                    <Form.Label column> <b> Last Name: </b> </Form.Label>
+                                    <Form.Label column md="5"> <b> Last Name: </b> </Form.Label>
                                     <Col>
                                         <Form.Control
                                             plaintext
@@ -295,7 +295,7 @@ export default class Confirmation extends React.Component {
                                 </Form.Group>
 
                                  <Form.Group as={Row} controlId="formPhone">
-                                    <Form.Label column> <b> Phone Number: </b> </Form.Label>
+                                    <Form.Label column md="5"> <b> Phone Number: </b> </Form.Label>
                                     <Col>
                                         <Form.Control
                                             plaintext
@@ -307,7 +307,7 @@ export default class Confirmation extends React.Component {
                                 </Form.Group>
 
                                  <Form.Group as={Row} controlId="formTin">
-                                    <Form.Label column> <b> TIN: </b> </Form.Label>
+                                    <Form.Label column md="5"> <b> TIN: </b> </Form.Label>
                                     <Col>
                                         <Form.Control
                                             plaintext
@@ -319,7 +319,7 @@ export default class Confirmation extends React.Component {
                                 </Form.Group>
                             </Col>
 
-                            <Col md={8}>
+                            <Col md={7}>
                                 <div className="leaflet">
                                     <OpenStreetMapsWrapper set={false} location={this.props.location} />
                                 </div>

@@ -18,7 +18,7 @@ export default class OpenStreetMapsWrapper extends React.Component {
     }
 
     componentDidMount() {
-        fetch('https://nominatim.openstreetmap.org/search?q=+'
+        fetch(this.props.action
                 + this.props.location.streetAddress + ', '
                 + this.props.location.city + ' ' + this.props.location.postalCode + ', '
                 + this.props.location.country
@@ -57,7 +57,7 @@ export default class OpenStreetMapsWrapper extends React.Component {
       }
 }
 
-OpenStreetMap.defaultProps = {
+OpenStreetMapsWrapper.defaultProps = {
     action: 'https://nominatim.openstreetmap.org/search?q=',
     method: 'GET'
 };

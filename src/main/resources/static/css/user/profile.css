@@ -1,10 +1,10 @@
 .body-text {
-    font-size: 12px;
+    font-weight: bold;
+    color: DimGray;
 }
 
 .header {
-    font-size: 14px;
-    color: black;
+    font-weight: bold;
 }
 
 .full-vertical {

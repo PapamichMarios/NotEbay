@@ -5,8 +5,9 @@ import * as Constants from '../../utils/constants.js';
 import { Container, Table, Card, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { FaExternalLinkAlt, FaCheck, FaTimes } from 'react-icons/fa';
+import { withRouter } from 'react-router-dom';
 
-export default class ApplicationItem extends React.Component {
+class ApplicationItem extends React.Component {
     constructor(props) {
         super(props);
 
@@ -35,6 +36,7 @@ export default class ApplicationItem extends React.Component {
                 if (response.error) {
                     alert(response.message);
                 } else {
+                    this.props.history.push('/users');
                     alert('User has been approved access to the platform.');
                 }
             })
@@ -62,6 +64,7 @@ export default class ApplicationItem extends React.Component {
                 if (response.error) {
                     alert(response.message);
                 } else {
+                    this.props.history.push('/users');
                     alert('User has been deleted from the platform.');
                 }
             });
@@ -72,7 +75,7 @@ export default class ApplicationItem extends React.Component {
             return (
                 <tr>
                     <td>
-                        <Link to={`/users/${this.props.value.id}`} >
+                        <Link to={`/applications/${this.props.value.id}`} >
                             <FaExternalLinkAlt />
                         </Link>
                     </td>
@@ -109,3 +112,5 @@ export default class ApplicationItem extends React.Component {
 ApplicationItem.defaultProps = {
     action: 'app/users/'
 }
+
+export default withRouter(ApplicationItem);

@@ -16,7 +16,7 @@ export default class User extends React.Component {
     }
 
     componentDidMount() {
-        fetch(this.props.action + '/' + this.props.match.params.id,  {
+        fetch(this.props.action + this.props.match.params.id,  {
                headers: {
                    'Content-Type': 'application/json',
                    'Authorization': Constants.ACCESS_TOKEN
@@ -114,6 +114,6 @@ export default class User extends React.Component {
 }
 
 User.defaultProps = {
-    action: '/app/users',
+    action: '/app/users/',
     method: 'GET'
 };
