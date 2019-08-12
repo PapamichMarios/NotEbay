@@ -60,19 +60,19 @@ public class Item {
     private int numOfBids;
 
     @CreatedDate
-    @Column(name = "time_started", precision = 10, scale = 6)
+    @Column(name = "time_started")
     private Timestamp timeStarted;
 
-    @Column(name = "time_ends", precision = 10, scale = 6)
+    @Column(name = "time_ends")
     private Timestamp timeEnds;
 
     @Column(name = "country")
     private String country;
 
-    @Column(name = "geo_lat")
+    @Column(name = "geo_lat",  precision = 10, scale = 6)
     private BigDecimal geoLat;
 
-    @Column(name = "geo_long")
+    @Column(name = "geo_long",  precision = 10, scale = 6)
     private BigDecimal geoLong;
 
     @Column(name = "location")

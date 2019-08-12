@@ -1,5 +1,4 @@
 package com.dit.ebay.request;
-import org.springframework.data.geo.Point;
 
 import javax.validation.constraints.*;
 
