@@ -6,9 +6,8 @@ const ReactDOM = require('react-dom');
 import { NavLink } from "react-router-dom";
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem, Form, FormControl, Button, InputGroup, Col } from 'react-bootstrap';
 
-import { FaSearch, FaHome, FaUser, FaComments, FaDatabase } from 'react-icons/fa';
-import { MdPlaylistAddCheck } from 'react-icons/md';
-import { GoSignIn, GoSignOut, GoChecklist } from 'react-icons/go';
+import { FaSearch, FaHome, FaUser, FaComments, FaDatabase, FaSignInAlt, FaSignOutAlt, FaTasks } from 'react-icons/fa';
+import { MdPlaylistAddCheck, MdGavel } from 'react-icons/md';
 
 export default class NavBar extends React.Component{
     constructor(props) {
@@ -44,7 +43,7 @@ export default class NavBar extends React.Component{
                         { localStorage.getItem("isAdmin") === 'true' ? (
                                 <NavLink to="/users">
                                   <NavItem className="button-margin">
-                                      <Button variant="outline-primary">
+                                      <Button style={{borderWidth:'0px'}} variant="outline-primary">
                                         <FaDatabase />
                                       </Button>
                                   </NavItem>
@@ -57,8 +56,8 @@ export default class NavBar extends React.Component{
                         { localStorage.getItem("isAdmin") === 'true' ? (
                             <NavLink to="/applications">
                               <NavItem className="button-margin">
-                                  <Button variant="outline-primary">
-                                    <GoChecklist />
+                                  <Button style={{borderWidth:'0px'}} variant="outline-primary">
+                                    <FaTasks />
                                   </Button>
                               </NavItem>
                             </NavLink>
@@ -71,6 +70,14 @@ export default class NavBar extends React.Component{
                           <NavItem className="button-margin">
                               <Button variant="dark">
                                 <FaHome />
+                              </Button>
+                          </NavItem>
+                        </NavLink>
+
+                        <NavLink to="/auctions">
+                          <NavItem className="button-margin">
+                              <Button variant="dark">
+                                <MdGavel />
                               </Button>
                           </NavItem>
                         </NavLink>
@@ -93,7 +100,7 @@ export default class NavBar extends React.Component{
 
                           <NavItem className="button-margin">
                                <Button variant="outline-danger" onClick={this.props.onLogout}>
-                                Logout <GoSignOut />
+                                Logout <FaSignOutAlt />
                                </Button>
                           </NavItem>
                     </Nav>
@@ -137,7 +144,7 @@ export default class NavBar extends React.Component{
                         <NavLink to="/login">
                           <NavItem className="button-margin">
                                <Button variant="outline-light" >
-                                Login <GoSignIn />
+                                Login <FaSignInAlt />
                                </Button>
                           </NavItem>
                         </NavLink>

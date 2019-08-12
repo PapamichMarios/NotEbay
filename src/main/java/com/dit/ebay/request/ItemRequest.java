@@ -17,7 +17,7 @@ public class ItemRequest {
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Timestamp timeEnds;
 
-    // Minimum first bid, determined by the seller
+    // Minimum first bid, determined by the selle   r
     @NotNull
     private double firstBid;
 
