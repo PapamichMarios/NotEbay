@@ -1,47 +1,51 @@
 {
-  "name": "ebay",
-  "version": "1.0.0",
-  "description": "",
-  "private": "true",
-  "dependencies": {
-    "@babel/core": "^7.5.5",
-    "babel-loader": "^7.1.5",
-    "bootstrap": "^4.3.1",
-    "formik": "^1.5.8",
-    "react": "^16.8.6",
-    "react-bootstrap": "^1.0.0-beta.10",
-    "react-dom": "^16.8.6",
-    "react-geocode": "^0.1.2",
-    "react-icons": "^3.7.0",
-    "react-leaflet": "^2.4.0",
-    "react-router-dom": "^5.0.1",
-    "react-spinners": "^0.5.13",
-    "yup": "^0.27.0"
+  "name": "bidit",
+  "version": "1.1.0",
+  "description": "Spring Data REST & ReactJs project",
+  "main": "index.js",
+  "scripts": {
+	"watch": "webpack --watch",
+	"dev": "webpack --mode development",
+    "start": "webpack-dev-server --mode development --open",
+    "build": "webpack --mode production"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PapamichMarios/NotEbay.git"
+  },
+  "keywords": [
+    "Spring",
+    "Data",
+    "REST",
+    "ReactJS",
+    "BidIt"
+  ],
+  "author": "Georgios Michas & Marios Papamichalopoulos",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PapamichMarios/NotEbay/issues"
+  },
+  "homepage": "https://github.com/PapamichMarios/NotEbay#readme",
   "devDependencies": {
     "@babel/core": "^7.5.5",
     "@babel/preset-env": "^7.5.5",
     "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.6",
-    "css-loader": "^2.1.1",
-    "file-loader": "^4.2.0",
+    "css-loader": "^3.2.0",
     "formik": "^1.5.8",
-    "image-webpack-loader": "^5.0.0",
-    "style-loader": "^0.23.1",
-    "url-loader": "^2.1.0",
-    "webpack": "^4.39.0",
-    "webpack-cli": "^3.3.6"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --mode production",
-    "dev": "webpack --mode development"
-  },
-  "keywords": [
-    "reactjs",
-    "REST",
-    "Spring Data"
-  ],
-  "author": "Marios Papamichalopoulos & Georgios Michas",
-  "license": "ISC"
+    "leaflet": "^1.5.1",
+    "react": "^16.9.0",
+    "react-bootstrap": "^1.0.0-beta.11",
+    "react-dom": "^16.9.0",
+    "react-icons": "^3.7.0",
+    "react-leaflet": "^2.4.0",
+    "react-router": "^5.0.1",
+    "react-router-dom": "^5.0.1",
+    "react-spinners": "^0.5.13",
+    "style-loader": "^1.0.0",
+    "webpack": "^4.39.1",
+    "webpack-cli": "^3.3.6",
+    "webpack-dev-server": "^3.8.0",
+    "yup": "^0.27.0"
+  }
 }

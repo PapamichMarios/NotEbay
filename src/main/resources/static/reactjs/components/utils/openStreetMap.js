@@ -30,8 +30,3 @@ export default class OpenStreetMap extends React.Component {
         );
     }
 }
-
-OpenStreetMap.defaultProps = {
-    action: 'https://nominatim.openstreetmap.org/search?q=',
-    method: 'GET'
-};

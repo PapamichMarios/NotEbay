@@ -12,7 +12,7 @@ export default class ApplicationListing extends React.Component {
       return (
         <Container fluid>
             <Card border="dark">
-                <Card.Header as="h3" className="text-center bg-dark" style={{color:'white'}}> User Database </Card.Header>
+                <Card.Header as="h3" className="text-center bg-dark" style={{color:'white'}}> Applications Pending </Card.Header>
                     <Card.Body>
                         <Table striped hover>
                             <thead>

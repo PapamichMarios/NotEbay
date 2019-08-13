@@ -75,8 +75,6 @@ export default class Signup extends React.Component {
             lat: lat,
             lng: lng
         });
-
-        console.log(this.state.lat + ' ' + this.state.lng);
     }
 
     //sign up process steps

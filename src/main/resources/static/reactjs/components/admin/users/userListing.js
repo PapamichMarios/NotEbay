@@ -30,7 +30,7 @@ function UserItem(props) {
         return (
             <tr style={{color: 'red'}}>
                 <td>
-                    <Link to={`/users/${props.value.id}`} >
+                    <Link to={`/applications/${props.value.id}`} >
                         <FaExternalLinkAlt />
                     </Link>
                 </td>

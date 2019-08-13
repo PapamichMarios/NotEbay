@@ -8,14 +8,10 @@ export default class Profile extends React.Component {
         super(props);
     }
 
-    componentDidMount() {
-
-    }
-
     render() {
         return (
                 <Row>
-                    <Col md={2}>
+                    <Col md={3}>
                         <Card className="full-vertical">
                             <Card.Header as="h5" className="text-center bg-dark" style={{color:'white'}}> {localStorage.getItem('username')} </Card.Header>
                             <Card.Body>
@@ -50,7 +46,7 @@ export default class Profile extends React.Component {
                         </Card>
                     </Col>
 
-                    <Col md={10}>
+                    <Col md={9}>
                         <Tabs defaultActiveKey="profile">
                           <Tab eventKey="profile" title="Profile"> </Tab>
                           <Tab eventKey="pastBids" title="Past Bids" disabled> </Tab>
