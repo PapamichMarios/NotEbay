@@ -1,5 +1,6 @@
 package com.dit.ebay.model;
 
+import com.dit.ebay.request.ItemRequest;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.geo.Point;
@@ -27,6 +28,7 @@ public class Item {
      */
     @JsonIgnore
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
+    //@JoinColumn(name = "seller_id", nullable=false)
     private Set<Bid> bids = new HashSet<>();
 
     @JsonIgnore
@@ -82,26 +84,30 @@ public class Item {
     @Column(name = "image_path")
     private String imagePath;
 
+    @Column(name = "active")
+    private boolean active;
+
     public Item() {
 
     }
 
-    public Item(String name, String description, Timestamp timeEnds,
-                double buyPrice, double firstBid, String country,
-                BigDecimal geoLat, BigDecimal geoLong,
-                String location, String imagePath) {
-        this.name = name;
-        this.description = description;
-        this.timeEnds = timeEnds;
-        this.currBestBid = firstBid;  // when bid starts this equals to first bid
-        this.buyPrice = buyPrice;  // may be null
-        this.firstBid = firstBid;  // can't be null
+    public Item(ItemRequest itemRequest) {
+        this.name = itemRequest.getName();
+        this.description = itemRequest.getDescription();
+        this.timeEnds = itemRequest.getTimeEnds();
+        this.currBestBid = itemRequest.getFirstBid();  // when bid starts this equals to first bid
+        this.buyPrice = itemRequest.getBuyPrice();  // may be null
+        this.firstBid = itemRequest.getFirstBid();  // can't be null
         this.numOfBids = 0;
-        this.country = country;
-        this.location = location;
-        this.imagePath = imagePath;
-        this.geoLat = geoLat;
-        this.geoLong = geoLong;
+        this.country = itemRequest.getCountry();
+        this.location = itemRequest.getLocation();
+        this.imagePath = itemRequest.getImagePath(); // TODO : Download on file system store hashed location of imageP
+        // avoid null pointer ex
+        if (itemRequest.getJgp() != null) {
+            this.geoLat = itemRequest.getJgp().getGeoLat();
+            this.geoLong = itemRequest.getJgp().getGeoLong();
+        }
+        this.active = itemRequest.isActive();
     }
 
     public double getCurrBestBid() {
@@ -232,5 +238,53 @@ public class Item {
 
     public void setGeoLong(BigDecimal geoLong) {
         this.geoLong = geoLong;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    /*
+     * Checks from request which fieleds aren't blanck to change them
+     */
+    public void updateItemFields(ItemRequest itemRequest) {
+        if (itemRequest.getName() != null) {
+            this.name = itemRequest.getName();
+        }
+
+        if (itemRequest.getTimeEnds() != null) {
+            this.timeEnds = itemRequest.getTimeEnds();
+        }
+
+        if (itemRequest.getDescription() != null) {
+            this.description = itemRequest.getDescription();
+        }
+
+        if (itemRequest.getFirstBid() != -1) {
+            this.firstBid = itemRequest.getFirstBid();
+        }
+
+        if (itemRequest.getBuyPrice() != -1) {
+            this.buyPrice = itemRequest.getBuyPrice();
+        }
+
+        if (itemRequest.getCountry() != null) {
+            this.country = itemRequest.getCountry();
+        }
+
+        if (itemRequest.getLocation() != null) {
+            this.location = itemRequest.getLocation();
+        }
+
+        if (itemRequest.getJgp() != null) {
+            this.geoLat = itemRequest.getJgp().getGeoLat();
+            this.geoLong = itemRequest.getJgp().getGeoLong();
+        }
+
+        this.active = itemRequest.isActive();
     }
 }

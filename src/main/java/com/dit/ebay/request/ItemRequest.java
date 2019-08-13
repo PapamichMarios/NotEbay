@@ -1,5 +1,6 @@
 package com.dit.ebay.request;
 
+import com.dit.ebay.util.JsonGeoPoint;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.data.geo.Point;
 
@@ -8,17 +9,14 @@ import java.sql.Timestamp;
 
 public class ItemRequest {
 
-    @NotNull
     private String name;
 
     private String description;
 
-    @NotNull
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Timestamp timeEnds;
 
     // Minimum first bid, determined by the seller
-    @NotNull
     private double firstBid;
 
     // Buy item directly
@@ -26,9 +24,13 @@ public class ItemRequest {
 
     private String country;
 
-    private Point geoLocation;
-
     private String location;
+
+    private String imagePath;
+
+    private JsonGeoPoint jgp;
+
+    private boolean active;
 
     public double getFirstBid() {
         return firstBid;
@@ -78,14 +80,6 @@ public class ItemRequest {
         this.country = country;
     }
 
-    public Point getGeoLocation() {
-        return geoLocation;
-    }
-
-    public void setGeoLocation(Point geoLocation) {
-        this.geoLocation = geoLocation;
-    }
-
     public String getLocation() {
         return location;
     }
@@ -93,5 +87,17 @@ public class ItemRequest {
     public void setLocation(String location) {
         this.location = location;
     }
+
+    public JsonGeoPoint getJgp() { return jgp; }
+
+    public void setJgp(JsonGeoPoint jgp) { this.jgp = jgp; }
+
+    public boolean isActive() { return active; }
+
+    public void setActive(boolean active) { this.active = active; }
+
+    public String getImagePath() { return imagePath; }
+
+    public void setImagePath(String imagePath) { this.imagePath = imagePath; }
 }
 

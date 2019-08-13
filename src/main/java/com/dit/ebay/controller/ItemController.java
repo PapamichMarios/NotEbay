@@ -1,16 +1,16 @@
 package com.dit.ebay.controller;
 
+import com.dit.ebay.model.Item;
 import com.dit.ebay.request.ItemRequest;
 import com.dit.ebay.security.CurrentUser;
 import com.dit.ebay.security.UserDetailsImpl;
 import com.dit.ebay.service.ItemService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -24,11 +24,21 @@ public class ItemController {
     @Autowired
     private ItemService itemService;
 
+    private static final Logger logger = LoggerFactory.getLogger(ItemController.class);
+
     @PostMapping
     @PreAuthorize("hasRole('ROLE_SELLER')")
-    public ResponseEntity<?> insertItem(@Valid @RequestBody ItemRequest itemRequest,
+    public ResponseEntity<?> createItem(@Valid @RequestBody ItemRequest itemRequest,
                                         @Valid @CurrentUser UserDetailsImpl currentUser) {
-        return itemService.insertItem(currentUser.getId(), itemRequest);
+        return itemService.createItem(currentUser, itemRequest);
+    }
+
+    @PutMapping("/{itemId}")
+    @PreAuthorize("hasRole('ROLE_SELLER')")
+    public Item updateItemById(@PathVariable(value = "itemId") Long itemId,
+                               @Valid @RequestBody ItemRequest itemRequest,
+                               @Valid @CurrentUser UserDetailsImpl currentUser) {
+        return itemService.updateItemById(itemId, itemRequest, currentUser);
     }
 
 }

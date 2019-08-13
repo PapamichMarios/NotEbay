@@ -66,4 +66,12 @@ public class Bid {
     public void setItem(Item item) {
         this.item = item;
     }
+
+    public Timestamp getBidTime() {
+        return bidTime;
+    }
+
+    public void setBidTime(Timestamp bidTime) {
+        this.bidTime = bidTime;
+    }
 }

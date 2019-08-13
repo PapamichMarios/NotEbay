@@ -16,7 +16,8 @@ public interface RoleRepository extends JpaRepository<Role, Long> {
     Role findByName(RoleName roleName);
 
     // Check if current user is admin
-    @Query("select case when count(r) > 0 then true else false end from Role r " +
+    @Query("select case when count(r) > 0 then true else false end " +
+            "from Role r " +
             "where r.id = :userId and r.name = 'ROLE_ADMIN'")
     boolean findRoleAdminById(@Param("userId") Long userId);
 }

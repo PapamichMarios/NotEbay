@@ -1,6 +1,8 @@
 package com.dit.ebay.controller;
 
 import com.dit.ebay.request.EnableRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import com.dit.ebay.model.User;
@@ -16,6 +18,7 @@ import com.dit.ebay.security.UserDetailsImpl;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/app")
@@ -23,6 +26,8 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     /*
      * The following endpoints are for all Users
@@ -76,5 +81,11 @@ public class UserController {
     public ResponseEntity<?> deleteUserById(@PathVariable(value = "userId") Long userId,
                                             @Valid @CurrentUser UserDetailsImpl currentUser) {
         return userService.deleteUserById(userId);
+    }
+
+    @GetMapping("/users/profile")
+    @PreAuthorize("hasRole('ROLE_SELLER')") //every user is seller & bidder here we check for one role only
+    public Optional<User> getLoggedInUserProfile(@Valid @CurrentUser UserDetailsImpl currentUser) {
+        return userService.getLoggedInUserProfile(currentUser.getId());
     }
 }

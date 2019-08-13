@@ -1,4 +1,4 @@
-package com.dit.ebay.model;
+package com.dit.ebay.util;
 
 import java.math.BigDecimal;
 

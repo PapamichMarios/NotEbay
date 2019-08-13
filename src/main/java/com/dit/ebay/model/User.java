@@ -1,9 +1,9 @@
 package com.dit.ebay.model;
 
+import com.dit.ebay.request.SignUpRequest;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
-import com.vividsolutions.jts.geom.Point;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.HashSet;
@@ -118,25 +118,24 @@ public class User {
         this.enabled = enabled;
     }
 
-    public User(String firstName, String lastName, String username,
-                String password, String email, boolean enabled,
-                String tin, String streetAddress,
-                BigDecimal geoLat, BigDecimal geoLong,
-                String postalCode, String country, String city, String phone) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.enabled = enabled;
-        this.tin = tin;
-        this.streetAddress = streetAddress;
-        this.geoLat = geoLat;
-        this.geoLong = geoLong;
-        this.postalCode = postalCode;
-        this.country = country;
-        this.city = city;
-        this.phone = phone;
+    public User(SignUpRequest signUpRequest) {
+        this.firstName = signUpRequest.getFirstName();
+        this.lastName = signUpRequest.getLastName();
+        this.username = signUpRequest.getUsername();
+        this.password = signUpRequest.getPassword();
+        this.email = signUpRequest.getEmail();
+        this.enabled = false;
+        this.tin = signUpRequest.getTin();
+        this.streetAddress = signUpRequest.getStreetAddress();
+        // avoid null pointer ex
+        if (signUpRequest.getJgp() != null) {
+            this.geoLat = signUpRequest.getJgp().getGeoLat();
+            this.geoLong = signUpRequest.getJgp().getGeoLong();
+        }
+        this.postalCode = signUpRequest.getPostalCode();
+        this.country = signUpRequest.getCountry();
+        this.city = signUpRequest.getCity();
+        this.phone = signUpRequest.getPhone();
     }
 
     public Long getId() {
