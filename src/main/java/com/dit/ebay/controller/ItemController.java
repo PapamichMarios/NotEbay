@@ -41,4 +41,11 @@ public class ItemController {
         return itemService.updateItemById(itemId, itemRequest, currentUser);
     }
 
+    @DeleteMapping("/{itemId}")
+    @PreAuthorize("hasRole('ROLE_SELLER')")
+    public ResponseEntity<?> deleteItemById(@PathVariable(value = "itemId") Long itemId,
+                                            @Valid @CurrentUser UserDetailsImpl currentUser) {
+        return itemService.deleteItemById(itemId);
+    }
+
 }

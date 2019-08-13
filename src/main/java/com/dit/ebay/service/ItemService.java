@@ -93,4 +93,12 @@ public class ItemService {
         return itemRepository.save(item);
     }
 
+    public ResponseEntity<?> deleteItemById(Long itemId) {
+        Item item = itemRepository.findById(itemId)
+                .orElseThrow(() -> new ResourceNotFoundException("Item", "id", itemId));
+        itemRepository.delete(item);
+
+        return ResponseEntity.ok().body(new ApiResponse(true, "Item Deleted Successfully."));
+    }
+
 }
