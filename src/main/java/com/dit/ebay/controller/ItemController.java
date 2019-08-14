@@ -56,4 +56,9 @@ public class ItemController {
         return itemService.deleteItemById(itemId);
     }
 
+    /*
+     * All the users can display the items
+     */
+
+
 }
