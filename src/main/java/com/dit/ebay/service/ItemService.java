@@ -1,7 +1,12 @@
 package com.dit.ebay.service;
 
+import com.dit.ebay.exception.AppException;
 import com.dit.ebay.exception.ResourceNotFoundException;
 import com.dit.ebay.model.Item;
+import com.dit.ebay.repository.BidRepository;
+import com.dit.ebay.security.CurrentUser;
+import com.dit.ebay.security.UserDetailsImpl;
+import com.dit.ebay.util.JsonGeoPoint;
 import com.dit.ebay.model.User;
 import com.dit.ebay.repository.ItemRepository;
 import com.dit.ebay.repository.UserRepository;
@@ -20,24 +25,35 @@ import java.net.URI;
 public class ItemService {
 
     @Autowired
-    private ItemService itemService;
-
-    @Autowired
     private ItemRepository itemRepository;
 
     @Autowired
     private UserRepository userRepository;
 
-    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
+    @Autowired
+    private BidRepository bidRepository;
 
-    public ResponseEntity<?> insertItem(Long userId, ItemRequest itemRequest) {
+    @Autowired
+    private AuthorizationService authorizationService;
+
+    private static final Logger logger = LoggerFactory.getLogger(ItemService.class);
+
+    public ResponseEntity<?> createItem(UserDetailsImpl currentUser, ItemRequest itemRequest) {
+
+        if (itemRequest.getName() == null) {
+            throw new AppException("Sorry, You can't create an item without providing a name");
+        }
+
+        Long userId = currentUser.getId();
+
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
 
-        // TODO : add more input to the constructor
-        Item item = new Item(itemRequest.getName(), itemRequest.getDescription(), itemRequest.getTimeEnds(),
-                             itemRequest.getBuyPrice(), itemRequest.getFirstBid(),
-                             null, null, null, null, null);
+        // Get lat and long of item
+        JsonGeoPoint jgp = itemRequest.getJgp();
+
+        // TODO : image-path and categories store
+        Item item = new Item(itemRequest);
 
         item.setUser(user);
         Item result = itemRepository.save(item);
@@ -48,4 +64,47 @@ public class ItemService {
 
         return ResponseEntity.created(uri).body(new ApiResponse(true, "Item created successfully.", result));
     }
+
+    public Item getUserItemById(Long itemId, UserDetailsImpl currentUser) {
+
+        // safe check here
+        authorizationService.isSellerOfItem(currentUser.getId(), itemId);
+
+        return itemRepository.findById(itemId)
+                .orElseThrow(() -> new ResourceNotFoundException("Item", "id", itemId));
+    }
+
+    /*
+     * Remember the itemRequest must be filled with the old info + the new (changed fields)
+     * Update only before the first bid or when its active
+     */
+    public Item updateItemById(Long itemId, ItemRequest itemRequest, UserDetailsImpl currentUser) {
+
+        // safe check here
+        authorizationService.isSellerOfItem(currentUser.getId(), itemId);
+
+        Item item = itemRepository.findById(itemId)
+                .orElseThrow(() -> new ResourceNotFoundException("Item", "id", itemId));
+
+        if (!item.isActive()) {
+            throw new AppException("Sorry, You can't update an Item which isn't active.");
+        }
+
+        if (bidRepository.findItemsBidsByItemId(itemId)) {
+            throw new AppException("Sorry, You can't update an Item which has at least 1 bid.");
+        }
+
+        item.updateItemFields(itemRequest);
+
+        return itemRepository.save(item);
+    }
+
+    public ResponseEntity<?> deleteItemById(Long itemId) {
+        Item item = itemRepository.findById(itemId)
+                .orElseThrow(() -> new ResourceNotFoundException("Item", "id", itemId));
+        itemRepository.delete(item);
+
+        return ResponseEntity.ok().body(new ApiResponse(true, "Item Deleted Successfully."));
+    }
+
 }

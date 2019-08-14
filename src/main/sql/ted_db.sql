@@ -100,6 +100,7 @@ CREATE TABLE IF NOT EXISTS `ted_db`.`items` (
   `location` VARCHAR(60) NULL,
   `geo_lat` DECIMAL(10,6) NULL,
   `geo_long` DECIMAL(10,6) NULL,
+  `active` TINYINT(1) NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_items_users1_idx` (`seller_id` ASC),
   CONSTRAINT `fk_items_users1`

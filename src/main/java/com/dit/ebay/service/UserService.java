@@ -10,11 +10,8 @@ import com.dit.ebay.request.EnableRequest;
 import com.dit.ebay.request.SignInRequest;
 import com.dit.ebay.request.SignUpRequest;
 import com.dit.ebay.response.ApiResponse;
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.GeometryFactory;
+import com.dit.ebay.util.JsonGeoPoint;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.vividsolutions.jts.geom.Point;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,7 +22,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.dit.ebay.exception.ResourceNotFoundException;
 import com.dit.ebay.exception.UserExistsException;
-import com.dit.ebay.model.*;
 import com.dit.ebay.response.SignInResponse;
 import com.dit.ebay.security.JwtTokenProvider;
 import com.dit.ebay.security.UserDetailsImpl;
@@ -33,8 +29,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.URI;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -122,21 +116,7 @@ public class UserService {
         JsonGeoPoint jgp = signUpRequest.getJgp();
 
         // Create a user object from the request
-        User user = new User(
-                signUpRequest.getFirstName(),
-                signUpRequest.getLastName(),
-                signUpRequest.getUsername(),
-                signUpRequest.getPassword(),
-                signUpRequest.getEmail(),
-                false,
-                signUpRequest.getTin(),
-                signUpRequest.getStreetAddress(),
-                jgp.getGeoLat(), jgp.getGeoLong(),
-                signUpRequest.getPostalCode(),
-                signUpRequest.getCountry(),
-                signUpRequest.getCity(),
-                signUpRequest.getPhone()
-        );
+        User user = new User(signUpRequest);
 
         // Encrypt the password
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -224,5 +204,12 @@ public class UserService {
         userRepository.delete(user);
 
         return ResponseEntity.ok().body(new ApiResponse(true, "User Deleted Successfully."));
+    }
+
+    /*
+     * For signed up users both seller/bidders
+     */
+    public Optional<User> getLoggedInUserProfile(Long userId) {
+        return userRepository.findById(userId);
     }
 }

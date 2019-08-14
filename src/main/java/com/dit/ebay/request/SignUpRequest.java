@@ -2,7 +2,7 @@ package com.dit.ebay.request;
 
 import javax.validation.constraints.*;
 
-import com.dit.ebay.model.JsonGeoPoint;
+import com.dit.ebay.util.JsonGeoPoint;
 
 public class SignUpRequest {
 
