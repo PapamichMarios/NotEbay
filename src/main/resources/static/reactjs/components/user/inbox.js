@@ -5,10 +5,6 @@ export default class Inbox extends React.Component {
         super(props);
     }
 
-    componentDidMount() {
-
-    }
-
     render() {
       return (
         <h1> User Inbox </h1>

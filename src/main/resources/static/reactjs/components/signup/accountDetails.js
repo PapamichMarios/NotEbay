@@ -165,12 +165,12 @@ export default class AccountDetails extends React.Component{
                             </Form.Row>
 
                             <Form.Row>
-                                <Col md={{span:1, offset:5}}>
-                                    <p> Step 1 of 4 </p>
+                                <Col md={{span:2, offset:5}}>
+                                    <p> <b> Step 1 of 4 </b> </p>
                                 </Col>
 
-                                <Col md={{offset: 4}}>
-                                    <Button type="submit" variant="success" block> Save and Continue </Button>
+                                <Col md={{offset: 3, span:2}}>
+                                    <Button type="submit" variant="success" block> <b> Save and Continue </b> </Button>
                                 </Col>
                             </Form.Row>
                         </Form>

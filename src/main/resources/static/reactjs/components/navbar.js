@@ -19,7 +19,7 @@ export default class NavBar extends React.Component{
             return (
               <div className="navbar-margin">
                 <Navbar bg="dark" variant="dark">
-                  <Navbar.Brand href="/welcome">BidIt</Navbar.Brand>
+                  <Navbar.Brand href="/welcome"> <b> BidIt </b> </Navbar.Brand>
                   <Navbar.Toggle aria-controls="basic-navbar-nav" />
                   <Navbar.Collapse id="basic-navbar-nav">
 
@@ -100,7 +100,7 @@ export default class NavBar extends React.Component{
 
                           <NavItem className="button-margin">
                                <Button title="Log Out" variant="outline-danger" onClick={this.props.onLogout}>
-                                Logout <FaSignOutAlt />
+                                <b> Logout </b> <FaSignOutAlt />
                                </Button>
                           </NavItem>
                     </Nav>
@@ -113,7 +113,7 @@ export default class NavBar extends React.Component{
             return (
               <div className="navbar-margin">
                 <Navbar bg="dark" variant="dark">
-                  <Navbar.Brand href="/welcome">BidIt</Navbar.Brand>
+                  <Navbar.Brand href="/welcome"> <b> BidIt </b> </Navbar.Brand>
                   <Navbar.Toggle aria-controls="basic-navbar-nav" />
                   <Navbar.Collapse id="basic-navbar-nav">
 
@@ -144,7 +144,7 @@ export default class NavBar extends React.Component{
                         <NavLink to="/login">
                           <NavItem className="button-margin">
                                <Button title="Log In" variant="outline-light" >
-                                Login <FaSignInAlt />
+                               <b> Login </b> <FaSignInAlt />
                                </Button>
                           </NavItem>
                         </NavLink>
@@ -152,7 +152,7 @@ export default class NavBar extends React.Component{
                         <NavLink to="/signup">
                           <NavItem className="button-margin">
                               <Button title="Sign Up" variant="dark">
-                                Signup
+                                <b> Signup </b>
                               </Button>
                           </NavItem>
                         </NavLink>

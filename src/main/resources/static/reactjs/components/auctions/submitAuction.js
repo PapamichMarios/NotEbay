@@ -322,13 +322,13 @@ export default class SubmitAuction extends React.Component {
                           { this.state.loading ? (
                               <ButtonToolbar size="lg">
                                 <Button type="submit" variant="dark" block disabled>
-                                  Loading...
+                                  <b> Loading... </b>
                                   <LoadingButton />
                                 </Button>
                               </ButtonToolbar>
                           ) : (
                               <ButtonToolbar size="lg">
-                                <Button type="submit" variant="dark" block> Submit </Button>
+                                <Button type="submit" variant="dark" block> <b> Submit </b> </Button>
                               </ButtonToolbar>
                           )}
 

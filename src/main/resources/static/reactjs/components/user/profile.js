@@ -13,7 +13,7 @@ export default class Profile extends React.Component {
                 <Row>
                     <Col md={2}>
                         <Card className="full-vertical">
-                            <Card.Header as="h5" className="text-center bg-dark" style={{color:'white'}}> {localStorage.getItem('username')} </Card.Header>
+                            <Card.Header as="h5" className="text-center bg-dark" style={{color:'white'}}> <b> {localStorage.getItem('username')} </b> </Card.Header>
                             <Card.Body>
                                 <Table borderless size="sm">
                                     <thead>

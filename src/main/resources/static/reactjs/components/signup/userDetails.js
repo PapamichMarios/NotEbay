@@ -259,15 +259,15 @@ export default class UserDetails extends React.Component{
 
                             <Form.Row>
                                 <Col md={{span: 2}}>
-                                    <Button variant="danger"  block onClick={this.back}> Back </Button>
+                                    <Button variant="danger"  block onClick={this.back}> <b> Back </b> </Button>
                                 </Col>
 
-                                <Col md={{offset:3}}>
-                                    <p> Step 2 of 4 </p>
+                                <Col md={{offset:3, span:2}}>
+                                    <p> <b> Step 2 of 4 </b> </p>
                                 </Col>
 
-                                <Col md={{offset:4}}>
-                                    <Button variant="success" block onClick={this.saveAndContinue}> Save and Continue </Button>
+                                <Col md={{offset:3, span:2}}>
+                                    <Button variant="success" block onClick={this.saveAndContinue}> <b> Save and Continue </b> </Button>
                                 </Col>
                             </Form.Row>
                         </Form>
