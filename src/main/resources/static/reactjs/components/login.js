@@ -137,8 +137,7 @@ export default class Login extends React.Component {
                                 </Col>
                               </Form.Row>
                           ) : (
-                              <Form.Row>
-                              </Form.Row>
+                               null
                           )}
 
                         </Form>

@@ -11,7 +11,7 @@ export default class Profile extends React.Component {
     render() {
         return (
                 <Row>
-                    <Col md={3}>
+                    <Col md={2}>
                         <Card className="full-vertical">
                             <Card.Header as="h5" className="text-center bg-dark" style={{color:'white'}}> {localStorage.getItem('username')} </Card.Header>
                             <Card.Body>

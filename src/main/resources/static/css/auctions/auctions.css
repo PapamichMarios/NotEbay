@@ -1,0 +1,10 @@
+.col-right {
+    border-left: 1px solid DimGray;
+    height: 100vh;
+}
+
+.btn-auction {
+    font-size: 25px;
+    background-color: #004d99;
+    color: white;
+}

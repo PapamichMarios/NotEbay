@@ -8,6 +8,7 @@ import Page404      from './errors/error404';
 import Profile      from './user/profile';
 import Inbox        from './user/inbox';
 import AuctionsHomepage     from './auctions/auctionsHomepage.js';
+import SubmitAuction from './auctions/submitAuction.js';
 
 import Users        from './admin/users/users';
 import User         from './admin/users/userProfile';
@@ -69,7 +70,7 @@ class App extends React.Component {
                 <Route exact path="/signup"       component={Signup} />
                 <Route exact path="/profile"      component={Profile} />
                 <Route exact path="/inbox"        component={Inbox} />
-                <Route exact path="/auctionsHome"     components={AuctionsHomepage} />
+
 
                 <Route exact path="/users"        component={Users} />
                 <Route path="/users/:id"          component={User} />
@@ -77,6 +78,8 @@ class App extends React.Component {
                 <Route exact path="/applications" component={Applications} />
                 <Route path="/applications/:id"   component={Application} />
 
+                <Route exact path="/auctions" component={AuctionsHomepage} />
+                <Route exact path="/submitAuction" component={SubmitAuction} />
                 <Route component={Page404} />
               </Switch>
             </div>
