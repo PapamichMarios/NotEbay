@@ -19,9 +19,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.jws.Oneway;
-import javax.validation.Valid;
-import java.math.BigDecimal;
 import java.net.URI;
 
 @Service
@@ -66,6 +63,15 @@ public class ItemService {
                 .buildAndExpand(item.getId()).toUri();
 
         return ResponseEntity.created(uri).body(new ApiResponse(true, "Item created successfully.", result));
+    }
+
+    public Item getUserItemById(Long itemId, UserDetailsImpl currentUser) {
+
+        // safe check here
+        authorizationService.isSellerOfItem(currentUser.getId(), itemId);
+
+        return itemRepository.findById(itemId)
+                .orElseThrow(() -> new ResourceNotFoundException("Item", "id", itemId));
     }
 
     /*

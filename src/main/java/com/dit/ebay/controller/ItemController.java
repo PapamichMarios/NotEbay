@@ -33,6 +33,14 @@ public class ItemController {
         return itemService.createItem(currentUser, itemRequest);
     }
 
+    // Get currents Logged in item info
+    @GetMapping("/{itemId}")
+    @PreAuthorize("hasRole('ROLE_SELLER')")
+    public Item getUserItemById(@PathVariable(value = "itemId") Long itemId,
+                                @Valid @CurrentUser UserDetailsImpl currentUser) {
+        return itemService.getUserItemById(itemId, currentUser);
+    }
+
     @PutMapping("/{itemId}")
     @PreAuthorize("hasRole('ROLE_SELLER')")
     public Item updateItemById(@PathVariable(value = "itemId") Long itemId,
