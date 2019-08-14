@@ -4,7 +4,6 @@ import com.dit.ebay.exception.AppException;
 import com.dit.ebay.exception.ResourceNotFoundException;
 import com.dit.ebay.model.Item;
 import com.dit.ebay.repository.BidRepository;
-import com.dit.ebay.security.CurrentUser;
 import com.dit.ebay.security.UserDetailsImpl;
 import com.dit.ebay.util.JsonGeoPoint;
 import com.dit.ebay.model.User;

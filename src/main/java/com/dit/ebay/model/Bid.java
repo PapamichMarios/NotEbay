@@ -67,11 +67,15 @@ public class Bid {
         this.item = item;
     }
 
-    public Timestamp getBidTime() {
-        return bidTime;
-    }
+    public Timestamp getBidTime() { return bidTime; }
 
-    public void setBidTime(Timestamp bidTime) {
-        this.bidTime = bidTime;
-    }
+    public void setBidTime(Timestamp bidTime) { this.bidTime = bidTime; }
+
+    public void setUser(User user) { this.user = user; }
+
+    public User getUser() { return user; }
+
+    public Long getId() { return id; }
+
+    public void setId(Long id) { this.id = id; }
 }

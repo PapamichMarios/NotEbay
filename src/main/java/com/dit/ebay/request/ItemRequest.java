@@ -2,7 +2,6 @@ package com.dit.ebay.request;
 
 import com.dit.ebay.util.JsonGeoPoint;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import org.springframework.data.geo.Point;
 
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;

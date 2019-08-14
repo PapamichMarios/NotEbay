@@ -62,6 +62,7 @@ public class UserController {
     public User getUserById(@PathVariable(value = "userId") Long userId,
                             @Valid @CurrentUser UserDetailsImpl currentUser) {
         return userService.getUserById(userId);
+
     }
 
     // Given an Id
