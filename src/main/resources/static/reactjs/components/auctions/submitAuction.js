@@ -46,7 +46,8 @@ export default class SubmitAuction extends React.Component {
         fetch(this.props.action, {
             headers: {
                 'Accept' : 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': Constants.ACCESS_TOKEN
             },
             method: this.props.method,
             body: JSON.stringify({
