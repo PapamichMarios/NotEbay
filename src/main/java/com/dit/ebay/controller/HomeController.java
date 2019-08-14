@@ -9,7 +9,7 @@ public class HomeController {
     // Forward everything to front end except from ./<whatever>
     @RequestMapping(value = { "/welcome", "/home", "/", "/signup", "/login", "/users", "/users/**",
                               "/applications", "/applications/**","/profile/**", "/inbox", "/auctions",
-                              "/submitAuction"}
+                              "/submitAuction", "auctions/**"}
                               , method = RequestMethod.GET )
     public String index() {
         return "index";

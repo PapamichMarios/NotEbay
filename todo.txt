@@ -6,6 +6,8 @@ loading se kathe get
 - session gia xristi pou kanei signup(session: applicant)
 - styling profile xristi kai admin
 - country selector on signup
+- utils post kai get
+- styling get items
 
 
 

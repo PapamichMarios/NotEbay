@@ -7,6 +7,8 @@ import Signup       from './signup/signup';
 import Page404      from './errors/error404';
 import Profile      from './user/profile';
 import Inbox        from './user/inbox';
+
+import Auction from './auctions/auction';
 import AuctionsHomepage     from './auctions/auctionsHomepage.js';
 import SubmitAuction from './auctions/submitAuction.js';
 
@@ -63,23 +65,24 @@ class App extends React.Component {
               <NavBar onLogout={this.handleLogout}/>
 
               <Switch>
-                <Route exact path="/"             component={Home}   />
-                <Route exact path="/welcome"      component={Home}   />
-                <Route exact path="/home"         component={Home}   />
-                <Route exact path="/login"        render={(props) => <Login {...props} onLogin={this.handleLogin} />} />
-                <Route exact path="/signup"       component={Signup} />
-                <Route exact path="/profile"      component={Profile} />
-                <Route exact path="/inbox"        component={Inbox} />
+                <Route exact path="/"               component={Home}   />
+                <Route exact path="/welcome"        component={Home}   />
+                <Route exact path="/home"           component={Home}   />
+                <Route exact path="/login"          render={(props) => <Login {...props} onLogin={this.handleLogin} />} />
+                <Route exact path="/signup"         component={Signup} />
+                <Route exact path="/profile"        component={Profile} />
+                <Route exact path="/inbox"          component={Inbox} />
 
 
-                <Route exact path="/users"        component={Users} />
-                <Route path="/users/:id"          component={User} />
+                <Route exact path="/users"          component={Users} />
+                <Route path="/users/:id"            component={User} />
 
-                <Route exact path="/applications" component={Applications} />
-                <Route path="/applications/:id"   component={Application} />
+                <Route exact path="/applications"   component={Applications} />
+                <Route path="/applications/:id"     component={Application} />
 
-                <Route exact path="/auctions" component={AuctionsHomepage} />
-                <Route exact path="/submitAuction" component={SubmitAuction} />
+                <Route exact path="/auctions"       component={AuctionsHomepage} />
+                <Route path="/auctions/:id"         component={Auction} />
+                <Route exact path="/submitAuction"  component={SubmitAuction} />
                 <Route component={Page404} />
               </Switch>
             </div>

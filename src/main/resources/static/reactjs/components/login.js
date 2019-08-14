@@ -152,6 +152,6 @@ export default class Login extends React.Component {
 }
 
 Login.defaultProps = {
-    action: 'app/signin',
+    action: '/app/signin',
     method: 'POST'
 };

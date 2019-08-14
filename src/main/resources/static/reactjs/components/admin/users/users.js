@@ -21,7 +21,7 @@ export default class Users extends React.Component {
                method: this.props.method
             })
             .then(data => data.json())
-            .then((data) => {
+            .then(data => {
                 this.setState({
                     users: data
                 });
@@ -43,6 +43,6 @@ export default class Users extends React.Component {
 }
 
 Users.defaultProps = {
-    action: 'app/users/all',
+    action: '/app/users/all',
     method: 'GET'
 };
