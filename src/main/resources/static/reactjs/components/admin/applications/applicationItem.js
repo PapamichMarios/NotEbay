@@ -1,6 +1,8 @@
 import  React from 'react';
 
 import * as Constants from '../../utils/constants.js';
+import deleteRequest from '../../utils/requests/deleteRequest';
+import putRequest from '../../utils/requests/putRequest';
 
 import { Container, Table, Card, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
@@ -15,59 +17,37 @@ class ApplicationItem extends React.Component {
         this.deny = this.deny.bind(this);
     }
 
-    approve(e) {
-        e.preventDefault();
-        fetch(this.props.action + this.props.value.id, {
-               headers: {
-                   'Content-Type': 'application/json',
-                   'Authorization': Constants.ACCESS_TOKEN
-               },
-               method: 'PUT',
-               body: JSON.stringify({
-                         enable: true
-                     })
-            })
-            .then(response => response.json())
+    approve() {
+        const bodyObj = { enable: true };
+        putRequest(this.props.action + this.props.value.id, bodyObj)
+        //handle success
+        .then((response) => {
+            console.log('approveResponse:' + JSON.stringify(response));
 
-            //handle success
-            .then((response) => {
-                console.log('approveResponse:' + JSON.stringify(response));
-
-                if (response.error) {
-                    alert(response.message);
-                } else {
-                    this.props.history.push('/users');
-                    alert('User has been approved access to the platform.');
-                }
-            })
-
-            //handle error in promise
-            .catch(error => console.error('Error:', error));
+            if (response.error) {
+                alert(response.message);
+            } else {
+                this.props.history.push('/users');
+                alert('User has been approved access to the platform.');
+            }
+        })
+        //handle error in promise
+        .catch(error => console.error('Error:', error));
     }
 
-    deny(e) {
-        e.preventDefault();
+    deny() {
+        deleteRequest(this.props.action + this.props.value.id)
+        .then((response) => {
+            console.log('denyResponse:' + JSON.stringify(response));
 
-        fetch(this.props.action + this.props.value.id, {
-               headers: {
-                   'Content-Type': 'application/json',
-                   'Authorization': Constants.ACCESS_TOKEN
-               },
-               method: 'DELETE'
-            })
-
-            .then(response => response.json())
-
-            .then((response) => {
-                console.log('denyResponse:' + JSON.stringify(response));
-
-                if (response.error) {
-                    alert(response.message);
-                } else {
-                    this.props.history.push('/users');
-                    alert('User has been deleted from the platform.');
-                }
-            });
+            if (response.error) {
+                alert(response.message);
+            } else {
+                this.props.history.push('/users');
+                alert('User has been deleted from the platform.');
+            }
+        })
+        .catch(error => console.error('Error:', error));
     }
 
     render() {

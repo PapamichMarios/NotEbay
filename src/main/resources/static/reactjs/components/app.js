@@ -1,22 +1,22 @@
-import React        from 'react';
+import React                from 'react';
 
-import NavBar       from './navbar';
-import Home         from './homepage';
-import Login        from './login';
-import Signup       from './signup/signup';
-import Page404      from './errors/error404';
-import Profile      from './user/profile';
-import Inbox        from './user/inbox';
+import NavBar               from './navbar';
+import Home                 from './homepage';
+import Login                from './login';
+import Signup               from './signup/signup';
+import Page404              from './errors/error404';
+import Profile              from './user/profile';
+import Inbox                from './user/inbox';
 
-import Auction from './auctions/auction';
-import AuctionsHomepage     from './auctions/auctionsHomepage.js';
-import SubmitAuction from './auctions/submitAuction.js';
+import Auction              from './seller/auctions/auction';
+import AuctionsHomepage     from './seller/auctions/auctionsHomepage.js';
+import SubmitAuction        from './seller/auctions/submitAuction.js';
 
-import Users        from './admin/users/users';
-import User         from './admin/users/userProfile';
+import Users                from './admin/users/users';
+import User                 from './admin/users/userProfile';
 
-import Applications from './admin/applications/applications';
-import Application  from './admin/applications/applicationProfile';
+import Applications         from './admin/applications/applications';
+import Application          from './admin/applications/applicationProfile';
 
 import { BrowserRouter as Router, Switch, Route, withRouter } from 'react-router-dom';
 

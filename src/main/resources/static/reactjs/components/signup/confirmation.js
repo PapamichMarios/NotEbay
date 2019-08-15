@@ -2,7 +2,7 @@ import React from 'react';
 import '../../../css/utils/map.css';
 import '../../../css/signup/confirmation.css';
 
-import OpenStreetMapsWrapperLatLng from '../utils/openStreetMapsWrapperLatLng.js';
+import OpenStreetMapsWrapperLatLng from '../utils/maps/openStreetMapsWrapperLatLng.js';
 import SignUpHeader from './signupHeader.js';
 
 import { Formik } from 'formik';
