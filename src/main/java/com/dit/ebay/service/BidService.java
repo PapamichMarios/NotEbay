@@ -54,7 +54,7 @@ public class BidService {
         Bid result = bidRepository.save(bid);
 
         URI uri = ServletUriComponentsBuilder
-                .fromCurrentContextPath().path("/{itemId}")
+                .fromCurrentContextPath().path("/{bidId}")
                 .buildAndExpand(bid.getId()).toUri();
 
         return ResponseEntity.created(uri).body(new ApiResponse(true, "Bid created successfully.", result));

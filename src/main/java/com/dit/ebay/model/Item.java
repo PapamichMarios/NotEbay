@@ -80,7 +80,6 @@ public class Item {
     @Column(name = "location")
     private String location;
 
-    @JsonIgnore
     @Column(name = "image_path")
     private String imagePath;
 

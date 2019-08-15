@@ -27,4 +27,6 @@ public class BidController {
                                        @Valid @CurrentUser UserDetailsImpl currentUser) {
         return bidService.createBid(itemId, bidRequest, currentUser);
     }
+
+
 }
