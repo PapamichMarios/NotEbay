@@ -1,0 +1,13 @@
+user_name,item_name,bid_amount,accepted
+papas1,item2,100,true
+papas1,item2,200,true
+papas1,item2,300,true
+papas2,item2,400,true
+papas3,item2,500,true
+papas4,item2,600,true
+papas4,item7,1700,true
+papas5,item7,1900,true
+papas6,item7,2000,true
+papas3,item7,3000,true
+papas2,item7,23123,true
+papas1,item7,4231,true

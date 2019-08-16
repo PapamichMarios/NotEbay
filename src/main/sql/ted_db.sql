@@ -80,38 +80,6 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `ted_db`.`items`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `ted_db`.`items` ;
-
-CREATE TABLE IF NOT EXISTS `ted_db`.`items` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `seller_id` BIGINT NOT NULL,
-  `curr_best_bid` DOUBLE NULL,
-  `buy_price` DOUBLE NULL,
-  `first_bid` DOUBLE NULL,
-  `num_of_bids` INT NULL,
-  `description` VARCHAR(8000) NULL,
-  `time_started` DATETIME NOT NULL,
-  `time_ends` DATETIME NOT NULL,
-  `country` VARCHAR(60) NULL,
-  `image_path` VARCHAR(300) NULL,
-  `name` VARCHAR(80) NOT NULL,
-  `location` VARCHAR(60) NULL,
-  `geo_lat` DECIMAL(10,6) NULL,
-  `geo_long` DECIMAL(10,6) NULL,
-  `active` TINYINT(1) NOT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_items_users1_idx` (`seller_id` ASC),
-  CONSTRAINT `fk_items_users1`
-    FOREIGN KEY (`seller_id`)
-    REFERENCES `ted_db`.`users` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `ted_db`.`bids`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `ted_db`.`bids` ;
@@ -134,6 +102,44 @@ CREATE TABLE IF NOT EXISTS `ted_db`.`bids` (
   CONSTRAINT `fk_users_has_items_items1`
     FOREIGN KEY (`item_id`)
     REFERENCES `ted_db`.`items` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `ted_db`.`items`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `ted_db`.`items` ;
+
+CREATE TABLE IF NOT EXISTS `ted_db`.`items` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `seller_id` BIGINT NOT NULL,
+  `buy_price` DOUBLE NULL,
+  `first_bid` DOUBLE NULL,
+  `num_of_bids` INT NULL,
+  `description` VARCHAR(8000) NULL,
+  `time_started` DATETIME NOT NULL,
+  `time_ends` DATETIME NOT NULL,
+  `country` VARCHAR(60) NULL,
+  `image_path` VARCHAR(300) NULL,
+  `name` VARCHAR(80) NOT NULL,
+  `location` VARCHAR(60) NULL,
+  `geo_lat` DECIMAL(10,6) NULL,
+  `geo_long` DECIMAL(10,6) NULL,
+  `active` TINYINT(1) NOT NULL,
+  `best_bid_id` BIGINT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_items_users1_idx` (`seller_id` ASC),
+  INDEX `fk_items_bids1_idx` (`best_bid_id` ASC),
+  CONSTRAINT `fk_items_users1`
+    FOREIGN KEY (`seller_id`)
+    REFERENCES `ted_db`.`users` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_items_bids1`
+    FOREIGN KEY (`best_bid_id`)
+    REFERENCES `ted_db`.`bids` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

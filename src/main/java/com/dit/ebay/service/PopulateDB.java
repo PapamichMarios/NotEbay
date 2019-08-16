@@ -1,10 +1,8 @@
 package com.dit.ebay.service;
 
+import com.dit.ebay.csv_model.CSVBid;
 import com.dit.ebay.csv_model.CSVItem;
-import com.dit.ebay.model.Item;
-import com.dit.ebay.model.Role;
-import com.dit.ebay.model.RoleName;
-import com.dit.ebay.model.User;
+import com.dit.ebay.model.*;
 import com.dit.ebay.csv_model.CSVUser;
 import com.dit.ebay.repository.BidRepository;
 import com.dit.ebay.repository.ItemRepository;
@@ -36,6 +34,7 @@ public class PopulateDB {
 
     private static final String USERS_DATA_FILE = "my_data/user_data.csv";
     private static final String ITEMS_DATA_FILE = "my_data/item_data.csv";
+    private static final String BIDS_DATA_FILE  = "my_data/bid_data.csv";
 
     public void populateUsers() throws IOException {
         try (Reader reader = Files.newBufferedReader(Paths.get(USERS_DATA_FILE))) {
@@ -79,6 +78,46 @@ public class PopulateDB {
                 Item item = new Item(csvItem);
                 item.setUser(user);
 
+                itemRepository.save(item);
+            }
+        }
+    }
+
+    public void populateBids() throws IOException {
+        try (Reader reader = Files.newBufferedReader(Paths.get(BIDS_DATA_FILE))) {
+            CsvToBean<CSVBid> csvToBean = new CsvToBeanBuilder(reader)
+                    .withType(CSVBid.class)
+                    .withIgnoreLeadingWhiteSpace(true).build();
+
+            // insert only once (populate)
+            if (bidRepository.findById((long) 1).orElse(null) != null) return;
+
+            for (CSVBid csvBid : csvToBean) {
+
+                // Get the user
+                User user = userRepository.findByUsername(csvBid.getUsername()).orElse(null);
+                if (user == null) continue;
+
+                // Get Item
+                Item item = itemRepository.findItemByName(csvBid.getItemName()).orElse(null);
+                if (item == null) continue;
+
+                Bid bid = new Bid(csvBid);
+
+                // Create bid
+                bid.setUser(user);
+                bid.setItem(item);
+                Bid bidRes = bidRepository.save(bid);
+
+                // increment the bids
+                Bid bestBid = itemRepository.findItemBestBidByItemId(item.getId()).orElse(null);
+
+                if (bestBid == null || bid.getBidAmount() > bestBid.getBidAmount()) {
+                    item.setBestBid(bidRes);
+                }
+
+                // Update counter
+                item.increaseNumOfBids();
                 itemRepository.save(item);
             }
         }

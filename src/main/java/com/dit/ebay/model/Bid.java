@@ -1,5 +1,6 @@
 package com.dit.ebay.model;
 
+import com.dit.ebay.csv_model.CSVBid;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.data.annotation.CreatedDate;
@@ -38,7 +39,19 @@ public class Bid {
     @Column(name = "accepted")
     private boolean accepted;
 
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "bestBid")
+    private Item itemBestBid;
+
     public Bid() {
+    }
+
+    /*
+     * Insert from csv
+     */
+
+    public Bid(CSVBid csvBid) {
+        this.bidAmount = csvBid.getBidAmount();
+        this.accepted = csvBid.isAccepted();
     }
 
     public Bid(double bidAmount) {
@@ -81,4 +94,16 @@ public class Bid {
     public Long getId() { return id; }
 
     public void setId(Long id) { this.id = id; }
+
+    public boolean isAccepted() { return accepted; }
+
+    public void setAccepted(boolean accepted) { this.accepted = accepted; }
+
+    public Item getItemBestBid() {
+        return itemBestBid;
+    }
+
+    public void setItemBestBid(Item itemBestBid) {
+        this.itemBestBid = itemBestBid;
+    }
 }

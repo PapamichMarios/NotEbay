@@ -44,14 +44,18 @@ public class Item {
     @JoinColumn(name = "seller_id", nullable=false)
     private User user;
 
+    /*
+     * Has 1 fk on the best bid
+     */
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "best_bid_id")
+    private Bid bestBid; // may be null
+
     @Column(name = "name")
     private String name;
 
     @Column(name = "description")
     private String description;
-
-    @Column(name = "curr_best_bid")
-    private double currBestBid;
 
     @Column(name = "buy_price")
     private double buyPrice;
@@ -98,7 +102,6 @@ public class Item {
         this.name = csvItem.getName();
         this.description = csvItem.getDescription();
         this.timeEnds = csvItem.getTimeEnds();
-        this.currBestBid = csvItem.getFirstBid();  // when bid starts this equals to first bid
         this.buyPrice = csvItem.getBuyPrice();  // may be null
         this.firstBid = csvItem.getFirstBid();  // can't be null
         this.numOfBids = 0;
@@ -117,7 +120,6 @@ public class Item {
         this.name = itemRequest.getName();
         this.description = itemRequest.getDescription();
         this.timeEnds = itemRequest.getTimeEnds();
-        this.currBestBid = itemRequest.getFirstBid();  // when bid starts this equals to first bid
         this.buyPrice = itemRequest.getBuyPrice();  // may be null
         this.firstBid = itemRequest.getFirstBid();  // can't be null
         this.numOfBids = 0;
@@ -130,14 +132,6 @@ public class Item {
             this.geoLong = itemRequest.getJgp().getGeoLong();
         }
         this.active = itemRequest.isActive();
-    }
-
-    public double getCurrBestBid() {
-        return currBestBid;
-    }
-
-    public void setCurrBestBid(double currBestBid) {
-        this.currBestBid = currBestBid;
     }
 
     public double getBuyPrice() {
@@ -271,7 +265,7 @@ public class Item {
     }
 
     /*
-     * Checks from request which fieleds aren't blanck to change them
+     * Checks from request which fields aren't blank to change them
      */
     public void updateItemFields(ItemRequest itemRequest) {
         if (itemRequest.getName() != null) {
@@ -309,4 +303,14 @@ public class Item {
 
         this.active = itemRequest.isActive();
     }
+
+    public Bid getBestBid() {
+        return bestBid;
+    }
+
+    public void setBestBid(Bid bestBid) {
+        this.bestBid = bestBid;
+    }
+
+    public void increaseNumOfBids() { this.numOfBids++; }
 }

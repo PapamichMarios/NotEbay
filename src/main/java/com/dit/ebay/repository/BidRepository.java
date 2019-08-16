@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface BidRepository extends JpaRepository<Bid, Long> {
 
@@ -15,4 +17,5 @@ public interface BidRepository extends JpaRepository<Bid, Long> {
             "where i.id = :itemId"
     )
     boolean findItemsBidsByItemId(@Param("itemId") Long itemId);
+
 }

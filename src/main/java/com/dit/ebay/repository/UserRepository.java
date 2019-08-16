@@ -17,4 +17,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     // Return all users in the database, except admins info
     @Query("select u from User u where u.id != :adminId")
     List<User> findAllUsersAdmin(@Param("adminId") Long adminId);
+
 }

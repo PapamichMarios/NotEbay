@@ -1,5 +1,6 @@
 package com.dit.ebay.repository;
 
+import com.dit.ebay.model.Bid;
 import com.dit.ebay.model.Item;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,5 +21,8 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
 
     @Query("select i from Item i where i.name = :itemName")
     Optional<Item> findItemByName(@Param("itemName") String itemName);
+
+    @Query("select i.bestBid from Item i where i.id = :itemId")
+    Optional<Bid> findItemBestBidByItemId(@Param("itemId") Long itemId);
 }
 
