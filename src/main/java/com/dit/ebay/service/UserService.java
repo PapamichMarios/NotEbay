@@ -66,8 +66,7 @@ public class UserService {
 
         // Create admin
         User admin = new User("Tom", "McDonald", "ADM", passwordEncoder.encode("ADMIN123"), "adm@flo.com", true);
-        Role ad_role = new Role(RoleName.ROLE_ADMIN);
-        admin.addRole(ad_role);
+        admin.addRole(new Role(RoleName.ROLE_ADMIN));
         userRepository.save(admin);
     }
 

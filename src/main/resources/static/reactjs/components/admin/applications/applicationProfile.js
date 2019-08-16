@@ -1,7 +1,11 @@
 import React from 'react';
-import Loading from '../../utils/loading.js';
+import Loading from '../../utils/loading/loading.js';
 import * as Constants from '../../utils/constants.js';
-import OpenStreetMapsWrapperLatLng from '../../utils/openStreetMapsWrapperLatLng.js';
+import OpenStreetMapsWrapperLatLng from '../../utils/maps/openStreetMapsWrapperLatLng.js';
+
+import getRequest from '../../utils/requests/getRequest';
+import deleteRequest from '../../utils/requests/deleteRequest';
+import putRequest from '../../utils/requests/putRequest';
 
 import '../../../../css/signup/confirmation.css';
 
@@ -20,85 +24,56 @@ export default class Application extends React.Component {
         this.deny = this.deny.bind(this);
     }
 
-    approve(e) {
-        e.preventDefault();
+    approve() {
+        const bodyObj = { enable: true };
+        putRequest(this.props.action + this.props.match.params.id, bodyObj)
+        //handle success
+        .then((response) => {
+            console.log('approveResponse:' + JSON.stringify(response));
 
-        fetch(this.props.action + this.props.match.params.id, {
-               headers: {
-                   'Content-Type': 'application/json',
-                   'Authorization': Constants.ACCESS_TOKEN
-               },
-               method: 'PUT',
-               body: JSON.stringify({
-                         enable: true
-                     })
-            })
-            .then(response => response.json())
-
-            //handle success
-            .then((response) => {
-                console.log('approveResponse:' + JSON.stringify(response));
-
-                if (response.error) {
-                    alert(response.message);
-                } else {
-                    this.props.history.push('/users');
-                    alert('User has been approved access to the platform.');
-                }
-            })
-
-            //handle error in promise
-            .catch(error => console.error('Error:', error));
+            if (response.error) {
+                alert(response.message);
+            } else {
+                this.props.history.push('/users');
+                alert('User has been approved access to the platform.');
+            }
+        })
+        //handle error in promise
+        .catch(error => console.error('Error:', error));
     }
 
-    deny(e) {
-        e.preventDefault();
+    deny() {
+        deleteRequest(this.props.action + this.props.match.params.id)
+        .then((response) => {
+            console.log('denyResponse:' + JSON.stringify(response));
 
-        fetch(this.props.action + this.props.match.params.id, {
-               headers: {
-                   'Content-Type': 'application/json',
-                   'Authorization': Constants.ACCESS_TOKEN
-               },
-               method: 'DELETE'
-            })
-
-            .then(response => response.json())
-
-            .then((response) => {
-                console.log('denyResponse:' + JSON.stringify(response));
-
-                if (response.error) {
-                    alert(response.message);
-                } else {
-                    this.props.history.push('/users');
-                    alert('User has been deleted from the platform.');
-                }
-            });
+            if (response.error) {
+                alert(response.message);
+            } else {
+                this.props.history.push('/users');
+                alert('User has been deleted from the platform.');
+            }
+        })
+        .catch(error => console.error('Error:', error));
     }
 
     componentDidMount() {
-        fetch(this.props.action + this.props.match.params.id,  {
-               headers: {
-                   'Content-Type': 'application/json',
-                   'Authorization': Constants.ACCESS_TOKEN
-               },
-               method: this.props.method
-            })
-            .then(data => data.json())
-            .then((data) => {
-                console.log('data' + JSON.stringify(data));
+        getRequest(this.props.action + this.props.match.params.id)
+        .then((data) => {
+            console.log('data' + JSON.stringify(data));
 
-                if (!data.error) {
-                    this.setState({
-                        userData: data
-                    });
-                }
-            });
+            if (!data.error) {
+                this.setState({
+                    userData: data
+                });
+            }
+        })
+        .catch(error => console.error('Error:', error));
 
-            //set loading
-            setTimeout(() => {
-              this.setState({loading: false})
-            }, Constants.TIMEOUT_DURATION)
+        //set loading
+        setTimeout(() => {
+          this.setState({loading: false})
+        }, Constants.TIMEOUT_DURATION)
     }
 
     render() {

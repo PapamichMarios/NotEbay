@@ -1,7 +1,8 @@
-import React    from 'react';
+import React from 'react';
 import ApplicationListing from './applicationListing.js';
-import Loading from '../../utils/loading.js';
+import Loading from '../../utils/loading/loading.js';
 import * as Constants from '../../utils/constants.js';
+import getRequest from '../../utils/requests/getRequest';
 
 export default class Applications extends React.Component {
     constructor(props) {
@@ -13,19 +14,13 @@ export default class Applications extends React.Component {
     }
 
     componentDidMount() {
-        fetch(this.props.action, {
-               headers: {
-                   'Content-Type': 'application/json',
-                   'Authorization': Constants.ACCESS_TOKEN
-               },
-               method: this.props.method
-            })
-            .then(data => data.json())
-            .then((data) => {
-                this.setState({
-                    users: data
-                });
+        getRequest(this.props.action)
+        .then((data) => {
+            this.setState({
+                users: data
             });
+        })
+        .catch(error => console.error('Error:', error));
 
         //set loading
         setTimeout(() => {

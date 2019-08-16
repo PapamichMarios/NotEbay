@@ -17,7 +17,6 @@ import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Iterator;
 
 @Service
 public class PopulateDB {
@@ -36,7 +35,7 @@ public class PopulateDB {
     private static final String USERS_DATA_FILE = "my_data/user_data.csv";
 
     public void populateUsers() throws IOException {
-        try ( Reader reader = Files.newBufferedReader(Paths.get(USERS_DATA_FILE)) ) {
+        try (Reader reader = Files.newBufferedReader(Paths.get(USERS_DATA_FILE))) {
             CsvToBean<CSVUser> csvToBean = new CsvToBeanBuilder(reader)
                     .withType(CSVUser.class)
                     .withIgnoreLeadingWhiteSpace(true).build();

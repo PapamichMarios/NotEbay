@@ -1,6 +1,8 @@
 import React from 'react';
-import Loading from '../../utils/loading.js';
+import Loading from '../../utils/loading/loading.js';
 import * as Constants from '../../utils/constants.js';
+
+import getRequest from '../../utils/requests/getRequest';
 
 import { Container, Row, Col, Card, Table, Tabs, Tab } from 'react-bootstrap';
 
@@ -16,28 +18,22 @@ export default class User extends React.Component {
     }
 
     componentDidMount() {
-        fetch(this.props.action + this.props.match.params.id,  {
-               headers: {
-                   'Content-Type': 'application/json',
-                   'Authorization': Constants.ACCESS_TOKEN
-               },
-               method: this.props.method
-            })
-            .then(data => data.json())
-            .then((data) => {
-                console.log('data' + JSON.stringify(data));
+        getRequest(this.props.action + this.props.match.params.id)
+        .then((data) => {
+            console.log('data' + JSON.stringify(data));
 
-                if (!data.error) {
-                    this.setState({
-                        userData: data
-                    });
-                }
-            });
+            if (!data.error) {
+                this.setState({
+                    userData: data
+                });
+            }
+        })
+        .catch(error => console.error('Error:', error));
 
-            //set loading
-            setTimeout(() => {
-              this.setState({loading: false})
-            }, Constants.TIMEOUT_DURATION)
+        //set loading
+        setTimeout(() => {
+          this.setState({loading: false})
+        }, Constants.TIMEOUT_DURATION)
     }
 
     render() {
