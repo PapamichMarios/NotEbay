@@ -40,7 +40,7 @@ public class EbayApplication {
 			userService.createAdmin();
 
 			populateDB.populateUsers();
-			populateDB.populareItems();
+			populateDB.populateItems();
 		}
 	}
 

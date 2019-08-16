@@ -62,7 +62,7 @@ public class PopulateDB {
         }
     }
 
-    public void populareItems() throws IOException {
+    public void populateItems() throws IOException {
         try (Reader reader = Files.newBufferedReader(Paths.get(ITEMS_DATA_FILE))) {
             CsvToBean<CSVItem> csvToBean = new CsvToBeanBuilder(reader)
                     .withType(CSVItem.class)
