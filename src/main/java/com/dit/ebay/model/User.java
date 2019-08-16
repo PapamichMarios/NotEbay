@@ -123,7 +123,7 @@ public class User {
     }
 
     /*
-     * Copies from csv to user object
+     * Insert from csv
      */
     public User(CSVUser csvUser) {
         this.firstName = csvUser.getFirstName();

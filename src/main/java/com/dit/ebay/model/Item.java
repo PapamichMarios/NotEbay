@@ -1,5 +1,6 @@
 package com.dit.ebay.model;
 
+import com.dit.ebay.csv_model.CSVItem;
 import com.dit.ebay.request.ItemRequest;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.CreatedDate;
@@ -90,6 +91,28 @@ public class Item {
 
     }
 
+    /*
+     * Insert from csv
+     */
+    public Item(CSVItem csvItem) {
+        this.name = csvItem.getName();
+        this.description = csvItem.getDescription();
+        this.timeEnds = csvItem.getTimeEnds();
+        this.currBestBid = csvItem.getFirstBid();  // when bid starts this equals to first bid
+        this.buyPrice = csvItem.getBuyPrice();  // may be null
+        this.firstBid = csvItem.getFirstBid();  // can't be null
+        this.numOfBids = 0;
+        this.country = csvItem.getCountry();
+        this.location = csvItem.getLocation();
+        this.imagePath = csvItem.getImagePath(); // TODO : Download on file system store hashed location of imageP
+        this.geoLat = csvItem.getGeoLat();
+        this.geoLong = csvItem.getGeoLong();
+        this.active = csvItem.isActive();
+    }
+
+    /*
+     * Insert from request
+     */
     public Item(ItemRequest itemRequest) {
         this.name = itemRequest.getName();
         this.description = itemRequest.getDescription();

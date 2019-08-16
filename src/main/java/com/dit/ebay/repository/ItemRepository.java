@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface ItemRepository extends JpaRepository<Item, Long> {
     // Returns the id of item's owner (with role of SELLER)
@@ -15,5 +17,8 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
             "where i.id = :itemId"
     )
     Long findSellerIdByItemId(@Param("itemId") Long itemId);
+
+    @Query("select i from Item i where i.name = :itemName")
+    Optional<Item> findItemByName(@Param("itemName") String itemName);
 }
 
