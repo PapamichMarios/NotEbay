@@ -35,12 +35,15 @@ public class Bid {
     @Column(name = "bid_time")
     private Timestamp bidTime;
 
-    public Bid() {
+    @Column(name = "accepted")
+    private boolean accepted;
 
+    public Bid() {
     }
 
     public Bid(double bidAmount) {
         this.bidAmount = bidAmount;
+        this.accepted = false; // waiting from the SELLER to accept the bid
     }
 
     public double getBidAmount() {

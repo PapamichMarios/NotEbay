@@ -85,8 +85,8 @@ public class ItemService {
         Item item = itemRepository.findById(itemId)
                 .orElseThrow(() -> new ResourceNotFoundException("Item", "id", itemId));
 
-        if (!item.isActive()) {
-            throw new AppException("Sorry, You can't update an Item which isn't active.");
+        if (item.isActive()) {
+            throw new AppException("Sorry, You can't update an Item which is active.");
         }
 
         if (bidRepository.findItemsBidsByItemId(itemId)) {

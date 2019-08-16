@@ -122,6 +122,7 @@ CREATE TABLE IF NOT EXISTS `ted_db`.`bids` (
   `item_id` BIGINT NOT NULL,
   `bid_amount` DOUBLE NOT NULL,
   `bid_time` DATETIME NOT NULL,
+  `accepted` TINYINT(1) NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_users_has_items_items1_idx` (`item_id` ASC),
   INDEX `fk_users_has_items_users1_idx` (`bidder_id` ASC),

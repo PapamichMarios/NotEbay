@@ -22,13 +22,13 @@ import java.net.URI;
 public class BidService {
 
     @Autowired
-    BidRepository bidRepository;
+    private BidRepository bidRepository;
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    ItemRepository itemRepository;
+    private ItemRepository itemRepository;
 
     // TODO : check dates for bid
     public ResponseEntity<?> createBid(Long itemId, BidRequest bidRequest, UserDetailsImpl currentUser) {
@@ -59,4 +59,7 @@ public class BidService {
 
         return ResponseEntity.created(uri).body(new ApiResponse(true, "Bid created successfully.", result));
     }
+
+
+
 }

@@ -1,5 +1,6 @@
 package com.dit.ebay.model;
 
+import com.dit.ebay.csv_model.CSVUser;
 import com.dit.ebay.request.SignUpRequest;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -108,6 +109,9 @@ public class User {
     public User () {
     }
 
+    /*
+     * Only for admin
+     */
     public User(String firstName, String lastName, String username,
                 String password, String email, boolean enabled) {
         this.firstName = firstName;
@@ -118,6 +122,29 @@ public class User {
         this.enabled = enabled;
     }
 
+    /*
+     * Copies from csv to user object
+     */
+    public User(CSVUser csvUser) {
+        this.firstName = csvUser.getFirstName();
+        this.lastName = csvUser.getLastName();
+        this.username = csvUser.getUsername();
+        this.password = csvUser.getPassword();
+        this.email = csvUser.getEmail();
+        this.enabled = csvUser.isEnabled();
+        this.tin = csvUser.getTin();
+        this.streetAddress = csvUser.getStreetAddress();
+        this.geoLat = csvUser.getGeoLat();
+        this.geoLong = csvUser.getGeoLong();
+        this.postalCode = csvUser.getPostalCode();
+        this.country = csvUser.getCountry();
+        this.city = csvUser.getCity();
+        this.phone = csvUser.getPhone();
+    }
+
+    /*
+     * Insert from request
+     */
     public User(SignUpRequest signUpRequest) {
         this.firstName = signUpRequest.getFirstName();
         this.lastName = signUpRequest.getLastName();

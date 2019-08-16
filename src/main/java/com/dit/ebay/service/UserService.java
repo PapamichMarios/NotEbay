@@ -55,38 +55,9 @@ public class UserService {
 
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
-    public void insertRandomUsers() {
-
-        // If we find 1 just return
-        if (userRepository.findByUsername("michas").orElse(null) != null) {
-            return;
-        }
-
-        User user = new User("George", "Michas", "michas", passwordEncoder.encode("michas"), "michas@flo.com", true);
-        // Insert always with both roles (Seller, Bidder)
-        user.addRole(new Role(RoleName.ROLE_BIDDER, user));
-        user.addRole(new Role(RoleName.ROLE_SELLER, user));
-        userRepository.save(user);
-
-        user = new User("Marios", "Papas", "papas", passwordEncoder.encode("papas"), "papas@flo.com", true);
-        // Insert always with both roles (Seller, Bidder)
-        user.addRole(new Role(RoleName.ROLE_BIDDER, user));
-        user.addRole(new Role(RoleName.ROLE_SELLER, user));
-        userRepository.save(user);
-
-        user = new User("Kostas", "Liotos", "liotos", passwordEncoder.encode("liotos"), "liotos@flo.com", true);
-        // Insert always with both roles (Seller, Bidder)
-        user.addRole(new Role(RoleName.ROLE_BIDDER, user));
-        user.addRole(new Role(RoleName.ROLE_SELLER, user));
-        userRepository.save(user);
-
-        user = new User("Tasos", "Mantas", "mantas", passwordEncoder.encode("mantas"), "fake_student@flo.com", true);
-        // Insert always with both roles (Seller, Bidder)
-        user.addRole(new Role(RoleName.ROLE_BIDDER, user));
-        user.addRole(new Role(RoleName.ROLE_SELLER, user));
-        userRepository.save(user);
-    }
-
+    /*
+     * Only admin will be created here
+     */
     public void createAdmin() {
         // if admin exists just return
         if (userRepository.findByUsername("ADM").orElse(null) != null) {

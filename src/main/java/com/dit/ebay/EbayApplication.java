@@ -16,6 +16,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Component;
 import com.dit.ebay.service.UserService;
+import com.dit.ebay.service.PopulateDB;
 
 @SpringBootApplication
 public class EbayApplication {
@@ -30,14 +31,15 @@ public class EbayApplication {
 		@Autowired
 		UserService userService;
 
+		@Autowired
+		PopulateDB populateDB;
+
 		@Override
 		public void run(String... args) throws Exception {
 			// Creates Admin on the fly
 			userService.createAdmin();
 
-			// Creates 2 random users on the fly
-			// 2 Sellers , 2 Bidders
-			userService.insertRandomUsers();
+			populateDB.populateUsers();
 		}
 	}
 
