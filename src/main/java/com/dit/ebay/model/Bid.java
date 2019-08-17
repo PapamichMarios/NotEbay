@@ -3,13 +3,11 @@ package com.dit.ebay.model;
 import com.dit.ebay.csv_model.CSVBid;
 import com.dit.ebay.exception.AppException;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
@@ -51,7 +49,7 @@ public class Bid {
         this.bidTime = new Timestamp(System.currentTimeMillis());
         this.bidTime.setNanos(0); // don't count millis
         if (this.bidTime.after(item.getTimeEnds())) {
-            throw new AppException("Sorry, You can't bid on Item which bid time has ended.");
+            throw new AppException("Sorry, Time for bidding on this Item has passed.");
         }
     }
 
