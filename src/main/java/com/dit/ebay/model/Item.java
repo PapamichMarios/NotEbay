@@ -4,7 +4,6 @@ import com.dit.ebay.csv_model.CSVItem;
 import com.dit.ebay.request.ItemRequest;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.geo.Point;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
@@ -92,7 +91,6 @@ public class Item {
     private boolean active;
 
     public Item() {
-
     }
 
     /*
@@ -194,9 +192,7 @@ public class Item {
         this.timeEnds = timeEnds;
     }
 
-    public String getDescription() {
-        return description;
-    }
+    public String getDescription() { return description; }
 
     public void setDescription(String description) {
         this.description = description;

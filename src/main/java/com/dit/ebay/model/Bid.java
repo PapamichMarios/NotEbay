@@ -1,6 +1,7 @@
 package com.dit.ebay.model;
 
 import com.dit.ebay.csv_model.CSVBid;
+import com.dit.ebay.exception.AppException;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.data.annotation.CreatedDate;
@@ -8,6 +9,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
@@ -41,6 +43,17 @@ public class Bid {
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "bestBid")
     private Item itemBestBid;
+
+    // Database trigger to check dates
+    // TODO : have to change it in the future
+    @PrePersist
+    public void checkDatesPrePersist() {
+        this.bidTime = new Timestamp(System.currentTimeMillis());
+        this.bidTime.setNanos(0); // don't count millis
+        if (this.bidTime.after(item.getTimeEnds())) {
+            throw new AppException("Sorry, You can't bid on Item which bid time has ended.");
+        }
+    }
 
     public Bid() {
     }
