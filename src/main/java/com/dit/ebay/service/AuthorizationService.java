@@ -18,7 +18,7 @@ public class AuthorizationService {
     public void isSellerOfItem(Long userId, Long itemId) {
         if (!itemRepository.findSellerIdByItemId(itemId).equals(userId)) {
             throw new NotAuthorizedException("Sorry, You're not authorized to perform this action. " +
-                                             "You are not the owner of the item you want to change."
+                                             "You are not the owner of the item."
             );
         }
     }

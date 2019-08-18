@@ -30,9 +30,6 @@ public class ItemService {
     private UserRepository userRepository;
 
     @Autowired
-    private BidRepository bidRepository;
-
-    @Autowired
     private AuthorizationService authorizationService;
 
     private static final Logger logger = LoggerFactory.getLogger(ItemService.class);
@@ -89,7 +86,7 @@ public class ItemService {
             throw new AppException("Sorry, You can't update an Item which is active.");
         }
 
-        if (bidRepository.findItemsBidsByItemId(itemId)) {
+        if (itemRepository.countBidsByItemId(itemId)) {
             throw new AppException("Sorry, You can't update an Item which has at least 1 bid.");
         }
 

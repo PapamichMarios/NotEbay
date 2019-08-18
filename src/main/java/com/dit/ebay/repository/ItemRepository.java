@@ -19,10 +19,17 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     )
     Long findSellerIdByItemId(@Param("itemId") Long itemId);
 
+    // We can remove the count (extra computation) but wanted to make the result boolean
+    @Query("select case when count(i) > 0 then true else false end " +
+            "from Item i inner join i.bids " +
+            "where i.id = :itemId"
+    )
+    boolean countBidsByItemId(@Param("itemId") Long itemId);
+
     @Query("select i from Item i where i.name = :itemName")
-    Optional<Item> findItemByName(@Param("itemName") String itemName);
+    Optional<Item> findByName(@Param("itemName") String itemName);
 
     @Query("select i.bestBid from Item i where i.id = :itemId")
-    Optional<Bid> findItemBestBidByItemId(@Param("itemId") Long itemId);
+    Optional<Bid> findBestBidByItemId(@Param("itemId") Long itemId);
 }
 

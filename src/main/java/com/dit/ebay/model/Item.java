@@ -27,12 +27,12 @@ public class Item {
      * Only for users with role : BIDDER (Bids)
      */
     @JsonIgnore
-    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "item", cascade = CascadeType.ALL)
     //@JoinColumn(name = "seller_id", nullable=false)
     private Set<Bid> bids = new HashSet<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "item", cascade = CascadeType.ALL)
     private List<Category> categories;
 
     /*
@@ -46,7 +46,7 @@ public class Item {
     /*
      * Has 1 fk on the best bid
      */
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "best_bid_id")
     private Bid bestBid; // may be null
 

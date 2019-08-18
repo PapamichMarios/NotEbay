@@ -3,6 +3,7 @@ package com.dit.ebay.model;
 import com.dit.ebay.csv_model.CSVBid;
 import com.dit.ebay.exception.AppException;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -39,7 +40,8 @@ public class Bid {
     @Column(name = "accepted")
     private boolean accepted;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "bestBid")
+    @JsonIgnore
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "bestBid")
     private Item itemBestBid;
 
     // Database trigger to check dates
@@ -76,14 +78,6 @@ public class Bid {
 
     public void setBidAmount(double bidAmount) {
         this.bidAmount = bidAmount;
-    }
-
-    public User getUserBidder() {
-        return user;
-    }
-
-    public void setUserBidder(User userBidder) {
-        this.user = userBidder;
     }
 
     public Item getItem() {

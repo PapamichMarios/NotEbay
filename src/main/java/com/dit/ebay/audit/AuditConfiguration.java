@@ -11,8 +11,6 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import javax.persistence.PrePersist;
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 /*

@@ -69,7 +69,7 @@ public class PopulateDB {
 
             for (CSVItem csvItem : csvToBean) {
 
-                if (itemRepository.findItemByName(csvItem.getName()).orElse(null) != null) continue;
+                if (itemRepository.findByName(csvItem.getName()).orElse(null) != null) continue;
 
                 // Get the user
                 User user = userRepository.findByUsername(csvItem.getUsername()).orElse(null);
@@ -99,7 +99,7 @@ public class PopulateDB {
                 if (user == null) continue;
 
                 // Get Item
-                Item item = itemRepository.findItemByName(csvBid.getItemName()).orElse(null);
+                Item item = itemRepository.findByName(csvBid.getItemName()).orElse(null);
                 if (item == null) continue;
 
                 Bid bid = new Bid(csvBid);
@@ -110,7 +110,7 @@ public class PopulateDB {
                 Bid bidRes = bidRepository.save(bid);
 
                 // increment the bids
-                Bid bestBid = itemRepository.findItemBestBidByItemId(item.getId()).orElse(null);
+                Bid bestBid = itemRepository.findBestBidByItemId(item.getId()).orElse(null);
 
                 if (bestBid == null || bid.getBidAmount() > bestBid.getBidAmount()) {
                     item.setBestBid(bidRes);

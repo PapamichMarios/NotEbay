@@ -85,25 +85,25 @@ public class User {
      * Only for users with role : SELLER (Items)
      */
     @JsonIgnore
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
     private Set<Item> items = new HashSet<>();
 
     /*
      * Only for users with role : BIDDER (Bids)
      */
     @JsonIgnore
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
     private Set<Bid> bids = new HashSet<>();
 
     /*
      * ---Bidder/SellerRatings---
      */
     @JsonIgnore
-    @OneToMany(mappedBy = "userBidder", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "userBidder", cascade = CascadeType.ALL)
     private Set<BidderRating> bdRatings = new HashSet<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "userSeller", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "userSeller", cascade = CascadeType.ALL)
     private Set<SellerRating> slRatings = new HashSet<>();
 
     public User () {

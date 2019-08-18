@@ -179,7 +179,7 @@ public class UserService {
     /*
      * For signed up users both seller/bidders
      */
-    public Optional<User> getLoggedInUserProfile(Long userId) {
-        return userRepository.findById(userId);
+    public User getLoggedInUserProfile(Long userId) {
+        return userRepository.findById(userId).orElse(null);
     }
 }
