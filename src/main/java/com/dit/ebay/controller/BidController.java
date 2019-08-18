@@ -39,8 +39,9 @@ public class BidController {
         return bidService.createBid(itemId, bidRequest, currentUser);
     }
 
+    // example : /app/items/7/bids?page=0&size=3
     @GetMapping(params = { "page", "size" })
-    //@GetMapping
+    //@GetMapping // <- if you uncomment this then you have to pass them as request param or use the default values
     @PreAuthorize("hasRole('ROLE_SELLER')")
     public PagedResponse<BidResponse> getBids(@PathVariable(value = "itemId") Long itemId,
                                               @RequestParam(value = "page", defaultValue = PaginationConstants.DEFAULT_PAGE) int page,
@@ -49,18 +50,5 @@ public class BidController {
         return bidService.getBids(itemId, currentUser, page, size);
     }
 
-
-    /*
-     * Only for testing
-     */
-    @GetMapping("/all")
-    @PreAuthorize("hasRole('ROLE_BIDDER')")
-    public List<Bid> getAll() {
-        List<Bid> l =  bidRepository.findAlll((long) 7);
-        for (Bid item : l) {
-            System.out.println(item);
-        }
-        return l;
-    }
 
 }
