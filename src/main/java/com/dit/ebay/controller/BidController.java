@@ -32,7 +32,7 @@ public class BidController {
     private static final Logger logger = LoggerFactory.getLogger(BidController.class);
 
     @PostMapping
-    @PreAuthorize("hasRole('ROLE_B<3 <IDDER')")
+    @PreAuthorize("hasRole('ROLE_BIDDER')")
     public ResponseEntity<?> createBid(@PathVariable(value = "itemId") Long itemId,
                                        @Valid @RequestBody BidRequest bidRequest,
                                        @Valid @CurrentUser UserDetailsImpl currentUser) {
@@ -41,7 +41,7 @@ public class BidController {
 
     @GetMapping(params = { "page", "size" })
     //@GetMapping
-    @PreAuthorize("hasRole('ROLE_BIDDER')")
+    @PreAuthorize("hasRole('ROLE_SELLER')")
     public PagedResponse<BidResponse> getBids(@PathVariable(value = "itemId") Long itemId,
                                               @RequestParam(value = "page", defaultValue = PaginationConstants.DEFAULT_PAGE) int page,
                                               @RequestParam(value = "size", defaultValue = PaginationConstants.DEFAULT_SIZE) int size,
