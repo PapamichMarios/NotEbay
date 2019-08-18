@@ -12,7 +12,7 @@ import com.dit.ebay.request.BidRequest;
 import com.dit.ebay.response.ApiResponse;
 import com.dit.ebay.response.BidResponse;
 import com.dit.ebay.security.UserDetailsImpl;
-import com.dit.ebay.util.PagedResponse;
+import com.dit.ebay.response.PagedResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,7 +25,6 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class BidService {

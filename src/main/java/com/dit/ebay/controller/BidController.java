@@ -1,20 +1,17 @@
 package com.dit.ebay.controller;
 
 import com.dit.ebay.model.Bid;
-import com.dit.ebay.model.User;
 import com.dit.ebay.repository.BidRepository;
 import com.dit.ebay.request.BidRequest;
 import com.dit.ebay.response.BidResponse;
 import com.dit.ebay.security.CurrentUser;
 import com.dit.ebay.security.UserDetailsImpl;
 import com.dit.ebay.service.BidService;
-import com.dit.ebay.util.PagedResponse;
+import com.dit.ebay.response.PagedResponse;
 import com.dit.ebay.util.PaginationConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;

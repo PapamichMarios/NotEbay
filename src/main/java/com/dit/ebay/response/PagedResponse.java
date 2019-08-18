@@ -1,4 +1,4 @@
-package com.dit.ebay.util;
+package com.dit.ebay.response;
 
 import java.util.List;
 
