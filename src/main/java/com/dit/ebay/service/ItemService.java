@@ -2,8 +2,10 @@ package com.dit.ebay.service;
 
 import com.dit.ebay.exception.AppException;
 import com.dit.ebay.exception.ResourceNotFoundException;
+import com.dit.ebay.model.Category;
 import com.dit.ebay.model.Item;
 import com.dit.ebay.repository.BidRepository;
+import com.dit.ebay.repository.CategoryRepository;
 import com.dit.ebay.security.UserDetailsImpl;
 import com.dit.ebay.util.JsonGeoPoint;
 import com.dit.ebay.model.User;
@@ -19,15 +21,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @Service
 public class ItemService {
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private ItemRepository itemRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private CategoryRepository categoryRepository;
 
     @Autowired
     private AuthorizationService authorizationService;
@@ -48,11 +54,22 @@ public class ItemService {
         // Get lat and long of item
         JsonGeoPoint jgp = itemRequest.getJgp();
 
-        // TODO : image-path and categories store
+        // TODO : image-path
         Item item = new Item(itemRequest);
 
         item.setUser(user);
         Item result = itemRepository.save(item);
+
+        List<String> categoriesNames = itemRequest.getCategoriesNames();
+        // Insert categories here
+        for (String categoryStr : categoriesNames) {
+            // safe check here
+            if (categoryRepository.findByItemIdAndCategoryStr(item.getId(), categoryStr).isEmpty()) {
+                Category category = new Category(categoryStr);
+                category.setItem(result);
+                categoryRepository.save(category);
+            }
+        }
 
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentContextPath().path("/{itemId}")

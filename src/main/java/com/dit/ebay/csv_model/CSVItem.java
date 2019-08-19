@@ -4,6 +4,7 @@ import com.opencsv.bean.CsvBindByName;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.List;
 
 public class CSVItem {
     // which user created (role = SELLER)
@@ -42,6 +43,9 @@ public class CSVItem {
 
     @CsvBindByName(column = "active")
     private boolean active;
+
+    @CsvBindByName(column = "categoriesNames")
+    private String categoriesNames;
 
     public String getUsername() {
         return username;
@@ -137,5 +141,13 @@ public class CSVItem {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public void setCategoriesNames(String categoriesNames) {
+        this.categoriesNames = categoriesNames;
+    }
+
+    public String getCategoriesNames() {
+        return categoriesNames;
     }
 }

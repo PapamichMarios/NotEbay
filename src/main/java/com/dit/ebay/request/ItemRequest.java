@@ -4,6 +4,7 @@ import com.dit.ebay.util.JsonGeoPoint;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 public class ItemRequest {
 
@@ -29,6 +30,8 @@ public class ItemRequest {
     private JsonGeoPoint jgp;
 
     private boolean active;
+
+    private List<String> categoriesNames;
 
     public double getFirstBid() {
         return firstBid;
@@ -97,5 +100,9 @@ public class ItemRequest {
     public String getImagePath() { return imagePath; }
 
     public void setImagePath(String imagePath) { this.imagePath = imagePath; }
+
+    public List<String> getCategoriesNames() { return categoriesNames; }
+
+    public void setCategoriesNames(List<String> categoriesNames) { this.categoriesNames = categoriesNames; }
 }
 

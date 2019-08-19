@@ -5,6 +5,7 @@ import com.dit.ebay.csv_model.CSVItem;
 import com.dit.ebay.model.*;
 import com.dit.ebay.csv_model.CSVUser;
 import com.dit.ebay.repository.BidRepository;
+import com.dit.ebay.repository.CategoryRepository;
 import com.dit.ebay.repository.ItemRepository;
 import com.dit.ebay.repository.UserRepository;
 import com.opencsv.bean.CsvToBean;
@@ -17,6 +18,9 @@ import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Service
 public class PopulateDB {
@@ -28,6 +32,9 @@ public class PopulateDB {
 
     @Autowired
     BidRepository bidRepository;
+
+    @Autowired
+    CategoryRepository categoryRepository;
 
     @Autowired
     PasswordEncoder passwordEncoder;
@@ -77,8 +84,22 @@ public class PopulateDB {
 
                 Item item = new Item(csvItem);
                 item.setUser(user);
+                Item result = itemRepository.save(item);
 
-                itemRepository.save(item);
+                // Insert categories
+                String tempStr = csvItem.getCategoriesNames();
+                if (!tempStr.isEmpty()) {
+                    String[] categoriesNames = tempStr.split(",");
+                    // Insert categories here
+                    for (String categoryStr : categoriesNames) {
+                        // safe check here
+                        if (categoryRepository.findByItemIdAndCategoryStr(result.getId(), categoryStr).isEmpty()) {
+                            Category category = new Category(categoryStr);
+                            category.setItem(result);
+                            categoryRepository.save(category);
+                        }
+                    }
+                }
             }
         }
     }
