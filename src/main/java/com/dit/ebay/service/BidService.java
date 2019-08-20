@@ -99,7 +99,7 @@ public class BidService {
                     bidsPaged.getTotalPages(), bidsPaged.isLast());
         }
 
-        List<BidResponse> bidResponses = new ArrayList<BidResponse>();
+        List<BidResponse> bidResponses = new ArrayList<>();
         for (Bid bid : bidsPaged) {
             bidResponses.add(new BidResponse(bid));
         }

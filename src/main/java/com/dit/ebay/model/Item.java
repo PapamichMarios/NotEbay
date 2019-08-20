@@ -33,7 +33,7 @@ public class Item {
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "item", cascade = CascadeType.ALL)
-    private List<Category> categories;
+    private Set<Category> categories = new HashSet<>();
 
     /*
      * User, owns item
@@ -162,14 +162,6 @@ public class Item {
 
     public void setBids(Set<Bid> bids) {
         this.bids = bids;
-    }
-
-    public List<Category> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(List<Category> categories) {
-        this.categories = categories;
     }
 
     public Long getId() {
@@ -309,4 +301,12 @@ public class Item {
     }
 
     public void increaseNumOfBids() { this.numOfBids++; }
+
+    public Set<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Set<Category> categories) {
+        this.categories = categories;
+    }
 }

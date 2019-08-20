@@ -2,10 +2,14 @@ package com.dit.ebay.service;
 
 import com.dit.ebay.exception.AppException;
 import com.dit.ebay.exception.ResourceNotFoundException;
+import com.dit.ebay.model.Bid;
 import com.dit.ebay.model.Category;
 import com.dit.ebay.model.Item;
 import com.dit.ebay.repository.BidRepository;
 import com.dit.ebay.repository.CategoryRepository;
+import com.dit.ebay.response.BidResponse;
+import com.dit.ebay.response.ItemResponse;
+import com.dit.ebay.response.PagedResponse;
 import com.dit.ebay.security.UserDetailsImpl;
 import com.dit.ebay.util.JsonGeoPoint;
 import com.dit.ebay.model.User;
@@ -16,11 +20,16 @@ import com.dit.ebay.response.ApiResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -37,6 +46,10 @@ public class ItemService {
 
     @Autowired
     private AuthorizationService authorizationService;
+
+    @Autowired
+    private ValidatePageParametersService validatePageParametersService;
+
 
     private static final Logger logger = LoggerFactory.getLogger(ItemService.class);
 
@@ -76,6 +89,26 @@ public class ItemService {
                 .buildAndExpand(item.getId()).toUri();
 
         return ResponseEntity.created(uri).body(new ApiResponse(true, "Item created successfully.", result));
+    }
+
+    public PagedResponse<ItemResponse> getItems(UserDetailsImpl cuurentUse, int page, int size) {
+        validatePageParametersService.validate(page, size);
+
+        Page<Item> itemPaged = itemRepository.findByUserId(cuurentUse.getId(), PageRequest.of(page, size, Sort.by("id").descending()));
+        if (itemPaged.getNumberOfElements() == 0) {
+            return new PagedResponse<>(Collections.emptyList(), itemPaged.getNumber(),
+                    itemPaged.getSize(), itemPaged.getTotalElements(),
+                    itemPaged.getTotalPages(), itemPaged.isLast());
+        }
+
+        List<ItemResponse> itemResponses = new ArrayList<>();
+        for (Item item : itemPaged) {
+            itemResponses.add(new ItemResponse(item));
+        }
+
+        return new PagedResponse<>(itemResponses, itemPaged.getNumber(),
+                itemPaged.getSize(), itemPaged.getTotalElements(),
+                itemPaged.getTotalPages(), itemPaged.isLast());
     }
 
     public Item getUserItemById(Long itemId, UserDetailsImpl currentUser) {

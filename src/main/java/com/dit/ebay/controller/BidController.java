@@ -17,7 +17,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping("/app/items/{itemId}/bids")
@@ -25,9 +24,6 @@ public class BidController {
 
     @Autowired
     private BidService bidService;
-
-    @Autowired
-    private BidRepository bidRepository;
 
     private static final Logger logger = LoggerFactory.getLogger(BidController.class);
 
@@ -40,7 +36,7 @@ public class BidController {
     }
 
     // example : /app/items/7/bids?page=0&size=3
-    @GetMapping(params = { "page", "size" })
+    @GetMapping(params = {"page", "size"})
     //@GetMapping // <- if you uncomment this then you have to pass them as request param or use the default values
     @PreAuthorize("hasRole('ROLE_SELLER')")
     public PagedResponse<BidResponse> getBids(@PathVariable(value = "itemId") Long itemId,
@@ -49,6 +45,5 @@ public class BidController {
                                               @Valid @CurrentUser UserDetailsImpl currentUser) {
         return bidService.getBids(itemId, currentUser, page, size);
     }
-
-
+    
 }

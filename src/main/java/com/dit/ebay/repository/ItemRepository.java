@@ -3,15 +3,17 @@ package com.dit.ebay.repository;
 import com.dit.ebay.model.Bid;
 import com.dit.ebay.model.Item;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface ItemRepository extends JpaRepository<Item, Long> {
+public interface ItemRepository extends PagingAndSortingRepository<Item, Long> {
     // Returns the id of item's owner (with role of SELLER)
     @Query("select u.id " +
             "from Item i inner join i.user as u " +
@@ -31,5 +33,8 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
 
     @Query("select i.bestBid from Item i where i.id = :itemId")
     Optional<Bid> findBestBidByItemId(@Param("itemId") Long itemId);
+
+    @Query("select i from Item i where i.user.id = :userId")
+    Page<Item> findByUserId(@Param("userId") Long userId, Pageable pageable);
 }
 

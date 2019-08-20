@@ -1,10 +1,8 @@
 package com.dit.ebay.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.springframework.data.geo.Point;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "categories", schema = "ted_db")

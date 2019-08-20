@@ -10,6 +10,8 @@ import com.dit.ebay.repository.ItemRepository;
 import com.dit.ebay.repository.UserRepository;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -24,20 +26,23 @@ import java.util.List;
 
 @Service
 public class PopulateDB {
-    @Autowired
-    UserRepository userRepository;
 
     @Autowired
-    ItemRepository itemRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    BidRepository bidRepository;
+    private ItemRepository itemRepository;
 
     @Autowired
-    CategoryRepository categoryRepository;
+    private BidRepository bidRepository;
 
     @Autowired
-    PasswordEncoder passwordEncoder;
+    private CategoryRepository categoryRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    private static final Logger logger = LoggerFactory.getLogger(PopulateDB.class);
 
     private static final String USERS_DATA_FILE = "my_data/user_data.csv";
     private static final String ITEMS_DATA_FILE = "my_data/item_data.csv";

@@ -2,9 +2,12 @@ package com.dit.ebay.controller;
 
 import com.dit.ebay.model.Item;
 import com.dit.ebay.request.ItemRequest;
+import com.dit.ebay.response.ItemResponse;
+import com.dit.ebay.response.PagedResponse;
 import com.dit.ebay.security.CurrentUser;
 import com.dit.ebay.security.UserDetailsImpl;
 import com.dit.ebay.service.ItemService;
+import com.dit.ebay.util.PaginationConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +36,17 @@ public class ItemController {
         return itemService.createItem(currentUser, itemRequest);
     }
 
+    // Get items (auctions) of current logged in user
+    // Note don't need to transform Page<Item> => PagedResponse<Item> (did it to be more simple for the json response)
+    @GetMapping(params = {"page", "size"})
+    //@GetMapping
+    @PreAuthorize("hasRole('ROLE_SELLER')")
+    public PagedResponse<ItemResponse> getItems(@RequestParam(value = "page", defaultValue = PaginationConstants.DEFAULT_PAGE) int page,
+                                                @RequestParam(value = "size", defaultValue = PaginationConstants.DEFAULT_SIZE) int size,
+                                                @Valid @CurrentUser UserDetailsImpl currentUser) {
+        return itemService.getItems(currentUser, page, size);
+    }
+
     // Get currents Logged in item info
     @GetMapping("/{itemId}")
     @PreAuthorize("hasRole('ROLE_SELLER')")
@@ -55,10 +69,5 @@ public class ItemController {
                                             @Valid @CurrentUser UserDetailsImpl currentUser) {
         return itemService.deleteItemById(itemId);
     }
-
-    /*
-     * All the users can display the items
-     */
-
 
 }
