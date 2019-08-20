@@ -13,6 +13,7 @@ import putRequest from '../../utils/requests/putRequest';
 import '../../../../css/signup/confirmation.css';
 
 import { Container, Row, Col, Form, Button, Card, ButtonToolbar, Alert } from 'react-bootstrap';
+import { withRouter } from 'react-router-dom';
 
 export default class Auction extends React.Component{
     constructor(props) {
@@ -39,10 +40,16 @@ export default class Auction extends React.Component{
             errorMsg: '',
         };
 
+        this.checkBidders = this.checkBidders.bind(this);
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.editAuction = this.editAuction.bind(this);
         this.deleteAuction = this.deleteAuction.bind(this);
+    }
+
+    checkBidders() {
+        const url = this.props.location.pathname + '/bids';
+        this.props.history.push(url);
     }
 
     onChange(e) {
@@ -450,7 +457,7 @@ export default class Auction extends React.Component{
 
                                         { this.state.auction.buyPrice ? (
                                             <Form.Group as={Row}>
-                                                <Form.Label column md="5"> <b> Current Best Bid: </b> </Form.Label>
+                                                <Form.Label column md="5"> <b> Buy Price: </b> </Form.Label>
                                                 <Col>
                                                     <Form.Control
                                                         plaintext
@@ -462,7 +469,7 @@ export default class Auction extends React.Component{
                                             </Form.Group>
                                         ) : (
                                             <Form.Group as={Row}>
-                                                <Form.Label column md="5"> <b> Current Best Bid: </b> </Form.Label>
+                                                <Form.Label column md="5"> <b> Buy Price: </b> </Form.Label>
                                                 <Col>
                                                     <Form.Control
                                                         plaintext
@@ -536,17 +543,19 @@ export default class Auction extends React.Component{
 
                                             <Row>
                                                 <Col md={6}>
-                                                    <Button block variant="info" block onClick={this.editAuction}> <b> Edit </b> </Button>
+                                                    <Button block variant="info" onClick={this.editAuction}> <b> Edit </b> </Button>
                                                 </Col>
 
                                                 <Col md={6}>
-                                                    <Button block variant="danger" block onClick={this.deleteAuction}> <b> Delete </b> </Button>
+                                                    <Button block variant="danger" onClick={this.deleteAuction}> <b> Delete </b> </Button>
                                                 </Col>
                                             </Row>
                                     </Col>
 
                                     <Col>
                                         <h3> to put seller </h3>
+
+                                        <Button block variant="info" onClick={this.checkBidders}> <b> Bidders List </b> </Button>
                                     </Col>
                                 </Row>
                             </Card.Body>

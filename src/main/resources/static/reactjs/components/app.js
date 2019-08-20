@@ -11,6 +11,7 @@ import Inbox                from './user/inbox';
 import Auction              from './seller/auctions/auction';
 import AuctionsHomepage     from './seller/auctions/auctionsHomepage.js';
 import SubmitAuction        from './seller/auctions/submitAuction.js';
+import Bid                  from './seller/auctions/bidders.js';
 
 import Users                from './admin/users/users';
 import User                 from './admin/users/userProfile';
@@ -81,8 +82,11 @@ class App extends React.Component {
                 <Route path="/applications/:id"     component={Application} />
 
                 <Route exact path="/auctions"       component={AuctionsHomepage} />
-                <Route path="/auctions/:id"         component={Auction} />
+                <Route exact path="/auctions/:id"   component={Auction} />
                 <Route exact path="/submitAuction"  component={SubmitAuction} />
+
+                <Route path="/auctions/:id/bids"     component={Bid} />
+
                 <Route component={Page404} />
               </Switch>
             </div>
