@@ -1,5 +1,13 @@
 import React from 'react';
-import { Container, Row, Col, Button } from 'react-bootstrap';
+
+import { Container, Row, Col, Button, Card, Table } from 'react-bootstrap';
+import {FaExternalLinkAlt} from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+
+import Loading from '../../utils/loading/loading';
+import * as Constants from '../../utils/constants';
+import getRequest from '../../utils/requests/getRequest';
+import Paging from '../../utils/paging';
 
 import '../../../../css/auctions/auctions.css';
 
@@ -7,6 +15,15 @@ export default class AuctionsHomepage extends React.Component {
     constructor(props) {
         super(props);
 
+        this.state = {
+            activePage: 1,
+            loading: true,
+            myAuctions: [],
+            paging: ''
+        };
+
+        this.changeActivePage = this.changeActivePage.bind(this);
+        this.getData = this.getData.bind(this);
         this.submitAuction = this.submitAuction.bind(this);
     }
 
@@ -14,23 +31,105 @@ export default class AuctionsHomepage extends React.Component {
         this.props.history.push('/submitAuction');
     }
 
-    render() {
-        return(
-            <Container fluid>
-                <Row>
-                    <Col md={10}>
-                         <h3> Auctions </h3>
-                    </Col>
+    //paging
+    changeActivePage(pageNum) {
+        this.setState({
+            activePage: pageNum
+        });
+    }
 
-                    <Col className="text-center" style={{ borderLeft: '1px solid DimGray', height: '100vh'}}>
-                        <Button size="lg" variant="auction" onClick={this.submitAuction}>
-                          <b> List an item for
-                                <br />
-                                SALE! </b>
-                        </Button>
-                    </Col>
-                </Row>
-            </Container>
-        );
+    getData(pageNum) {
+        this.setState({loading: true});
+        const url = '/app/items?page='+ (pageNum-1) +
+                    '&size=5';
+
+        getRequest(url)
+        .then(data => {
+            console.log(data);
+            this.setState({
+                myAuctions: data.content,
+                paging: data
+            });
+        })
+        .catch(error => console.error('Error:', error));
+
+        //set loading
+        setTimeout(() => {
+          this.setState({loading: false})
+        }, Constants.TIMEOUT_DURATION);
+    }
+
+    componentDidMount() {
+        this.getData(this.state.activePage);
+    }
+
+    render() {
+        if(this.state.loading) {
+            return <Loading />;
+        } else {
+            return(
+                <Container fluid>
+                    <Row>
+                        <Col md={8}>
+                            <Card border="dark" style={{width:'100%'}}>
+                                <Card.Header className="text-center bg-dark" style={{color:'white'}}> My Pending Auctions </Card.Header>
+                                <Card.Body>
+                                    <Table striped hover>
+                                        <thead>
+                                            <tr>
+                                                <th>    </th>
+                                                <th> ID </th>
+                                                <th> Name </th>
+                                                <th> Best Bid </th>
+                                                <th> Buy Price </th>
+                                                <th> Time Ending  </th>
+                                                <th> Number of Bids </th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            {this.state.myAuctions.map(myAuction =>
+                                                <tr key={myAuction.id}>
+                                                    <td>
+                                                        <Link to={`auctions/${myAuction.id}`} >
+                                                            <FaExternalLinkAlt />
+                                                        </Link>
+                                                    </td>
+                                                    <td> {myAuction.id} </td>
+                                                    <td> {myAuction.name} </td>
+                                                    <td> {myAuction.bestBid} </td>
+                                                    <td> {myAuction.buyPrice} </td>
+                                                    <td> {myAuction.timeEnds} </td>
+                                                    <td> {myAuction.numOfBids} </td>
+                                                </tr>
+                                            )}
+                                        </tbody>
+                                    </Table>
+
+                                    <Paging totalPages={this.state.paging.totalPages}
+                                            getData={this.getData}
+                                            activePage={this.state.activePage}
+                                            changeActivePage={this.changeActivePage}
+                                    />
+
+                                </Card.Body>
+                            </Card>
+                        </Col>
+
+                        <Col className="text-center" style={{ borderLeft: '1px solid DimGray', height: '100vh'}}>
+                            <Button size="lg" variant="auction" onClick={this.submitAuction}>
+                              <b> List an item for
+                                    <br />
+                                    SALE! </b>
+                            </Button>
+                        </Col>
+                    </Row>
+                </Container>
+            );
+        }
     }
 }
+
+AuctionsHomepage.defaultProps = {
+    action: '/app/items'
+};

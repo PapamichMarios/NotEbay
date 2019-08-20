@@ -24,6 +24,7 @@ export default class Bid extends React.Component {
         this.getData = this.getData.bind(this);
     }
 
+    //paging
     changeActivePage(pageNum) {
         this.setState({
             activePage: pageNum
@@ -31,7 +32,6 @@ export default class Bid extends React.Component {
     }
 
     getData(pageNum) {
-        console.log(pageNum);
         this.setState({loading: true});
         const url = '/app/items/'+
                     this.props.location.pathname.slice(10, 11) +
