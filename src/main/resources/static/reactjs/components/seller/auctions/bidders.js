@@ -3,6 +3,7 @@ import React from 'react';
 import getRequest from '../../utils/requests/getRequest';
 import Loading from '../../utils/loading/loading';
 import * as Constants from '../../utils/constants';
+import Paging from '../../utils/paging';
 
 import '../../../../css/signup/confirmation.css';
 
@@ -19,15 +20,18 @@ export default class Bid extends React.Component {
             activePage: 1
         };
 
+        this.changeActivePage = this.changeActivePage.bind(this);
         this.getData = this.getData.bind(this);
-        this.handlePrev = this.handlePrev.bind(this);
-        this.handleNext = this.handleNext.bind(this);
-        this.handleFirst = this.handleFirst.bind(this);
-        this.handleLast = this.handleLast.bind(this);
-        this.handlePageChange = this.handlePageChange.bind(this);
+    }
+
+    changeActivePage(pageNum) {
+        this.setState({
+            activePage: pageNum
+        });
     }
 
     getData(pageNum) {
+        console.log(pageNum);
         this.setState({loading: true});
         const url = '/app/items/'+
                     this.props.location.pathname.slice(10, 11) +
@@ -50,54 +54,6 @@ export default class Bid extends React.Component {
         }, Constants.TIMEOUT_DURATION)
     }
 
-    handlePrev() {
-        if(this.state.activePage > 1) {
-            const {activePage} = this.state;
-            this.setState({
-                activePage: activePage - 1
-            });
-
-            this.getData(activePage-1);
-        }
-    }
-
-    handleNext() {
-        const {totalPages} = this.state.paging
-        if(this.state.activePage < totalPages) {
-            const {activePage} = this.state;
-            this.setState({
-                activePage: activePage + 1
-            });
-
-            this.getData(activePage+1);
-        }
-    }
-
-    handleFirst() {
-        this.setState({
-            activePage: 1
-        });
-
-        this.getData(1);
-    }
-
-    handleLast() {
-        const {totalPages} = this.state.paging
-        this.setState({
-            activePage: totalPages
-        });
-
-        this.getData(totalPages);
-    }
-
-    handlePageChange(event) {
-        this.setState({
-            activePage: Number(event.target.id)
-        });
-
-        this.getData(Number(event.target.id));
-    }
-
     componentDidMount() {
         this.getData(this.state.activePage);
     }
@@ -106,29 +62,6 @@ export default class Bid extends React.Component {
         if(this.state.loading) {
             return <Loading />;
         } else {
-            //pagination
-            let active= this.state.activePage;
-            let items= [];
-            for(let i=1; i<=this.state.paging.totalPages; i++) {
-                items.push(
-                    <Pagination.Item key={i} id={i} active={i === active} onClick={this.handlePageChange}>
-                        {i}
-                    </Pagination.Item>,
-                );
-            }
-
-            const pagination = (
-                <Pagination>
-                    <Pagination.First onClick={this.handleFirst} />
-                    <Pagination.Prev onClick={this.handlePrev} />
-
-                    {items}
-
-                    <Pagination.Next onClick={this.handleNext} />
-                    <Pagination.Last onClick={this.handleLast} />
-                </Pagination>
-            );
-
             return (
                 <Container>
 
@@ -227,7 +160,11 @@ export default class Bid extends React.Component {
                     )}
 
                     <Row>
-                        {pagination}
+                        <Paging totalPages={this.state.paging.totalPages}
+                                getData={this.getData}
+                                activePage={this.state.activePage}
+                                changeActivePage={this.changeActivePage}
+                        />
                     </Row>
                 </Container>
             );
