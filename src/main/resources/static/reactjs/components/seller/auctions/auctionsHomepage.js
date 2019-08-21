@@ -26,11 +26,6 @@ export default class AuctionsHomepage extends React.Component {
 
         this.changeActivePage = this.changeActivePage.bind(this);
         this.getData = this.getData.bind(this);
-        this.submitAuction = this.submitAuction.bind(this);
-    }
-
-    submitAuction() {
-        this.props.history.push('/submitAuction');
     }
 
     //paging
@@ -70,9 +65,9 @@ export default class AuctionsHomepage extends React.Component {
             return <Loading />;
         } else {
             return(
-                <Container fluid>
+                <Container>
                     <Row>
-                        <Col md={10}>
+                        <Col>
                             <Card border="dark" style={{width:'100%'}}>
                                 <Card.Header className="text-center bg-dark" style={{color:'white'}}> My Pending Auctions </Card.Header>
                                 <Card.Body>
@@ -120,14 +115,6 @@ export default class AuctionsHomepage extends React.Component {
 
                                 </Card.Body>
                             </Card>
-                        </Col>
-
-                        <Col className="text-center">
-                            <Button size="lg" variant="auction" onClick={this.submitAuction}>
-                              <b> List an item for
-                                    <br />
-                                    SALE! </b>
-                            </Button>
                         </Col>
                     </Row>
                 </Container>

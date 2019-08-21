@@ -6,7 +6,7 @@ const ReactDOM = require('react-dom');
 import { NavLink } from "react-router-dom";
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem, Form, FormControl, Button, InputGroup, Col } from 'react-bootstrap';
 
-import { FaSearch, FaHome, FaUser, FaComments, FaDatabase, FaSignInAlt, FaSignOutAlt, FaTasks } from 'react-icons/fa';
+import { FaSearch, FaHome, FaUser, FaComments, FaDatabase, FaSignInAlt, FaSignOutAlt, FaTasks, FaPlus } from 'react-icons/fa';
 import { MdPlaylistAddCheck, MdGavel } from 'react-icons/md';
 
 export default class NavBar extends React.Component{
@@ -76,8 +76,16 @@ export default class NavBar extends React.Component{
 
                         <NavLink to="/auctions">
                           <NavItem className="button-margin">
-                              <Button title="Auctions" variant="dark">
+                              <Button title="My Auctions" variant="dark">
                                 <MdGavel />
+                              </Button>
+                          </NavItem>
+                        </NavLink>
+
+                        <NavLink to="/submitAuction">
+                          <NavItem className="button-margin">
+                              <Button title="Create an auction" variant="dark">
+                                <FaPlus />
                               </Button>
                           </NavItem>
                         </NavLink>
