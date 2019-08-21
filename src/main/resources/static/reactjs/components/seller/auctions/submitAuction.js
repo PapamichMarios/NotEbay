@@ -8,6 +8,7 @@ import * as Constants from '../../utils/constants.js';
 import postRequest from '../../utils/requests/postRequest';
 
 import { Container, Card, Form, Col, InputGroup, Button, Row, ButtonToolbar, Alert } from 'react-bootstrap';
+import { CountryDropdown } from 'react-country-region-selector';
 
 export default class SubmitAuction extends React.Component {
     constructor(props) {
@@ -36,6 +37,7 @@ export default class SubmitAuction extends React.Component {
     }
 
     onChange(e) {
+        console.log(e.target.value);
         this.setState({
             [e.target.name]: e.target.value
         });
@@ -270,13 +272,11 @@ export default class SubmitAuction extends React.Component {
                                         </Form.Label>
                                     </Col>
                                     <Col>
-                                      <Form.Control
-                                          type="text"
+                                      <Form.Control as={CountryDropdown}
                                           name="country"
-                                          placeholder="e.g. USA"
-                                          onChange={e => {
+                                          onChange={ (_, e) => {
                                               handleChange(e)
-                                              this.onChange(e);
+                                              this.onChange(e)
                                           }}
                                           value={values.country}
                                           onBlur={handleBlur}

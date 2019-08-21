@@ -7,6 +7,7 @@ import SignUpHeader from './signupHeader.js';
 
 import { ButtonGroup, ButtonToolbar, Container, Row, Col, Form, Button, Card, InputGroup, Alert } from 'react-bootstrap';
 import { FaUser, FaEnvelope, FaPhone, FaHome, FaGlobe, FaFile } from 'react-icons/fa';
+import { CountryDropdown } from 'react-country-region-selector';
 
 export default class UserDetails extends React.Component{
     constructor(props) {
@@ -76,7 +77,7 @@ export default class UserDetails extends React.Component{
                         touched,
                         values
                     }) => (
-                        <Form>
+                        <Form noValidate onSubmit={handleSubmit}>
                             <Form.Row>
                                 <Col>
                                     <Form.Group controlId="formFirstName">
@@ -228,31 +229,29 @@ export default class UserDetails extends React.Component{
                                             onBlur={handleBlur}
                                             isValid={!errors.city && touched.city}
                                             isInvalid={errors.city && touched.city}
-                                            />
+                                        />
                                         <Form.Control.Feedback type="invalid"> {errors.city} </Form.Control.Feedback>
                                       </InputGroup>
                                     </Form.Group>
 
-                                    <Form.Group controlId="formCountry">
-                                      <InputGroup>
-                                        <InputGroup.Prepend>
-                                          <InputGroup.Text> <FaGlobe/> </InputGroup.Text>
-                                        </InputGroup.Prepend>
-                                        <Form.Control
-                                            type="text"
-                                            name="country"
-                                            value={values.country}
-                                            placeholder="Country"
-                                            onChange={ e => {
-                                                handleChange(e)
-                                                this.props.onChange(e)
-                                            }}
-                                            onBlur={handleBlur}
-                                            isValid={!errors.country && touched.country}
-                                            isInvalid={errors.country && touched.country}
+                                    <Form.Group controlId='formCountry'>
+                                        <InputGroup>
+                                            <InputGroup.Prepend>
+                                              <InputGroup.Text> <FaGlobe/> </InputGroup.Text>
+                                            </InputGroup.Prepend>
+                                            <Form.Control as={CountryDropdown}
+                                                name='country'
+                                                value={values.country}
+                                                onChange={ (_, e) => {
+                                                    handleChange(e)
+                                                    this.props.onChange(e)
+                                                }}
+                                                onBlur={handleBlur}
+                                                isValid={!errors.country && touched.country}
+                                                isInvalid={errors.country && touched.country}
                                             />
-                                        <Form.Control.Feedback type="invalid"> {errors.country} </Form.Control.Feedback>
-                                      </InputGroup>
+                                            <Form.Control.Feedback type="invalid"> {errors.country} </Form.Control.Feedback>
+                                        </InputGroup>
                                     </Form.Group>
                                 </Col>
                             </Form.Row>
@@ -267,7 +266,7 @@ export default class UserDetails extends React.Component{
                                 </Col>
 
                                 <Col md={{offset:3, span:2}}>
-                                    <Button variant="success" block onClick={this.saveAndContinue}> <b> Save and Continue </b> </Button>
+                                    <Button type="submit" variant="success" block> <b> Save and Continue </b> </Button>
                                 </Col>
                             </Form.Row>
                         </Form>

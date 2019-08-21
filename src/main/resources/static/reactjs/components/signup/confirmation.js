@@ -44,6 +44,8 @@ export default class Confirmation extends React.Component {
 
     //confirmation submit
     onSubmit(e) {
+        e.preventDefault();
+
         //check passwords are matching
         if ( this.props.values.password !== this.props.values.confirmPassword)
         {

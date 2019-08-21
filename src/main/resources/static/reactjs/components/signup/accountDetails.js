@@ -47,6 +47,7 @@ export default class AccountDetails extends React.Component{
 
                     <br />
                     <br />
+
                     <Formik
                         initialValues={{
                             username: this.props.values.username,

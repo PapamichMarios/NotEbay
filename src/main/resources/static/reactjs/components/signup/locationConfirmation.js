@@ -16,12 +16,10 @@ export default class LocationConfirmation extends React.Component {
     }
 
     back(e) {
-        e.preventDefault();
         this.props.prevStep();
     }
 
     saveAndContinue(e) {
-        e.preventDefault();
         this.props.nextStep();
     }
 
