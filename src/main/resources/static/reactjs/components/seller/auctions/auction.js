@@ -6,6 +6,8 @@ import Loading from '../../utils/loading/loading';
 import * as Constants from '../../utils/constants';
 import GetTomorrowDate from '../../utils/date/getTomorrowDate';
 
+import decodeTime from '../../utils/decoders/timeDecoder';
+import decodeDate from '../../utils/decoders/dateDecoder';
 import getRequest from '../../utils/requests/getRequest';
 import deleteRequest from '../../utils/requests/deleteRequest';
 import putRequest from '../../utils/requests/putRequest';
@@ -513,7 +515,9 @@ export default class Auction extends React.Component{
                                                     <Form.Control
                                                         plaintext
                                                         readOnly
-                                                        defaultValue= {this.state.auction.timeStarted}
+                                                        defaultValue= { decodeTime(this.state.auction.timeStarted) +
+                                                                        ' ' +
+                                                                        decodeDate(this.state.auction.timeStarted) }
                                                         className="col-user"
                                                     />
                                                 </Col>
@@ -525,7 +529,9 @@ export default class Auction extends React.Component{
                                                     <Form.Control
                                                         plaintext
                                                         readOnly
-                                                        defaultValue= {this.state.auction.timeEnds}
+                                                        defaultValue= { decodeTime(this.state.auction.timeEnds) +
+                                                                        ' ' +
+                                                                        decodeDate(this.state.auction.timeEnds) }
                                                         className="col-user"
                                                     />
                                                 </Col>

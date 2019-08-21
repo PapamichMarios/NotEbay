@@ -4,6 +4,8 @@ import { Container, Row, Col, Button, Card, Table } from 'react-bootstrap';
 import {FaExternalLinkAlt} from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
+import decodeTime from '../../utils/decoders/timeDecoder';
+import decodeDate from '../../utils/decoders/dateDecoder';
 import Loading from '../../utils/loading/loading';
 import * as Constants from '../../utils/constants';
 import getRequest from '../../utils/requests/getRequest';
@@ -103,7 +105,7 @@ export default class AuctionsHomepage extends React.Component {
                                                         <td> -- </td>
                                                     )}
                                                     <td> {myAuction.buyPrice.toString()} </td>
-                                                    <td> {myAuction.timeEnds} </td>
+                                                    <td> {decodeTime(myAuction.timeEnds) + ' ' + decodeDate(myAuction.timeEnds)} </td>
                                                     <td> {myAuction.numOfBids.toString()} </td>
                                                 </tr>
                                             )}
