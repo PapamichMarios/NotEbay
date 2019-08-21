@@ -443,17 +443,31 @@ export default class Auction extends React.Component{
                                             </Col>
                                         </Form.Group>
 
-                                        <Form.Group as={Row}>
-                                            <Form.Label column md="5"> <b> Current Best Bid: </b> </Form.Label>
-                                            <Col>
-                                                <Form.Control
-                                                    plaintext
-                                                    readOnly
-                                                    defaultValue= {this.state.auction.currBestBid}
-                                                    className="col-user"
-                                                />
-                                            </Col>
-                                        </Form.Group>
+                                        { this.state.auction.bestBid ? (
+                                            <Form.Group as={Row}>
+                                                <Form.Label column md="5"> <b> Current Best Bid: </b> </Form.Label>
+                                                <Col>
+                                                    <Form.Control
+                                                        plaintext
+                                                        readOnly
+                                                        defaultValue= {this.state.auction.bestBid.bidAmount}
+                                                        className="col-user"
+                                                    />
+                                                </Col>
+                                            </Form.Group>
+                                        ) : (
+                                            <Form.Group as={Row}>
+                                                <Form.Label column md="5"> <b> Current Best Bid: </b> </Form.Label>
+                                                <Col>
+                                                    <Form.Control
+                                                        plaintext
+                                                        readOnly
+                                                        defaultValue= '--'
+                                                        className="col-user"
+                                                    />
+                                                </Col>
+                                            </Form.Group>
+                                        )}
 
                                         { this.state.auction.buyPrice ? (
                                             <Form.Group as={Row}>

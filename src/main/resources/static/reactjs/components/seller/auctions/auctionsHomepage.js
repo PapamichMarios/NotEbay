@@ -70,7 +70,7 @@ export default class AuctionsHomepage extends React.Component {
             return(
                 <Container fluid>
                     <Row>
-                        <Col md={8}>
+                        <Col md={10}>
                             <Card border="dark" style={{width:'100%'}}>
                                 <Card.Header className="text-center bg-dark" style={{color:'white'}}> My Pending Auctions </Card.Header>
                                 <Card.Body>
@@ -89,18 +89,22 @@ export default class AuctionsHomepage extends React.Component {
 
                                         <tbody>
                                             {this.state.myAuctions.map(myAuction =>
-                                                <tr key={myAuction.id}>
+                                                <tr key={myAuction.id.toString()}>
                                                     <td>
-                                                        <Link to={`auctions/${myAuction.id}`} >
+                                                        <Link to={`auctions/${myAuction.id.toString()}`} >
                                                             <FaExternalLinkAlt />
                                                         </Link>
                                                     </td>
-                                                    <td> {myAuction.id} </td>
+                                                    <td> {myAuction.id.toString()} </td>
                                                     <td> {myAuction.name} </td>
-                                                    <td> {myAuction.bestBid} </td>
-                                                    <td> {myAuction.buyPrice} </td>
+                                                    { myAuction.bestBid !== null? (
+                                                        <td> {myAuction.bestBid.bidAmount.toString()} </td>
+                                                    ) : (
+                                                        <td> -- </td>
+                                                    )}
+                                                    <td> {myAuction.buyPrice.toString()} </td>
                                                     <td> {myAuction.timeEnds} </td>
-                                                    <td> {myAuction.numOfBids} </td>
+                                                    <td> {myAuction.numOfBids.toString()} </td>
                                                 </tr>
                                             )}
                                         </tbody>
@@ -116,7 +120,7 @@ export default class AuctionsHomepage extends React.Component {
                             </Card>
                         </Col>
 
-                        <Col className="text-center" style={{ borderLeft: '1px solid DimGray', height: '100vh'}}>
+                        <Col className="text-center">
                             <Button size="lg" variant="auction" onClick={this.submitAuction}>
                               <b> List an item for
                                     <br />
