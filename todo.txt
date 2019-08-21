@@ -3,9 +3,7 @@ loading se kathe get
 
 - navbar products dropdown
 - xss
-- session gia xristi pou kanei signup(session: applicant)
 - styling profile xristi kai admin
-- country selector on signup
 - styling get items
 - bid sta auctions twn sellers
 - seller auction: 1. my auctions 2. list an item

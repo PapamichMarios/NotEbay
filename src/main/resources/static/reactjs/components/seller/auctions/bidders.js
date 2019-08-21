@@ -7,7 +7,7 @@ import Paging from '../../utils/paging';
 
 import '../../../../css/signup/confirmation.css';
 
-import { Container, Row, Col, Button, Pagination, Card, Form } from 'react-bootstrap';
+import { Container, Row, Col, Button, Pagination, Card, Table } from 'react-bootstrap';
 
 export default class Bid extends React.Component {
     constructor(props) {
@@ -64,107 +64,47 @@ export default class Bid extends React.Component {
         } else {
             return (
                 <Container>
-
-                    {this.state.bidders.map(bidder =>
-                        <div key={bidder.bidAmount}>
-                            <Row>
-                                <Card border="dark" style={{width:'100%'}}>
-                                    <Card.Header className="text-center bg-dark" style={{color:'white'}}> Amount of bidding: {bidder.bidAmount} <span> &#36; </span> </Card.Header>
-                                    <Card.Body>
-                                        <Form>
-                                        <Form.Row>
-                                            <Col>
-                                                <Form.Group as={Row} controlId="formUsername">
-                                                     <Form.Label column md="5"> <b> Username: </b> </Form.Label>
-                                                     <Col>
-                                                       <Form.Control
-                                                            plaintext
-                                                            readOnly
-                                                            defaultValue={bidder.user.username}
-                                                            className="col-user"
-                                                       />
-                                                     </Col>
-                                                </Form.Group>
-
-                                                <Form.Group as={Row} controlId="formFirstName">
-                                                     <Form.Label column md="5"> <b> First Name: </b> </Form.Label>
-                                                     <Col>
-                                                       <Form.Control
-                                                            plaintext
-                                                            readOnly
-                                                            defaultValue={bidder.user.firstName}
-                                                            className="col-user"
-                                                       />
-                                                     </Col>
-                                                </Form.Group>
-
-                                                <Form.Group as={Row} controlId="formLastName">
-                                                     <Form.Label column md="5"> <b> Last Name: </b> </Form.Label>
-                                                     <Col>
-                                                       <Form.Control
-                                                            plaintext
-                                                            readOnly
-                                                            defaultValue={bidder.user.lastName}
-                                                            className="col-user"
-                                                       />
-                                                     </Col>
-                                                </Form.Group>
-                                            </Col>
-
-                                            <Col>
-                                                <Form.Group as={Row} controlId="formEmail">
-                                                     <Form.Label column md="5"> <b> Email Address: </b> </Form.Label>
-                                                     <Col>
-                                                       <Form.Control
-                                                            plaintext
-                                                            readOnly
-                                                            defaultValue={bidder.user.email}
-                                                            className="col-user"
-                                                       />
-                                                     </Col>
-                                                </Form.Group>
-
-                                                <Form.Group as={Row} controlId="formCity">
-                                                     <Form.Label column md="5"> <b> City: </b> </Form.Label>
-                                                     <Col>
-                                                       <Form.Control
-                                                            plaintext
-                                                            readOnly
-                                                            defaultValue={bidder.user.city}
-                                                            className="col-user"
-                                                       />
-                                                     </Col>
-                                                </Form.Group>
-
-                                                <Form.Group as={Row} controlId="formCountry">
-                                                     <Form.Label column md="5"> <b> Country: </b> </Form.Label>
-                                                     <Col>
-                                                       <Form.Control
-                                                            plaintext
-                                                            readOnly
-                                                            defaultValue={bidder.user.country}
-                                                            className="col-user"
-                                                       />
-                                                     </Col>
-                                                </Form.Group>
-                                            </Col>
-                                            </Form.Row>
-                                        </Form>
-
-                                    </Card.Body>
-                                </Card>
-                            </Row>
-
-                            <br/>
-                        </div>
-                    )}
-
                     <Row>
-                        <Paging totalPages={this.state.paging.totalPages}
-                                getData={this.getData}
-                                activePage={this.state.activePage}
-                                changeActivePage={this.changeActivePage}
-                        />
+                        <Col>
+                            <Card border="dark" style={{width:'100%'}}>
+                                <Card.Header className="text-center bg-dark" style={{color:'white'}}> List of Bidders </Card.Header>
+                                <Card.Body>
+                                    <Table striped hover>
+                                        <thead>
+                                            <tr>
+                                                <th> Bidding <span>(&#36;)</span> </th>
+                                                <th> Username </th>
+                                                <th> First Name </th>
+                                                <th> Last Name </th>
+                                                <th> Email Address</th>
+                                                <th> City  </th>
+                                                <th> Country </th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            {this.state.bidders.map(bidder =>
+                                                <tr key={bidder.bidAmount}>
+                                                    <td> {bidder.bidAmount} </td>
+                                                    <td> {bidder.user.username} </td>
+                                                    <td> {bidder.user.firstName} </td>
+                                                    <td> {bidder.user.lastName} </td>
+                                                    <td> {bidder.user.email} </td>
+                                                    <td> {bidder.user.city} </td>
+                                                    <td> {bidder.user.country} </td>
+                                                </tr>
+                                            )}
+                                        </tbody>
+                                    </Table>
+
+                                    <Paging totalPages={this.state.paging.totalPages}
+                                        getData={this.getData}
+                                        activePage={this.state.activePage}
+                                        changeActivePage={this.changeActivePage}
+                                    />
+                                </Card.Body>
+                            </Card>
+                        </Col>
                     </Row>
                 </Container>
             );
