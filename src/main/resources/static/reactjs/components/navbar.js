@@ -29,7 +29,7 @@ export default class NavBar extends React.Component{
                             <InputGroup>
                                 <InputGroup.Prepend>
                                     <InputGroup.Text>
-                                        <FaSearch/>
+                                        <FaSearch style={{verticalAlign: 'baseline'}}/>
                                     </InputGroup.Text>
                                 </InputGroup.Prepend>
                                 <Form.Control type="text" placeholder="Search here.." />
@@ -44,7 +44,7 @@ export default class NavBar extends React.Component{
                                 <NavLink to="/users">
                                   <NavItem className="button-margin">
                                       <Button title="User Database" style={{borderWidth:'0px'}} variant="outline-primary">
-                                        <FaDatabase />
+                                        <FaDatabase style={{verticalAlign: 'baseline'}} />
                                       </Button>
                                   </NavItem>
                                 </NavLink>
@@ -57,7 +57,7 @@ export default class NavBar extends React.Component{
                             <NavLink to="/applications">
                               <NavItem className="button-margin">
                                   <Button title="Applications" style={{borderWidth:'0px'}} variant="outline-primary">
-                                    <FaTasks />
+                                    <FaTasks style={{verticalAlign: 'baseline'}} />
                                   </Button>
                               </NavItem>
                             </NavLink>
@@ -69,7 +69,7 @@ export default class NavBar extends React.Component{
                         <NavLink to="/home">
                           <NavItem className="button-margin">
                               <Button title="Home" variant="dark">
-                                <FaHome />
+                                <FaHome style={{verticalAlign: 'baseline'}} />
                               </Button>
                           </NavItem>
                         </NavLink>
@@ -77,7 +77,7 @@ export default class NavBar extends React.Component{
                         <NavLink to="/auctions">
                           <NavItem className="button-margin">
                               <Button title="My Auctions" variant="dark">
-                                <MdGavel />
+                                <MdGavel style={{verticalAlign: 'baseline'}} />
                               </Button>
                           </NavItem>
                         </NavLink>
@@ -85,7 +85,7 @@ export default class NavBar extends React.Component{
                         <NavLink to="/submitAuction">
                           <NavItem className="button-margin">
                               <Button title="Create an auction" variant="dark">
-                                <FaPlus />
+                                <FaPlus style={{verticalAlign: 'baseline'}} />
                               </Button>
                           </NavItem>
                         </NavLink>
@@ -93,7 +93,7 @@ export default class NavBar extends React.Component{
                         <NavLink to="/profile">
                           <NavItem className="button-margin">
                               <Button title="Profile" variant="dark">
-                                <FaUser />
+                                <FaUser style={{verticalAlign: 'baseline'}} />
                               </Button>
                           </NavItem>
                         </NavLink>
@@ -101,14 +101,14 @@ export default class NavBar extends React.Component{
                         <NavLink to="/inbox">
                           <NavItem className="button-margin">
                               <Button title="Inbox" variant="dark">
-                                <FaComments />
+                                <FaComments style={{verticalAlign: 'baseline'}} />
                               </Button>
                           </NavItem>
                         </NavLink>
 
                           <NavItem className="button-margin">
                                <Button title="Log Out" variant="outline-danger" onClick={this.props.onLogout}>
-                                <b> Logout </b> <FaSignOutAlt />
+                                <b> Logout </b> <FaSignOutAlt style={{verticalAlign: 'baseline'}} />
                                </Button>
                           </NavItem>
                     </Nav>
@@ -131,7 +131,7 @@ export default class NavBar extends React.Component{
                             <InputGroup>
                                 <InputGroup.Prepend>
                                     <InputGroup.Text>
-                                        <FaSearch/>
+                                        <FaSearch style={{verticalAlign: 'baseline'}} />
                                     </InputGroup.Text>
                                 </InputGroup.Prepend>
                                 <Form.Control type="text" placeholder="Search here.." />
@@ -144,7 +144,7 @@ export default class NavBar extends React.Component{
                         <NavLink to="/home">
                           <NavItem className="button-margin">
                               <Button title="Home" variant="dark">
-                                <FaHome />
+                                <FaHome style={{verticalAlign: 'baseline'}} />
                               </Button>
                           </NavItem>
                         </NavLink>
@@ -152,7 +152,7 @@ export default class NavBar extends React.Component{
                         <NavLink to="/login">
                           <NavItem className="button-margin">
                                <Button title="Log In" variant="outline-light" >
-                               <b> Login </b> <FaSignInAlt />
+                               <b> Login </b> <FaSignInAlt style={{verticalAlign: 'baseline'}} />
                                </Button>
                           </NavItem>
                         </NavLink>

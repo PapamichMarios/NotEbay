@@ -47,6 +47,9 @@ export default class SubmitAuction extends React.Component {
         //set loading
         this.setState({loading: true});
 
+        //get lat and lng for the OpenStreetMap
+
+
         //fetch request
         const bodyObj = {
             name: this.state.name,

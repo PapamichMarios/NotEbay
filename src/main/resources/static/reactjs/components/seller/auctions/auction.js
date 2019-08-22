@@ -14,8 +14,9 @@ import putRequest from '../../utils/requests/putRequest';
 
 import '../../../../css/signup/confirmation.css';
 
-import { Container, Row, Col, Form, Button, Card, ButtonToolbar, Alert, Tabs, Tab } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button, Card, ButtonToolbar, Alert, Tabs, Tab, Nav, NavItem, ListGroup } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
+import {FaEdit, FaSearchDollar, FaTrash } from 'react-icons/fa';
 
 export default class Auction extends React.Component{
     constructor(props) {
@@ -94,25 +95,33 @@ export default class Auction extends React.Component{
     }
 
     editAuction() {
-        this.setState({
-            edit: true
-        })
+        if(this.state.auction.active) {
+            alert('Cannot edit item after someone has placed a bid.');
+        } else {
+            this.setState({
+                edit: true
+            })
+        }
     }
 
     deleteAuction() {
-        if (window.confirm('Are you sure you want to delete the current item?')) {
-            deleteRequest(this.props.action + this.props.match.params.id)
-            .then((response) => {
-                console.log('denyResponse:' + JSON.stringify(response));
+        if(this.state.auction.active) {
+            alert('Cannot delete item after someone has placed a bid.');
+        } else {
+            if (window.confirm('Are you sure you want to delete the current item?')) {
+                deleteRequest(this.props.action + this.props.match.params.id)
+                .then((response) => {
+                    console.log('denyResponse:' + JSON.stringify(response));
 
-                if (response.error) {
-                    alert(response.message);
-                } else {
-                    this.props.history.push('/auctions');
-                    alert('Item has been deleted from the platform.');
-                }
-            })
-            .catch(error => console.error('Error:', error));
+                    if (response.error) {
+                        alert(response.message);
+                    } else {
+                        this.props.history.push('/auctions');
+                        alert('Item has been deleted from the platform.');
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            }
         }
     }
 
@@ -411,203 +420,205 @@ export default class Auction extends React.Component{
                 );
             } else {
                 return (
-                    <Container>
-                        <Card border="dark">
-                            <Card.Header as="h3" className="text-center bg-dark" style={{color:'white'}}> Item #{this.state.auction.id} </Card.Header>
-                            <Card.Body>
+                    <Container fluid style={{paddingLeft:'0px'}}>
+                        <Row>
+                            <Col md={1}>
+                                <Card>
+                                    <Card.Body>
+                                        <Card.Title className="text-center"> <b> Actions </b> </Card.Title>
+                                    </Card.Body>
+                                    <ListGroup variant="flush">
+                                        <ListGroup.Item action onClick={this.checkBidders}>
+                                            <FaSearchDollar style={{verticalAlign: 'baseline'}} />
+                                            <span> &ensp; </span>
+                                            <b> Bids </b>
+                                        </ListGroup.Item>
 
-                                <Row>
-                                    <Col md={4}>
-                                        <h3> To put Image </h3>
-                                    </Col>
+                                        <ListGroup.Item action onClick={this.editAuction}>
+                                            <FaEdit style={{verticalAlign: 'baseline'}} />
+                                            <span> &ensp; </span>
+                                            <b> Edit </b>
+                                        </ListGroup.Item>
 
-                                    <Col md={6}>
-                                        <Tabs defaultActiveKey="details">
-                                            <Tab eventKey="details" title="Item Details">
-                                                <br/>
-                                                <Form.Group as={Row}>
-                                                    <Form.Label column md="5"> <b> Name: </b> </Form.Label>
-                                                    <Col>
-                                                        <Form.Control
-                                                            plaintext
-                                                            readOnly
-                                                            defaultValue= {this.state.auction.name}
-                                                            className="col-user"
-                                                        />
-                                                    </Col>
-                                                </Form.Group>
+                                        <ListGroup.Item action onClick={this.deleteAuction}>
+                                            <FaTrash style={{verticalAlign: 'baseline', color:'FireBrick'}} />
+                                            <span> &ensp; </span>
+                                            <b style={{color:'FireBrick'}}> Delete </b>
+                                        </ListGroup.Item>
+                                    </ListGroup>
+                                </Card>
+                            </Col>
 
-                                                <Form.Group as={Row}>
-                                                    <Form.Label column md="5"> <b> Description: </b> </Form.Label>
-                                                    <Col>
-                                                        <Form.Control
-                                                            plaintext
-                                                            readOnly
-                                                            defaultValue= {this.state.auction.description}
-                                                            className="col-user"
-                                                        />
-                                                    </Col>
-                                                </Form.Group>
-
-                                                { this.state.auction.bestBid ? (
-                                                    <Form.Group as={Row}>
-                                                        <Form.Label column md="5"> <b> Current Best Bid: </b> </Form.Label>
-                                                        <Col>
-                                                            <Form.Control
-                                                                plaintext
-                                                                readOnly
-                                                                defaultValue= {this.state.auction.bestBid.bidAmount}
-                                                                className="col-user"
-                                                            />
-                                                        </Col>
-                                                    </Form.Group>
-                                                ) : (
-                                                    <Form.Group as={Row}>
-                                                        <Form.Label column md="5"> <b> Current Best Bid: </b> </Form.Label>
-                                                        <Col>
-                                                            <Form.Control
-                                                                plaintext
-                                                                readOnly
-                                                                defaultValue= '--'
-                                                                className="col-user"
-                                                            />
-                                                        </Col>
-                                                    </Form.Group>
-                                                )}
-
-                                                { this.state.auction.buyPrice ? (
-                                                    <Form.Group as={Row}>
-                                                        <Form.Label column md="5"> <b> Buy Price: </b> </Form.Label>
-                                                        <Col>
-                                                            <Form.Control
-                                                                plaintext
-                                                                readOnly
-                                                                defaultValue= '--'
-                                                                className="col-user"
-                                                            />
-                                                        </Col>
-                                                    </Form.Group>
-                                                ) : (
-                                                    <Form.Group as={Row}>
-                                                        <Form.Label column md="5"> <b> Buy Price: </b> </Form.Label>
-                                                        <Col>
-                                                            <Form.Control
-                                                                plaintext
-                                                                readOnly
-                                                                defaultValue= {this.state.auction.buyPrice}
-                                                                className="col-user"
-                                                            />
-                                                        </Col>
-                                                    </Form.Group>
-                                                )}
-
-                                                <Form.Group as={Row}>
-                                                    <Form.Label column md="5"> <b> Number of bids: </b> </Form.Label>
-                                                    <Col>
-                                                        <Form.Control
-                                                            plaintext
-                                                            readOnly
-                                                            defaultValue= {this.state.auction.numOfBids}
-                                                            className="col-user"
-                                                        />
-                                                    </Col>
-                                                </Form.Group>
-
-                                                <Form.Group as={Row}>
-                                                    <Form.Label column md="5"> <b> Time Started: </b> </Form.Label>
-                                                    <Col>
-                                                        <Form.Control
-                                                            plaintext
-                                                            readOnly
-                                                            defaultValue= { decodeTime(this.state.auction.timeStarted) +
-                                                                            ' ' +
-                                                                            decodeDate(this.state.auction.timeStarted) }
-                                                            className="col-user"
-                                                        />
-                                                    </Col>
-                                                </Form.Group>
-
-                                                <Form.Group as={Row}>
-                                                    <Form.Label column md="5"> <b> Time Ending: </b> </Form.Label>
-                                                    <Col>
-                                                        <Form.Control
-                                                            plaintext
-                                                            readOnly
-                                                            defaultValue= { decodeTime(this.state.auction.timeEnds) +
-                                                                            ' ' +
-                                                                            decodeDate(this.state.auction.timeEnds) }
-                                                            className="col-user"
-                                                        />
-                                                    </Col>
-                                                </Form.Group>
-
-                                                <Form.Group as={Row}>
-                                                    <Form.Label column md="5"> <b> Country: </b> </Form.Label>
-                                                    <Col>
-                                                        <Form.Control
-                                                            plaintext
-                                                            readOnly
-                                                            defaultValue= {this.state.auction.country}
-                                                            className="col-user"
-                                                        />
-                                                    </Col>
-                                                </Form.Group>
-
-                                                <Form.Group as={Row}>
-                                                    <Form.Label column md="5"> <b> Location: </b> </Form.Label>
-                                                    <Col>
-                                                        <Form.Control
-                                                            plaintext
-                                                            readOnly
-                                                            defaultValue= {this.state.auction.location}
-                                                            className="col-user"
-                                                        />
-                                                    </Col>
-                                                </Form.Group>
-                                            </Tab>
-
-                                            <Tab eventKey="location" title="Map Location">
-                                                <br/>
-                                            </Tab>
-                                        </Tabs>
-                                    </Col>
-
-                                    <Col>
+                            <Col>
+                                <Card border="dark">
+                                    <Card.Header as="h3" className="text-center bg-dark" style={{color:'white'}}> Item #{this.state.auction.id} </Card.Header>
+                                    <Card.Body>
                                         <Row>
-                                            <h3> to put seller </h3>
+                                            <Col md={4}>
+                                                <h3> To put Image </h3>
+                                            </Col>
+
+                                            <Col md={6}>
+                                                <Tabs defaultActiveKey="details">
+                                                    <Tab eventKey="details" title="Item Details">
+                                                        <br/>
+                                                        <Form.Group as={Row}>
+                                                            <Form.Label column md="5"> <b> Name: </b> </Form.Label>
+                                                            <Col>
+                                                                <Form.Control
+                                                                    plaintext
+                                                                    readOnly
+                                                                    defaultValue= {this.state.auction.name}
+                                                                    className="col-user"
+                                                                />
+                                                            </Col>
+                                                        </Form.Group>
+
+                                                        <Form.Group as={Row}>
+                                                            <Form.Label column md="5"> <b> Description: </b> </Form.Label>
+                                                            <Col>
+                                                                <Form.Control
+                                                                    plaintext
+                                                                    readOnly
+                                                                    defaultValue= {this.state.auction.description}
+                                                                    className="col-user"
+                                                                />
+                                                            </Col>
+                                                        </Form.Group>
+
+                                                        { this.state.auction.bestBid ? (
+                                                            <Form.Group as={Row}>
+                                                                <Form.Label column md="5"> <b> Current Best Bid: </b> </Form.Label>
+                                                                <Col>
+                                                                    <Form.Control
+                                                                        plaintext
+                                                                        readOnly
+                                                                        defaultValue= {this.state.auction.bestBid.bidAmount}
+                                                                        className="col-user"
+                                                                    />
+                                                                </Col>
+                                                            </Form.Group>
+                                                        ) : (
+                                                            <Form.Group as={Row}>
+                                                                <Form.Label column md="5"> <b> Current Best Bid: </b> </Form.Label>
+                                                                <Col>
+                                                                    <Form.Control
+                                                                        plaintext
+                                                                        readOnly
+                                                                        defaultValue= '--'
+                                                                        className="col-user"
+                                                                    />
+                                                                </Col>
+                                                            </Form.Group>
+                                                        )}
+
+                                                        { this.state.auction.buyPrice ? (
+                                                            <Form.Group as={Row}>
+                                                                <Form.Label column md="5"> <b> Buy Price: </b> </Form.Label>
+                                                                <Col>
+                                                                    <Form.Control
+                                                                        plaintext
+                                                                        readOnly
+                                                                        defaultValue= '--'
+                                                                        className="col-user"
+                                                                    />
+                                                                </Col>
+                                                            </Form.Group>
+                                                        ) : (
+                                                            <Form.Group as={Row}>
+                                                                <Form.Label column md="5"> <b> Buy Price: </b> </Form.Label>
+                                                                <Col>
+                                                                    <Form.Control
+                                                                        plaintext
+                                                                        readOnly
+                                                                        defaultValue= {this.state.auction.buyPrice}
+                                                                        className="col-user"
+                                                                    />
+                                                                </Col>
+                                                            </Form.Group>
+                                                        )}
+
+                                                        <Form.Group as={Row}>
+                                                            <Form.Label column md="5"> <b> Number of bids: </b> </Form.Label>
+                                                            <Col>
+                                                                <Form.Control
+                                                                    plaintext
+                                                                    readOnly
+                                                                    defaultValue= {this.state.auction.numOfBids}
+                                                                    className="col-user"
+                                                                />
+                                                            </Col>
+                                                        </Form.Group>
+
+                                                        <Form.Group as={Row}>
+                                                            <Form.Label column md="5"> <b> Time Started: </b> </Form.Label>
+                                                            <Col>
+                                                                <Form.Control
+                                                                    plaintext
+                                                                    readOnly
+                                                                    defaultValue= { decodeTime(this.state.auction.timeStarted) +
+                                                                                    ' ' +
+                                                                                    decodeDate(this.state.auction.timeStarted) }
+                                                                    className="col-user"
+                                                                />
+                                                            </Col>
+                                                        </Form.Group>
+
+                                                        <Form.Group as={Row}>
+                                                            <Form.Label column md="5"> <b> Time Ending: </b> </Form.Label>
+                                                            <Col>
+                                                                <Form.Control
+                                                                    plaintext
+                                                                    readOnly
+                                                                    defaultValue= { decodeTime(this.state.auction.timeEnds) +
+                                                                                    ' ' +
+                                                                                    decodeDate(this.state.auction.timeEnds) }
+                                                                    className="col-user"
+                                                                />
+                                                            </Col>
+                                                        </Form.Group>
+
+                                                        <Form.Group as={Row}>
+                                                            <Form.Label column md="5"> <b> Country: </b> </Form.Label>
+                                                            <Col>
+                                                                <Form.Control
+                                                                    plaintext
+                                                                    readOnly
+                                                                    defaultValue= {this.state.auction.country}
+                                                                    className="col-user"
+                                                                />
+                                                            </Col>
+                                                        </Form.Group>
+
+                                                        <Form.Group as={Row}>
+                                                            <Form.Label column md="5"> <b> Location: </b> </Form.Label>
+                                                            <Col>
+                                                                <Form.Control
+                                                                    plaintext
+                                                                    readOnly
+                                                                    defaultValue= {this.state.auction.location}
+                                                                    className="col-user"
+                                                                />
+                                                            </Col>
+                                                        </Form.Group>
+                                                    </Tab>
+
+                                                    <Tab eventKey="location" title="Map Location">
+                                                        <br/>
+                                                    </Tab>
+                                                </Tabs>
+                                            </Col>
+
+                                            <Col>
+                                                <Row>
+                                                    <h3> to put seller </h3>
+                                                </Row>
+                                            </Col>
                                         </Row>
-
-                                        <br />
-
-                                        <Row>
-                                            <Button block variant="info" onClick={this.checkBidders}> <b> Bidders List </b> </Button>
-                                        </Row>
-
-
-                                        { !this.state.auction.active ? (
-                                            <Row>
-                                                <Button block variant="info" onClick={this.editAuction}> <b> Edit </b> </Button>
-                                            </Row>
-                                        ) : (
-                                            <Row>
-                                                <Button block variant="info" onClick={this.editAuction} disabled> <b> Edit </b> </Button>
-                                            </Row>
-                                        )}
-
-
-                                        { !this.state.auction.active ? (
-                                            <Row>
-                                                <Button block variant="danger" onClick={this.deleteAuction}> <b> Delete </b> </Button>
-                                            </Row>
-                                        ) : (
-                                            <Row>
-                                                <Button block variant="danger" onClick={this.deleteAuction} disabled> <b> Delete </b> </Button>
-                                            </Row>
-                                        )}
-                                    </Col>
-                                </Row>
-                            </Card.Body>
-                        </Card>
+                                    </Card.Body>
+                                </Card>
+                            </Col>
+                        </Row>
                     </Container>
                );
             }

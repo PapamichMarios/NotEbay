@@ -30,6 +30,7 @@ export default class OpenStreetMapsWrapper extends React.Component {
             })
             .then(data => data.json())
             .then((data) => {
+                console.log(data);
                 this.setState({
                     lat: data.features[0].geometry.coordinates[1],
                     lng: data.features[0].geometry.coordinates[0]
