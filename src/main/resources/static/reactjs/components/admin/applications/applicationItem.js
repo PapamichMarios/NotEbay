@@ -22,8 +22,6 @@ class ApplicationItem extends React.Component {
         putRequest(this.props.action + this.props.value.id, bodyObj)
         //handle success
         .then((response) => {
-            console.log('approveResponse:' + JSON.stringify(response));
-
             if (response.error) {
                 alert(response.message);
             } else {
@@ -38,8 +36,6 @@ class ApplicationItem extends React.Component {
     deny() {
         deleteRequest(this.props.action + this.props.value.id)
         .then((response) => {
-            console.log('denyResponse:' + JSON.stringify(response));
-
             if (response.error) {
                 alert(response.message);
             } else {

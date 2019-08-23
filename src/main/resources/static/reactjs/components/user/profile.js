@@ -22,7 +22,6 @@ export default class Profile extends React.Component {
     componentDidMount() {
         getRequest(this.props.action)
         .then((data) => {
-            console.log(data);
             this.setState({
                 userData: data
             });

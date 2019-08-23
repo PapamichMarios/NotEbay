@@ -29,8 +29,6 @@ export default class Application extends React.Component {
         putRequest(this.props.action + this.props.match.params.id, bodyObj)
         //handle success
         .then((response) => {
-            console.log('approveResponse:' + JSON.stringify(response));
-
             if (response.error) {
                 alert(response.message);
             } else {
@@ -45,8 +43,6 @@ export default class Application extends React.Component {
     deny() {
         deleteRequest(this.props.action + this.props.match.params.id)
         .then((response) => {
-            console.log('denyResponse:' + JSON.stringify(response));
-
             if (response.error) {
                 alert(response.message);
             } else {
@@ -60,8 +56,6 @@ export default class Application extends React.Component {
     componentDidMount() {
         getRequest(this.props.action + this.props.match.params.id)
         .then((data) => {
-            console.log('data' + JSON.stringify(data));
-
             if (!data.error) {
                 this.setState({
                     userData: data

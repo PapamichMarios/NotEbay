@@ -55,10 +55,6 @@ class App extends React.Component {
         location.reload();
     }
 
-    componentDidMount() {
-        console.log(localStorage.getItem('accessToken'));
-    }
-
     render() {
       return (
         <div className="App">

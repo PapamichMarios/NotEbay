@@ -56,8 +56,6 @@ export default class Auction extends React.Component{
             if (window.confirm('Are you sure you want to delete the current item?')) {
                 deleteRequest(this.props.action + this.props.match.params.id)
                 .then((response) => {
-                    console.log('denyResponse:' + JSON.stringify(response));
-
                     if (response.error) {
                         alert(response.message);
                     } else {
@@ -91,8 +89,6 @@ export default class Auction extends React.Component{
     componentDidMount() {
         getRequest(this.props.action + this.props.match.params.id)
         .then(data => {
-            console.log(JSON.stringify(data));
-
             const [date, time] = splitDateAndTime(data.timeEnds);
             this.setState({
                 auction: data,

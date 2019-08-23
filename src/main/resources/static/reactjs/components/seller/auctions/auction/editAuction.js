@@ -66,7 +66,6 @@ class EditAuction extends React.Component {
         putRequest(this.props.action + this.props.match.params.id, bodyObj)
         //handle success
         .then(response => {
-            console.log('editAuctionResponse: ' + JSON.stringify(response));
             if (response.error){
                 this.setState({
                     hasError: true,

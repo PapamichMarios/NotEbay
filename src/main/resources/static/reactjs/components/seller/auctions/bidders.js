@@ -40,7 +40,6 @@ export default class Bid extends React.Component {
 
         getRequest(url)
         .then(data => {
-            console.log(data);
             this.setState({
                 bidders: data.content,
                 paging: data

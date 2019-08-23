@@ -13,15 +13,11 @@ export default class User extends React.Component {
             loading: true,
             userData : null
         }
-
-        console.log(this.props);
     }
 
     componentDidMount() {
         getRequest(this.props.action + this.props.match.params.id)
         .then((data) => {
-            console.log('data' + JSON.stringify(data));
-
             if (!data.error) {
                 this.setState({
                     userData: data

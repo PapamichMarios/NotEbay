@@ -88,7 +88,6 @@ export default class Confirmation extends React.Component {
 
         //print response
         .then(response => {
-            console.log('signUpResponse:' + JSON.stringify(response));
             if (!response.success) {
                 this.setState({
                     hasError: true,

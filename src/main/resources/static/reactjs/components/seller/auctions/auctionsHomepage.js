@@ -42,7 +42,6 @@ export default class AuctionsHomepage extends React.Component {
 
         getRequest(url)
         .then(data => {
-            console.log(data);
             this.setState({
                 myAuctions: data.content,
                 paging: data
