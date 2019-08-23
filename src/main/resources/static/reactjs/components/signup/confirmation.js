@@ -9,6 +9,7 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 
 import {Container, Row, Col, Form, Button, Card, Alert } from 'react-bootstrap';
+import { FaAngleLeft, FaPaperPlane } from 'react-icons/fa';
 
 export default class Confirmation extends React.Component {
     constructor(props) {
@@ -330,7 +331,10 @@ export default class Confirmation extends React.Component {
 
                         <Form.Row>
                             <Col md={{span: 2}}>
-                                <Button variant="danger"  block onClick={this.back}> <b> Back </b> </Button>
+                                <Button variant="danger"  block onClick={this.back}>
+                                    <FaAngleLeft />
+                                    <b> Back </b>
+                                </Button>
                             </Col>
 
                             <Col md={{offset:3, span:2}}>
@@ -338,7 +342,10 @@ export default class Confirmation extends React.Component {
                             </Col>
 
                             <Col md={{offset:3, span: 2}}>
-                                <Button variant="dark" block onClick={this.onSubmit}> <b> Submit </b> </Button>
+                                <Button variant="dark" block onClick={this.onSubmit}>
+                                    <b> Submit </b>
+                                    <FaPaperPlane style={{verticalAlign: 'baseline'}} />
+                                 </Button>
                             </Col>
                         </Form.Row>
 

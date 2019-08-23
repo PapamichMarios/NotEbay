@@ -6,6 +6,7 @@ import '../../../css/utils/mapLarge.css';
 import OpenStreetMapsWrapper from '../utils/maps/openStreetMapsWrapper.js';
 
 import { ButtonGroup, ButtonToolbar, Container, Row, Col, Form, Button, Card, InputGroup } from 'react-bootstrap';
+import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 
 export default class LocationConfirmation extends React.Component {
     constructor(props) {
@@ -53,7 +54,10 @@ export default class LocationConfirmation extends React.Component {
 
                         <Form.Row>
                             <Col md={{span: 2}}>
-                                <Button variant="danger"  block onClick={this.back}> <b> Back </b> </Button>
+                                <Button variant="danger"  block onClick={this.back}>
+                                    <FaAngleLeft />
+                                    <b> Back </b>
+                                </Button>
                             </Col>
 
                             <Col md={{offset:3, span:2}}>
@@ -61,7 +65,10 @@ export default class LocationConfirmation extends React.Component {
                             </Col>
 
                             <Col md={{offset:3, span:2}}>
-                                <Button variant="success" block onClick={this.saveAndContinue}> <b> Save and Continue </b> </Button>
+                                <Button variant="success" block onClick={this.saveAndContinue}>
+                                    <b> Continue </b>
+                                    <FaAngleRight />
+                                </Button>
                             </Col>
                         </Form.Row>
                     </Form>

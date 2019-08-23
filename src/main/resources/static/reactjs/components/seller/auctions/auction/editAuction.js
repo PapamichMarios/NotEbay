@@ -329,7 +329,7 @@ class EditAuction extends React.Component {
 
                                 <Col md={{offset:8, span:2}}>
                                   <ButtonToolbar size="lg">
-                                    <Button variant="success" disabled block>
+                                    <Button variant="dark" disabled block>
                                         <b> Loading... </b>
                                         <LoadingButton />
                                     </Button>
@@ -341,7 +341,7 @@ class EditAuction extends React.Component {
                                 <Col md={2}>
                                     <ButtonToolbar size="lg">
                                       <Button variant="danger" onClick={this.back} block>
-                                          <FaAngleLeft style={{verticalAlign: 'baseline'}} />
+                                          <FaAngleLeft />
                                           <b> Back </b>
                                       </Button>
                                     </ButtonToolbar>
@@ -349,9 +349,9 @@ class EditAuction extends React.Component {
 
                                 <Col md={{offset:8, span:2}}>
                                     <ButtonToolbar size="lg">
-                                      <Button variant="success" onClick={this.save} block>
-                                          <FaAngleRight style={{verticalAlign: 'baseline'}} />
+                                      <Button variant="dark" onClick={this.save} block>
                                           <b> Save </b>
+                                          <FaAngleRight />
                                       </Button>
                                     </ButtonToolbar>
                                 </Col>

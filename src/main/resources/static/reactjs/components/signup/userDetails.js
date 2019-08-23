@@ -8,6 +8,7 @@ import SignUpHeader from './signupHeader.js';
 import { ButtonGroup, ButtonToolbar, Container, Row, Col, Form, Button, Card, InputGroup, Alert } from 'react-bootstrap';
 import { FaUser, FaEnvelope, FaPhone, FaHome, FaGlobe, FaFile } from 'react-icons/fa';
 import { CountryDropdown } from 'react-country-region-selector';
+import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 
 export default class UserDetails extends React.Component{
     constructor(props) {
@@ -258,7 +259,10 @@ export default class UserDetails extends React.Component{
 
                             <Form.Row>
                                 <Col md={{span: 2}}>
-                                    <Button variant="danger"  block onClick={this.back}> <b> Back </b> </Button>
+                                    <Button variant="danger"  block onClick={this.back}>
+                                        <FaAngleLeft />
+                                        <b> Back </b>
+                                    </Button>
                                 </Col>
 
                                 <Col md={{offset:3, span:2}}>
@@ -266,7 +270,10 @@ export default class UserDetails extends React.Component{
                                 </Col>
 
                                 <Col md={{offset:3, span:2}}>
-                                    <Button type="submit" variant="success" block> <b> Save and Continue </b> </Button>
+                                    <Button type="submit" variant="success" block>
+                                        <b> Continue </b>
+                                        <FaAngleRight />
+                                    </Button>
                                 </Col>
                             </Form.Row>
                         </Form>
