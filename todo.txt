@@ -9,6 +9,7 @@ loading se kathe get
 - seller auction: 1. my auctions 2. list an item
 - need to optimize webpack
 - categories /submitAuction
+- arrows in signup
 
 homepage: 1. products
 		  2. signup/login or sell it

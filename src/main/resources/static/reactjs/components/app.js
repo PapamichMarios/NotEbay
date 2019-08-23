@@ -8,7 +8,7 @@ import Page404              from './errors/error404';
 import Profile              from './user/profile';
 import Inbox                from './user/inbox';
 
-import Auction              from './seller/auctions/auction';
+import Auction              from './seller/auctions/auction/auction';
 import AuctionsHomepage     from './seller/auctions/auctionsHomepage.js';
 import SubmitAuction        from './seller/auctions/submitAuction.js';
 import Bid                  from './seller/auctions/bidders.js';
