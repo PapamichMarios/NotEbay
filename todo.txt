@@ -8,7 +8,6 @@ loading se kathe get
 - bid sta auctions twn sellers
 - seller auction: 1. my auctions 2. list an item
 - need to optimize webpack
-- make buttons in navbar round
 - categories /submitAuction
 
 homepage: 1. products

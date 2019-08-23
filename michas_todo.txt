@@ -1,0 +1,2 @@
+1. items/itemid gia bidder/visitor
+2. ItemResponse: Usernamer seller & rating
