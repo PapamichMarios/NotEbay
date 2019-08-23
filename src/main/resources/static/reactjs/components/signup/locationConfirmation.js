@@ -2,7 +2,7 @@ import React from 'react';
 
 import SignUpHeader from './signupHeader.js';
 
-import '../../../css/utils/map.css';
+import '../../../css/utils/mapLarge.css';
 import OpenStreetMapsWrapper from '../utils/maps/openStreetMapsWrapper.js';
 
 import { ButtonGroup, ButtonToolbar, Container, Row, Col, Form, Button, Card, InputGroup } from 'react-bootstrap';

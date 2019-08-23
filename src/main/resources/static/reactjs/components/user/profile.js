@@ -6,6 +6,7 @@ import * as Constants from '../utils/constants';
 import getRequest from '../utils/requests/getRequest';
 import OpenStreetMap from '../utils/maps/openStreetMap';
 
+import '../../../css/utils/map.css';
 import '../../../css/user/profile.css';
 
 export default class Profile extends React.Component {
@@ -160,7 +161,9 @@ export default class Profile extends React.Component {
                                                 </Col>
 
                                                 <Col>
-                                                    <OpenStreetMap lat={this.state.userData.geoLat} lng={this.state.userData.geoLong} />
+                                                    <div className="leaflet">
+                                                        <OpenStreetMap lat={this.state.userData.geoLat} lng={this.state.userData.geoLong} />
+                                                    </div>
                                                 </Col>
                                             </Row>
                                         </Tab>

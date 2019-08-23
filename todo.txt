@@ -9,8 +9,7 @@ loading se kathe get
 - seller auction: 1. my auctions 2. list an item
 - need to optimize webpack
 - make buttons in navbar round
-- map location on submitAuction
-- sidebar in /auctions
+- categories /submitAuction
 
 homepage: 1. products
 		  2. signup/login or sell it

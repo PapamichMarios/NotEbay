@@ -29,28 +29,23 @@ export default class SubmitAuction extends React.Component {
 
             hasError: false,
             errorMsg: '',
-            loading: false
+            loading: false,
+            locationFailed: false
         };
 
+        this.fetchAgain = this.fetchAgain.bind(this);
+        this.createItem = this.createItem.bind(this);
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
     }
 
     onChange(e) {
-        console.log(e.target.value);
         this.setState({
             [e.target.name]: e.target.value
         });
     }
 
-    onSubmit(e){
-        //set loading
-        this.setState({loading: true});
-
-        //get lat and lng for the OpenStreetMap
-
-
-        //fetch request
+    createItem() {
         const bodyObj = {
             name: this.state.name,
             description: this.state.description,
@@ -58,12 +53,16 @@ export default class SubmitAuction extends React.Component {
             firstBid: this.state.firstBid,
             buyPrice: this.state.buyPrice,
             country: this.state.country,
-            location: this.state.location
+            location: this.state.location,
+            jgp: {
+                geoLat: this.state.lat,
+                geoLong: this.state.lng
+            },
+            categoriesNames: ['xa0']
         };
 
         postRequest(this.props.action, bodyObj)
         .then(response => {
-            console.log('submitAuctionResponse: ' + JSON.stringify(response));
             if (response.error){
                 this.setState({
                     hasError: true,
@@ -71,13 +70,64 @@ export default class SubmitAuction extends React.Component {
                     loading: false
                 })
             } else {
-
                 //redirect
+                this.props.history.push('/auctions/' + response.object.id);
             }
         })
         .catch(error => console.error('Error:', error));
     }
-//.min(new Date(), 'Bid Ending Time cannot be earlier than today')
+
+    onSubmit(e){
+        //set loading
+        this.setState({loading: true});
+
+        //get lat lng
+        fetch('https://nominatim.openstreetmap.org/search?' +
+            'city=' + this.state.location +
+            '&country=' + this.state.country +
+            '&format=json', {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                method: 'GET'
+        })
+        .then(data => data.json())
+        .then(data => {
+            if(data.length === 0) {
+                this.setState({
+                    locationFailed: true
+                },
+                this.fetchAgain);
+            } else {
+                this.setState({
+                    lat: data[0].lat,
+                    lng: data[0].lon
+                },
+                this.createItem);
+            }
+        });
+    }
+
+    fetchAgain() {
+        //redo fetch for location but with only country in case the first failed
+        fetch('https://nominatim.openstreetmap.org/search?' +
+            '&country=' + this.state.country +
+            '&format=json', {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                method: 'GET'
+        })
+        .then(data => data.json())
+        .then(data => {
+            this.setState({
+                lat: data[0].lat,
+                lng: data[0].lon
+            },
+            this.createItem);
+        });
+    }
+
     render(){
         const minDate = GetTomorrowDate();
         const SubmitItemSchema = Yup.object({
@@ -268,6 +318,30 @@ export default class SubmitAuction extends React.Component {
                                     </Col>
                                   </Form.Group>
 
+                                  <Form.Group as={Row} controlId="formLocation">
+                                    <Col md={3}>
+                                        <Form.Label title="required">
+                                            <b> City: *</b>
+                                        </Form.Label>
+                                    </Col>
+                                    <Col>
+                                      <Form.Control
+                                          type="text"
+                                          name="location"
+                                          placeholder="e.g. New York"
+                                          onChange={e => {
+                                              handleChange(e)
+                                              this.onChange(e);
+                                          }}
+                                          value={values.location}
+                                          onBlur={handleBlur}
+                                          isValid={!errors.location && touched.location}
+                                          isInvalid={errors.location && touched.location}
+                                      />
+                                      <Form.Control.Feedback type="invalid"> {errors.location}</Form.Control.Feedback>
+                                    </Col>
+                                  </Form.Group>
+
                                   <Form.Group as={Row} controlId="formCountry">
                                     <Col md={3}>
                                         <Form.Label title="required" >
@@ -287,30 +361,6 @@ export default class SubmitAuction extends React.Component {
                                           isInvalid={errors.country && touched.country}
                                       />
                                       <Form.Control.Feedback type="invalid"> {errors.country}</Form.Control.Feedback>
-                                    </Col>
-                                  </Form.Group>
-
-                                  <Form.Group as={Row} controlId="formLocation">
-                                    <Col md={3}>
-                                        <Form.Label title="required">
-                                            <b> Location: *</b>
-                                        </Form.Label>
-                                    </Col>
-                                    <Col>
-                                      <Form.Control
-                                          type="text"
-                                          name="location"
-                                          placeholder="e.g. New York"
-                                          onChange={e => {
-                                              handleChange(e)
-                                              this.onChange(e);
-                                          }}
-                                          value={values.location}
-                                          onBlur={handleBlur}
-                                          isValid={!errors.location && touched.location}
-                                          isInvalid={errors.location && touched.location}
-                                      />
-                                      <Form.Control.Feedback type="invalid"> {errors.location}</Form.Control.Feedback>
                                     </Col>
                                   </Form.Group>
                               </Col>

@@ -11,8 +11,10 @@ import decodeDate from '../../utils/decoders/dateDecoder';
 import getRequest from '../../utils/requests/getRequest';
 import deleteRequest from '../../utils/requests/deleteRequest';
 import putRequest from '../../utils/requests/putRequest';
+import OpenStreetMap from '../../utils/maps/openStreetMapLarge';
 
 import '../../../../css/signup/confirmation.css';
+import '../../../../css/utils/map.css';
 
 import { Container, Row, Col, Form, Button, Card, ButtonToolbar, Alert, Tabs, Tab, Nav, NavItem, ListGroup } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
@@ -454,8 +456,10 @@ export default class Auction extends React.Component{
                                     <Card.Header as="h3" className="text-center bg-dark" style={{color:'white'}}> Item #{this.state.auction.id} </Card.Header>
                                     <Card.Body>
                                         <Row>
-                                            <Col md={4}>
-                                                <h3> To put Image </h3>
+                                            <Col md={3}>
+                                                <Row>
+                                                    <h3> To put Image </h3>
+                                                </Row>
                                             </Col>
 
                                             <Col md={6}>
@@ -602,16 +606,18 @@ export default class Auction extends React.Component{
                                                             </Col>
                                                         </Form.Group>
                                                     </Tab>
-
-                                                    <Tab eventKey="location" title="Map Location">
-                                                        <br/>
-                                                    </Tab>
                                                 </Tabs>
                                             </Col>
 
                                             <Col>
                                                 <Row>
                                                     <h3> to put seller </h3>
+                                                </Row>
+
+                                                <Row>
+                                                    <div className="leaflet">
+                                                        <OpenStreetMap lat={this.state.auction.geoLat} lng={this.state.auction.geoLong} />
+                                                    </div>
                                                 </Row>
                                             </Col>
                                         </Row>

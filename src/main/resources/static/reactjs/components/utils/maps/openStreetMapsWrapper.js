@@ -18,31 +18,42 @@ export default class OpenStreetMapsWrapper extends React.Component {
     }
 
     componentDidMount() {
-        fetch(this.props.action
-                + this.props.location.streetAddress + ', '
-                + this.props.location.city + ' ' + this.props.location.postalCode + ', '
-                + this.props.location.country
-                + '&format=geojson', {
+        fetch(this.props.action +
+            'street=' + this.props.location.streetAddress +
+            '&city='  + this.props.location.city +
+            '&country=' + this.props.location.country +
+            '&postalcode=' + this.props.location.postalCode +
+            '&format=json', {
                headers: {
                    'Content-Type': 'application/json',
                },
                method: this.props.method
-            })
-            .then(data => data.json())
-            .then((data) => {
-                console.log(data);
+        })
+        .then(data => data.json())
+        .then((data) => {
+            if(data.length === 0) {
                 this.setState({
-                    lat: data.features[0].geometry.coordinates[1],
-                    lng: data.features[0].geometry.coordinates[0]
-                })
+                    lat: -1,
+                    lng: -1
+                });
+
+                if (this.props.set) {
+                    this.props.setGeoLocation( -1, -1);
+                }
+            } else {
+                this.setState({
+                    lat: data[0].lat,
+                    lng: data[0].lon
+                });
 
                 if (this.props.set) {
                     this.props.setGeoLocation(
-                        data.features[0].geometry.coordinates[1],
-                        data.features[0].geometry.coordinates[0]
+                        data[0].lat,
+                        data[0].lon
                     );
                 }
-            });
+            }
+        });
 
         setTimeout(() => {
           this.setState({loading: false})
@@ -59,6 +70,6 @@ export default class OpenStreetMapsWrapper extends React.Component {
 }
 
 OpenStreetMapsWrapper.defaultProps = {
-    action: 'https://nominatim.openstreetmap.org/search?q=',
+    action: 'https://nominatim.openstreetmap.org/search?',
     method: 'GET'
 };
