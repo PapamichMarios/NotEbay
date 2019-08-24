@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/app/items/{itemId}/bids")
+@RequestMapping("/app/items")
 public class BidController {
 
     @Autowired
@@ -27,7 +27,7 @@ public class BidController {
 
     private static final Logger logger = LoggerFactory.getLogger(BidController.class);
 
-    @PostMapping
+    @PostMapping("/{itemId}/bids")
     @PreAuthorize("hasRole('ROLE_BIDDER')")
     public ResponseEntity<?> createBid(@PathVariable(value = "itemId") Long itemId,
                                        @Valid @RequestBody BidRequest bidRequest,
@@ -36,7 +36,7 @@ public class BidController {
     }
 
     // example : /app/items/7/bids?page=0&size=3
-    @GetMapping(params = {"page", "size"})
+    @GetMapping(path = "/owner/{itemId}/bids", params = {"page", "size"})
     //@GetMapping // <- if you uncomment this then you have to pass them as request param or use the default values
     @PreAuthorize("hasRole('ROLE_SELLER')")
     public PagedResponse<BidResponse> getBids(@PathVariable(value = "itemId") Long itemId,
@@ -45,5 +45,5 @@ public class BidController {
                                               @Valid @CurrentUser UserDetailsImpl currentUser) {
         return bidService.getBids(itemId, currentUser, page, size);
     }
-    
+
 }

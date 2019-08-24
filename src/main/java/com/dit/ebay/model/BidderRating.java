@@ -1,5 +1,6 @@
 package com.dit.ebay.model;
 
+import com.dit.ebay.request.RatingRequest;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -46,6 +47,11 @@ public class BidderRating {
         this.comment = comment;
     }
 
+    public BidderRating(RatingRequest ratingRequest) {
+        this.rating = ratingRequest.getRating();
+        this.comment = ratingRequest.getComment();
+    }
+
     public Long getId() {
         return id;
     }
@@ -69,7 +75,6 @@ public class BidderRating {
     public void setComment(String comment) {
         this.comment = comment;
     }
-
 
     public Timestamp getRateDate() {
         return rateDate;

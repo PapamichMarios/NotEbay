@@ -18,7 +18,6 @@ import com.dit.ebay.security.UserDetailsImpl;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/app")
@@ -71,8 +70,8 @@ public class UserController {
     @PutMapping("/users/{userId}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public User updateUserEnableById(@PathVariable(value = "userId") Long userId,
-                                 @Valid @RequestBody EnableRequest enableRequest,
-                                 @Valid @CurrentUser UserDetailsImpl currentUser) {
+                                     @Valid @RequestBody EnableRequest enableRequest,
+                                     @Valid @CurrentUser UserDetailsImpl currentUser) {
         return userService.updateUserEnableById(userId, enableRequest);
     }
 

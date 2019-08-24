@@ -32,7 +32,7 @@ public class ItemController {
     private static final Logger logger = LoggerFactory.getLogger(ItemController.class);
 
     /*
-     * For Seller
+     * ---For Seller---
      */
     @PostMapping
     @PreAuthorize("hasRole('ROLE_SELLER')")
@@ -47,13 +47,14 @@ public class ItemController {
     //@GetMapping
     @PreAuthorize("hasRole('ROLE_SELLER')")
     public PagedResponse<ItemResponse> getSellerItems(@RequestParam(value = "page", defaultValue = PaginationConstants.DEFAULT_PAGE) int page,
-                                                @RequestParam(value = "size", defaultValue = PaginationConstants.DEFAULT_SIZE) int size,
-                                                @Valid @CurrentUser UserDetailsImpl currentUser) {
+                                                      @RequestParam(value = "size", defaultValue = PaginationConstants.DEFAULT_SIZE) int size,
+                                                      @Valid @CurrentUser UserDetailsImpl currentUser) {
         return itemService.getSellerItems(currentUser, page, size);
     }
 
     // Get currents Logged in item info
-    @GetMapping("/{itemId}")
+    // must be the owner here the item id changes
+    @GetMapping("/owner/{itemId}")
     @PreAuthorize("hasRole('ROLE_SELLER')")
     public Item getSellerItemById(@PathVariable(value = "itemId") Long itemId,
                                 @Valid @CurrentUser UserDetailsImpl currentUser) {
@@ -76,13 +77,13 @@ public class ItemController {
     }
 
     /*
-     * For Bidder
+     * ---For Bidder---
      */
-    @GetMapping("/bidder/{itemId")
+    @GetMapping("/{itemId")
     @PreAuthorize("hasRole('ROLE_BIDDER')")
     public ItemResponse getBidderItemById(@PathVariable(value = "itemId") Long itemId,
                                           @Valid @CurrentUser UserDetailsImpl currentUser) {
-        return itemService.getBidderItemById(itemId, currentUser);
+        return itemService.getBidderItemById(itemId);
     }
 
 }

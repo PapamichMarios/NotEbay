@@ -2,12 +2,9 @@ package com.dit.ebay.service;
 
 import com.dit.ebay.exception.AppException;
 import com.dit.ebay.exception.ResourceNotFoundException;
-import com.dit.ebay.model.Bid;
 import com.dit.ebay.model.Category;
 import com.dit.ebay.model.Item;
-import com.dit.ebay.repository.BidRepository;
 import com.dit.ebay.repository.CategoryRepository;
-import com.dit.ebay.response.BidResponse;
 import com.dit.ebay.response.ItemResponse;
 import com.dit.ebay.response.PagedResponse;
 import com.dit.ebay.security.UserDetailsImpl;
@@ -153,7 +150,12 @@ public class ItemService {
         return ResponseEntity.ok().body(new ApiResponse(true, "Item Deleted Successfully."));
     }
 
-    public ItemResponse getBidderItemById(Long itemId, UserDetailsImpl currentUser) {
-        return new ItemResponse(new Item());
+    public ItemResponse getBidderItemById(Long itemId) {
+        Item item = itemRepository.findById(itemId)
+                .orElseThrow(() -> new ResourceNotFoundException("Item", "id", itemId));
+
+        ItemResponse itemResponse = new ItemResponse(item);
+        itemResponse.setUser(item.getUser());
+        return itemResponse;
     }
 }

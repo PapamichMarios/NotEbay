@@ -65,7 +65,7 @@ public class ItemResponse {
         this.geoLat = item.getGeoLat();
         this.geoLong = item.getGeoLong();
         this.active = item.isActive();
-        this.bestBid = item.getBestBid();
+        this.bestBid = item.getBestBid(); // maybe null
         this.user = null; // change it only when a bidder wants to check the item
     }
 
@@ -89,9 +89,7 @@ public class ItemResponse {
         return buyPrice;
     }
 
-    public void setBuyPrice(double buyPrice) {
-        this.buyPrice = buyPrice;
-    }
+    public void setBuyPrice(double buyPrice) { this.buyPrice = buyPrice; }
 
     public double getFirstBid() {
         return firstBid;
