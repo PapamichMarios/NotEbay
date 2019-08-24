@@ -7,7 +7,7 @@ import OpenStreetMap from '../../../utils/maps/openStreetMapLarge';
 import '../../../../../css/utils/map.css';
 import '../../../../../css/signup/confirmation.css';
 
-import { Container, Row, Col, Form, Button, Card, ButtonToolbar, Alert, Tabs, Tab, ListGroup } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button, Card, ButtonToolbar, Alert, Tabs, Tab, ListGroup, Nav } from 'react-bootstrap';
 import {FaEdit, FaSearchDollar, FaTrash } from 'react-icons/fa';
 
 export default class CurrentAuction extends React.Component {
@@ -18,38 +18,38 @@ export default class CurrentAuction extends React.Component {
 
     render() {
         return(
-            <Container fluid style={{paddingLeft:'0px'}}>
+            <Container fluid>
                 <Row>
                     <Col md={2}>
-                        <Card style={{height: '100vh'}}>
-                            <Card.Body>
-                                <Card.Title className="text-center"> <b> Actions </b> </Card.Title>
-                                <ListGroup variant="flush">
-                                    <ListGroup.Item action onClick={this.props.editAuction}>
-                                        <FaEdit style={{verticalAlign: 'baseline'}} />
-                                        <span> &ensp; &ensp; </span>
-                                        <b> Edit </b>
-                                    </ListGroup.Item>
+                        <Nav className="flex-column">
+                            <Nav.Link disabled> <b> Actions </b> </Nav.Link>
 
-                                    <ListGroup.Item action onClick={this.props.deleteAuction}>
-                                        <FaTrash style={{verticalAlign: 'baseline', color:'FireBrick'}} />
-                                        <span> &ensp; &ensp; </span>
-                                        <b style={{color:'DarkRed'}}> Delete </b>
-                                    </ListGroup.Item>
-                                </ListGroup>
+                            <Nav.Item>
+                                <Nav.Link style={{fontSize: '15px', color: 'Black'}} onClick={this.props.editAuction}>
+                                    <FaEdit style={{verticalAlign: 'baseline'}} />
+                                    <span> &nbsp; </span>
+                                    <b> Edit </b>
+                                </Nav.Link>
+                            </Nav.Item>
 
-                                <br />
+                            <Nav.Item>
+                                <Nav.Link style={{fontSize: '15px', color: 'DarkRed'}} onClick={this.props.deleteAuction}>
+                                    <FaTrash style={{verticalAlign: 'baseline'}} />
+                                    <span> &nbsp; </span>
+                                    <b> Delete </b>
+                                </Nav.Link>
+                            </Nav.Item>
 
-                                <Card.Title className="text-center"> <b> Listing </b> </Card.Title>
-                                <ListGroup variant="flush">
-                                    <ListGroup.Item action onClick={this.props.checkBidders}>
-                                        <FaSearchDollar style={{verticalAlign: 'baseline'}} />
-                                        <span> &ensp; &ensp; </span>
-                                        <b> Bids </b>
-                                    </ListGroup.Item>
-                                </ListGroup>
-                             </Card.Body>
-                        </Card>
+                            <Nav.Link disabled> <b> Listing </b> </Nav.Link>
+
+                            <Nav.Item>
+                                <Nav.Link style={{fontSize: '15px', color: 'Black'}} onClick={this.props.checkBidders}>
+                                    <FaSearchDollar style={{verticalAlign: 'baseline'}} />
+                                    <span> &nbsp; </span>
+                                    <b> Bids </b>
+                                </Nav.Link>
+                            </Nav.Item>
+                        </Nav>
                     </Col>
 
                     <Col>

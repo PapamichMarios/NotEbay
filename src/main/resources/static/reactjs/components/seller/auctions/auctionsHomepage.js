@@ -68,7 +68,7 @@ export default class AuctionsHomepage extends React.Component {
                     <Row>
                         <Col>
                             <Card border="dark" style={{width:'100%'}}>
-                                <Card.Header className="text-center bg-dark" style={{color:'white'}}> My Pending Auctions </Card.Header>
+                                <Card.Header as="h3" className="text-center bg-dark" style={{color:'white'}}> My Pending Auctions </Card.Header>
                                 <Card.Body>
                                     <Table striped hover>
                                         <thead>
