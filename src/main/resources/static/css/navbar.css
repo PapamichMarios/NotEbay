@@ -6,6 +6,10 @@
     margin-right : 5px;
 }
 
+.btn-circle {
+    border-radius: 50%
+}
+
 .navbar-margin{
     margin-bottom: 25px;
 }

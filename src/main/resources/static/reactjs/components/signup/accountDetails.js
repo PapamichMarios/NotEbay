@@ -8,6 +8,7 @@ import SignUpHeader from './signupHeader.js';
 import { ButtonGroup, ButtonToolbar, Container, Row, Col, Button, Card, InputGroup, Alert, Form, Image } from 'react-bootstrap';
 import { FaUser, FaLock, FaEnvelope, FaPhone, FaHome, FaGlobe, FaFile } from 'react-icons/fa';
 import { FaArrowAltCircleRight, FaArrowAltCircleLeft} from 'react-icons/fa';
+import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 
 export default class AccountDetails extends React.Component{
     constructor(props) {
@@ -47,6 +48,7 @@ export default class AccountDetails extends React.Component{
 
                     <br />
                     <br />
+
                     <Formik
                         initialValues={{
                             username: this.props.values.username,
@@ -170,7 +172,10 @@ export default class AccountDetails extends React.Component{
                                 </Col>
 
                                 <Col md={{offset: 3, span:2}}>
-                                    <Button type="submit" variant="success" block> <b> Save and Continue </b> </Button>
+                                    <Button type="submit" variant="success" block>
+                                        <b> Continue </b>
+                                        <FaAngleRight />
+                                    </Button>
                                 </Col>
                             </Form.Row>
                         </Form>

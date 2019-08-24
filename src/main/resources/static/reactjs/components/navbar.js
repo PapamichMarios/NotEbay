@@ -6,7 +6,7 @@ const ReactDOM = require('react-dom');
 import { NavLink } from "react-router-dom";
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem, Form, FormControl, Button, InputGroup, Col } from 'react-bootstrap';
 
-import { FaSearch, FaHome, FaUser, FaComments, FaDatabase, FaSignInAlt, FaSignOutAlt, FaTasks } from 'react-icons/fa';
+import { FaSearch, FaHome, FaUser, FaComments, FaDatabase, FaSignInAlt, FaSignOutAlt, FaTasks, FaPlus } from 'react-icons/fa';
 import { MdPlaylistAddCheck, MdGavel } from 'react-icons/md';
 
 export default class NavBar extends React.Component{
@@ -29,7 +29,7 @@ export default class NavBar extends React.Component{
                             <InputGroup>
                                 <InputGroup.Prepend>
                                     <InputGroup.Text>
-                                        <FaSearch/>
+                                        <FaSearch style={{verticalAlign: 'baseline'}}/>
                                     </InputGroup.Text>
                                 </InputGroup.Prepend>
                                 <Form.Control type="text" placeholder="Search here.." />
@@ -43,8 +43,8 @@ export default class NavBar extends React.Component{
                         { localStorage.getItem("isAdmin") === 'true' ? (
                                 <NavLink to="/users">
                                   <NavItem className="button-margin">
-                                      <Button title="User Database" style={{borderWidth:'0px'}} variant="outline-primary">
-                                        <FaDatabase />
+                                      <Button title="User Database" style={{borderWidth:'0px', borderRadius: '50%'}} variant="outline-primary">
+                                        <FaDatabase style={{verticalAlign: 'baseline'}} />
                                       </Button>
                                   </NavItem>
                                 </NavLink>
@@ -56,8 +56,8 @@ export default class NavBar extends React.Component{
                         { localStorage.getItem("isAdmin") === 'true' ? (
                             <NavLink to="/applications">
                               <NavItem className="button-margin">
-                                  <Button title="Applications" style={{borderWidth:'0px'}} variant="outline-primary">
-                                    <FaTasks />
+                                  <Button title="Applications" style={{borderWidth:'0px', borderRadius: '50%'}} variant="outline-primary">
+                                    <FaTasks style={{verticalAlign: 'baseline'}} />
                                   </Button>
                               </NavItem>
                             </NavLink>
@@ -68,39 +68,47 @@ export default class NavBar extends React.Component{
 
                         <NavLink to="/home">
                           <NavItem className="button-margin">
-                              <Button title="Home" variant="dark">
-                                <FaHome />
+                              <Button title="Home" variant="dark" style={{borderRadius: '50%'}}>
+                                <FaHome style={{verticalAlign: 'baseline'}} />
                               </Button>
                           </NavItem>
                         </NavLink>
 
                         <NavLink to="/auctions">
                           <NavItem className="button-margin">
-                              <Button title="Auctions" variant="dark">
-                                <MdGavel />
+                              <Button title="My Auctions" variant="dark" style={{borderRadius: '50%'}}>
+                                <MdGavel style={{verticalAlign: 'baseline'}} />
+                              </Button>
+                          </NavItem>
+                        </NavLink>
+
+                        <NavLink to="/submitAuction">
+                          <NavItem className="button-margin">
+                              <Button title="Create an auction" variant="dark" style={{borderRadius: '50%'}}>
+                                <FaPlus style={{verticalAlign: 'baseline'}} />
                               </Button>
                           </NavItem>
                         </NavLink>
 
                         <NavLink to="/profile">
                           <NavItem className="button-margin">
-                              <Button title="Profile" variant="dark">
-                                <FaUser />
+                              <Button title="Profile" variant="dark" style={{borderRadius: '50%'}}>
+                                <FaUser style={{verticalAlign: 'baseline'}} />
                               </Button>
                           </NavItem>
                         </NavLink>
 
                         <NavLink to="/inbox">
                           <NavItem className="button-margin">
-                              <Button title="Inbox" variant="dark">
-                                <FaComments />
+                              <Button title="Inbox" variant="dark" style={{borderRadius: '50%'}}>
+                                <FaComments style={{verticalAlign: 'baseline'}} />
                               </Button>
                           </NavItem>
                         </NavLink>
 
                           <NavItem className="button-margin">
-                               <Button title="Log Out" variant="outline-danger" onClick={this.props.onLogout}>
-                                <b> Logout </b> <FaSignOutAlt />
+                               <Button title="Log Out" variant="outline-danger" onClick={this.props.onLogout} style={{borderRadius: '12px'}}>
+                                <b> Logout </b> <FaSignOutAlt style={{verticalAlign: 'baseline'}} />
                                </Button>
                           </NavItem>
                     </Nav>
@@ -123,7 +131,7 @@ export default class NavBar extends React.Component{
                             <InputGroup>
                                 <InputGroup.Prepend>
                                     <InputGroup.Text>
-                                        <FaSearch/>
+                                        <FaSearch style={{verticalAlign: 'baseline'}} />
                                     </InputGroup.Text>
                                 </InputGroup.Prepend>
                                 <Form.Control type="text" placeholder="Search here.." />
@@ -135,23 +143,23 @@ export default class NavBar extends React.Component{
                     <Nav className="justify-content-end">
                         <NavLink to="/home">
                           <NavItem className="button-margin">
-                              <Button title="Home" variant="dark">
-                                <FaHome />
+                              <Button title="Home" variant="dark" style={{borderRadius: '50%'}}>
+                                <FaHome style={{verticalAlign: 'baseline'}} />
                               </Button>
                           </NavItem>
                         </NavLink>
 
                         <NavLink to="/login">
                           <NavItem className="button-margin">
-                               <Button title="Log In" variant="outline-light" >
-                               <b> Login </b> <FaSignInAlt />
+                               <Button title="Log In" variant="outline-light" style={{borderRadius: '12px'}}>
+                               <b> Login </b> <FaSignInAlt style={{verticalAlign: 'baseline'}} />
                                </Button>
                           </NavItem>
                         </NavLink>
 
                         <NavLink to="/signup">
-                          <NavItem className="button-margin">
-                              <Button title="Sign Up" variant="dark">
+                          <NavItem className="button-margin" >
+                              <Button title="Sign Up" variant="dark" style={{borderRadius: '12px'}}>
                                 <b> Signup </b>
                               </Button>
                           </NavItem>

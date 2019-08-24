@@ -42,6 +42,10 @@ public class SellerRating {
         this.comment = comment;
     }
 
+    public SellerRating(){
+
+    }
+
     public Long getId() {
         return id;
     }

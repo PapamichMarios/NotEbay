@@ -51,8 +51,6 @@ export default class Login extends React.Component {
 
           //handle success
           .then(response => {
-            console.log('logInResponse:' + JSON.stringify(response));
-
             if (response.error) {
                 this.setState({
                     hasError: true,

@@ -3,15 +3,15 @@ loading se kathe get
 
 - navbar products dropdown
 - xss
-- session gia xristi pou kanei signup(session: applicant)
 - styling profile xristi kai admin
-- country selector on signup
-- utils post kai get
-- styling get items
-
-
-
+- bid sta auctions twn sellers
+- seller auction: 1. my auctions 2. list an item
+- need to optimize webpack
+- categories /submitAuction
+- signed in as navbar.text
 
 
 homepage: 1. products
 		  2. signup/login or sell it
+
+

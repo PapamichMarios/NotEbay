@@ -55,6 +55,7 @@ public class UserController {
         return userService.getAllUsers(currentUser.getId());
     }
 
+
     // Given an Id of a user
     // Admin gets his profile
     @GetMapping("/users/{userId}")

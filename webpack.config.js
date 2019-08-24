@@ -2,7 +2,8 @@ const path = require('path');
 
 module.exports = {
     entry: {
-        index: './src/main/resources/static/reactjs/components/index.js'
+        index: './src/main/resources/static/reactjs/components/index.js',
+        footer: './src/main/resources/static/reactjs/components/info.js'
     },
     mode: 'development',
     devtool: 'inline-source-map',
