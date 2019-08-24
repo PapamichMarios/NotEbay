@@ -3,6 +3,7 @@ package com.dit.ebay.response;
 import com.dit.ebay.model.Bid;
 import com.dit.ebay.model.Category;
 import com.dit.ebay.model.Item;
+import com.dit.ebay.model.User;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -43,6 +44,8 @@ public class ItemResponse {
 
     private Bid bestBid; // may be null
 
+    private User user;  // may be null
+
     public ItemResponse() {
 
     }
@@ -63,6 +66,7 @@ public class ItemResponse {
         this.geoLong = item.getGeoLong();
         this.active = item.isActive();
         this.bestBid = item.getBestBid();
+        this.user = null; // change it only when a bidder wants to check the item
     }
 
     public String getName() {
@@ -191,5 +195,13 @@ public class ItemResponse {
 
     public void setCategories(Set<Category> categories) {
         this.categories = categories;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

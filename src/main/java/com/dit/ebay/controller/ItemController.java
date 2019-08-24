@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 /*
- * Only for users with role SELLER
+ * Only for users with role SELLER and Bidder
+ * all get etc with prefix Seller mean that we fetch / change /.. seller's item
+ * all get etc with prefix Bidder mean tha we do something on others seller item
  */
 @RestController
 @RequestMapping("/app/items")
@@ -29,6 +31,9 @@ public class ItemController {
 
     private static final Logger logger = LoggerFactory.getLogger(ItemController.class);
 
+    /*
+     * For Seller
+     */
     @PostMapping
     @PreAuthorize("hasRole('ROLE_SELLER')")
     public ResponseEntity<?> createItem(@Valid @RequestBody ItemRequest itemRequest,
@@ -41,33 +46,43 @@ public class ItemController {
     @GetMapping(params = {"page", "size"})
     //@GetMapping
     @PreAuthorize("hasRole('ROLE_SELLER')")
-    public PagedResponse<ItemResponse> getItems(@RequestParam(value = "page", defaultValue = PaginationConstants.DEFAULT_PAGE) int page,
+    public PagedResponse<ItemResponse> getSellerItems(@RequestParam(value = "page", defaultValue = PaginationConstants.DEFAULT_PAGE) int page,
                                                 @RequestParam(value = "size", defaultValue = PaginationConstants.DEFAULT_SIZE) int size,
                                                 @Valid @CurrentUser UserDetailsImpl currentUser) {
-        return itemService.getItems(currentUser, page, size);
+        return itemService.getSellerItems(currentUser, page, size);
     }
 
     // Get currents Logged in item info
     @GetMapping("/{itemId}")
     @PreAuthorize("hasRole('ROLE_SELLER')")
-    public Item getUserItemById(@PathVariable(value = "itemId") Long itemId,
+    public Item getSellerItemById(@PathVariable(value = "itemId") Long itemId,
                                 @Valid @CurrentUser UserDetailsImpl currentUser) {
-        return itemService.getUserItemById(itemId, currentUser);
+        return itemService.getSellerItemById(itemId, currentUser);
     }
 
     @PutMapping("/{itemId}")
     @PreAuthorize("hasRole('ROLE_SELLER')")
-    public Item updateItemById(@PathVariable(value = "itemId") Long itemId,
+    public Item updateSellerItemById(@PathVariable(value = "itemId") Long itemId,
                                @Valid @RequestBody ItemRequest itemRequest,
                                @Valid @CurrentUser UserDetailsImpl currentUser) {
-        return itemService.updateItemById(itemId, itemRequest, currentUser);
+        return itemService.updateSellerItemById(itemId, itemRequest, currentUser);
     }
 
     @DeleteMapping("/{itemId}")
     @PreAuthorize("hasRole('ROLE_SELLER')")
-    public ResponseEntity<?> deleteItemById(@PathVariable(value = "itemId") Long itemId,
+    public ResponseEntity<?> deleteSellerItemById(@PathVariable(value = "itemId") Long itemId,
                                             @Valid @CurrentUser UserDetailsImpl currentUser) {
-        return itemService.deleteItemById(itemId);
+        return itemService.deleteSellerItemById(itemId);
+    }
+
+    /*
+     * For Bidder
+     */
+    @GetMapping("/bidder/{itemId")
+    @PreAuthorize("hasRole('ROLE_BIDDER')")
+    public ItemResponse getBidderItemById(@PathVariable(value = "itemId") Long itemId,
+                                          @Valid @CurrentUser UserDetailsImpl currentUser) {
+        return itemService.getBidderItemById(itemId, currentUser);
     }
 
 }

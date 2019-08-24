@@ -85,7 +85,8 @@ public class UserController {
     }
 
     @GetMapping("/users/profile")
-    @PreAuthorize("hasRole('ROLE_SELLER')") //every user is seller & bidder here we check for one role only
+    //@PreAuthorize("hasRole('ROLE_SELLER')") //every user is seller & bidder here we check for one role only
+    @PreAuthorize("hasAnyRole('ROLE_SELLER', 'ROLE_BIDDER')")
     public User getLoggedInUserProfile(@Valid @CurrentUser UserDetailsImpl currentUser) {
         return userService.getLoggedInUserProfile(currentUser.getId());
     }

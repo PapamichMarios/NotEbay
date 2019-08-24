@@ -91,7 +91,7 @@ public class ItemService {
         return ResponseEntity.created(uri).body(new ApiResponse(true, "Item created successfully.", result));
     }
 
-    public PagedResponse<ItemResponse> getItems(UserDetailsImpl cuurentUse, int page, int size) {
+    public PagedResponse<ItemResponse> getSellerItems(UserDetailsImpl cuurentUse, int page, int size) {
         validatePageParametersService.validate(page, size);
 
         Page<Item> itemPaged = itemRepository.findByUserId(cuurentUse.getId(), PageRequest.of(page, size, Sort.by("id").descending()));
@@ -111,7 +111,7 @@ public class ItemService {
                 itemPaged.getTotalPages(), itemPaged.isLast());
     }
 
-    public Item getUserItemById(Long itemId, UserDetailsImpl currentUser) {
+    public Item getSellerItemById(Long itemId, UserDetailsImpl currentUser) {
 
         // safe check here
         authorizationService.isSellerOfItem(currentUser.getId(), itemId);
@@ -124,7 +124,7 @@ public class ItemService {
      * Remember the itemRequest must be filled with the old info + the new (changed fields)
      * Update only before the first bid or when its active
      */
-    public Item updateItemById(Long itemId, ItemRequest itemRequest, UserDetailsImpl currentUser) {
+    public Item updateSellerItemById(Long itemId, ItemRequest itemRequest, UserDetailsImpl currentUser) {
 
         // safe check here
         authorizationService.isSellerOfItem(currentUser.getId(), itemId);
@@ -145,7 +145,7 @@ public class ItemService {
         return itemRepository.save(item);
     }
 
-    public ResponseEntity<?> deleteItemById(Long itemId) {
+    public ResponseEntity<?> deleteSellerItemById(Long itemId) {
         Item item = itemRepository.findById(itemId)
                 .orElseThrow(() -> new ResourceNotFoundException("Item", "id", itemId));
         itemRepository.delete(item);
@@ -153,4 +153,7 @@ public class ItemService {
         return ResponseEntity.ok().body(new ApiResponse(true, "Item Deleted Successfully."));
     }
 
+    public ItemResponse getBidderItemById(Long itemId, UserDetailsImpl currentUser) {
+        return new ItemResponse(new Item());
+    }
 }
