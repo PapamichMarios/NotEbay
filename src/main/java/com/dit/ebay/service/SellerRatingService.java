@@ -1,5 +1,6 @@
 package com.dit.ebay.service;
 
+import com.dit.ebay.exception.AppException;
 import com.dit.ebay.exception.ResourceNotFoundException;
 import com.dit.ebay.model.SellerRating;
 import com.dit.ebay.model.User;
@@ -25,6 +26,11 @@ public class SellerRatingService {
     private UserRepository userRepository;
 
     public ResponseEntity<?> createSellerRating(Long userId, UserDetailsImpl currentUser, RatingRequest ratingRequest) {
+
+        if (userId.equals(currentUser.getId())) {
+            throw new AppException("Sorry, users can't rate their self.");
+        }
+
         User userBidder = userRepository.findById(currentUser.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
 

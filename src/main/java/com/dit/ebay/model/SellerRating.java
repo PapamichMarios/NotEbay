@@ -1,5 +1,6 @@
 package com.dit.ebay.model;
 
+import com.dit.ebay.csv_model.CSVRating;
 import com.dit.ebay.request.RatingRequest;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.CreatedDate;
@@ -50,6 +51,11 @@ public class SellerRating {
     public SellerRating(RatingRequest ratingRequest) {
         this.rating = ratingRequest.getRating();
         this.comment = ratingRequest.getComment();
+    }
+
+    public SellerRating(CSVRating csvRating) {
+        this.rating = csvRating.getRating();
+        this.comment = csvRating.getComment();
     }
 
     public Long getId() {

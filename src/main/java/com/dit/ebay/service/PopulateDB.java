@@ -2,12 +2,10 @@ package com.dit.ebay.service;
 
 import com.dit.ebay.csv_model.CSVBid;
 import com.dit.ebay.csv_model.CSVItem;
+import com.dit.ebay.csv_model.CSVRating;
 import com.dit.ebay.model.*;
 import com.dit.ebay.csv_model.CSVUser;
-import com.dit.ebay.repository.BidRepository;
-import com.dit.ebay.repository.CategoryRepository;
-import com.dit.ebay.repository.ItemRepository;
-import com.dit.ebay.repository.UserRepository;
+import com.dit.ebay.repository.*;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 import org.slf4j.Logger;
@@ -40,13 +38,21 @@ public class PopulateDB {
     private CategoryRepository categoryRepository;
 
     @Autowired
+    private SellerRatingRepository sellerRatingRepository;
+
+    @Autowired
+    private BidderRatingRepository bidderRatingRepository;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     private static final Logger logger = LoggerFactory.getLogger(PopulateDB.class);
 
+    private static final long FIRST_ID = 1;
     private static final String USERS_DATA_FILE = "my_data/user_data.csv";
     private static final String ITEMS_DATA_FILE = "my_data/item_data.csv";
     private static final String BIDS_DATA_FILE  = "my_data/bid_data.csv";
+    private static final String RATINGS_DATA_FILE  = "my_data/rating_data.csv";
 
     public void populateUsers() throws IOException {
         try (Reader reader = Files.newBufferedReader(Paths.get(USERS_DATA_FILE))) {
@@ -78,6 +84,8 @@ public class PopulateDB {
             CsvToBean<CSVItem> csvToBean = new CsvToBeanBuilder(reader)
                     .withType(CSVItem.class)
                     .withIgnoreLeadingWhiteSpace(true).build();
+
+            if (itemRepository.findById(FIRST_ID).orElse(null) != null) return;
 
             for (CSVItem csvItem : csvToBean) {
 
@@ -116,7 +124,7 @@ public class PopulateDB {
                     .withIgnoreLeadingWhiteSpace(true).build();
 
             // insert only once (populate)
-            if (bidRepository.findById((long) 1).orElse(null) != null) return;
+            if (bidRepository.findById(FIRST_ID).orElse(null) != null) return;
 
             for (CSVBid csvBid : csvToBean) {
 
@@ -145,6 +153,37 @@ public class PopulateDB {
                 // Update counter
                 item.increaseNumOfBids();
                 itemRepository.save(item);
+            }
+        }
+    }
+
+    public void populateRatings() throws IOException {
+        try (Reader reader = Files.newBufferedReader(Paths.get(RATINGS_DATA_FILE))) {
+            CsvToBean<CSVRating> csvToBean = new CsvToBeanBuilder(reader)
+                    .withType(CSVRating.class)
+                    .withIgnoreLeadingWhiteSpace(true).build();
+
+            if (sellerRatingRepository.findById(FIRST_ID).orElse(null) != null) return;
+
+            for (CSVRating csvRating : csvToBean) {
+                // Get the user
+                System.out.println(csvRating.getSellerUsername() + " | " + csvRating.getRating());
+                User seller = userRepository.findByUsername(csvRating.getSellerUsername()).orElse(null);
+                if (seller == null) continue;
+
+                // Get the user
+                User bidder = userRepository.findByUsername(csvRating.getBidderUsername()).orElse(null);
+                if (bidder == null) continue;
+
+                BidderRating bidderRating = new BidderRating(csvRating);
+                bidderRating.setUserSeller(seller);
+                bidderRating.setUserBidder(bidder);
+                bidderRatingRepository.save(bidderRating);
+
+                SellerRating sellerRating = new SellerRating(csvRating);
+                sellerRating.setUserSeller(seller);
+                sellerRating.setUserBidder(bidder);
+                sellerRatingRepository.save(sellerRating);
             }
         }
     }
