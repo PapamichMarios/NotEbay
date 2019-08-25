@@ -88,24 +88,24 @@ public class ItemService {
         return ResponseEntity.created(uri).body(new ApiResponse(true, "Item created successfully.", result));
     }
 
-    public PagedResponse<ItemResponse> getSellerItems(UserDetailsImpl cuurentUse, int page, int size) {
+    public PagedResponse<ItemResponse> getSellerItems(UserDetailsImpl currentUser, int page, int size) {
         validatePageParametersService.validate(page, size);
 
-        Page<Item> itemPaged = itemRepository.findByUserId(cuurentUse.getId(), PageRequest.of(page, size, Sort.by("id").descending()));
-        if (itemPaged.getNumberOfElements() == 0) {
-            return new PagedResponse<>(Collections.emptyList(), itemPaged.getNumber(),
-                    itemPaged.getSize(), itemPaged.getTotalElements(),
-                    itemPaged.getTotalPages(), itemPaged.isLast());
+        Page<Item> itemsPaged = itemRepository.findByUserId(currentUser.getId(), PageRequest.of(page, size, Sort.by("id").descending()));
+        if (itemsPaged.getNumberOfElements() == 0) {
+            return new PagedResponse<>(Collections.emptyList(), itemsPaged.getNumber(),
+                    itemsPaged.getSize(), itemsPaged.getTotalElements(),
+                    itemsPaged.getTotalPages(), itemsPaged.isLast());
         }
 
         List<ItemResponse> itemResponses = new ArrayList<>();
-        for (Item item : itemPaged) {
+        for (Item item : itemsPaged) {
             itemResponses.add(new ItemResponse(item));
         }
 
-        return new PagedResponse<>(itemResponses, itemPaged.getNumber(),
-                itemPaged.getSize(), itemPaged.getTotalElements(),
-                itemPaged.getTotalPages(), itemPaged.isLast());
+        return new PagedResponse<>(itemResponses, itemsPaged.getNumber(),
+                itemsPaged.getSize(), itemsPaged.getTotalElements(),
+                itemsPaged.getTotalPages(), itemsPaged.isLast());
     }
 
     public Item getSellerItemById(Long itemId, UserDetailsImpl currentUser) {

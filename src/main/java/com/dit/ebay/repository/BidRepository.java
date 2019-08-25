@@ -22,6 +22,6 @@ public interface BidRepository extends PagingAndSortingRepository<Bid, Long> {
     @Query("select b from Bid b where b.item.id = :itemId")
     Page<Bid> findByItemId(@Param("itemId") Long itemId, Pageable pageable);
 
-    @Query("select b from Bid b where b.item.id = :itemId")
-    List<Bid> findAlll(@Param("itemId") Long itemId);
+    @Query("select b from Bid b where b.user.id = :userId")
+    Page<Bid> findByUserId(@Param("userId") Long userId, Pageable pageable);
 }

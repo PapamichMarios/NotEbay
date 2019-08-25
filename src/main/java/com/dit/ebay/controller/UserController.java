@@ -1,6 +1,10 @@
 package com.dit.ebay.controller;
 
 import com.dit.ebay.request.EnableRequest;
+import com.dit.ebay.response.BidResponse;
+import com.dit.ebay.response.CompositePagedResponse;
+import com.dit.ebay.response.ItemResponse;
+import com.dit.ebay.util.PaginationConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -89,5 +93,17 @@ public class UserController {
     @PreAuthorize("hasAnyRole('ROLE_SELLER', 'ROLE_BIDDER')")
     public User getLoggedInUserProfile(@Valid @CurrentUser UserDetailsImpl currentUser) {
         return userService.getLoggedInUserProfile(currentUser.getId());
+    }
+
+    /*
+     * Activity returns paginated bids and items of user seller/bidder
+     */
+    @GetMapping(path = "/users/{userId}/activity", params = {"page", "size"})
+    @PreAuthorize("hasAnyRole('ROLE_SELLER', 'ROLE_BIDDER')")
+    public CompositePagedResponse<ItemResponse, BidResponse> getUserActivity(@RequestParam(value = "page", defaultValue = PaginationConstants.DEFAULT_PAGE) int page,
+                                                                             @RequestParam(value = "size", defaultValue = PaginationConstants.DEFAULT_SIZE) int size,
+                                                                             @PathVariable(value = "userId") Long userId,
+                                                                             @Valid @CurrentUser UserDetailsImpl currentUser) {
+        return userService.getUserActivity(userId, currentUser, page, size);
     }
 }

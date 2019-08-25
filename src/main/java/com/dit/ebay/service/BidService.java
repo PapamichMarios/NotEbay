@@ -108,4 +108,24 @@ public class BidService {
                 bidsPaged.getSize(), bidsPaged.getTotalElements(),
                 bidsPaged.getTotalPages(), bidsPaged.isLast());
     }
+
+    public PagedResponse<BidResponse> getUserBids(UserDetailsImpl currentUser, int page, int size) {
+        validatePageParametersService.validate(page, size);
+
+        Page<Bid> bidsPaged = bidRepository.findByUserId(currentUser.getId(), PageRequest.of(page, size, Sort.by("id").descending()));
+        if (bidsPaged.getNumberOfElements() == 0) {
+            return new PagedResponse<>(Collections.emptyList(), bidsPaged.getNumber(),
+                    bidsPaged.getSize(), bidsPaged.getTotalElements(),
+                    bidsPaged.getTotalPages(), bidsPaged.isLast());
+        }
+
+        List<BidResponse> bidResponses = new ArrayList<>();
+        for (Bid bid : bidsPaged) {
+            bidResponses.add(new BidResponse(bid));
+        }
+
+        return new PagedResponse<>(bidResponses, bidsPaged.getNumber(),
+                bidsPaged.getSize(), bidsPaged.getTotalElements(),
+                bidsPaged.getTotalPages(), bidsPaged.isLast());
+    }
 }

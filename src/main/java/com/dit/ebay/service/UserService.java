@@ -1,5 +1,6 @@
 package com.dit.ebay.service;
 
+import com.dit.ebay.exception.AppException;
 import com.dit.ebay.exception.BadRequestException;
 import com.dit.ebay.model.Role;
 import com.dit.ebay.model.RoleName;
@@ -9,7 +10,7 @@ import com.dit.ebay.repository.UserRepository;
 import com.dit.ebay.request.EnableRequest;
 import com.dit.ebay.request.SignInRequest;
 import com.dit.ebay.request.SignUpRequest;
-import com.dit.ebay.response.ApiResponse;
+import com.dit.ebay.response.*;
 import com.dit.ebay.util.JsonGeoPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.dit.ebay.exception.ResourceNotFoundException;
 import com.dit.ebay.exception.UserExistsException;
-import com.dit.ebay.response.SignInResponse;
 import com.dit.ebay.security.JwtTokenProvider;
 import com.dit.ebay.security.UserDetailsImpl;
 import org.slf4j.Logger;
@@ -49,6 +49,15 @@ public class UserService {
 
     @Autowired
     private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private ValidatePageParametersService validatePageParametersService;
+
+    @Autowired
+    private ItemService itemService;
+
+    @Autowired
+    private BidService bidService;
 
     @Autowired
     private JwtTokenProvider tokenProvider;
@@ -147,6 +156,17 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
 
         return userRepository.save(user);
+    }
+
+    public CompositePagedResponse<ItemResponse, BidResponse> getUserActivity(Long userId, UserDetailsImpl currentUser,
+                                                                             int page, int size) {
+        // safe check the ids
+        if (userId.equals(currentUser.getId())) {
+            throw new AppException("Error on activity, path doesn't match with the logged in user.");
+        }
+
+        return new CompositePagedResponse<>(itemService.getSellerItems(currentUser, page, size),
+                                            bidService.getUserBids(currentUser, page, size));
     }
 
     /*
