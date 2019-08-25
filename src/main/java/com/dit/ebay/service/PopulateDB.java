@@ -167,7 +167,6 @@ public class PopulateDB {
 
             for (CSVRating csvRating : csvToBean) {
                 // Get the user
-                System.out.println(csvRating.getSellerUsername() + " | " + csvRating.getRating());
                 User seller = userRepository.findByUsername(csvRating.getSellerUsername()).orElse(null);
                 if (seller == null) continue;
 
