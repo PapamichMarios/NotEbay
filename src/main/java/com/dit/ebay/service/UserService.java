@@ -161,7 +161,7 @@ public class UserService {
     public CompositePagedResponse<ItemResponse, BidResponse> getUserActivity(Long userId, UserDetailsImpl currentUser,
                                                                              int page, int size) {
         // safe check the ids
-        if (userId.equals(currentUser.getId())) {
+        if (!userId.equals(currentUser.getId())) {
             throw new AppException("Error on activity, path doesn't match with the logged in user.");
         }
 
