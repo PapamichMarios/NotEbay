@@ -23,12 +23,15 @@ export default class Bid extends React.Component {
 
         this.state = {
             loading: true,
+            loadingButton: false,
             bid: '',
             bet: '',
             errorMsg: '',
             hasError: false,
+            bought: false
         }
 
+        this.buyItem = this.buyItem.bind(this);
         this.onChange = this.onChange.bind(this);
         this.placeBid = this.placeBid.bind(this);
     }
@@ -39,9 +42,22 @@ export default class Bid extends React.Component {
         });
     }
 
+    buyItem() {
+        //set loading
+         this.setState({loadingButton: true});
+
+         setTimeout(() => {
+           this.setState({
+               loadingButton: false,
+               bought: true
+           })
+         }, Constants.TIMEOUT_DURATION)
+
+    }
+
     placeBid() {
         //set loading
-         this.setState({loading: true});
+         this.setState({loadingButton: true});
 
         const url = this.props.action + this.props.match.params.id + '/bids';
         const bodyObj = {
@@ -54,7 +70,7 @@ export default class Bid extends React.Component {
                 this.setState({
                     hasError: true,
                     errorMsg: response.message,
-                    loading: false
+                    loadingButton: false
                 });
             } else {
                 //refresh page
@@ -88,7 +104,11 @@ export default class Bid extends React.Component {
             const startDate = decodeDate(this.state.bid.timeStarted);
             const endTime = decodeTime(this.state.bid.timeEnds);
             const endDate = decodeDate(this.state.bid.timeEnds);
-            const lastBidder = (this.state.bid.bestBid.username === localStorage.getItem('username') ? true : false);
+
+            let lastBidder = false;
+            if(this.state.bid.bestBid !== null) {
+                lastBidder = (this.state.bid.bestBid.username === localStorage.getItem('username') ? true : false);
+            }
 
             return (
                 <Container fluid>
@@ -158,32 +178,6 @@ export default class Bid extends React.Component {
                                                         </Form.Group>
                                                     )}
 
-                                                    { this.state.bid.buyPrice ? (
-                                                        <Form.Group as={Row}>
-                                                            <Form.Label column md="5"> <b> Buy Price: </b> </Form.Label>
-                                                            <Col>
-                                                                <Form.Control
-                                                                    plaintext
-                                                                    readOnly
-                                                                    defaultValue= {this.state.bid.buyPrice}
-                                                                    className="col-user"
-                                                                />
-                                                            </Col>
-                                                        </Form.Group>
-                                                    ) : (
-                                                        <Form.Group as={Row}>
-                                                            <Form.Label column md="5"> <b> Buy Price: </b> </Form.Label>
-                                                            <Col>
-                                                                <Form.Control
-                                                                    plaintext
-                                                                    readOnly
-                                                                    defaultValue= '--'
-                                                                    className="col-user"
-                                                                />
-                                                            </Col>
-                                                        </Form.Group>
-                                                    )}
-
                                                     <Form.Group as={Row}>
                                                         <Form.Label column md="5"> <b> Number of bids: </b> </Form.Label>
                                                         <Col>
@@ -221,30 +215,6 @@ export default class Bid extends React.Component {
                                                     </Form.Group>
 
                                                     <Form.Group as={Row}>
-                                                        <Form.Label column md="5"> <b> Country: </b> </Form.Label>
-                                                        <Col>
-                                                            <Form.Control
-                                                                plaintext
-                                                                readOnly
-                                                                defaultValue= {this.state.bid.country}
-                                                                className="col-user"
-                                                            />
-                                                        </Col>
-                                                    </Form.Group>
-
-                                                    <Form.Group as={Row}>
-                                                        <Form.Label column md="5"> <b> Location: </b> </Form.Label>
-                                                        <Col>
-                                                            <Form.Control
-                                                                plaintext
-                                                                readOnly
-                                                                defaultValue= {this.state.bid.location}
-                                                                className="col-user"
-                                                            />
-                                                        </Col>
-                                                    </Form.Group>
-
-                                                    <Form.Group as={Row}>
                                                         <Form.Label column md="5"> <b> Place a bid: </b> </Form.Label>
                                                         <Col md={5}>
                                                             <InputGroup>
@@ -255,8 +225,8 @@ export default class Bid extends React.Component {
                                                                 />
                                                                 <InputGroup.Append>
 
-                                                                { this.state.loading ? (
-                                                                    <Button variant="dark" block disabled>
+                                                                { this.state.loadingButton ? (
+                                                                    <Button variant="dark" disabled>
                                                                       <b> Loading... </b>
                                                                       <LoadingButton />
                                                                     </Button>
@@ -298,7 +268,67 @@ export default class Bid extends React.Component {
                                                        null
                                                     )}
 
+                                                    { this.state.bid.bestBid === null ? (
+                                                      <Row>
+                                                        <Col>
+                                                          <br />
+                                                          <Alert variant="info">
+                                                              Do you fancy it? Be the first one to place a bid on this item!
+                                                          </Alert>
+                                                        </Col>
+                                                      </Row>
+                                                    ) : (
+                                                       null
+                                                    )}
                                                 </Tab>
+
+                                                { this.state.bid.buyPrice ? (
+                                                     <Tab eventKey="buy" title="Buy It">
+                                                        <br/>
+                                                        <Form.Group as={Row}>
+                                                            <Form.Label column md="5"> <b> Buy Price: </b> </Form.Label>
+                                                            <Col>
+                                                                <Form.Control
+                                                                    plaintext
+                                                                    readOnly
+                                                                    defaultValue= {this.state.bid.buyPrice}
+                                                                    className="col-user"
+                                                                />
+                                                            </Col>
+                                                        </Form.Group>
+
+                                                        <Form.Group as={Row}>
+                                                            <Col>
+                                                                { this.state.loadingButton ? (
+                                                                    <Button variant="dark" disabled>
+                                                                      <b> Loading... </b>
+                                                                      <LoadingButton />
+                                                                    </Button>
+                                                                ) : (
+                                                                    <Button variant="dark" onClick={this.buyItem}>
+                                                                      <b> Buy Item </b>
+                                                                    </Button>
+                                                                )}
+                                                            </Col>
+                                                        </Form.Group>
+
+                                                        { this.state.bought ? (
+                                                          <Row>
+                                                            <Col>
+                                                              <br />
+                                                              <Alert variant="success">
+                                                                  Item has been successfully bought.
+                                                              </Alert>
+                                                            </Col>
+                                                          </Row>
+                                                        ) : (
+                                                           null
+                                                        )}
+                                                    </Tab>
+                                                ) : (
+                                                    null
+                                                )}
+
                                             </Tabs>
                                         </Col>
 
@@ -306,7 +336,7 @@ export default class Bid extends React.Component {
                                             <Row>
                                                 <Card style={{width: '100%'}}>
                                                     <Card.Body>
-                                                    <Card.Title as="h5" className="text-center"> <b> Seller Details </b> </Card.Title>
+                                                    <Card.Title as="h6" className="text-center"> <b> Seller Details </b> </Card.Title>
                                                         <Form.Group as={Row}>
                                                             <Form.Label column md="5"> <b> Seller: </b> </Form.Label>
                                                             <Col>
@@ -321,17 +351,46 @@ export default class Bid extends React.Component {
 
                                                         <Form.Group as={Row}>
                                                             <Form.Label column md="5"> <b> Rating: </b> </Form.Label>
+
+                                                            {this.state.bid.rating !== null ? (
+                                                                <Col>
+                                                                    <StarRatings
+                                                                      name="sellerRating"
+                                                                      numberOfStars={5}
+                                                                      rating={this.state.bid.rating}
+                                                                      starRatedColor="SandyBrown"
+                                                                      starDimension="18px"
+                                                                      starSpacing="2px"
+                                                                    />
+                                                                    <br />
+                                                                    (<b style={{fontSize: '17.5px'}}>{this.state.bid.rating}</b>/<span style={{color:'SteelBlue'}}>5</span>)
+                                                                </Col>
+                                                            ) : (
+                                                                <Col>
+                                                                    <StarRatings
+                                                                      name="sellerRating"
+                                                                      numberOfStars={5}
+                                                                      rating={0}
+                                                                      starRatedColor="SandyBrown"
+                                                                      starDimension="18px"
+                                                                      starSpacing="2px"
+                                                                    />
+                                                                    <br />
+                                                                    <b style={{fontSize:'15px', color:'SandyBrown'}}> This seller has not received a review yet. </b>
+                                                                </Col>
+                                                            )}
+
+                                                        </Form.Group>
+
+                                                        <Form.Group as={Row}>
+                                                            <Form.Label column md="5"> <b> Country: </b> </Form.Label>
                                                             <Col>
-                                                                <StarRatings
-                                                                  name="sellerRating"
-                                                                  numberOfStars={5}
-                                                                  rating={this.state.bid.rating}
-                                                                  starRatedColor="SandyBrown"
-                                                                  starDimension="18px"
-                                                                  starSpacing="2px"
+                                                                <Form.Control
+                                                                    plaintext
+                                                                    readOnly
+                                                                    defaultValue= {this.state.bid.user.country}
+                                                                    className="col-user"
                                                                 />
-                                                                <br />
-                                                                (<b style={{fontSize: '17.5px'}}>{this.state.bid.rating}</b>/<span style={{color:'SteelBlue'}}>5</span>)
                                                             </Col>
                                                         </Form.Group>
                                                     </Card.Body>
@@ -343,7 +402,13 @@ export default class Bid extends React.Component {
                                             <Row>
                                                 <Card style={{width: '100%'}}>
                                                     <Card.Body>
-                                                        <Card.Title as="h5" className="text-center"> <b> Item Location </b> </Card.Title>
+                                                        <Card.Title as="h6" className="text-center">
+                                                            <b>
+                                                                Item Location: &emsp; &emsp;
+                                                                <span style={{color:'DimGray'}}>{this.state.bid.location}</span>,
+                                                                <span style={{color:'DimGray'}}> {this.state.bid.country}</span>
+                                                            </b>
+                                                        </Card.Title>
                                                         <div className="leaflet">
                                                             <OpenStreetMap lat={this.state.bid.geoLat} lng={this.state.bid.geoLong} />
                                                         </div>

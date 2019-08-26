@@ -116,7 +116,8 @@ export default class NavBar extends React.Component{
                   </Navbar.Collapse>
                 </Navbar>
 
-                <Container fluid style={{paddingRight: '0px'}}>
+                <br />
+                <Container fluid>
                     <Row>
                         <Col md={{offset:11}}>
                             Signed in as: <b>{localStorage.getItem('username')}</b>
