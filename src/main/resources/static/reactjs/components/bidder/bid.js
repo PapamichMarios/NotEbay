@@ -12,9 +12,10 @@ import OpenStreetMap from '../utils/maps/openStreetMapLarge';
 import '../../../css/utils/map.css';
 import '../../../css/signup/confirmation.css';
 
-import StarRatingComponent from 'react-star-rating-component';
+import StarRatings from 'react-star-ratings';
 import { Container, Row, Col, Form, Button, Card, ButtonToolbar, Alert, Tabs, Tab, ListGroup, InputGroup } from 'react-bootstrap';
 import { FaDollarSign } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 export default class Bid extends React.Component {
     constructor(props) {
@@ -83,6 +84,8 @@ export default class Bid extends React.Component {
         if(this.state.loading) {
             return <Loading />;
         } else {
+            const startTime = decodeTime(this.state.bid.timeStarted);
+            const startDate = decodeDate(this.state.bid.timeStarted);
             const endTime = decodeTime(this.state.bid.timeEnds);
             const endDate = decodeDate(this.state.bid.timeEnds);
             const lastBidder = (this.state.bid.bestBid.username === localStorage.getItem('username') ? true : false);
@@ -132,11 +135,11 @@ export default class Bid extends React.Component {
                                                     { this.state.bid.bestBid ? (
                                                         <Form.Group as={Row}>
                                                             <Form.Label column md="5"> <b> Current Best Bid: </b> </Form.Label>
-                                                            <Col>
+                                                            <Col md={2}>
                                                                 <Form.Control
                                                                     plaintext
                                                                     readOnly
-                                                                    defaultValue= {this.state.bid.bestBid.bidAmount + ' by ' + this.state.bid.bestBid.username}
+                                                                    defaultValue= {this.state.bid.bestBid.bidAmount + ' by ' + this.state.bid.bestBid.id}
                                                                     className="col-user"
                                                                 />
                                                             </Col>
@@ -162,7 +165,7 @@ export default class Bid extends React.Component {
                                                                 <Form.Control
                                                                     plaintext
                                                                     readOnly
-                                                                    defaultValue= '--'
+                                                                    defaultValue= {this.state.bid.buyPrice}
                                                                     className="col-user"
                                                                 />
                                                             </Col>
@@ -174,7 +177,7 @@ export default class Bid extends React.Component {
                                                                 <Form.Control
                                                                     plaintext
                                                                     readOnly
-                                                                    defaultValue= {this.state.bid.buyPrice}
+                                                                    defaultValue= '--'
                                                                     className="col-user"
                                                                 />
                                                             </Col>
@@ -199,7 +202,7 @@ export default class Bid extends React.Component {
                                                             <Form.Control
                                                                 plaintext
                                                                 readOnly
-                                                                defaultValue= { null }
+                                                                defaultValue= { startTime + ' ' + startDate }
                                                                 className="col-user"
                                                             />
                                                         </Col>
@@ -301,7 +304,7 @@ export default class Bid extends React.Component {
 
                                         <Col>
                                             <Row>
-                                                <Card>
+                                                <Card style={{width: '100%'}}>
                                                     <Card.Body>
                                                     <Card.Title as="h5" className="text-center"> <b> Seller Details </b> </Card.Title>
                                                         <Form.Group as={Row}>
@@ -319,12 +322,16 @@ export default class Bid extends React.Component {
                                                         <Form.Group as={Row}>
                                                             <Form.Label column md="5"> <b> Rating: </b> </Form.Label>
                                                             <Col>
-                                                                <StarRatingComponent
+                                                                <StarRatings
                                                                   name="sellerRating"
-                                                                  editing={false}
-                                                                  starCount={5}
-                                                                  value={4}
+                                                                  numberOfStars={5}
+                                                                  rating={this.state.bid.rating}
+                                                                  starRatedColor="SandyBrown"
+                                                                  starDimension="18px"
+                                                                  starSpacing="2px"
                                                                 />
+                                                                <br />
+                                                                (<b style={{fontSize: '17.5px'}}>{this.state.bid.rating}</b>/<span style={{color:'SteelBlue'}}>5</span>)
                                                             </Col>
                                                         </Form.Group>
                                                     </Card.Body>
@@ -334,9 +341,14 @@ export default class Bid extends React.Component {
                                             <br />
 
                                             <Row>
-                                                <div className="leaflet">
-                                                    <OpenStreetMap lat={this.state.bid.geoLat} lng={this.state.bid.geoLong} />
-                                                </div>
+                                                <Card style={{width: '100%'}}>
+                                                    <Card.Body>
+                                                        <Card.Title as="h5" className="text-center"> <b> Item Location </b> </Card.Title>
+                                                        <div className="leaflet">
+                                                            <OpenStreetMap lat={this.state.bid.geoLat} lng={this.state.bid.geoLong} />
+                                                        </div>
+                                                    </Card.Body>
+                                                </Card>
                                             </Row>
                                         </Col>
                                     </Row>
