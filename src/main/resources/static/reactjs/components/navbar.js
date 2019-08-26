@@ -15,7 +15,7 @@ export default class NavBar extends React.Component{
     }
 
     render() {
-        if((localStorage.getItem('accessToken') !== null) && (localStorage.getItem('accessToken') !== undefined)) {
+        if(localStorage.getItem('loggedIn') === 'true') {
             return (
               <div className="navbar-margin">
                 <Navbar bg="dark" variant="dark">
@@ -38,22 +38,16 @@ export default class NavBar extends React.Component{
                       </NavItem>
                     </Nav>
 
-                    <Nav className="justify-content-end">
+                    { localStorage.getItem("isAdmin") === 'true' ? (
+                        <Nav className="justify-content-end">
+                            <NavLink to="/users">
+                              <NavItem className="button-margin">
+                                  <Button title="User Database" style={{borderWidth:'0px', borderRadius: '50%'}} variant="outline-primary">
+                                    <FaDatabase style={{verticalAlign: 'baseline'}} />
+                                  </Button>
+                              </NavItem>
+                            </NavLink>
 
-                        { localStorage.getItem("isAdmin") === 'true' ? (
-                                <NavLink to="/users">
-                                  <NavItem className="button-margin">
-                                      <Button title="User Database" style={{borderWidth:'0px', borderRadius: '50%'}} variant="outline-primary">
-                                        <FaDatabase style={{verticalAlign: 'baseline'}} />
-                                      </Button>
-                                  </NavItem>
-                                </NavLink>
-                          ) : (
-                            null
-                          )
-                        }
-
-                        { localStorage.getItem("isAdmin") === 'true' ? (
                             <NavLink to="/applications">
                               <NavItem className="button-margin">
                                   <Button title="Applications" style={{borderWidth:'0px', borderRadius: '50%'}} variant="outline-primary">
@@ -61,58 +55,78 @@ export default class NavBar extends React.Component{
                                   </Button>
                               </NavItem>
                             </NavLink>
-                          ) : (
-                            null
-                          )
-                        }
 
-                        <NavLink to="/home">
-                          <NavItem className="button-margin">
-                              <Button title="Home" variant="dark" style={{borderRadius: '50%'}}>
-                                <FaHome style={{verticalAlign: 'baseline'}} />
-                              </Button>
-                          </NavItem>
-                        </NavLink>
+                            <NavLink to="/home">
+                              <NavItem className="button-margin">
+                                  <Button title="Home" variant="dark" style={{borderRadius: '50%'}}>
+                                    <FaHome style={{verticalAlign: 'baseline'}} />
+                                  </Button>
+                              </NavItem>
+                            </NavLink>
 
-                        <NavLink to="/my-auctions">
-                          <NavItem className="button-margin">
-                              <Button title="My Auctions" variant="dark" style={{borderRadius: '50%'}}>
-                                <MdGavel style={{verticalAlign: 'baseline'}} />
-                              </Button>
-                          </NavItem>
-                        </NavLink>
+                            <NavLink to="/inbox">
+                              <NavItem className="button-margin">
+                                  <Button title="Inbox" variant="dark" style={{borderRadius: '50%'}}>
+                                    <FaComments style={{verticalAlign: 'baseline'}} />
+                                  </Button>
+                              </NavItem>
+                            </NavLink>
 
-                        <NavLink to="/submit-auction">
-                          <NavItem className="button-margin">
-                              <Button title="Create an auction" variant="dark" style={{borderRadius: '50%'}}>
-                                <FaPlus style={{verticalAlign: 'baseline'}} />
-                              </Button>
-                          </NavItem>
-                        </NavLink>
+                              <NavItem className="button-margin">
+                                   <Button title="Log Out" variant="outline-danger" onClick={this.props.onLogout} style={{borderRadius: '12px'}}>
+                                    <b> Logout </b> <FaSignOutAlt style={{verticalAlign: 'baseline'}} />
+                                   </Button>
+                              </NavItem>
+                        </Nav>
+                     ) : (
+                        <Nav className="justify-content-end">
+                            <NavLink to="/home">
+                              <NavItem className="button-margin">
+                                  <Button title="Home" variant="dark" style={{borderRadius: '50%'}}>
+                                    <FaHome style={{verticalAlign: 'baseline'}} />
+                                  </Button>
+                              </NavItem>
+                            </NavLink>
 
-                        <NavLink to="/profile">
-                          <NavItem className="button-margin">
-                              <Button title="Profile" variant="dark" style={{borderRadius: '50%'}}>
-                                <FaUser style={{verticalAlign: 'baseline'}} />
-                              </Button>
-                          </NavItem>
-                        </NavLink>
+                            <NavLink to="/my-auctions">
+                              <NavItem className="button-margin">
+                                  <Button title="My Auctions" variant="dark" style={{borderRadius: '50%'}}>
+                                    <MdGavel style={{verticalAlign: 'baseline'}} />
+                                  </Button>
+                              </NavItem>
+                            </NavLink>
 
-                        <NavLink to="/inbox">
-                          <NavItem className="button-margin">
-                              <Button title="Inbox" variant="dark" style={{borderRadius: '50%'}}>
-                                <FaComments style={{verticalAlign: 'baseline'}} />
-                              </Button>
-                          </NavItem>
-                        </NavLink>
+                            <NavLink to="/submit-auction">
+                              <NavItem className="button-margin">
+                                  <Button title="Create an auction" variant="dark" style={{borderRadius: '50%'}}>
+                                    <FaPlus style={{verticalAlign: 'baseline'}} />
+                                  </Button>
+                              </NavItem>
+                            </NavLink>
 
-                          <NavItem className="button-margin">
-                               <Button title="Log Out" variant="outline-danger" onClick={this.props.onLogout} style={{borderRadius: '12px'}}>
-                                <b> Logout </b> <FaSignOutAlt style={{verticalAlign: 'baseline'}} />
-                               </Button>
-                          </NavItem>
-                    </Nav>
+                            <NavLink to="/profile">
+                              <NavItem className="button-margin">
+                                  <Button title="Profile" variant="dark" style={{borderRadius: '50%'}}>
+                                    <FaUser style={{verticalAlign: 'baseline'}} />
+                                  </Button>
+                              </NavItem>
+                            </NavLink>
 
+                            <NavLink to="/inbox">
+                              <NavItem className="button-margin">
+                                  <Button title="Inbox" variant="dark" style={{borderRadius: '50%'}}>
+                                    <FaComments style={{verticalAlign: 'baseline'}} />
+                                  </Button>
+                              </NavItem>
+                            </NavLink>
+
+                              <NavItem className="button-margin">
+                                   <Button title="Log Out" variant="outline-danger" onClick={this.props.onLogout} style={{borderRadius: '12px'}}>
+                                    <b> Logout </b> <FaSignOutAlt style={{verticalAlign: 'baseline'}} />
+                                   </Button>
+                              </NavItem>
+                        </Nav>
+                     )}
                   </Navbar.Collapse>
                 </Navbar>
 

@@ -51,6 +51,7 @@ class App extends React.Component {
         localStorage.removeItem('firstName');
         localStorage.removeItem('lastName');
         localStorage.removeItem('isAdmin');
+        localStorage.removeItem('loggedIn');
 
         //redirect
         this.props.history.push("/welcome");

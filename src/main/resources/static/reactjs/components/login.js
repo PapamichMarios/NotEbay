@@ -68,6 +68,9 @@ export default class Login extends React.Component {
                 //add admin privileges
                 localStorage.setItem('isAdmin', response.admin);
 
+                //add logged in
+                localStorage.setItem('loggedIn', 'true');
+
                 //redirect
                 setTimeout( () => {
                     this.props.onLogin(response.admin)
