@@ -166,4 +166,22 @@ public class ItemService {
         bidderItemResponse.setRating(sellerRatingRepository.avgRatingByUserId(item.getUser().getId()).orElse(null));
         return bidderItemResponse;
     }
+
+    public PagedResponse<ItemResponse> getBestBidItems(UserDetailsImpl currentUser, int page, int size) {
+        validatePageParametersService.validate(page, size);
+
+        Page<Item> itemsPaged = itemRepository.findByBestBidUserId(currentUser.getId(), PageRequest.of(page, size,
+                                                                    Sort.by("timeEnds").descending()));
+
+        List<ItemResponse> itemResponses = new ArrayList<>();
+        for (Item item : itemsPaged) {
+            ItemResponse itemResponse = new ItemResponse(item);
+            itemResponse.setRating(sellerRatingRepository.avgRatingByUserId(item.getUser().getId()).orElse(null));
+            itemResponses.add(itemResponse);
+        }
+
+        return new PagedResponse<>(itemResponses, itemsPaged.getNumber(),
+                itemsPaged.getSize(), itemsPaged.getTotalElements(),
+                itemsPaged.getTotalPages(), itemsPaged.isLast());
+    }
 }

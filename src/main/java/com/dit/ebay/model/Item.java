@@ -91,6 +91,7 @@ public class Item {
     private boolean active;
 
     public Item() {
+
     }
 
     /*
@@ -302,11 +303,7 @@ public class Item {
 
     public void increaseNumOfBids() { this.numOfBids++; }
 
-    public Set<Category> getCategories() {
-        return categories;
-    }
+    public Set<Category> getCategories() { return categories; }
 
-    public void setCategories(Set<Category> categories) {
-        this.categories = categories;
-    }
+    public void setCategories(Set<Category> categories) { this.categories = categories; }
 }

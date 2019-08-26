@@ -36,5 +36,8 @@ public interface ItemRepository extends PagingAndSortingRepository<Item, Long> {
 
     @Query("select i from Item i where i.user.id = :userId")
     Page<Item> findByUserId(@Param("userId") Long userId, Pageable pageable);
+
+    @Query("select i from Item i where i.bestBid.user.id = :userId")
+    Page<Item> findByBestBidUserId(@Param("userId") Long userId, Pageable pageable);
 }
 

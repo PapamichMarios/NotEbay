@@ -58,22 +58,22 @@ public class ItemController {
     @GetMapping("/owner/{itemId}")
     @PreAuthorize("hasRole('ROLE_SELLER')")
     public Item getSellerItemById(@PathVariable(value = "itemId") Long itemId,
-                                @Valid @CurrentUser UserDetailsImpl currentUser) {
+                                  @Valid @CurrentUser UserDetailsImpl currentUser) {
         return itemService.getSellerItemById(itemId, currentUser);
     }
 
     @PutMapping("/{itemId}")
     @PreAuthorize("hasRole('ROLE_SELLER')")
     public Item updateSellerItemById(@PathVariable(value = "itemId") Long itemId,
-                               @Valid @RequestBody ItemRequest itemRequest,
-                               @Valid @CurrentUser UserDetailsImpl currentUser) {
+                                     @Valid @RequestBody ItemRequest itemRequest,
+                                     @Valid @CurrentUser UserDetailsImpl currentUser) {
         return itemService.updateSellerItemById(itemId, itemRequest, currentUser);
     }
 
     @DeleteMapping("/{itemId}")
     @PreAuthorize("hasRole('ROLE_SELLER')")
     public ResponseEntity<?> deleteSellerItemById(@PathVariable(value = "itemId") Long itemId,
-                                            @Valid @CurrentUser UserDetailsImpl currentUser) {
+                                                  @Valid @CurrentUser UserDetailsImpl currentUser) {
         return itemService.deleteSellerItemById(itemId);
     }
 
@@ -85,5 +85,14 @@ public class ItemController {
     public BidderItemResponse getBidderItemById(@PathVariable(value = "itemId") Long itemId,
                                                 @Valid @CurrentUser UserDetailsImpl currentUser) {
         return itemService.getBidderItemById(itemId);
+    }
+
+    // get items bidder has bid on  and is the best bid (last)
+    @GetMapping(path = "/bestBidItems", params = {"page", "size"})
+    @PreAuthorize("hasRole('ROLE_BIDDER')")
+    public PagedResponse<ItemResponse> getBestBidItems(@RequestParam(value = "page", defaultValue = PaginationConstants.DEFAULT_PAGE) int page,
+                                                      @RequestParam(value = "size", defaultValue = PaginationConstants.DEFAULT_SIZE) int size,
+                                                      @Valid @CurrentUser UserDetailsImpl currentUser) {
+        return itemService.getBestBidItems(currentUser, page, size);
     }
 }
