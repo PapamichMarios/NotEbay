@@ -4,6 +4,7 @@ import com.dit.ebay.model.Bid;
 import com.dit.ebay.model.Category;
 import com.dit.ebay.model.Item;
 import com.dit.ebay.model.User;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -44,6 +45,7 @@ public class ItemResponse {
 
     private Bid bestBid; // may be null
 
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private User user;  // may be null
 
     public ItemResponse() {

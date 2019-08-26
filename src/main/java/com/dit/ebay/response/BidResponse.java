@@ -2,11 +2,14 @@ package com.dit.ebay.response;
 
 import com.dit.ebay.model.Bid;
 import com.dit.ebay.model.User;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.sql.Timestamp;
 
 public class BidResponse {
     private Long id;
 
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private User user;
 
     private double bidAmount;
