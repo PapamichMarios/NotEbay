@@ -11,7 +11,9 @@ import Inbox                from './user/inbox';
 import Auction              from './seller/auctions/auction/auction';
 import AuctionsHomepage     from './seller/auctions/auctionsHomepage.js';
 import SubmitAuction        from './seller/auctions/submitAuction.js';
-import Bid                  from './seller/auctions/bidders.js';
+import BidList              from './seller/auctions/bidders.js';
+
+import Bid                  from'./bidder/bid';
 
 import Users                from './admin/users/users';
 import User                 from './admin/users/userProfile';
@@ -62,27 +64,27 @@ class App extends React.Component {
               <NavBar onLogout={this.handleLogout}/>
 
               <Switch>
-                <Route exact path="/"               component={Home}   />
-                <Route exact path="/welcome"        component={Home}   />
-                <Route exact path="/home"           component={Home}   />
-                <Route exact path="/login"          render={(props) => <Login {...props} onLogin={this.handleLogin} />} />
-                <Route exact path="/signup"         component={Signup} />
-                <Route exact path="/profile"        component={Profile} />
-                <Route exact path="/inbox"          component={Inbox} />
+                <Route exact path="/"                   component={Home}   />
+                <Route exact path="/welcome"            component={Home}   />
+                <Route exact path="/home"               component={Home}   />
+                <Route exact path="/login"              render={(props) => <Login {...props} onLogin={this.handleLogin} />} />
+                <Route exact path="/signup"             component={Signup} />
+                <Route exact path="/profile"            component={Profile} />
+                <Route exact path="/inbox"              component={Inbox} />
 
 
-                <Route exact path="/users"          component={Users} />
-                <Route path="/users/:id"            component={User} />
+                <Route exact path="/users"              component={Users} />
+                <Route path="/users/:id"                component={User} />
 
-                <Route exact path="/applications"   component={Applications} />
-                <Route path="/applications/:id"     component={Application} />
+                <Route exact path="/applications"       component={Applications} />
+                <Route path="/applications/:id"         component={Application} />
 
-                <Route exact path="/auctions"       component={AuctionsHomepage} />
-                <Route exact path="/auctions/:id"   component={Auction} />
-                <Route exact path="/submitAuction"  component={SubmitAuction} />
+                <Route exact path="/my-auctions"        component={AuctionsHomepage} />
+                <Route exact path="/my-auctions/:id"    component={Auction} />
+                <Route exact path="/submit-auction"     component={SubmitAuction} />
+                <Route path="/my-auctions/:id/bids"     component={BidList} />
 
-                <Route path="/auctions/:id/bids"     component={Bid} />
-
+                <Route exact path="/auctions/:id"       component={Bid} />
                 <Route component={Page404} />
               </Switch>
             </div>

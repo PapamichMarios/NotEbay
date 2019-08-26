@@ -48,7 +48,6 @@ export default class Login extends React.Component {
                 password: this.state.password
             })
         }).then(response => response.json())
-
           //handle success
           .then(response => {
             if (response.error) {
@@ -75,7 +74,6 @@ export default class Login extends React.Component {
                 }, Constants.TIMEOUT_DURATION);
             }
           })
-
           //handle error in promise
           .catch(error => console.error('Error:', error));
     }

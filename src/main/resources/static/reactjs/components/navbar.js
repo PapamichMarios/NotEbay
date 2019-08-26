@@ -74,7 +74,7 @@ export default class NavBar extends React.Component{
                           </NavItem>
                         </NavLink>
 
-                        <NavLink to="/auctions">
+                        <NavLink to="/my-auctions">
                           <NavItem className="button-margin">
                               <Button title="My Auctions" variant="dark" style={{borderRadius: '50%'}}>
                                 <MdGavel style={{verticalAlign: 'baseline'}} />
@@ -82,7 +82,7 @@ export default class NavBar extends React.Component{
                           </NavItem>
                         </NavLink>
 
-                        <NavLink to="/submitAuction">
+                        <NavLink to="/submit-auction">
                           <NavItem className="button-margin">
                               <Button title="Create an auction" variant="dark" style={{borderRadius: '50%'}}>
                                 <FaPlus style={{verticalAlign: 'baseline'}} />

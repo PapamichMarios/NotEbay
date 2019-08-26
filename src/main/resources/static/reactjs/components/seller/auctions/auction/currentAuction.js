@@ -17,6 +17,12 @@ export default class CurrentAuction extends React.Component {
     }
 
     render() {
+        const startTime = decodeTime(this.props.auction.timeStarted);
+        const startDate = decodeDate(this.props.auction.timeStarted);
+
+        const endTime = decodeTime(this.props.auction.timeEnds);
+        const endDate = decodeDate(this.props.auction.timeEnds);
+
         return(
             <Container fluid>
                 <Row>
@@ -161,9 +167,7 @@ export default class CurrentAuction extends React.Component {
                                                         <Form.Control
                                                             plaintext
                                                             readOnly
-                                                            defaultValue= { decodeTime(this.props.auction.timeStarted) +
-                                                                            ' ' +
-                                                                            decodeDate(this.props.auction.timeStarted) }
+                                                            defaultValue= { startTime + ' ' + startDate }
                                                             className="col-user"
                                                         />
                                                     </Col>
@@ -175,9 +179,7 @@ export default class CurrentAuction extends React.Component {
                                                         <Form.Control
                                                             plaintext
                                                             readOnly
-                                                            defaultValue= { decodeTime(this.props.auction.timeEnds) +
-                                                                            ' ' +
-                                                                            decodeDate(this.props.auction.timeEnds) }
+                                                            defaultValue= { endTime + ' ' + endDate }
                                                             className="col-user"
                                                         />
                                                     </Col>
