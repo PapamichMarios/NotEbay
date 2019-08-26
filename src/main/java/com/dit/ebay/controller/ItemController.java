@@ -85,5 +85,4 @@ public class ItemController {
                                           @Valid @CurrentUser UserDetailsImpl currentUser) {
         return itemService.getBidderItemById(itemId);
     }
-
 }
