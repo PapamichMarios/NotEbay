@@ -9,7 +9,7 @@ import '../../../../css/signup/confirmation.css';
 
 import { Container, Row, Col, Button, Pagination, Card, Table } from 'react-bootstrap';
 
-export default class Bid extends React.Component {
+export default class BidList extends React.Component {
     constructor(props) {
         super(props);
 
@@ -27,14 +27,14 @@ export default class Bid extends React.Component {
     //paging
     changeActivePage(pageNum) {
         this.setState({
-            activePage: pageNum
+            activePage: pageNum/17/bids
         });
     }
 
     getData(pageNum) {
         this.setState({loading: true});
-        const url = '/app/items/'+
-                    this.props.location.pathname.slice(10, 11) +
+        const url = '/app/items/owner/'+
+                    this.props.match.params.id +
                     '/bids?page=' + (pageNum-1) +
                     '&size=5';
 

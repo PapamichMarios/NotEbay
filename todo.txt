@@ -10,8 +10,14 @@ loading se kathe get
 - categories /submitAuction
 - signed in as navbar.text
 
+components/profile:
+    - badges me basi ta ratings
+    - na balw ratings (seller kai bidder)
+    - enwsi activity(past bids, past auctions) & bids won
+
+components/bidder:
+    - firstBid buyPrice -1 sto my-auction
+    - sta bids, best bid by username to username na einai link
 
 homepage: 1. products
 		  2. signup/login or sell it
-
-

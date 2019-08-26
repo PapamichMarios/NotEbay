@@ -89,7 +89,9 @@ export default class Auction extends React.Component{
     componentDidMount() {
         getRequest(this.props.action + this.props.match.params.id)
         .then(data => {
+            console.log(data);
             const [date, time] = splitDateAndTime(data.timeEnds);
+
             this.setState({
                 auction: data,
                 name: data.name,
@@ -141,5 +143,5 @@ export default class Auction extends React.Component{
 }
 
 Auction.defaultProps = {
-    action: '/app/items/',
+    action: '/app/items/owner/',
 };

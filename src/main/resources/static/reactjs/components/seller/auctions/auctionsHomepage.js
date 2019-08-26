@@ -87,7 +87,7 @@ export default class AuctionsHomepage extends React.Component {
                                             {this.state.myAuctions.map(myAuction =>
                                                 <tr key={myAuction.id.toString()}>
                                                     <td>
-                                                        <Link to={`auctions/${myAuction.id.toString()}`} >
+                                                        <Link to={`my-auctions/${myAuction.id.toString()}`} >
                                                             <FaExternalLinkAlt />
                                                         </Link>
                                                     </td>

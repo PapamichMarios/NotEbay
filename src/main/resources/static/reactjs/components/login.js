@@ -48,7 +48,6 @@ export default class Login extends React.Component {
                 password: this.state.password
             })
         }).then(response => response.json())
-
           //handle success
           .then(response => {
             if (response.error) {
@@ -69,13 +68,15 @@ export default class Login extends React.Component {
                 //add admin privileges
                 localStorage.setItem('isAdmin', response.admin);
 
+                //add logged in
+                localStorage.setItem('loggedIn', 'true');
+
                 //redirect
                 setTimeout( () => {
                     this.props.onLogin(response.admin)
                 }, Constants.TIMEOUT_DURATION);
             }
           })
-
           //handle error in promise
           .catch(error => console.error('Error:', error));
     }
