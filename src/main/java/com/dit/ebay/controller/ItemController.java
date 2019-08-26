@@ -2,6 +2,7 @@ package com.dit.ebay.controller;
 
 import com.dit.ebay.model.Item;
 import com.dit.ebay.request.ItemRequest;
+import com.dit.ebay.response.BidderItemResponse;
 import com.dit.ebay.response.ItemResponse;
 import com.dit.ebay.response.PagedResponse;
 import com.dit.ebay.security.CurrentUser;
@@ -81,8 +82,8 @@ public class ItemController {
      */
     @GetMapping("/{itemId}")
     @PreAuthorize("hasRole('ROLE_BIDDER')")
-    public ItemResponse getBidderItemById(@PathVariable(value = "itemId") Long itemId,
-                                          @Valid @CurrentUser UserDetailsImpl currentUser) {
+    public BidderItemResponse getBidderItemById(@PathVariable(value = "itemId") Long itemId,
+                                                @Valid @CurrentUser UserDetailsImpl currentUser) {
         return itemService.getBidderItemById(itemId);
     }
 

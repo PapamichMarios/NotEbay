@@ -7,49 +7,45 @@ import com.dit.ebay.model.User;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.math.BigDecimal;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
 public class ItemResponse {
 
-    private Long id;
+    protected Long id;
 
-    private Set<Category> categories = new HashSet<>(); // maybe be null
+    protected Set<Category> categories = new HashSet<>(); // maybe be null
 
-    private String name;
+    protected String name;
 
-    private String description;
+    protected String description;
 
-    private double buyPrice;
+    protected double buyPrice;
 
-    private double firstBid;
+    protected double firstBid;
 
-    private int numOfBids;
+    protected int numOfBids;
 
-    private Timestamp timeStarted;
+    protected Timestamp timeStarted;
 
-    private Timestamp timeEnds;
+    protected Timestamp timeEnds;
 
-    private String country;
+    protected String country;
 
-    private BigDecimal geoLat;
+    protected BigDecimal geoLat;
 
-    private BigDecimal geoLong;
+    protected BigDecimal geoLong;
 
-    private String location;
+    protected String location;
 
-    private String imagePath;
+    protected String imagePath;
 
-    private boolean active;
+    protected boolean active;
 
-    private Bid bestBid; // may be null
+    protected Bid bestBid; // may be null
 
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    private User user;  // may be null
-
-    private BigDecimal rating; //aggregated may be null
+    protected BigDecimal rating; //aggregated may be null
 
     public ItemResponse() {
 
@@ -72,7 +68,6 @@ public class ItemResponse {
         this.geoLong = item.getGeoLong();
         this.active = item.isActive();
         this.bestBid = item.getBestBid(); // maybe null
-        this.user = null; // change it only when a bidder wants to check the item
     }
 
     public String getName() {
@@ -201,19 +196,7 @@ public class ItemResponse {
         this.categories = categories;
     }
 
-    public User getUser() {
-        return user;
-    }
+    public BigDecimal getRating() { return rating; }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public BigDecimal getRating() {
-        return rating;
-    }
-
-    public void setRating(BigDecimal rating) {
-        this.rating = rating;
-    }
+    public void setRating(BigDecimal rating) { this.rating = rating; }
 }

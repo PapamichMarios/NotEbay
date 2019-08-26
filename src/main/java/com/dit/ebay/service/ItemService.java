@@ -2,10 +2,12 @@ package com.dit.ebay.service;
 
 import com.dit.ebay.exception.AppException;
 import com.dit.ebay.exception.ResourceNotFoundException;
+import com.dit.ebay.model.Bid;
 import com.dit.ebay.model.Category;
 import com.dit.ebay.model.Item;
 import com.dit.ebay.repository.CategoryRepository;
 import com.dit.ebay.repository.SellerRatingRepository;
+import com.dit.ebay.response.BidderItemResponse;
 import com.dit.ebay.response.ItemResponse;
 import com.dit.ebay.response.PagedResponse;
 import com.dit.ebay.security.UserDetailsImpl;
@@ -156,13 +158,12 @@ public class ItemService {
         return ResponseEntity.ok().body(new ApiResponse(true, "Item Deleted Successfully."));
     }
 
-    public ItemResponse getBidderItemById(Long itemId) {
+    public BidderItemResponse getBidderItemById(Long itemId) {
         Item item = itemRepository.findById(itemId)
                 .orElseThrow(() -> new ResourceNotFoundException("Item", "id", itemId));
 
-        ItemResponse itemResponse = new ItemResponse(item);
-        itemResponse.setUser(item.getUser());
-        itemResponse.setRating(sellerRatingRepository.avgRatingByUserId(item.getUser().getId()).orElse(null));
-        return itemResponse;
+        BidderItemResponse bidderItemResponse = new BidderItemResponse(item);
+        bidderItemResponse.setRating(sellerRatingRepository.avgRatingByUserId(item.getUser().getId()).orElse(null));
+        return bidderItemResponse;
     }
 }
