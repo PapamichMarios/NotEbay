@@ -38,6 +38,10 @@ public interface ItemRepository extends PagingAndSortingRepository<Item, Long> {
     Page<Item> findByUserId(@Param("userId") Long userId, Pageable pageable);
 
     @Query("select i from Item i where i.bestBid.user.id = :userId")
-    Page<Item> findByBestBidUserId(@Param("userId") Long userId, Pageable pageable);
+    Page<Item> findBestBidItemsByUserId(@Param("userId") Long userId, Pageable pageable);
+
+    // 1st time active is true then if date passes auction ends so it goes off then he wons
+    @Query("select i from Item i where i.bestBid.user.id = :userId and i.active = false")
+    Page<Item> findWonItemsByUserId(@Param("userId") Long userId, Pageable pageable);
 }
 

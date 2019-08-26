@@ -58,7 +58,6 @@ public class BidService {
         }
 
         Long userId = currentUser.getId();
-
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
 
@@ -86,6 +85,32 @@ public class BidService {
         return ResponseEntity.created(uri).body(new ApiResponse(true, "Bid created successfully.", bidRes));
     }
 
+    // constructs paged response
+    private PagedResponse<BidResponse> createPagedResponse(Page<Bid> bidsPaged) {
+        if (bidsPaged.getNumberOfElements() == 0) {
+            return new PagedResponse<>(Collections.emptyList(), bidsPaged.getNumber(),
+                    bidsPaged.getSize(), bidsPaged.getTotalElements(),
+                    bidsPaged.getTotalPages(), bidsPaged.isLast());
+        }
+
+        List<BidResponse> bidResponses = new ArrayList<>();
+        for (Bid bid : bidsPaged) {
+            bidResponses.add(new BidResponse(bid));
+        }
+
+        return new PagedResponse<>(bidResponses, bidsPaged.getNumber(),
+                bidsPaged.getSize(), bidsPaged.getTotalElements(),
+                bidsPaged.getTotalPages(), bidsPaged.isLast());
+    }
+
+    // used from other service
+    public PagedResponse<BidResponse> getUserBids(UserDetailsImpl currentUser, int page, int size) {
+        validatePageParametersService.validate(page, size);
+
+        Page<Bid> bidsPaged = bidRepository.findByUserId(currentUser.getId(), PageRequest.of(page, size, Sort.by("id").descending()));
+        return createPagedResponse(bidsPaged);
+    }
+
     public PagedResponse<BidResponse> getBids(Long itemId, UserDetailsImpl currentUser, int page, int size) {
 
         // safe check here
@@ -93,39 +118,7 @@ public class BidService {
         validatePageParametersService.validate(page, size);
 
         Page<Bid> bidsPaged = bidRepository.findByItemId(itemId, PageRequest.of(page, size, Sort.by("id").descending()));
-        if (bidsPaged.getNumberOfElements() == 0) {
-            return new PagedResponse<>(Collections.emptyList(), bidsPaged.getNumber(),
-                    bidsPaged.getSize(), bidsPaged.getTotalElements(),
-                    bidsPaged.getTotalPages(), bidsPaged.isLast());
-        }
-
-        List<BidResponse> bidResponses = new ArrayList<>();
-        for (Bid bid : bidsPaged) {
-            bidResponses.add(new BidResponse(bid));
-        }
-
-        return new PagedResponse<>(bidResponses, bidsPaged.getNumber(),
-                bidsPaged.getSize(), bidsPaged.getTotalElements(),
-                bidsPaged.getTotalPages(), bidsPaged.isLast());
+        return createPagedResponse(bidsPaged);
     }
 
-    public PagedResponse<BidResponse> getUserBids(UserDetailsImpl currentUser, int page, int size) {
-        validatePageParametersService.validate(page, size);
-
-        Page<Bid> bidsPaged = bidRepository.findByUserId(currentUser.getId(), PageRequest.of(page, size, Sort.by("id").descending()));
-        if (bidsPaged.getNumberOfElements() == 0) {
-            return new PagedResponse<>(Collections.emptyList(), bidsPaged.getNumber(),
-                    bidsPaged.getSize(), bidsPaged.getTotalElements(),
-                    bidsPaged.getTotalPages(), bidsPaged.isLast());
-        }
-
-        List<BidResponse> bidResponses = new ArrayList<>();
-        for (Bid bid : bidsPaged) {
-            bidResponses.add(new BidResponse(bid));
-        }
-
-        return new PagedResponse<>(bidResponses, bidsPaged.getNumber(),
-                bidsPaged.getSize(), bidsPaged.getTotalElements(),
-                bidsPaged.getTotalPages(), bidsPaged.isLast());
-    }
 }

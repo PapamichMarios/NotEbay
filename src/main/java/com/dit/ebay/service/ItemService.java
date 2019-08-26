@@ -2,21 +2,17 @@ package com.dit.ebay.service;
 
 import com.dit.ebay.exception.AppException;
 import com.dit.ebay.exception.ResourceNotFoundException;
-import com.dit.ebay.model.Bid;
 import com.dit.ebay.model.Category;
 import com.dit.ebay.model.Item;
 import com.dit.ebay.repository.CategoryRepository;
 import com.dit.ebay.repository.SellerRatingRepository;
-import com.dit.ebay.response.BidderItemResponse;
-import com.dit.ebay.response.ItemResponse;
-import com.dit.ebay.response.PagedResponse;
+import com.dit.ebay.response.*;
 import com.dit.ebay.security.UserDetailsImpl;
 import com.dit.ebay.util.JsonGeoPoint;
 import com.dit.ebay.model.User;
 import com.dit.ebay.repository.ItemRepository;
 import com.dit.ebay.repository.UserRepository;
 import com.dit.ebay.request.ItemRequest;
-import com.dit.ebay.response.ApiResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +48,6 @@ public class ItemService {
 
     @Autowired
     private ValidatePageParametersService validatePageParametersService;
-
 
     private static final Logger logger = LoggerFactory.getLogger(ItemService.class);
 
@@ -94,10 +89,9 @@ public class ItemService {
         return ResponseEntity.created(uri).body(new ApiResponse(true, "Item created successfully.", result));
     }
 
-    public PagedResponse<ItemResponse> getSellerItems(UserDetailsImpl currentUser, int page, int size) {
-        validatePageParametersService.validate(page, size);
-
-        Page<Item> itemsPaged = itemRepository.findByUserId(currentUser.getId(), PageRequest.of(page, size, Sort.by("id").descending()));
+    // constructs paged response
+    // will only be used inside this class
+    private PagedResponse<ItemResponse> createPagedResponse(Page<Item> itemsPaged) {
         if (itemsPaged.getNumberOfElements() == 0) {
             return new PagedResponse<>(Collections.emptyList(), itemsPaged.getNumber(),
                     itemsPaged.getSize(), itemsPaged.getTotalElements(),
@@ -114,6 +108,14 @@ public class ItemService {
         return new PagedResponse<>(itemResponses, itemsPaged.getNumber(),
                 itemsPaged.getSize(), itemsPaged.getTotalElements(),
                 itemsPaged.getTotalPages(), itemsPaged.isLast());
+    }
+
+
+    public PagedResponse<ItemResponse> getSellerItems(UserDetailsImpl currentUser, int page, int size) {
+        validatePageParametersService.validate(page, size);
+
+        Page<Item> itemsPaged = itemRepository.findByUserId(currentUser.getId(), PageRequest.of(page, size, Sort.by("id").descending()));
+        return createPagedResponse(itemsPaged);
     }
 
     public Item getSellerItemById(Long itemId, UserDetailsImpl currentUser) {
@@ -170,18 +172,17 @@ public class ItemService {
     public PagedResponse<ItemResponse> getBestBidItems(UserDetailsImpl currentUser, int page, int size) {
         validatePageParametersService.validate(page, size);
 
-        Page<Item> itemsPaged = itemRepository.findByBestBidUserId(currentUser.getId(), PageRequest.of(page, size,
-                                                                    Sort.by("timeEnds").descending()));
+        Page<Item> itemsPaged = itemRepository.findBestBidItemsByUserId(currentUser.getId(), PageRequest.of(page, size,
+                                                                        Sort.by("timeEnds").descending()));
+        return createPagedResponse(itemsPaged);
+    }
 
-        List<ItemResponse> itemResponses = new ArrayList<>();
-        for (Item item : itemsPaged) {
-            ItemResponse itemResponse = new ItemResponse(item);
-            itemResponse.setRating(sellerRatingRepository.avgRatingByUserId(item.getUser().getId()).orElse(null));
-            itemResponses.add(itemResponse);
-        }
+    public PagedResponse<ItemResponse> getBidsWonItems(UserDetailsImpl currentUser, int page, int size) {
+        validatePageParametersService.validate(page, size);
 
-        return new PagedResponse<>(itemResponses, itemsPaged.getNumber(),
-                itemsPaged.getSize(), itemsPaged.getTotalElements(),
-                itemsPaged.getTotalPages(), itemsPaged.isLast());
+        Page<Item> itemsPaged = itemRepository.findWonItemsByUserId(currentUser.getId(), PageRequest.of(page, size,
+                Sort.by("timeEnds").descending()));
+
+        return createPagedResponse(itemsPaged);
     }
 }

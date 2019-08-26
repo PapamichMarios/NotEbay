@@ -1,7 +1,5 @@
 package com.dit.ebay.controller;
 
-import com.dit.ebay.model.Bid;
-import com.dit.ebay.repository.BidRepository;
 import com.dit.ebay.request.BidRequest;
 import com.dit.ebay.response.BidResponse;
 import com.dit.ebay.security.CurrentUser;
