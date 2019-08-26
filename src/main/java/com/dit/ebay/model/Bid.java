@@ -3,7 +3,6 @@ package com.dit.ebay.model;
 import com.dit.ebay.csv_model.CSVBid;
 import com.dit.ebay.exception.AppException;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -45,7 +44,6 @@ public class Bid {
     private Item itemBestBid;
 
     // Database trigger to check dates
-    // TODO : have to change it in the future
     @PrePersist
     public void checkDatesPrePersist() {
         this.bidTime = new Timestamp(System.currentTimeMillis());

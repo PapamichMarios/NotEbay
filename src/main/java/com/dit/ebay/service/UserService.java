@@ -90,9 +90,6 @@ public class UserService {
                     throw new UserExistsException("A user with the same email already exists.");
                 });
 
-        // Json Point => Java Point
-        JsonGeoPoint jgp = signUpRequest.getJgp();
-
         // Create a user object from the request
         User user = new User(signUpRequest);
 
