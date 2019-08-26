@@ -7,6 +7,7 @@ import com.dit.ebay.model.User;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.math.BigDecimal;
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
@@ -48,6 +49,8 @@ public class ItemResponse {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private User user;  // may be null
 
+    private BigDecimal rating; //aggregated may be null
+
     public ItemResponse() {
 
     }
@@ -57,6 +60,7 @@ public class ItemResponse {
         this.name = item.getName();
         this.categories = item.getCategories();
         this.description = item.getDescription();
+        this.timeStarted = item.getTimeStarted();
         this.timeEnds = item.getTimeEnds();
         this.buyPrice = item.getBuyPrice();  // may be null
         this.firstBid = item.getFirstBid();  // can't be null
@@ -203,5 +207,13 @@ public class ItemResponse {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public BigDecimal getRating() {
+        return rating;
+    }
+
+    public void setRating(BigDecimal rating) {
+        this.rating = rating;
     }
 }

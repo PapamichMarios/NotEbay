@@ -5,6 +5,7 @@ import com.dit.ebay.exception.ResourceNotFoundException;
 import com.dit.ebay.model.Category;
 import com.dit.ebay.model.Item;
 import com.dit.ebay.repository.CategoryRepository;
+import com.dit.ebay.repository.SellerRatingRepository;
 import com.dit.ebay.response.ItemResponse;
 import com.dit.ebay.response.PagedResponse;
 import com.dit.ebay.security.UserDetailsImpl;
@@ -43,6 +44,9 @@ public class ItemService {
 
     @Autowired
     private AuthorizationService authorizationService;
+
+    @Autowired
+    private SellerRatingRepository sellerRatingRepository;
 
     @Autowired
     private ValidatePageParametersService validatePageParametersService;
@@ -156,6 +160,7 @@ public class ItemService {
 
         ItemResponse itemResponse = new ItemResponse(item);
         itemResponse.setUser(item.getUser());
+        itemResponse.setRating(sellerRatingRepository.avgRatingByUserId(item.getUser().getId()).orElse(null));
         return itemResponse;
     }
 }

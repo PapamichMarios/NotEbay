@@ -79,7 +79,7 @@ public class ItemController {
     /*
      * ---For Bidder---
      */
-    @GetMapping("/{itemId")
+    @GetMapping("/{itemId}")
     @PreAuthorize("hasRole('ROLE_BIDDER')")
     public ItemResponse getBidderItemById(@PathVariable(value = "itemId") Long itemId,
                                           @Valid @CurrentUser UserDetailsImpl currentUser) {
