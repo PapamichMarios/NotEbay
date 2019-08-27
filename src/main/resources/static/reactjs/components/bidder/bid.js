@@ -83,7 +83,6 @@ export default class Bid extends React.Component {
     componentDidMount() {
         getRequest(this.props.action + this.props.match.params.id)
         .then(response => {
-            console.log(response);
             this.setState({
                 bid: response
             });
@@ -343,7 +342,7 @@ export default class Bid extends React.Component {
                                                                 <Form.Control
                                                                     plaintext
                                                                     readOnly
-                                                                    defaultValue= {this.state.bid.user.username}
+                                                                    defaultValue= {this.state.bid.userSeller.username}
                                                                     className="col-user"
                                                                 />
                                                             </Col>
@@ -388,7 +387,7 @@ export default class Bid extends React.Component {
                                                                 <Form.Control
                                                                     plaintext
                                                                     readOnly
-                                                                    defaultValue= {this.state.bid.user.country}
+                                                                    defaultValue= {this.state.bid.userSeller.country}
                                                                     className="col-user"
                                                                 />
                                                             </Col>
