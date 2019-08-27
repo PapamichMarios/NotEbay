@@ -10,6 +10,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,8 +43,8 @@ public interface ItemRepository extends PagingAndSortingRepository<Item, Long> {
     Page<Item> findBestBidItemsByUserId(@Param("userId") Long userId, Pageable pageable);
 
     // 1st time active is true then if date passes auction ends so it goes off then he wons
-    @Query("select i from Item i where i.bestBid.user.id = :userId and i.active = false")
-    Page<Item> findWonItemsByUserId(@Param("userId") Long userId, Pageable pageable);
+    @Query("select i from Item i where i.bestBid.user.id = :userId and i.timeEnds <= :currTime")
+    Page<Item> findWonItemsByUserId(@Param("userId") Long userId, @Param("currTime") Timestamp currentTimeStamp, Pageable pageable);
 
     @Query("select i from Item i where i.active = true")
     List<Item> findAllActive();

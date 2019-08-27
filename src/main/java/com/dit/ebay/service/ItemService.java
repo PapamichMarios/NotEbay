@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -180,7 +181,10 @@ public class ItemService {
     public PagedResponse<ItemResponse> getBidsWonItems(UserDetailsImpl currentUser, int page, int size) {
         validatePageParametersService.validate(page, size);
 
-        Page<Item> itemsPaged = itemRepository.findWonItemsByUserId(currentUser.getId(), PageRequest.of(page, size,
+        Timestamp currentTimeStamp = new Timestamp(System.currentTimeMillis());
+        currentTimeStamp.setNanos(0); // don't count millis
+
+        Page<Item> itemsPaged = itemRepository.findWonItemsByUserId(currentUser.getId(), currentTimeStamp, PageRequest.of(page, size,
                 Sort.by("timeEnds").descending()));
 
         return createPagedResponse(itemsPaged);
