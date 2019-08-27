@@ -107,7 +107,7 @@ public class ItemController {
     }
 
     @GetMapping(path = "/bidsWonItems", params = {"page", "size"})
-    @PreAuthorize("hashRole('ROLE_BIDDER')")
+    @PreAuthorize("hasRole('ROLE_BIDDER')")
     public PagedResponse<ItemResponse> getBidWonItems(@RequestParam(value = "page", defaultValue = PaginationConstants.DEFAULT_PAGE) int page,
                                                       @RequestParam(value = "size", defaultValue = PaginationConstants.DEFAULT_SIZE) int size,
                                                       @Valid @CurrentUser UserDetailsImpl currentUser) {
