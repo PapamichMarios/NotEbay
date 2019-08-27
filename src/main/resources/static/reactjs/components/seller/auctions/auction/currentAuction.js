@@ -69,7 +69,7 @@ export default class CurrentAuction extends React.Component {
                                         </Row>
                                     </Col>
 
-                                    <Col md={6}>
+                                    <Col md={5}>
                                         <Tabs defaultActiveKey="details">
                                             <Tab eventKey="details" title="Item Details">
                                                 <br/>
@@ -150,6 +150,18 @@ export default class CurrentAuction extends React.Component {
                                                 )}
 
                                                 <Form.Group as={Row}>
+                                                    <Form.Label column md="5"> <b> First Bid: </b> </Form.Label>
+                                                    <Col>
+                                                        <Form.Control
+                                                            plaintext
+                                                            readOnly
+                                                            defaultValue= {this.props.auction.firstBid}
+                                                            className="col-user"
+                                                        />
+                                                    </Col>
+                                                </Form.Group>
+
+                                                <Form.Group as={Row}>
                                                     <Form.Label column md="5"> <b> Number of bids: </b> </Form.Label>
                                                     <Col>
                                                         <Form.Control
@@ -184,44 +196,25 @@ export default class CurrentAuction extends React.Component {
                                                         />
                                                     </Col>
                                                 </Form.Group>
-
-                                                <Form.Group as={Row}>
-                                                    <Form.Label column md="5"> <b> Country: </b> </Form.Label>
-                                                    <Col>
-                                                        <Form.Control
-                                                            plaintext
-                                                            readOnly
-                                                            defaultValue= {this.props.auction.country}
-                                                            className="col-user"
-                                                        />
-                                                    </Col>
-                                                </Form.Group>
-
-                                                <Form.Group as={Row}>
-                                                    <Form.Label column md="5"> <b> Location: </b> </Form.Label>
-                                                    <Col>
-                                                        <Form.Control
-                                                            plaintext
-                                                            readOnly
-                                                            defaultValue= {this.props.auction.location}
-                                                            className="col-user"
-                                                        />
-                                                    </Col>
-                                                </Form.Group>
                                             </Tab>
                                         </Tabs>
                                     </Col>
 
                                     <Col>
-                                        <Row>
-                                            <h3> to put seller </h3>
-                                        </Row>
-
-                                        <Row>
-                                            <div className="leaflet">
-                                                <OpenStreetMap lat={this.props.auction.geoLat} lng={this.props.auction.geoLong} />
-                                            </div>
-                                        </Row>
+                                        <Card style={{width: '100%'}}>
+                                            <Card.Body>
+                                                <Card.Title as="h6" className="text-center">
+                                                    <b>
+                                                        Item Location: &emsp;
+                                                        <span style={{color:'DimGray'}}>{this.props.auction.location}</span>,
+                                                        <span style={{color:'DimGray'}}> {this.props.auction.country}</span>
+                                                    </b>
+                                                </Card.Title>
+                                                <div className="leaflet">
+                                                    <OpenStreetMap lat={this.props.auction.geoLat} lng={this.props.auction.geoLong} />
+                                                </div>
+                                            </Card.Body>
+                                        </Card>
                                     </Col>
                                 </Row>
                             </Card.Body>
