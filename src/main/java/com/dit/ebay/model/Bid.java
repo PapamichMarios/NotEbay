@@ -67,7 +67,7 @@ public class Bid {
 
     public Bid(double bidAmount) {
         this.bidAmount = bidAmount;
-        this.accepted = false; // waiting from the SELLER to accept the bid
+        this.accepted = true; // have to remove it
     }
 
     public double getBidAmount() {
