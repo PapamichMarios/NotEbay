@@ -123,7 +123,19 @@ export default class CurrentAuction extends React.Component {
                                                     </Form.Group>
                                                 )}
 
-                                                { this.props.auction.buyPrice ? (
+                                                <Form.Group as={Row}>
+                                                    <Form.Label column md="5"> <b> First Bid: </b> </Form.Label>
+                                                    <Col>
+                                                        <Form.Control
+                                                            plaintext
+                                                            readOnly
+                                                            defaultValue= {this.props.auction.firstBid}
+                                                            className="col-user"
+                                                        />
+                                                    </Col>
+                                                </Form.Group>
+
+                                                { this.props.auction.buyPrice === 0 ? (
                                                     <Form.Group as={Row}>
                                                         <Form.Label column md="5"> <b> Buy Price: </b> </Form.Label>
                                                         <Col>
@@ -148,18 +160,6 @@ export default class CurrentAuction extends React.Component {
                                                         </Col>
                                                     </Form.Group>
                                                 )}
-
-                                                <Form.Group as={Row}>
-                                                    <Form.Label column md="5"> <b> First Bid: </b> </Form.Label>
-                                                    <Col>
-                                                        <Form.Control
-                                                            plaintext
-                                                            readOnly
-                                                            defaultValue= {this.props.auction.firstBid}
-                                                            className="col-user"
-                                                        />
-                                                    </Col>
-                                                </Form.Group>
 
                                                 <Form.Group as={Row}>
                                                     <Form.Label column md="5"> <b> Number of bids: </b> </Form.Label>

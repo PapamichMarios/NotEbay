@@ -18,20 +18,38 @@ class EditAuction extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            loading: false,
-            hasError: false,
-            errorMsg: '',
+        //if buy price was not given anything
+        if(this.props.user.buyPrice === 0) {
+            this.state = {
+                loading: false,
+                hasError: false,
+                errorMsg: '',
 
-            name: this.props.user.name,
-            description: this.props.user.description,
-            dateEnds: this.props.user.dateEnds,
-            timeEnds: this.props.user.timeEnds,
-            firstBid: this.props.user.firstBid,
-            buyPrice: this.props.user.buyPrice,
-            country: this.props.user.country,
-            location: this.props.user.location
-        };
+                name: this.props.user.name,
+                description: this.props.user.description,
+                dateEnds: this.props.user.dateEnds,
+                timeEnds: this.props.user.timeEnds,
+                firstBid: this.props.user.firstBid,
+                country: this.props.user.country,
+                location: this.props.user.location,
+                buyPrice: ''
+            };
+        } else {
+            this.state = {
+                loading: false,
+                hasError: false,
+                errorMsg: '',
+
+                name: this.props.user.name,
+                description: this.props.user.description,
+                dateEnds: this.props.user.dateEnds,
+                timeEnds: this.props.user.timeEnds,
+                firstBid: this.props.user.firstBid,
+                country: this.props.user.country,
+                location: this.props.user.location,
+                buyPrice: this.props.user.buyPrice
+            };
+        }
 
         this.onChange = this.onChange.bind(this);
         this.back = this.back.bind(this);
@@ -51,6 +69,13 @@ class EditAuction extends React.Component {
     save() {
         //set loading
         this.setState({loading: true});
+
+        //if buy price was not given anything
+        if(this.state.buyPrice === '') {
+            this.setState({
+                buyPrice: -1
+            });
+        }
 
         //fetch request
         const bodyObj = {

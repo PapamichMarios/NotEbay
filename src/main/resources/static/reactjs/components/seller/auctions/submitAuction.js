@@ -46,6 +46,13 @@ export default class SubmitAuction extends React.Component {
     }
 
     createItem() {
+        //if buy price input was null
+        if(this.state.buyPrice === '') {
+            this.setState({
+                buyPrice: -1
+            });
+        }
+
         const bodyObj = {
             name: this.state.name,
             description: this.state.description,
@@ -139,7 +146,7 @@ export default class SubmitAuction extends React.Component {
             firstBid: Yup.number().label('Initial Bid').required(),
             buyPrice: Yup.number().label('Buy Directly'),
             country: Yup.string().label('Country').required(),
-            location: Yup.string().label('Location').required()
+            location: Yup.string().label('City').required()
         });
 
         return(
