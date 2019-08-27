@@ -27,7 +27,7 @@ export default class BidList extends React.Component {
     //paging
     changeActivePage(pageNum) {
         this.setState({
-            activePage: pageNum/17/bids
+            activePage: pageNum
         });
     }
 
@@ -96,7 +96,8 @@ export default class BidList extends React.Component {
                                         </tbody>
                                     </Table>
 
-                                    <Paging totalPages={this.state.paging.totalPages}
+                                    <Paging
+                                        totalPages={this.state.paging.totalPages}
                                         getData={this.getData}
                                         activePage={this.state.activePage}
                                         changeActivePage={this.changeActivePage}

@@ -6,6 +6,7 @@ import com.dit.ebay.model.Category;
 import com.dit.ebay.model.Item;
 import com.dit.ebay.repository.CategoryRepository;
 import com.dit.ebay.repository.SellerRatingRepository;
+import com.dit.ebay.request.ItemActiveRequest;
 import com.dit.ebay.response.*;
 import com.dit.ebay.security.UserDetailsImpl;
 import com.dit.ebay.util.JsonGeoPoint;
@@ -149,6 +150,26 @@ public class ItemService {
         }
 
         item.updateItemFields(itemRequest);
+
+        return itemRepository.save(item);
+    }
+
+    public Item updateSellerItemById(Long itemId, ItemActiveRequest itemActiveRequest, UserDetailsImpl currentUser) {
+        // safe check here
+        authorizationService.isSellerOfItem(currentUser.getId(), itemId);
+
+        Item item = itemRepository.findById(itemId)
+                .orElseThrow(() -> new ResourceNotFoundException("Item", "id", itemId));
+
+        if (item.isActive()) {
+            throw new AppException("Sorry, You can't update an Item which is active.");
+        }
+
+        if (itemRepository.countBidsByItemId(itemId)) {
+            throw new AppException("Sorry, You can't update an Item which has at least 1 bid.");
+        }
+
+        item.setActive(itemActiveRequest.isActive());
 
         return itemRepository.save(item);
     }

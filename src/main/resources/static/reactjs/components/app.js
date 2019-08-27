@@ -5,7 +5,7 @@ import Home                 from './homepage';
 import Login                from './login';
 import Signup               from './signup/signup';
 import Page404              from './errors/error404';
-import Profile              from './user/profile';
+import Profile              from './user/profile/profile';
 import Inbox                from './user/inbox';
 
 import Auction              from './seller/auctions/auction/auction';

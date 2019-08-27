@@ -1,23 +1,28 @@
 role: admin, seller, bidder, visitor
 loading se kathe get
 
-- navbar products dropdown
-- xss
-- styling profile xristi kai admin
-- bid sta auctions twn sellers
+- navbar categories dropdown
 - seller auction: 1. my auctions 2. list an item
 - need to optimize webpack
 - categories /submitAuction
-- signed in as navbar.text
+- paging an einai empty na bgazei sxetiko message
 
-components/profile:
+profile:
     - badges me basi ta ratings
     - na balw ratings (seller kai bidder)
     - enwsi activity(past bids, past auctions) & bids won
 
-components/bidder:
+bidder:
     - firstBid buyPrice -1 sto my-auction
     - sta bids, best bid by username to username na einai link
 
-homepage: 1. products
-		  2. signup/login or sell it
+homepage:
+    1. products
+    2.signup/login or sell it
+
+auctions/id:
+    breadcrumbs
+    OR <br/> <Button>Buy Item </Button> for {buyPrice}
+
+my-auctions/id
+    styling

@@ -3,9 +3,8 @@ import '../../css/navbar.css';
 const React = require('react');
 const ReactDOM = require('react-dom');
 
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import { Container, Row, Col, Navbar, Nav, NavItem, NavDropdown, Form, FormControl, Button, InputGroup } from 'react-bootstrap';
-
 import { FaSearch, FaHome, FaUser, FaComments, FaDatabase, FaSignInAlt, FaSignOutAlt, FaTasks, FaPlus } from 'react-icons/fa';
 import { MdPlaylistAddCheck, MdGavel } from 'react-icons/md';
 
@@ -134,7 +133,10 @@ export default class NavBar extends React.Component{
                 <Container fluid>
                     <Row>
                         <Col md={{offset:11}}>
-                            Signed in as: <b>{localStorage.getItem('username')}</b>
+                            <span style={{color:'DimGray'}}>Signed in as:</span>
+                            <Link to='/profile'>
+                                <b> {localStorage.getItem('username')} </b>
+                            </Link>
                         </Col>
                     </Row>
                 </Container>

@@ -1,6 +1,7 @@
 package com.dit.ebay.controller;
 
 import com.dit.ebay.model.Item;
+import com.dit.ebay.request.ItemActiveRequest;
 import com.dit.ebay.request.ItemRequest;
 import com.dit.ebay.response.BidderItemResponse;
 import com.dit.ebay.response.ItemResponse;
@@ -68,6 +69,15 @@ public class ItemController {
                                      @Valid @RequestBody ItemRequest itemRequest,
                                      @Valid @CurrentUser UserDetailsImpl currentUser) {
         return itemService.updateSellerItemById(itemId, itemRequest, currentUser);
+    }
+
+    // update status
+    @PutMapping("/{itemId}/active")
+    @PreAuthorize("hasRole('ROLE_SELLER')")
+    public Item updateSellerActiveById(@PathVariable(value = "itemId") Long itemId,
+                                       @Valid @RequestBody ItemActiveRequest itemActiveRequest,
+                                       @Valid @CurrentUser UserDetailsImpl currentUser) {
+        return itemService.updateSellerItemById(itemId, itemActiveRequest, currentUser);
     }
 
     @DeleteMapping("/{itemId}")
