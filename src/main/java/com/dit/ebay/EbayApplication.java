@@ -17,8 +17,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Component;
 import com.dit.ebay.service.UserService;
 import com.dit.ebay.service.PopulateDB;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
+@EnableScheduling
 public class EbayApplication {
 
 	public static void main(String[] args) {
