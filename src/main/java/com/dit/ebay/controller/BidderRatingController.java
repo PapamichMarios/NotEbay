@@ -21,7 +21,7 @@ public class BidderRatingController {
     @PostMapping
     @PreAuthorize("hasRole('ROLE_SELLER')")
     public ResponseEntity<?> createBidderRating(@PathVariable(value = "userId") Long userId,
-                                                @Valid RatingRequest ratingRequest,
+                                                @Valid @RequestBody RatingRequest ratingRequest,
                                                 @Valid @CurrentUser UserDetailsImpl currentUser) {
         return bidderRatingService.createBidderRating(userId, currentUser, ratingRequest);
     }

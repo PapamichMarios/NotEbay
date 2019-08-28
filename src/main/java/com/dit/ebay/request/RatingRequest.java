@@ -9,9 +9,8 @@ import javax.validation.constraints.NotNull;
  */
 public class RatingRequest {
 
-    @NotNull
-    @Min(1)
-    @Max(5)
+    @Min(value = 1, message = "Rating must be equal/greater of 1")
+    @Max(value = 5, message = "Rating's max value is 5")
     private byte rating;  // 1,2,3,4,5
 
     private String comment;
