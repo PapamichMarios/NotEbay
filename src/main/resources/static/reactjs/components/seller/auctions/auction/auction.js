@@ -8,6 +8,7 @@ import * as Constants from '../../../utils/constants';
 
 import splitDateAndTime from '../../../utils/decoders/splitDateAndTime';
 
+import putRequest from '../../../utils/requests/putRequest';
 import getRequest from '../../../utils/requests/getRequest';
 import deleteRequest from '../../../utils/requests/deleteRequest';
 
@@ -34,12 +35,33 @@ export default class Auction extends React.Component{
             location: '',
             lat: '',
             lng: '',
+            active: false,
+            finished: false
         };
 
+        this.beginAuction = this.beginAuction.bind(this);
         this.checkBidders = this.checkBidders.bind(this);
         this.undoEditAuction = this.undoEditAuction.bind(this);
         this.editAuction = this.editAuction.bind(this);
         this.deleteAuction = this.deleteAuction.bind(this);
+    }
+
+    //=====================================begin auction
+    beginAuction() {
+        const url = '/app/items/' + this.props.match.params.id + '/active';
+        const bodyObj = { active: true };
+
+        putRequest(url, bodyObj)
+        .then(response => {
+            console.log(response)
+            if(response.error) {
+                alert(response.message);
+            } else {
+                //reload page
+                location.reload();
+            }
+        })
+        .catch( error => console.error('Error:', error));
     }
 
     //=====================================bidders listing
@@ -89,7 +111,6 @@ export default class Auction extends React.Component{
     componentDidMount() {
         getRequest(this.props.action + this.props.match.params.id)
         .then(data => {
-            console.log(data);
             const [date, time] = splitDateAndTime(data.timeEnds);
 
             this.setState({
@@ -104,14 +125,15 @@ export default class Auction extends React.Component{
                 location: data.location,
                 lat: data.geoLat,
                 lng: data.geoLong,
+                active: data.active,
+                finished: data.finished
+            }, () => {
+                setTimeout(() => {
+                  this.setState({loading: false})
+                }, Constants.TIMEOUT_DURATION)
             });
         })
         .catch(error => console.error('Error:', error));
-
-        //set loading
-        setTimeout(() => {
-          this.setState({loading: false})
-        }, Constants.TIMEOUT_DURATION)
     }
 
     render() {
@@ -119,7 +141,7 @@ export default class Auction extends React.Component{
             return <Loading />;
         } else {
             if(this.state.edit && !this.state.auction.active){
-                const { name, description, timeEnds, dateEnds, firstBid, buyPrice, country, location, lat, lng} = this.state
+                const { name, description, timeEnds, dateEnds, firstBid, buyPrice, country, location, lat, lng, active, finished} = this.state
                 const editUser = { name, description, timeEnds, dateEnds, firstBid, buyPrice, country, location, lat, lng };
 
                 return(
@@ -135,6 +157,7 @@ export default class Auction extends React.Component{
                         editAuction={this.editAuction}
                         deleteAuction={this.deleteAuction}
                         checkBidders={this.checkBidders}
+                        beginAuction={this.beginAuction}
                     />
                );
             }

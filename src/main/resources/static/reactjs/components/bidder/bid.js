@@ -56,33 +56,38 @@ export default class Bid extends React.Component {
     }
 
     placeBid() {
-        //set loading
-         this.setState({loadingButton: true});
+        //check if the user miss-clicked
+        if (window.confirm('Are you sure you want to place a bid at the current item?')) {
+            //set loading
+            this.setState({loadingButton: true});
 
-        const url = this.props.action + this.props.match.params.id + '/bids';
-        const bodyObj = {
-            bidAmount: this.state.bet
-        };
+            //make request
+            const url = this.props.action + this.props.match.params.id + '/bids';
+            const bodyObj = {
+                bidAmount: this.state.bet
+            };
 
-        postRequest(url, bodyObj)
-        .then(response => {
-            if(response.error) {
-                this.setState({
-                    hasError: true,
-                    errorMsg: response.message,
-                    loadingButton: false
-                });
-            } else {
-                //refresh page
-                location.reload();
-            }
-        })
-        .catch(error => console.error('Error:', error));
+            postRequest(url, bodyObj)
+            .then(response => {
+                if(response.error) {
+                    this.setState({
+                        hasError: true,
+                        errorMsg: response.message,
+                        loadingButton: false
+                    });
+                } else {
+                    //refresh page
+                    location.reload();
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
     }
 
     componentDidMount() {
         getRequest(this.props.action + this.props.match.params.id)
         .then(response => {
+            console.log(response);
             this.setState({
                 bid: response
             });
@@ -143,6 +148,7 @@ export default class Bid extends React.Component {
                                                         <Form.Label column md="5"> <b> Description: </b> </Form.Label>
                                                         <Col>
                                                             <Form.Control
+                                                                as="textarea"
                                                                 plaintext
                                                                 readOnly
                                                                 defaultValue= {this.state.bid.description}
@@ -154,27 +160,47 @@ export default class Bid extends React.Component {
                                                     { this.state.bid.bestBid ? (
                                                         <Form.Group as={Row}>
                                                             <Form.Label column md="5"> <b> Current Best Bid: </b> </Form.Label>
-                                                            <Col md={2}>
-                                                                <Form.Control
-                                                                    plaintext
-                                                                    readOnly
-                                                                    defaultValue= {this.state.bid.bestBid.bidAmount + ' by ' + this.state.bid.bestBid.id}
-                                                                    className="col-user"
-                                                                />
-                                                            </Col>
-                                                        </Form.Group>
-                                                    ) : (
-                                                        <Form.Group as={Row}>
-                                                            <Form.Label column md="5"> <b> Current Best Bid: </b> </Form.Label>
                                                             <Col>
                                                                 <Form.Control
                                                                     plaintext
                                                                     readOnly
-                                                                    defaultValue= '--'
+                                                                    defaultValue= {this.state.bid.bestBid.bidAmount + '$'}
                                                                     className="col-user"
                                                                 />
+                                                                <span>
+                                                                    by &nbsp;
+                                                                    <Link to='#'>
+                                                                        <b>{this.state.bid.bestBidder.username} </b>
+                                                                    </Link>
+                                                                </span>
                                                             </Col>
                                                         </Form.Group>
+                                                    ) : (
+                                                        <div>
+                                                            <Form.Group as={Row}>
+                                                                <Form.Label column md="5"> <b> Starting Bid: </b> </Form.Label>
+                                                                <Col>
+                                                                    <Form.Control
+                                                                        plaintext
+                                                                        readOnly
+                                                                        defaultValue= {this.state.bid.firstBid + '$'}
+                                                                        className="col-user"
+                                                                    />
+                                                                </Col>
+                                                            </Form.Group>
+
+                                                            <Form.Group as={Row}>
+                                                                <Form.Label column md="5"> <b> Current Best Bid: </b> </Form.Label>
+                                                                <Col>
+                                                                    <Form.Control
+                                                                        plaintext
+                                                                        readOnly
+                                                                        defaultValue= '--'
+                                                                        className="col-user"
+                                                                    />
+                                                                </Col>
+                                                            </Form.Group>
+                                                        </div>
                                                     )}
 
                                                     <Form.Group as={Row}>
@@ -290,7 +316,7 @@ export default class Bid extends React.Component {
                                                                 <Form.Control
                                                                     plaintext
                                                                     readOnly
-                                                                    defaultValue= {this.state.bid.buyPrice}
+                                                                    defaultValue= {this.state.bid.buyPrice + '$'}
                                                                     className="col-user"
                                                                 />
                                                             </Col>
@@ -355,7 +381,7 @@ export default class Bid extends React.Component {
                                                                 <Col>
                                                                     <StarRatings
                                                                       name="sellerRating"
-                                                                      numberOfStars={5}
+                                                                      numberOfStars={Constants.RATING_STARS}
                                                                       rating={this.state.bid.rating}
                                                                       starRatedColor="SandyBrown"
                                                                       starDimension="18px"
@@ -368,7 +394,7 @@ export default class Bid extends React.Component {
                                                                 <Col>
                                                                     <StarRatings
                                                                       name="sellerRating"
-                                                                      numberOfStars={5}
+                                                                      numberOfStars={Constants.RATING_STARS}
                                                                       rating={0}
                                                                       starRatedColor="SandyBrown"
                                                                       starDimension="18px"
@@ -403,7 +429,8 @@ export default class Bid extends React.Component {
                                                     <Card.Body>
                                                         <Card.Title as="h6" className="text-center">
                                                             <b>
-                                                                Item Location: &emsp; &emsp;
+                                                                Item Location
+                                                                < br/>
                                                                 <span style={{color:'DimGray'}}>{this.state.bid.location}</span>,
                                                                 <span style={{color:'DimGray'}}> {this.state.bid.country}</span>
                                                             </b>
