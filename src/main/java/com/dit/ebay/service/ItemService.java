@@ -121,7 +121,7 @@ public class ItemService {
         return createPagedResponse(itemsPaged);
     }
 
-    public ItemResponse getSellerItemById(Long itemId, UserDetailsImpl currentUser) {
+    public OwnerItemResponse getSellerItemById(Long itemId, UserDetailsImpl currentUser) {
 
         // safe check here
         authorizationService.isSellerOfItem(currentUser.getId(), itemId);
@@ -136,9 +136,9 @@ public class ItemService {
             item.setActive(false);
             itemRepository.save(item);
         }
-        ItemResponse itemResponse = new ItemResponse(item);
-        itemResponse.setFinished(finished);
-        return itemResponse;
+        OwnerItemResponse ownerItemResponse = new OwnerItemResponse(item);
+        ownerItemResponse.setFinished(finished);
+        return ownerItemResponse;
     }
 
     /*

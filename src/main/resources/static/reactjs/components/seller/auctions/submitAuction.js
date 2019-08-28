@@ -78,7 +78,7 @@ export default class SubmitAuction extends React.Component {
                 })
             } else {
                 //redirect
-                this.props.history.push('/auctions/' + response.object.id);
+                this.props.history.push('/my-auctions/' + response.object.id);
             }
         })
         .catch(error => console.error('Error:', error));

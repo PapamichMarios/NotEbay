@@ -5,6 +5,7 @@ import com.dit.ebay.request.ItemActiveRequest;
 import com.dit.ebay.request.ItemRequest;
 import com.dit.ebay.response.BidderItemResponse;
 import com.dit.ebay.response.ItemResponse;
+import com.dit.ebay.response.OwnerItemResponse;
 import com.dit.ebay.response.PagedResponse;
 import com.dit.ebay.security.CurrentUser;
 import com.dit.ebay.security.UserDetailsImpl;
@@ -58,8 +59,8 @@ public class ItemController {
     // must be the owner here the item id changes
     @GetMapping("/owner/{itemId}")
     @PreAuthorize("hasRole('ROLE_SELLER')")
-    public ItemResponse getSellerItemById(@PathVariable(value = "itemId") Long itemId,
-                                          @Valid @CurrentUser UserDetailsImpl currentUser) {
+    public OwnerItemResponse getSellerItemById(@PathVariable(value = "itemId") Long itemId,
+                                               @Valid @CurrentUser UserDetailsImpl currentUser) {
         return itemService.getSellerItemById(itemId, currentUser);
     }
 

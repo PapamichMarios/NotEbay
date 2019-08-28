@@ -268,6 +268,7 @@ public class Item {
             this.name = itemRequest.getName();
         }
 
+        // TODO : add date checking
         if (itemRequest.getTimeEnds() != null) {
             this.timeEnds = itemRequest.getTimeEnds();
         }
