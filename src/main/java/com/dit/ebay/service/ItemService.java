@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -120,13 +121,24 @@ public class ItemService {
         return createPagedResponse(itemsPaged);
     }
 
-    public Item getSellerItemById(Long itemId, UserDetailsImpl currentUser) {
+    public ItemResponse getSellerItemById(Long itemId, UserDetailsImpl currentUser) {
 
         // safe check here
         authorizationService.isSellerOfItem(currentUser.getId(), itemId);
 
-        return itemRepository.findById(itemId)
+        Item item =  itemRepository.findById(itemId)
                 .orElseThrow(() -> new ResourceNotFoundException("Item", "id", itemId));
+
+        // check dates
+        // maybe remove it WARNING
+        boolean finished = item.itemIsFinished();
+        if (finished && item.isActive()) {
+            item.setActive(false);
+            itemRepository.save(item);
+        }
+        ItemResponse itemResponse = new ItemResponse(item);
+        itemResponse.setFinished(finished);
+        return itemResponse;
     }
 
     /*
@@ -188,6 +200,15 @@ public class ItemService {
 
         BidderItemResponse bidderItemResponse = new BidderItemResponse(item);
         bidderItemResponse.setRating(sellerRatingRepository.avgRatingByUserId(item.getUser().getId()).orElse(null));
+
+        // check dates
+        // maybe remove it WARNING
+        boolean finished = item.itemIsFinished();
+        if (finished && item.isActive()) {
+            item.setActive(false);
+            itemRepository.save(item);
+        }
+        bidderItemResponse.setFinished(finished);
         return bidderItemResponse;
     }
 

@@ -23,7 +23,7 @@ public class BidResponse {
         this.user = bid.getUser();
         this.bidAmount = bid.getBidAmount();
         this.bidTime = bid.getBidTime();
-        this.accepted = bid.isAccepted();
+        this.accepted  = true;
     }
 
     public Long getId() {

@@ -33,4 +33,12 @@ public class BidderItemResponse extends ItemResponse {
     public void setBestBidder(User bestBidder) {
         this.bestBidder = bestBidder;
     }
+
+    public boolean isFinished() {
+        return finished;
+    }
+
+    public void setFinished(boolean finished) {
+        this.finished = finished;
+    }
 }

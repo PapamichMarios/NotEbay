@@ -58,8 +58,8 @@ public class ItemController {
     // must be the owner here the item id changes
     @GetMapping("/owner/{itemId}")
     @PreAuthorize("hasRole('ROLE_SELLER')")
-    public Item getSellerItemById(@PathVariable(value = "itemId") Long itemId,
-                                  @Valid @CurrentUser UserDetailsImpl currentUser) {
+    public ItemResponse getSellerItemById(@PathVariable(value = "itemId") Long itemId,
+                                          @Valid @CurrentUser UserDetailsImpl currentUser) {
         return itemService.getSellerItemById(itemId, currentUser);
     }
 

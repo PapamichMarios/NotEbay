@@ -45,7 +45,7 @@ public class Bid {
 
     // Database trigger to check dates
     @PrePersist
-    public void checkDatesPrePersist() {
+    public void checkDatesPrePersist() throws AppException {
         this.bidTime = new Timestamp(System.currentTimeMillis());
         this.bidTime.setNanos(0); // don't count millis
         if (this.bidTime.after(item.getTimeEnds())) {

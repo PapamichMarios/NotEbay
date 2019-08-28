@@ -66,7 +66,16 @@ public class BidService {
         // Create bid
         bid.setUser(user);
         bid.setItem(item);
-        Bid bidRes = bidRepository.save(bid);
+
+        Bid bidRes = null;
+        try {
+            bidRes = bidRepository.save(bid);
+        } catch (AppException e) {
+            // if db persist fails
+            item.setActive(false);
+            itemRepository.save(item);
+            return null;
+        }
 
         Bid bestBid = itemRepository.findBestBidByItemId(item.getId()).orElse(null);
 
@@ -104,6 +113,7 @@ public class BidService {
     }
 
     // used from other service
+    // composite page response in user-activity
     public PagedResponse<BidResponse> getUserBids(UserDetailsImpl currentUser, int page, int size) {
         validatePageParametersService.validate(page, size);
 

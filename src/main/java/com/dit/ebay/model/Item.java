@@ -306,4 +306,11 @@ public class Item {
     public Set<Category> getCategories() { return categories; }
 
     public void setCategories(Set<Category> categories) { this.categories = categories; }
+
+    public boolean itemIsFinished() {
+        // check dates
+        Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+        currentTime.setNanos(0); // don't count millis
+        return currentTime.after(this.timeEnds);
+    }
 }

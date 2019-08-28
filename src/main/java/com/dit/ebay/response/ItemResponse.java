@@ -47,6 +47,8 @@ public class ItemResponse {
 
     protected BigDecimal rating; //aggregated may be null
 
+    protected boolean finished;
+
     public ItemResponse() {
 
     }
@@ -199,4 +201,12 @@ public class ItemResponse {
     public BigDecimal getRating() { return rating; }
 
     public void setRating(BigDecimal rating) { this.rating = rating; }
+
+    public boolean isFinished() {
+        return finished;
+    }
+
+    public void setFinished(boolean finished) {
+        this.finished = finished;
+    }
 }
