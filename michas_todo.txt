@@ -1,8 +1,0 @@
-1. items/itemid gia bidder/visitor
-2. ItemResponse: Usernamer seller & rating
-
----------------------------------------------------
-3. Profile < activity: o,ti exei kanei o xristis (bid, sell item)
-4. Profile < active bids: ta items pou exei pontarei o xristis
-5. Profile < bids won: ta past auctions pou kerdise o xristis
-6. /items/itemid: na gurnas rating se double morfi, time started

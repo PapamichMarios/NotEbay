@@ -10,11 +10,10 @@ loading se kathe get
 profile:
     - badges me basi ta ratings
     - na balw ratings (seller kai bidder)
-    - enwsi activity(past bids, past auctions) & bids won
 
 bidder:
-    - firstBid buyPrice -1 sto my-auction
     - sta bids, best bid by username to username na einai link
+    - na mi mporei na kanei bid o seller se diko tou item
 
 homepage:
     1. products
@@ -23,6 +22,7 @@ homepage:
 auctions/id:
     breadcrumbs
     OR <br/> <Button>Buy Item </Button> for {buyPrice}
+    post ratings
 
-my-auctions/id
-    styling
+seller:
+    post ratings

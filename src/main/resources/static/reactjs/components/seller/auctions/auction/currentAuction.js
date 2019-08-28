@@ -8,7 +8,7 @@ import '../../../../../css/utils/map.css';
 import '../../../../../css/signup/confirmation.css';
 
 import { Container, Row, Col, Form, Button, Card, ButtonToolbar, Alert, Tabs, Tab, ListGroup, Nav } from 'react-bootstrap';
-import {FaEdit, FaSearchDollar, FaTrash } from 'react-icons/fa';
+import {FaEdit, FaSearchDollar, FaTrash, FaHourglassStart } from 'react-icons/fa';
 
 export default class CurrentAuction extends React.Component {
 
@@ -26,36 +26,59 @@ export default class CurrentAuction extends React.Component {
         return(
             <Container fluid>
                 <Row>
-                    <Col md={2}>
-                        <Nav className="flex-column">
-                            <Nav.Link disabled> <b> Actions </b> </Nav.Link>
+                    <Col md={2} style={{paddingLeft: '0px'}}>
+                        <Card>
+                            <ul style={{listStyleType: 'none', height:'100vh'}}>
+                                {!this.props.auction.active ? (
+                                    <div>
+                                        <Nav.Link disabled className="text-center">
+                                            <b> Actions </b>
+                                        </Nav.Link>
 
-                            <Nav.Item>
-                                <Nav.Link style={{fontSize: '15px', color: 'Black'}} onClick={this.props.editAuction}>
-                                    <FaEdit style={{verticalAlign: 'baseline'}} />
-                                    <span> &nbsp; </span>
-                                    <b> Edit </b>
+                                        <li>
+                                            <Nav.Link style={{fontSize: '15px', color: 'Black'}} onClick={this.props.editAuction}>
+                                                <FaEdit style={{verticalAlign: 'middle'}} size={25} />
+                                                <span> &nbsp; </span>
+                                                <b> Edit </b>
+                                            </Nav.Link>
+                                        </li>
+
+                                        <li>
+                                            <Nav.Link style={{fontSize: '15px', color: 'DarkRed'}} onClick={this.props.deleteAuction}>
+                                                <FaTrash style={{verticalAlign: 'middle'}} size={25} />
+                                                <span> &nbsp; </span>
+                                                <b> Delete </b>
+                                            </Nav.Link>
+                                        </li>
+
+                                        <li>
+                                            <Nav.Link style={{fontSize: '15px', color: 'DarkGreen'}} onClick={this.props.beginAuction}>
+                                                <FaHourglassStart style={{verticalAlign: 'middle'}} size={25} />
+                                                <span> &nbsp; </span>
+                                                <b> Start Auction </b>
+                                            </Nav.Link>
+                                        </li>
+
+                                        <br/>
+
+                                    </div>
+                                ) : (
+                                    null
+                                )}
+
+                                <Nav.Link disabled className="text-center">
+                                    <b> Listing </b>
                                 </Nav.Link>
-                            </Nav.Item>
 
-                            <Nav.Item>
-                                <Nav.Link style={{fontSize: '15px', color: 'DarkRed'}} onClick={this.props.deleteAuction}>
-                                    <FaTrash style={{verticalAlign: 'baseline'}} />
-                                    <span> &nbsp; </span>
-                                    <b> Delete </b>
-                                </Nav.Link>
-                            </Nav.Item>
-
-                            <Nav.Link disabled> <b> Listing </b> </Nav.Link>
-
-                            <Nav.Item>
-                                <Nav.Link style={{fontSize: '15px', color: 'Black'}} onClick={this.props.checkBidders}>
-                                    <FaSearchDollar style={{verticalAlign: 'baseline'}} />
-                                    <span> &nbsp; </span>
-                                    <b> Bids </b>
-                                </Nav.Link>
-                            </Nav.Item>
-                        </Nav>
+                                <li>
+                                    <Nav.Link style={{fontSize: '15px', color: 'Black'}} onClick={this.props.checkBidders}>
+                                        <FaSearchDollar style={{verticalAlign: 'middle'}} size={25} />
+                                        <span> &nbsp; </span>
+                                        <b> Bids </b>
+                                    </Nav.Link>
+                                </li>
+                            </ul>
+                        </Card>
                     </Col>
 
                     <Col>
@@ -89,6 +112,7 @@ export default class CurrentAuction extends React.Component {
                                                     <Form.Label column md="5"> <b> Description: </b> </Form.Label>
                                                     <Col>
                                                         <Form.Control
+                                                            as="textarea"
                                                             plaintext
                                                             readOnly
                                                             defaultValue= {this.props.auction.description}
@@ -124,7 +148,7 @@ export default class CurrentAuction extends React.Component {
                                                 )}
 
                                                 <Form.Group as={Row}>
-                                                    <Form.Label column md="5"> <b> First Bid: </b> </Form.Label>
+                                                    <Form.Label column md="5"> <b> Starting Bid: </b> </Form.Label>
                                                     <Col>
                                                         <Form.Control
                                                             plaintext
@@ -196,6 +220,34 @@ export default class CurrentAuction extends React.Component {
                                                         />
                                                     </Col>
                                                 </Form.Group>
+
+                                                {!this.props.auction.active ? (
+                                                    <Row>
+                                                        <Col>
+                                                            <Alert variant='info'>
+                                                                <p>
+                                                                    One last step! Please review your item listing and press
+                                                                    <b> Submit Auction</b> under the <b>Actions </b>
+                                                                    at the left of the page, in order to start the auction.
+                                                                </p>
+
+                                                                <p>
+                                                                    After starting the auction you cannot edit or delete an item!
+                                                                </p>
+                                                            </Alert>
+                                                        </Col>
+                                                    </Row>
+                                                ) : (
+                                                    <Row>
+                                                        <Col>
+                                                            <Alert variant='success'>
+                                                                <p>
+                                                                    The current auction is up and running!
+                                                                </p>
+                                                            </Alert>
+                                                        </Col>
+                                                    </Row>
+                                                )}
                                             </Tab>
                                         </Tabs>
                                     </Col>
@@ -205,7 +257,8 @@ export default class CurrentAuction extends React.Component {
                                             <Card.Body>
                                                 <Card.Title as="h6" className="text-center">
                                                     <b>
-                                                        Item Location: &emsp;
+                                                        Item Location
+                                                        < br/>
                                                         <span style={{color:'DimGray'}}>{this.props.auction.location}</span>,
                                                         <span style={{color:'DimGray'}}> {this.props.auction.country}</span>
                                                     </b>

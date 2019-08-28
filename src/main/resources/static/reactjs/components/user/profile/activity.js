@@ -3,7 +3,6 @@ import React from 'react';
 import Loading from '../../utils/loading/loading';
 import * as Constants from '../../utils/constants';
 import getRequest from '../../utils/requests/getRequest';
-import OpenStreetMap from '../../utils/maps/openStreetMap';
 import Paging from '../../utils/paging';
 import dateDecoder from '../../utils/decoders/dateDecoder';
 import timeDecoder from '../../utils/decoders/timeDecoder';
@@ -54,10 +53,11 @@ export default class Activity extends React.Component {
         .then(pages => {
             this.setState({
                 pagingBids: pages.pagedResponse2,
-            },() =>
+            }, () =>
                 setTimeout(() => {
                   this.setState({loadingBids: false})
-                }, Constants.TIMEOUT_DURATION));
+                }, Constants.TIMEOUT_DURATION)
+            );
 
         })
         .catch(error => console.error('Error:', error));
@@ -87,7 +87,6 @@ export default class Activity extends React.Component {
 
         getRequest(url)
         .then(pages => {
-            console.log(pages);
             this.setState({
                 pagingBids: pages.pagedResponse2,
                 pagingItems: pages.pagedResponse1
@@ -105,9 +104,9 @@ export default class Activity extends React.Component {
                 bidList.push(
                     <div key={bid.bidTime}>
                         <li>
-                            You have placed a bid of <b>{bid.bidAmount}</b> on &nbsp;
+                            You have placed a bid of <b>{bid.bidAmount} <span>&#36;</span></b> on &nbsp;
                             <Link to={`/auctions/${bid.id}`}>
-                                item #{bid.id}
+                                <b>item #{bid.id}</b>
                             </Link>.
                             <br />
                             <span style={{color: 'DimGray', fontSize: '12px'}}>
@@ -129,7 +128,7 @@ export default class Activity extends React.Component {
                             <Link to={`/my-auctions/${item.id}`}>
                                 <b> {item.name} </b>
                             </Link>
-                            for auction, with the starting bid being that of <b>{item.firstBid}</b>.
+                            for auction, with the starting bid being that of <b>{item.firstBid} <span>&#36;</span></b>.
                             <br />
                             <span style={{color: 'DimGray', fontSize: '12px'}}>
                                 {timeDecoder(item.timeStarted)} - {dateDecoder(item.timeStarted)}

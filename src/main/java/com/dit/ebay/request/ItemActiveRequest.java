@@ -1,10 +1,10 @@
 package com.dit.ebay.request;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 public class ItemActiveRequest {
 
-    @NotBlank
+    @NotNull
     private boolean active;
 
     public ItemActiveRequest() {

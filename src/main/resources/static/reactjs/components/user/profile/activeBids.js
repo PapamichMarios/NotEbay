@@ -3,7 +3,6 @@ import React from 'react';
 import Loading from '../../utils/loading/loading';
 import * as Constants from '../../utils/constants';
 import getRequest from '../../utils/requests/getRequest';
-import OpenStreetMap from '../../utils/maps/openStreetMap';
 import Paging from '../../utils/paging';
 
 import { FaExternalLinkAlt } from 'react-icons/fa';
@@ -20,7 +19,7 @@ export default class ActiveBids extends React.Component {
             activePage: 1,
             paging: '',
             bids: [],
-            loading: true
+            loadingActiveBids: false
         };
 
         this.changeActivePage = this.changeActivePage.bind(this);
@@ -34,7 +33,7 @@ export default class ActiveBids extends React.Component {
     }
 
     getActiveBids(pageNum) {
-        this.setState({loading: true});
+        this.setState({loadingActiveBids: true});
         const url = '/app/items/bestBidItems?page='
             + (pageNum-1) + '&size=5';
 
@@ -43,15 +42,13 @@ export default class ActiveBids extends React.Component {
             this.setState({
                 bids: pages.content,
                 paging: pages
-            },
-            () => this.setState({loading: false}));
+            }, () =>
+                setTimeout(() => {
+                    this.setState({loadingActiveBids: false})
+                }, Constants.TIMEOUT_DURATION)
+            );
         })
         .catch(error => console.error('Error:', error));
-
-        //set loading
-        setTimeout(() => {
-          this.setState({loading: false})
-        }, Constants.TIMEOUT_DURATION)
     }
 
     componentDidMount() {
@@ -59,7 +56,7 @@ export default class ActiveBids extends React.Component {
     }
 
     render() {
-        if(this.state.loading) {
+        if(this.state.loadingActiveBids) {
             return <Loading />
         } else {
             return (
