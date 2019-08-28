@@ -32,7 +32,7 @@ public class Bid {
     @Column(name = "bid_amount")
     private double bidAmount;
 
-    @CreatedDate
+    //@CreatedDate
     @Column(name = "bid_time")
     private Timestamp bidTime;
 
@@ -43,14 +43,18 @@ public class Bid {
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "bestBid")
     private Item itemBestBid;
 
-    // Database trigger to check dates
+    // Database trigger to check date
     @PrePersist
     public void checkDatesPrePersist() throws AppException {
-        this.bidTime = new Timestamp(System.currentTimeMillis());
-        this.bidTime.setNanos(0); // don't count millis
+        if (bidTime != null) return;
+        bidTime = new Timestamp(System.currentTimeMillis());
+        bidTime.setNanos(0); // don't count millis
+
+        /*
         if (this.bidTime.after(item.getTimeEnds())) {
             throw new AppException("Sorry, Time for bidding on this Item has passed.");
         }
+        */
     }
 
     public Bid() {
@@ -59,7 +63,6 @@ public class Bid {
     /*
      * Insert from csv
      */
-
     public Bid(CSVBid csvBid) {
         this.bidAmount = csvBid.getBidAmount();
         this.accepted = csvBid.isAccepted();

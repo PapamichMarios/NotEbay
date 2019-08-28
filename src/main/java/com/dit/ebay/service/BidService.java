@@ -67,16 +67,17 @@ public class BidService {
         bid.setUser(user);
         bid.setItem(item);
 
-        Bid bidRes = null;
-        try {
-            bidRes = bidRepository.save(bid);
-        } catch (AppException e) {
-            // if db persist fails
-            item.setActive(false);
-            itemRepository.save(item);
-            return null;
+        // check dates
+        boolean finished = item.itemIsFinished();
+        if (finished) {
+            if (item.isActive()) {
+                item.setActive(false);
+                itemRepository.save(item);
+            }
+            throw new AppException("Sorry, Time for bidding on this Item has passed.");
         }
 
+        Bid bidRes = bidRepository.save(bid);
         Bid bestBid = itemRepository.findBestBidByItemId(item.getId()).orElse(null);
 
         if (bestBid == null || bid.getBidAmount() > bestBid.getBidAmount()) {

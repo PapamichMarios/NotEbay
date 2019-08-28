@@ -1,6 +1,7 @@
 package com.dit.ebay.model;
 
 import com.dit.ebay.csv_model.CSVItem;
+import com.dit.ebay.csv_model.CSVItemEnded;
 import com.dit.ebay.request.ItemRequest;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.CreatedDate;
@@ -10,7 +11,6 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -65,7 +65,7 @@ public class Item {
     @Column(name = "num_of_bids")
     private int numOfBids;
 
-    @CreatedDate
+    //@CreatedDate
     @Column(name = "time_started")
     private Timestamp timeStarted;
 
@@ -92,6 +92,13 @@ public class Item {
 
     public Item() {
 
+    }
+
+    @PrePersist
+    public void checkDatesPrePersist() {
+        if (timeStarted != null) return;
+        timeStarted = new Timestamp(System.currentTimeMillis());
+        timeStarted.setNanos(0); // don't count millis
     }
 
     /*

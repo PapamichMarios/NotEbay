@@ -7,7 +7,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.sql.Timestamp;
 
 public class BidResponse {
-    private Long id;
+    private Long bidId;
+
+    private Long itemId;
+
+    private String itemName;
 
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private User user;
@@ -19,20 +23,15 @@ public class BidResponse {
     private boolean accepted;
 
     public BidResponse(Bid bid) {
-        this.id = bid.getId();
+        this.bidId = bid.getId();
         this.user = bid.getUser();
         this.bidAmount = bid.getBidAmount();
         this.bidTime = bid.getBidTime();
         this.accepted  = true;
+        this.itemId = bid.getItem().getId();
+        this.itemName = bid.getItem().getName();
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public User getUser() {
         return user;
@@ -64,5 +63,29 @@ public class BidResponse {
 
     public void setAccepted(boolean accepted) {
         this.accepted = accepted;
+    }
+
+    public Long getBidId() {
+        return bidId;
+    }
+
+    public void setBidId(Long bidId) {
+        this.bidId = bidId;
+    }
+
+    public Long getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(Long itemId) {
+        this.itemId = itemId;
+    }
+
+    public String getItemName() {
+        return itemName;
+    }
+
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
     }
 }

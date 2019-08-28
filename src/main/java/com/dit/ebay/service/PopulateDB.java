@@ -1,10 +1,7 @@
 package com.dit.ebay.service;
 
-import com.dit.ebay.csv_model.CSVBid;
-import com.dit.ebay.csv_model.CSVItem;
-import com.dit.ebay.csv_model.CSVRating;
+import com.dit.ebay.csv_model.*;
 import com.dit.ebay.model.*;
-import com.dit.ebay.csv_model.CSVUser;
 import com.dit.ebay.repository.*;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
@@ -18,8 +15,6 @@ import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -49,10 +44,13 @@ public class PopulateDB {
     private static final Logger logger = LoggerFactory.getLogger(PopulateDB.class);
 
     private static final long FIRST_ID = 1;
+    private static final long LAST_BID_ENDED_ID = 21;
     private static final String USERS_DATA_FILE = "my_data/user_data.csv";
     private static final String ITEMS_DATA_FILE = "my_data/item_data.csv";
     private static final String BIDS_DATA_FILE  = "my_data/bid_data.csv";
     private static final String RATINGS_DATA_FILE  = "my_data/rating_data.csv";
+    private static final String ITEMS_ENDED_DATA_FILE = "my_data/item_ended_data.csv";
+    private static final String BIDS_ENDED_DATA_FILE = "my_data/bid_ended_data.csv";
 
     public void populateUsers() throws IOException {
         try (Reader reader = Files.newBufferedReader(Paths.get(USERS_DATA_FILE))) {
@@ -117,6 +115,43 @@ public class PopulateDB {
         }
     }
 
+    public void populateItemsEnded() throws IOException {
+        try (Reader reader = Files.newBufferedReader(Paths.get(ITEMS_ENDED_DATA_FILE))) {
+            CsvToBean<CSVItemEnded> csvToBean = new CsvToBeanBuilder(reader)
+                    .withType(CSVItemEnded.class)
+                    .withIgnoreLeadingWhiteSpace(true).build();
+
+            for (CSVItemEnded csvItemEnded : csvToBean) {
+                // Get the user
+                User user = userRepository.findByUsername(csvItemEnded.getUsername()).orElse(null);
+                if (user == null) continue;
+
+                if (itemRepository.findByName(csvItemEnded.getName()).orElse(null) != null)
+                    continue;
+
+                Item item = new Item(csvItemEnded);
+                item.setTimeStarted(csvItemEnded.getTimeStarted());
+                item.setUser(user);
+                Item result = itemRepository.save(item);
+
+                // Insert categories
+                String tempStr = csvItemEnded.getCategoriesNames();
+                if (!tempStr.isEmpty()) {
+                    String[] categoriesNames = tempStr.split(",");
+                    // Insert categories here
+                    for (String categoryStr : categoriesNames) {
+                        // safe check here
+                        if (categoryRepository.findByItemIdAndCategoryStr(result.getId(), categoryStr).isEmpty()) {
+                            Category category = new Category(categoryStr);
+                            category.setItem(result);
+                            categoryRepository.save(category);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     public void populateBids() throws IOException {
         try (Reader reader = Files.newBufferedReader(Paths.get(BIDS_DATA_FILE))) {
             CsvToBean<CSVBid> csvToBean = new CsvToBeanBuilder(reader)
@@ -137,6 +172,47 @@ public class PopulateDB {
                 if (item == null) continue;
 
                 Bid bid = new Bid(csvBid);
+
+                // Create bid
+                bid.setUser(user);
+                bid.setItem(item);
+                Bid bidRes = bidRepository.save(bid);
+
+                // increment the bids
+                Bid bestBid = itemRepository.findBestBidByItemId(item.getId()).orElse(null);
+
+                if (bestBid == null || bid.getBidAmount() > bestBid.getBidAmount()) {
+                    item.setBestBid(bidRes);
+                }
+
+                // Update counter
+                item.increaseNumOfBids();
+                itemRepository.save(item);
+            }
+        }
+    }
+
+    public void populateBidsEnded() throws IOException {
+        try (Reader reader = Files.newBufferedReader(Paths.get(BIDS_ENDED_DATA_FILE))) {
+            CsvToBean<CSVBidEnded> csvToBean = new CsvToBeanBuilder(reader)
+                    .withType(CSVBidEnded.class)
+                    .withIgnoreLeadingWhiteSpace(true).build();
+
+            if (bidRepository.findById(LAST_BID_ENDED_ID).orElse(null) != null) return;
+
+            for (CSVBidEnded csvBidEnded : csvToBean) {
+
+                // Get the user
+                User user = userRepository.findByUsername(csvBidEnded.getUsername()).orElse(null);
+                if (user == null) continue;
+
+                // Get Item
+                Item item = itemRepository.findByName(csvBidEnded.getItemName()).orElse(null);
+                if (item == null) continue;
+
+                Bid bid = new Bid(csvBidEnded);
+                System.out.println("---------------------------_" + csvBidEnded.getBidTime());
+                bid.setBidTime(csvBidEnded.getBidTime());
 
                 // Create bid
                 bid.setUser(user);

@@ -22,7 +22,7 @@ public class CSVItem {
 
     @CsvBindByName(column = "first_bid")
     private double firstBid;
-    
+
     @CsvBindByName(column = "time_ends")
     private Timestamp timeEnds;
 

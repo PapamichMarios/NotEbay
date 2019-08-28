@@ -43,7 +43,9 @@ public class EbayApplication {
 
 			populateDB.populateUsers();
 			populateDB.populateItems();
+			populateDB.populateItemsEnded();
 			populateDB.populateBids();
+			populateDB.populateBidsEnded();
 			populateDB.populateRatings();
 		}
 	}
