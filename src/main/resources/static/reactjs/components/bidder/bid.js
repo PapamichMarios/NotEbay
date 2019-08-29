@@ -31,6 +31,7 @@ export default class Bid extends React.Component {
             bought: false
         }
 
+        this.rate = this.rate.bind(this);
         this.buyItem = this.buyItem.bind(this);
         this.onChange = this.onChange.bind(this);
         this.placeBid = this.placeBid.bind(this);
@@ -40,6 +41,11 @@ export default class Bid extends React.Component {
         this.setState({
             [e.target.name]: e.target.value
         });
+    }
+
+    rate() {
+        //redirect to rating
+        this.props.history.push('/auctions/'+ this.state.bid.userSeller.id + '/rating');
     }
 
     buyItem() {
@@ -112,6 +118,67 @@ export default class Bid extends React.Component {
             let lastBidder = false;
             if(this.state.bid.bestBid !== null) {
                 lastBidder = (this.state.bid.bestBid.username === localStorage.getItem('username') ? true : false);
+            }
+
+            let returnButtonOrRating = null;
+            if(this.state.bid.finished) {
+                if(this.state.bid.bestBidder.username === localStorage.getItem('username')) {
+                    returnButtonOrRating =  (
+                        <Row>
+                            <Col>
+                                <Alert variant='success'>
+                                    <p>
+                                        You have won the auction!
+                                    </p>
+                                </Alert>
+
+                                <Button variant='warning' block onClick={this.rate}>
+                                    <b> Rate Seller </b>
+                                </Button>
+                            </Col>
+                        </Row>
+                    );
+                } else {
+                    returnButtonOrRating =  (
+                        <Row>
+                            <Col>
+                                <Alert variant='primary'>
+                                    <p> The current auction has ended. </p>
+                                </Alert>
+                            </Col>
+                        </Row>
+                    );
+                }
+            } else {
+                returnButtonOrRating =   (
+                    <Form.Group as={Row}>
+                        <Form.Label column md="5"> <b> Place a bid: </b> </Form.Label>
+                        <Col md={5}>
+                            <InputGroup>
+                                <Form.Control
+                                    type="text"
+                                    name="bet"
+                                    onChange= {this.onChange}
+                                />
+                                <InputGroup.Append>
+
+                                { this.state.loadingButton ? (
+                                    <Button variant="dark" disabled>
+                                      <b> Loading... </b>
+                                      <LoadingButton />
+                                    </Button>
+                                ) : (
+                                    <Button variant="dark" onClick={this.placeBid}>
+                                      <b> Submit </b>
+                                      <FaDollarSign style={{verticalAlign: 'baseline'}} />
+                                    </Button>
+                                )}
+
+                                </InputGroup.Append>
+                            </InputGroup>
+                        </Col>
+                    </Form.Group>
+                );
             }
 
             return (
@@ -239,33 +306,7 @@ export default class Bid extends React.Component {
                                                         </Col>
                                                     </Form.Group>
 
-                                                    <Form.Group as={Row}>
-                                                        <Form.Label column md="5"> <b> Place a bid: </b> </Form.Label>
-                                                        <Col md={5}>
-                                                            <InputGroup>
-                                                                <Form.Control
-                                                                    type="text"
-                                                                    name="bet"
-                                                                    onChange= {this.onChange}
-                                                                />
-                                                                <InputGroup.Append>
-
-                                                                { this.state.loadingButton ? (
-                                                                    <Button variant="dark" disabled>
-                                                                      <b> Loading... </b>
-                                                                      <LoadingButton />
-                                                                    </Button>
-                                                                ) : (
-                                                                    <Button variant="dark" onClick={this.placeBid}>
-                                                                      <b> Submit </b>
-                                                                      <FaDollarSign style={{verticalAlign: 'baseline'}} />
-                                                                    </Button>
-                                                                )}
-
-                                                                </InputGroup.Append>
-                                                            </InputGroup>
-                                                        </Col>
-                                                    </Form.Group>
+                                                    {returnButtonOrRating}
 
                                                     { this.state.hasError ? (
                                                       <Row>

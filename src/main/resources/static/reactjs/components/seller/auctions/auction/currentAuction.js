@@ -9,11 +9,19 @@ import '../../../../../css/signup/confirmation.css';
 
 import { Container, Row, Col, Form, Button, Card, ButtonToolbar, Alert, Tabs, Tab, ListGroup, Nav } from 'react-bootstrap';
 import {FaEdit, FaSearchDollar, FaTrash, FaHourglassStart } from 'react-icons/fa';
+import { withRouter } from 'react-router-dom';
 
-export default class CurrentAuction extends React.Component {
+class CurrentAuction extends React.Component {
 
     constructor(props) {
         super(props);
+
+        this.rate = this.rate.bind(this);
+    }
+
+    rate() {
+        //redirect to rating
+        this.props.history.push('/my-auctions/'+ this.props.auction.bestBidder.id + '/rating');
     }
 
     render() {
@@ -29,7 +37,7 @@ export default class CurrentAuction extends React.Component {
                     <Col md={2} style={{paddingLeft: '0px'}}>
                         <Card>
                             <ul style={{listStyleType: 'none', height:'100vh'}}>
-                                {!this.props.auction.active ? (
+                                {!this.props.auction.active && !this.props.auction.finished ? (
                                     <div>
                                         <Nav.Link disabled className="text-center">
                                             <b> Actions </b>
@@ -77,6 +85,7 @@ export default class CurrentAuction extends React.Component {
                                         <b> Bids </b>
                                     </Nav.Link>
                                 </li>
+
                             </ul>
                         </Card>
                     </Col>
@@ -123,7 +132,7 @@ export default class CurrentAuction extends React.Component {
 
                                                 { this.props.auction.bestBid ? (
                                                     <Form.Group as={Row}>
-                                                        <Form.Label column md="5"> <b> Current Best Bid: </b> </Form.Label>
+                                                        <Form.Label column md="5"> <b> Current Best Bid : </b> </Form.Label>
                                                         <Col>
                                                             <Form.Control
                                                                 plaintext
@@ -221,7 +230,7 @@ export default class CurrentAuction extends React.Component {
                                                     </Col>
                                                 </Form.Group>
 
-                                                {!this.props.auction.active ? (
+                                                {!this.props.auction.active && !this.props.auction.finished ? (
                                                     <Row>
                                                         <Col>
                                                             <Alert variant='info'>
@@ -238,6 +247,10 @@ export default class CurrentAuction extends React.Component {
                                                         </Col>
                                                     </Row>
                                                 ) : (
+                                                    null
+                                                )}
+
+                                                {this.props.auction.active && !this.props.auction.finished ? (
                                                     <Row>
                                                         <Col>
                                                             <Alert variant='success'>
@@ -247,6 +260,34 @@ export default class CurrentAuction extends React.Component {
                                                             </Alert>
                                                         </Col>
                                                     </Row>
+                                                ): (
+                                                    null
+                                                )}
+
+                                                {this.props.auction.finished ? (
+                                                    <Row>
+                                                        <Col>
+                                                            <Alert variant='primary'>
+                                                                <p>
+                                                                    The current auction has ended.
+                                                                </p>
+                                                            </Alert>
+                                                        </Col>
+                                                    </Row>
+                                                ) : (
+                                                    null
+                                                )}
+
+                                                {this.props.auction.finished && this.props.auction.bestBid ? (
+                                                    <Row>
+                                                        <Col>
+                                                            <Button variant='warning' block onClick={this.rate}>
+                                                                <b> Rate Buyer </b>
+                                                            </Button>
+                                                        </Col>
+                                                    </Row>
+                                                ) : (
+                                                    null
                                                 )}
                                             </Tab>
                                         </Tabs>
@@ -278,3 +319,5 @@ export default class CurrentAuction extends React.Component {
         );
     }
 }
+
+export default withRouter(CurrentAuction);

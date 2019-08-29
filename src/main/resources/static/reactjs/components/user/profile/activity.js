@@ -105,8 +105,8 @@ export default class Activity extends React.Component {
                     <div key={bid.bidTime}>
                         <li>
                             You have placed a bid of <b>{bid.bidAmount} <span>&#36;</span></b> on &nbsp;
-                            <Link to={`/auctions/${bid.id}`}>
-                                <b>item #{bid.id}</b>
+                            <Link to={`/auctions/${bid.itemId}`}>
+                                <b>{bid.itemName} #{bid.itemId}</b>
                             </Link>.
                             <br />
                             <span style={{color: 'DimGray', fontSize: '12px'}}>

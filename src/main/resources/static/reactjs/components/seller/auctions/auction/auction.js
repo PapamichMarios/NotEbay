@@ -112,7 +112,7 @@ export default class Auction extends React.Component{
         getRequest(this.props.action + this.props.match.params.id)
         .then(data => {
             const [date, time] = splitDateAndTime(data.timeEnds);
-
+            console.log(data);
             this.setState({
                 auction: data,
                 name: data.name,

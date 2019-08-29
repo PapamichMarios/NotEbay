@@ -6,6 +6,7 @@ loading se kathe get
 - need to optimize webpack
 - categories /submitAuction
 - paging an einai empty na bgazei sxetiko message
+- authorize properly the endpoints
 
 profile:
     - badges me basi ta ratings
@@ -25,4 +26,4 @@ auctions/id:
     post ratings
 
 seller:
-    post ratings
+    post ratings na elegxw an exei kanei pali
