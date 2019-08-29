@@ -1,0 +1,3 @@
+/profile:
+    1. buyer rating
+    2. seller rating
