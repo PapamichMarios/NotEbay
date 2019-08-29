@@ -3,14 +3,14 @@ import React from 'react';
 import CurrentAuction from './currentAuction';
 import EditAuction from './editAuction';
 
-import Loading from '../../../utils/loading/loading';
-import * as Constants from '../../../utils/constants';
+import Loading from '../../utils/loading/loading';
+import * as Constants from '../../utils/constants';
 
-import splitDateAndTime from '../../../utils/decoders/splitDateAndTime';
+import splitDateAndTime from '../../utils/decoders/splitDateAndTime';
 
-import putRequest from '../../../utils/requests/putRequest';
-import getRequest from '../../../utils/requests/getRequest';
-import deleteRequest from '../../../utils/requests/deleteRequest';
+import putRequest from '../../utils/requests/putRequest';
+import getRequest from '../../utils/requests/getRequest';
+import deleteRequest from '../../utils/requests/deleteRequest';
 
 import { withRouter } from 'react-router-dom';
 import {FaEdit, FaSearchDollar, FaTrash, FaAngleLeft, FaAngleRight } from 'react-icons/fa';

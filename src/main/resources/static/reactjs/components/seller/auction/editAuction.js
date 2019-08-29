@@ -2,11 +2,11 @@ import React from 'react';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
-import putRequest from '../../../utils/requests/putRequest';
+import putRequest from '../../utils/requests/putRequest';
 
-import GetTomorrowDate from '../../../utils/date/getTomorrowDate';
-import LoadingButton from '../../../utils/loading/loadingButton';
-import * as Constants from '../../../utils/constants';
+import GetTomorrowDate from '../../utils/date/getTomorrowDate';
+import LoadingButton from '../../utils/loading/loadingButton';
+import * as Constants from '../../utils/constants';
 
 import { Container, Row, Col, Form, Button, Card, ButtonToolbar, Alert, Tabs, Tab, ListGroup } from 'react-bootstrap';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';

@@ -1,11 +1,11 @@
 import React from 'react';
 
-import getRequest from '../../utils/requests/getRequest';
-import Loading from '../../utils/loading/loading';
-import * as Constants from '../../utils/constants';
-import Paging from '../../utils/paging';
+import getRequest from '../utils/requests/getRequest';
+import Loading from '../utils/loading/loading';
+import * as Constants from '../utils/constants';
+import Paging from '../utils/paging';
 
-import '../../../../css/signup/confirmation.css';
+import '../../../css/signup/confirmation.css';
 
 import { Container, Row, Col, Button, Pagination, Card, Table } from 'react-bootstrap';
 

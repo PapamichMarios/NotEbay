@@ -1,11 +1,11 @@
 import React from 'react';
 
-import decodeTime from '../../../utils/decoders/timeDecoder';
-import decodeDate from '../../../utils/decoders/dateDecoder';
-import OpenStreetMap from '../../../utils/maps/openStreetMapLarge';
+import decodeTime from '../../utils/decoders/timeDecoder';
+import decodeDate from '../../utils/decoders/dateDecoder';
+import OpenStreetMap from '../../utils/maps/openStreetMapLarge';
 
-import '../../../../../css/utils/map.css';
-import '../../../../../css/signup/confirmation.css';
+import '../../../../css/utils/map.css';
+import '../../../../css/signup/confirmation.css';
 
 import { Container, Row, Col, Form, Button, Card, ButtonToolbar, Alert, Tabs, Tab, ListGroup, Nav } from 'react-bootstrap';
 import {FaEdit, FaSearchDollar, FaTrash, FaHourglassStart } from 'react-icons/fa';

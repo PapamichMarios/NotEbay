@@ -8,11 +8,11 @@ import Page404              from './errors/error404';
 import Profile              from './user/profile/profile';
 import Inbox                from './user/inbox';
 
-import Auction              from './seller/auctions/auction/auction';
-import AuctionsHomepage     from './seller/auctions/auctionsHomepage';
-import SellerRating         from './seller/auctions/rating';
-import SubmitAuction        from './seller/auctions/submitAuction';
-import BidList              from './seller/auctions/bidders';
+import Auction              from './seller/auction/auction';
+import AuctionsHomepage     from './seller/myAuctions';
+import SellerRating         from './seller/rating';
+import SubmitAuction        from './seller/createAuction';
+import BidList              from './seller/bidders';
 
 import Bid                  from './bidder/bid';
 import BidderRating         from './bidder/rating';

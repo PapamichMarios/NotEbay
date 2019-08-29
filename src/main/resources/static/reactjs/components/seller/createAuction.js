@@ -1,11 +1,12 @@
 import React from 'react';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import GetTomorrowDate from '../../utils/date/getTomorrowDate';
-import LoadingButton from '../../utils/loading/loadingButton.js';
-import * as Constants from '../../utils/constants.js';
 
-import postRequest from '../../utils/requests/postRequest';
+import GetTomorrowDate from '../utils/date/getTomorrowDate';
+import LoadingButton from '../utils/loading/loadingButton.js';
+import * as Constants from '../utils/constants.js';
+
+import postRequest from '../utils/requests/postRequest';
 
 import { Container, Card, Form, Col, InputGroup, Button, Row, ButtonToolbar, Alert } from 'react-bootstrap';
 import { CountryDropdown } from 'react-country-region-selector';

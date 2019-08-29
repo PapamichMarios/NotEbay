@@ -1,9 +1,9 @@
 import React from 'react';
 import StarRatings from 'react-star-ratings';
 
-import postRequest from '../../utils/requests/postRequest';
-import * as Constants from '../../utils/constants';
-import LoadingButton from '../../utils/loading/loadingButton';
+import postRequest from '../utils/requests/postRequest';
+import * as Constants from '../utils/constants';
+import LoadingButton from '../utils/loading/loadingButton';
 
 import { Container, Row, Col, Card, Button, Alert }  from 'react-bootstrap';
 
