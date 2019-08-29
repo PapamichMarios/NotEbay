@@ -21,7 +21,6 @@ homepage:
     2.signup/login or sell it
 
 auctions/id:
-    breadcrumbs
     OR <br/> <Button>Buy Item </Button> for {buyPrice}
     post ratings
 

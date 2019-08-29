@@ -13,7 +13,7 @@ import '../../../css/utils/map.css';
 import '../../../css/signup/confirmation.css';
 
 import StarRatings from 'react-star-ratings';
-import { Container, Row, Col, Form, Button, Card, ButtonToolbar, Alert, Tabs, Tab, ListGroup, InputGroup } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button, Card, ButtonToolbar, Alert, Tabs, Tab, Breadcrumb, ListGroup, InputGroup } from 'react-bootstrap';
 import { FaDollarSign } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
@@ -181,8 +181,31 @@ export default class Bid extends React.Component {
                 );
             }
 
+            let breadcrumbs = [];
+             breadcrumbs.push(
+                <Breadcrumb.Item href='/home'>
+                    Home
+                </Breadcrumb.Item>
+             );
+
+            this.state.bid.categories.map(category => {
+                breadcrumbs.push(
+                    <Breadcrumb.Item>
+                        {category.category}
+                    </Breadcrumb.Item>
+                );
+            });
+
             return (
                 <Container fluid>
+                    <Row>
+                        <Col>
+                            <Breadcrumb>
+                                {breadcrumbs}
+                            </Breadcrumb>
+                        </Col>
+                    </Row>
+
                     <Row>
                         <Col>
                             <Card border="dark">

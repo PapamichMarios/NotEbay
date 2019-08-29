@@ -7,7 +7,7 @@ import OpenStreetMap from '../../utils/maps/openStreetMapLarge';
 import '../../../../css/utils/map.css';
 import '../../../../css/signup/confirmation.css';
 
-import { Container, Row, Col, Form, Button, Card, ButtonToolbar, Alert, Tabs, Tab, ListGroup, Nav } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button, Card, ButtonToolbar, Alert, Tabs, Tab, Breadcrumb, ListGroup, Nav } from 'react-bootstrap';
 import {FaEdit, FaSearchDollar, FaTrash, FaHourglassStart } from 'react-icons/fa';
 import { withRouter } from 'react-router-dom';
 
@@ -31,8 +31,31 @@ class CurrentAuction extends React.Component {
         const endTime = decodeTime(this.props.auction.timeEnds);
         const endDate = decodeDate(this.props.auction.timeEnds);
 
+        let breadcrumbs = [];
+        breadcrumbs.push(
+            <Breadcrumb.Item href='/home'>
+                Home
+            </Breadcrumb.Item>
+        );
+
+        this.props.auction.categories.map(category => {
+            breadcrumbs.push(
+                <Breadcrumb.Item>
+                    {category.category}
+                </Breadcrumb.Item>
+            );
+        });
+
         return(
             <Container fluid>
+                <Row>
+                    <Col>
+                        <Breadcrumb>
+                            {breadcrumbs}
+                        </Breadcrumb>
+                    </Col>
+                </Row>
+
                 <Row>
                     <Col md={2} style={{paddingLeft: '0px'}}>
                         <Card>
@@ -43,7 +66,7 @@ class CurrentAuction extends React.Component {
                                             <b> Actions </b>
                                         </Nav.Link>
 
-                                        <li>
+                                        <li className='my-list'>
                                             <Nav.Link style={{fontSize: '15px', color: 'Black'}} onClick={this.props.editAuction}>
                                                 <FaEdit style={{verticalAlign: 'middle'}} size={25} />
                                                 <span> &nbsp; </span>
@@ -51,7 +74,7 @@ class CurrentAuction extends React.Component {
                                             </Nav.Link>
                                         </li>
 
-                                        <li>
+                                        <li className='my-list'>
                                             <Nav.Link style={{fontSize: '15px', color: 'DarkRed'}} onClick={this.props.deleteAuction}>
                                                 <FaTrash style={{verticalAlign: 'middle'}} size={25} />
                                                 <span> &nbsp; </span>
@@ -59,7 +82,7 @@ class CurrentAuction extends React.Component {
                                             </Nav.Link>
                                         </li>
 
-                                        <li>
+                                        <li className='my-list'>
                                             <Nav.Link style={{fontSize: '15px', color: 'DarkGreen'}} onClick={this.props.beginAuction}>
                                                 <FaHourglassStart style={{verticalAlign: 'middle'}} size={25} />
                                                 <span> &nbsp; </span>
@@ -78,7 +101,7 @@ class CurrentAuction extends React.Component {
                                     <b> Listing </b>
                                 </Nav.Link>
 
-                                <li>
+                                <li className='my-list'>
                                     <Nav.Link style={{fontSize: '15px', color: 'Black'}} onClick={this.props.checkBidders}>
                                         <FaSearchDollar style={{verticalAlign: 'middle'}} size={25} />
                                         <span> &nbsp; </span>
