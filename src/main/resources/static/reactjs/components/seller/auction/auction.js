@@ -53,7 +53,6 @@ export default class Auction extends React.Component{
 
         putRequest(url, bodyObj)
         .then(response => {
-            console.log(response)
             if(response.error) {
                 alert(response.message);
             } else {

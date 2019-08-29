@@ -33,14 +33,14 @@ class CurrentAuction extends React.Component {
 
         let breadcrumbs = [];
         breadcrumbs.push(
-            <Breadcrumb.Item href='/home'>
+            <Breadcrumb.Item key='home' href='/home'>
                 Home
             </Breadcrumb.Item>
         );
 
         this.props.auction.categories.map(category => {
             breadcrumbs.push(
-                <Breadcrumb.Item>
+                <Breadcrumb.Item key={category.category}>
                     {category.category}
                 </Breadcrumb.Item>
             );
@@ -69,7 +69,7 @@ class CurrentAuction extends React.Component {
                                         <li className='my-list'>
                                             <Nav.Link style={{fontSize: '15px', color: 'Black'}} onClick={this.props.editAuction}>
                                                 <FaEdit style={{verticalAlign: 'middle'}} size={25} />
-                                                <span> &nbsp; </span>
+                                                <span> &nbsp; &nbsp; </span>
                                                 <b> Edit </b>
                                             </Nav.Link>
                                         </li>
@@ -77,7 +77,7 @@ class CurrentAuction extends React.Component {
                                         <li className='my-list'>
                                             <Nav.Link style={{fontSize: '15px', color: 'DarkRed'}} onClick={this.props.deleteAuction}>
                                                 <FaTrash style={{verticalAlign: 'middle'}} size={25} />
-                                                <span> &nbsp; </span>
+                                                <span> &nbsp; &nbsp; </span>
                                                 <b> Delete </b>
                                             </Nav.Link>
                                         </li>
@@ -85,7 +85,7 @@ class CurrentAuction extends React.Component {
                                         <li className='my-list'>
                                             <Nav.Link style={{fontSize: '15px', color: 'DarkGreen'}} onClick={this.props.beginAuction}>
                                                 <FaHourglassStart style={{verticalAlign: 'middle'}} size={25} />
-                                                <span> &nbsp; </span>
+                                                <span> &nbsp; &nbsp; </span>
                                                 <b> Start Auction </b>
                                             </Nav.Link>
                                         </li>
@@ -104,7 +104,7 @@ class CurrentAuction extends React.Component {
                                 <li className='my-list'>
                                     <Nav.Link style={{fontSize: '15px', color: 'Black'}} onClick={this.props.checkBidders}>
                                         <FaSearchDollar style={{verticalAlign: 'middle'}} size={25} />
-                                        <span> &nbsp; </span>
+                                        <span> &nbsp; &nbsp; </span>
                                         <b> Bids </b>
                                     </Nav.Link>
                                 </li>
