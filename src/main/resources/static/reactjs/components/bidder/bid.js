@@ -150,73 +150,86 @@ export default class Bid extends React.Component {
                     );
                 }
             } else {
-                returnButtonOrRating =   (
-                    <div>
-                    <hr />
-                    <Form.Group as={Row}>
-                        <Form.Label column md={{offset:2, span:3}}> <b> Place bid: </b> </Form.Label>
-                        <Col md={5} className='text-center'>
-                            <InputGroup>
-                                <Form.Control
-                                    type="text"
-                                    name="bet"
-                                    onChange= {this.onChange}
-                                />
-                                <InputGroup.Append>
+                if(this.state.bid.userSeller.username !== localStorage.getItem('username')) {
+                    returnButtonOrRating =   (
+                        <div>
+                        <hr />
+                        <Form.Group as={Row}>
+                            <Form.Label column md={{offset:2, span:3}}> <b> Place bid: </b> </Form.Label>
+                            <Col md={5} className='text-center'>
+                                <InputGroup>
+                                    <Form.Control
+                                        type="text"
+                                        name="bet"
+                                        onChange= {this.onChange}
+                                    />
+                                    <InputGroup.Append>
 
-                                { this.state.loadingButton ? (
-                                    <Button variant="dark" disabled>
-                                      <b> Loading... </b>
-                                      <LoadingButton />
-                                    </Button>
+                                    { this.state.loadingButton ? (
+                                        <Button variant="dark" disabled>
+                                          <b> Loading... </b>
+                                          <LoadingButton />
+                                        </Button>
+                                    ) : (
+                                        <Button variant="dark" onClick={this.placeBid}>
+                                          <b> Submit </b>
+                                          <FaDollarSign style={{verticalAlign: 'baseline'}} />
+                                        </Button>
+                                    )}
+
+                                    </InputGroup.Append>
+                                </InputGroup>
+                            </Col>
+                        </Form.Group>
+
+                        <Row>
+                            <Col>
+                                { this.state.bid.buyPrice ? (
+                                    <div>
+                                    <Row>
+                                        <Col className='text-center'>
+                                            <br/>
+                                            <p> <b style={{fontSize: '20px'}}> OR </b> </p>
+                                        </Col>
+                                    </Row>
+
+                                    <br/>
+                                    <Row>
+                                        <Col md={{offset:2, span:8}} className='text-center'>
+                                            { this.state.loadingButton ? (
+                                                <Button variant="dark" disabled block>
+                                                  <b> Loading... </b>
+                                                  <LoadingButton />
+                                                </Button>
+                                            ) : (
+                                                <Button variant="dark" style={{verticalAlign: 'middle'}} onClick={this.buyItem} block>
+                                                  <b> Buy Item </b>
+                                                </Button>
+                                            )}
+                                            <br/>
+                                            (Buy Price: <b>{this.state.bid.buyPrice} $</b>)
+                                        </Col>
+                                    </Row>
+                                    </div>
                                 ) : (
-                                    <Button variant="dark" onClick={this.placeBid}>
-                                      <b> Submit </b>
-                                      <FaDollarSign style={{verticalAlign: 'baseline'}} />
-                                    </Button>
+                                    null
                                 )}
+                            </Col>
+                        </Row>
+                        </div>
+                    );
+                } else {
+                    returnButtonOrRating = (
+                        <Row>
+                            <Col>
+                                <Alert variant='info'>
+                                    <p> You are the seller of this current auction. </p>
+                                </Alert>
+                            </Col>
+                        </Row>
+                    );
+                }
 
-                                </InputGroup.Append>
-                            </InputGroup>
-                        </Col>
-                    </Form.Group>
-
-                    <Row>
-                        <Col>
-                            { this.state.bid.buyPrice ? (
-                                <div>
-                                <Row>
-                                    <Col className='text-center'>
-                                        <br/>
-                                        <p> <b style={{fontSize: '20px'}}> OR </b> </p>
-                                    </Col>
-                                </Row>
-
-                                <br/>
-                                <Row>
-                                    <Col md={{offset:2, span:8}} className='text-center'>
-                                        { this.state.loadingButton ? (
-                                            <Button variant="dark" disabled block>
-                                              <b> Loading... </b>
-                                              <LoadingButton />
-                                            </Button>
-                                        ) : (
-                                            <Button variant="dark" style={{verticalAlign: 'middle'}} onClick={this.buyItem} block>
-                                              <b> Buy Item </b>
-                                            </Button>
-                                        )}
-                                        <br/>
-                                        (Buy Price: <b>{this.state.bid.buyPrice} $</b>)
-                                    </Col>
-                                </Row>
-                                </div>
-                            ) : (
-                                null
-                            )}
-                        </Col>
-                    </Row>
-                    </div>
-                );
             }
 
             let breadcrumbs = [];
@@ -394,12 +407,12 @@ export default class Bid extends React.Component {
                                                null
                                             )}
 
-                                            { this.state.bid.bestBid === null ? (
+                                            { this.state.bid.bestBid === null && this.state.bid.userSeller.username !== localStorage.getItem('username') ? (
                                               <Row>
                                                 <Col>
                                                   <br />
                                                   <Alert variant="info">
-                                                      Do you fancy it? Be the first one to place a bid on this item!
+                                                      Do you fancy it? Be the first one to place a bid or buy this item!
                                                   </Alert>
                                                 </Col>
                                               </Row>

@@ -14,7 +14,6 @@ profile:
 
 bidder:
     - sta bids, best bid by username to username na einai link
-    - na mi mporei na kanei bid o seller se diko tou item
 
 homepage:
     1. products
