@@ -83,7 +83,7 @@ export default class Login extends React.Component {
 
     render() {
       return(
-            <Container>
+            <Container className="navbar-margin">
               <Row>
                 <Col md={{ span: 4, offset: 4 }} className="text-center">
                   <Card border="dark">

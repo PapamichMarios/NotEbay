@@ -62,7 +62,7 @@ export default class BidList extends React.Component {
             return <Loading />;
         } else {
             return (
-                <Container>
+                <Container className="navbar-margin">
                     <Row>
                         <Col>
                             <Card border="dark" style={{width:'100%'}}>

@@ -70,7 +70,7 @@ export default class SellerRating extends React.Component {
     render() {
         if(this.state.success) {
             return (
-                <Container>
+                <Container className="navbar-margin">
                     <Row>
                         <Col>
                             <Alert variant='success'>
@@ -86,7 +86,7 @@ export default class SellerRating extends React.Component {
             );
         } else {
             return (
-                <Container>
+                <Container className="navbar-margin">
                     <Row>
                         <Col md={{offset:4, span:4}}>
                             <Card>

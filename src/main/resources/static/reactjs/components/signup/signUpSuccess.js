@@ -10,7 +10,7 @@ export default class SignUpSuccess extends React.Component {
 
     render() {
         return (
-            <Container>
+            <Container className="navbar-margin">
                 <Alert variant="success">
                     <Alert.Heading> One more step to welcome you to our community! </Alert.Heading>
                     <p> A well trained and authorised admin is going to review your application. </p>

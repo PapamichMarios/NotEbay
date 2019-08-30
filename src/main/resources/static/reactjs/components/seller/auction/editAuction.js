@@ -120,7 +120,7 @@ class EditAuction extends React.Component {
         });
 
         return(
-            <Container>
+            <Container className="navbar-margin">
                 <Card border="dark">
                     <Card.Header as="h3" className="text-center bg-dark" style={{color:'white'}}> Edit item for auction </Card.Header>
                     <Card.Body>

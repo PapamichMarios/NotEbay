@@ -4,7 +4,7 @@ const React = require('react');
 const ReactDOM = require('react-dom');
 
 import { NavLink, Link } from "react-router-dom";
-import { Container, Row, Col, Navbar, Nav, NavItem, NavDropdown, Form, FormControl, Button, InputGroup } from 'react-bootstrap';
+import { Container, Row, Col, Navbar, Nav, NavItem, NavDropdown, Form, FormControl, Button, InputGroup, DropdownButton, Dropdown } from 'react-bootstrap';
 import { FaSearch, FaHome, FaUser, FaComments, FaDatabase, FaSignInAlt, FaSignOutAlt, FaTasks, FaPlus } from 'react-icons/fa';
 import { MdPlaylistAddCheck, MdGavel } from 'react-icons/md';
 
@@ -14,132 +14,137 @@ export default class NavBar extends React.Component{
     }
 
     render() {
+        //categories dropdown
+        const categories = (
+            <DropdownButton title="Categories" variant="dark">
+                <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+                <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+
+                <Dropdown.Divider />
+                <Dropdown.Item href="/categories" style={{color: 'CornFlowerBlue'}}> See all the categories </Dropdown.Item>
+            </DropdownButton>
+        );
+
+        //left part of the navbar
+        const navLeft = (
+            <Nav className="mr-auto">
+              <NavItem>
+                <Form inline>
+                    <InputGroup>
+                        <InputGroup.Prepend>
+                            <InputGroup.Text>
+                                <FaSearch style={{verticalAlign: 'baseline'}}/>
+                            </InputGroup.Text>
+                        </InputGroup.Prepend>
+                        <Form.Control type="text" placeholder="Search here.." />
+                    </InputGroup>
+                </Form>
+              </NavItem>
+
+              <NavItem className="button-margin-left">
+                  {categories}
+              </NavItem>
+            </Nav>
+        );
+
         if(localStorage.getItem('loggedIn') === 'true') {
             return (
-              <div className="navbar-margin">
                 <Navbar bg="dark" variant="dark">
                   <Navbar.Brand href="/welcome"> <b> BidIt </b> </Navbar.Brand>
                   <Navbar.Toggle aria-controls="basic-navbar-nav" />
                   <Navbar.Collapse id="basic-navbar-nav">
 
-                    <Nav className="mr-auto">
-                      <NavItem>
-                        <Form inline>
-                            <InputGroup>
-                                <InputGroup.Prepend>
-                                    <InputGroup.Text>
-                                        <FaSearch style={{verticalAlign: 'baseline'}}/>
-                                    </InputGroup.Text>
-                                </InputGroup.Prepend>
-                                <Form.Control type="text" placeholder="Search here.." />
-                            </InputGroup>
-                        </Form>
-                      </NavItem>
-                    </Nav>
+                    {navLeft}
 
                     { localStorage.getItem("isAdmin") === 'true' ? (
                         <Nav className="justify-content-end">
+                          <NavItem className="button-margin">
                             <NavLink to="/users">
-                              <NavItem className="button-margin">
-                                  <Button title="User Database" style={{borderWidth:'0px', borderRadius: '50%'}} variant="outline-primary">
-                                    <FaDatabase style={{verticalAlign: 'baseline'}} />
-                                  </Button>
-                              </NavItem>
+                              <Button title="User Database" style={{borderWidth:'0px', borderRadius: '50%'}} variant="outline-primary">
+                                <FaDatabase style={{verticalAlign: 'baseline'}} />
+                              </Button>
                             </NavLink>
+                          </NavItem>
 
+                          <NavItem className="button-margin">
                             <NavLink to="/applications">
-                              <NavItem className="button-margin">
-                                  <Button title="Applications" style={{borderWidth:'0px', borderRadius: '50%'}} variant="outline-primary">
-                                    <FaTasks style={{verticalAlign: 'baseline'}} />
-                                  </Button>
-                              </NavItem>
+                              <Button title="Applications" style={{borderWidth:'0px', borderRadius: '50%'}} variant="outline-primary">
+                                <FaTasks style={{verticalAlign: 'baseline'}} />
+                              </Button>
                             </NavLink>
+                          </NavItem>
 
+                          <NavItem className="button-margin">
                             <NavLink to="/home">
-                              <NavItem className="button-margin">
-                                  <Button title="Home" variant="dark" style={{borderRadius: '50%'}}>
-                                    <FaHome style={{verticalAlign: 'baseline'}} />
-                                  </Button>
-                              </NavItem>
+                              <Button title="Home" variant="dark" style={{borderRadius: '50%'}}>
+                                <FaHome style={{verticalAlign: 'baseline'}} />
+                              </Button>
                             </NavLink>
+                          </NavItem>
 
+                          <NavItem className="button-margin">
                             <NavLink to="/inbox">
-                              <NavItem className="button-margin">
-                                  <Button title="Inbox" variant="dark" style={{borderRadius: '50%'}}>
-                                    <FaComments style={{verticalAlign: 'baseline'}} />
-                                  </Button>
-                              </NavItem>
+                              <Button title="Inbox" variant="dark" style={{borderRadius: '50%'}}>
+                                <FaComments style={{verticalAlign: 'baseline'}} />
+                              </Button>
                             </NavLink>
+                          </NavItem>
 
-                              <NavItem className="button-margin">
-                                   <Button title="Log Out" variant="outline-danger" onClick={this.props.onLogout} style={{borderRadius: '12px'}}>
-                                    <b> Logout </b> <FaSignOutAlt style={{verticalAlign: 'baseline'}} />
-                                   </Button>
-                              </NavItem>
+                          <NavItem className="button-margin">
+                               <Button title="Log Out" variant="outline-danger" onClick={this.props.onLogout} style={{borderRadius: '12px'}}>
+                                <b> Logout </b> <FaSignOutAlt style={{verticalAlign: 'baseline'}} />
+                               </Button>
+                          </NavItem>
                         </Nav>
                      ) : (
                         <Nav className="justify-content-end">
-                            <NavLink to="/home">
-                              <NavItem className="button-margin">
+                            <NavItem className="button-margin">
+                                <NavLink to="/home">
                                   <Button title="Home" variant="dark" style={{borderRadius: '50%'}}>
                                     <FaHome style={{verticalAlign: 'baseline'}} />
                                   </Button>
-                              </NavItem>
-                            </NavLink>
+                                </NavLink>
+                            </NavItem>
 
-                            <NavLink to="/my-auctions">
-                              <NavItem className="button-margin">
-                                  <Button title="My Auctions" variant="dark" style={{borderRadius: '50%'}}>
-                                    <MdGavel style={{verticalAlign: 'baseline'}} />
-                                  </Button>
-                              </NavItem>
-                            </NavLink>
+                            <NavItem className="button-margin">
+                              <DropdownButton title={<FaUser style={{verticalAlign: 'baseline'}}/>} variant="dark" style={{borderRadius: '50px'}}>
 
-                            <NavLink to="/submit-auction">
-                              <NavItem className="button-margin">
-                                  <Button title="Create an auction" variant="dark" style={{borderRadius: '50%'}}>
+                                <Dropdown.Item as={Link} to="/profile" className="text-center">
+                                    <b style={{color: '#20A5CA'}}> {localStorage.getItem('username')} </b>
+                                </Dropdown.Item>
+
+                                <Dropdown.Item as={Link} to="/submit-auction">
                                     <FaPlus style={{verticalAlign: 'baseline'}} />
-                                  </Button>
-                              </NavItem>
-                            </NavLink>
+                                    <span> &nbsp; </span>
+                                    Create Auction
+                                </Dropdown.Item>
 
-                            <NavLink to="/profile">
-                              <NavItem className="button-margin">
-                                  <Button title="Profile" variant="dark" style={{borderRadius: '50%'}}>
-                                    <FaUser style={{verticalAlign: 'baseline'}} />
-                                  </Button>
-                              </NavItem>
-                            </NavLink>
+                                <Dropdown.Item as={Link} to="/my-auctions">
+                                    <MdGavel style={{verticalAlign: 'baseline'}} />
+                                    <span> &nbsp; </span>
+                                    My Auctions
+                                </Dropdown.Item>
 
-                            <NavLink to="/inbox">
-                              <NavItem className="button-margin">
+                              </DropdownButton>
+                            </NavItem>
+
+                            <NavItem className="button-margin">
+                              <NavLink to="/inbox">
                                   <Button title="Inbox" variant="dark" style={{borderRadius: '50%'}}>
                                     <FaComments style={{verticalAlign: 'baseline'}} />
                                   </Button>
-                              </NavItem>
-                            </NavLink>
+                              </NavLink>
+                            </NavItem>
 
-                              <NavItem className="button-margin">
-                                   <Button title="Log Out" variant="outline-danger" onClick={this.props.onLogout} style={{borderRadius: '12px'}}>
-                                    <b> Logout </b> <FaSignOutAlt style={{verticalAlign: 'baseline'}} />
-                                   </Button>
-                              </NavItem>
+                            <NavItem className="button-margin">
+                                 <Button title="Log Out" variant="outline-danger" onClick={this.props.onLogout} style={{borderRadius: '12px'}}>
+                                  <b> Logout </b> <FaSignOutAlt style={{verticalAlign: 'baseline'}} />
+                                 </Button>
+                            </NavItem>
                         </Nav>
                      )}
                   </Navbar.Collapse>
                 </Navbar>
-
-                <Container fluid>
-                    <Row>
-                        <Col md={{offset:10}} className='text-center'>
-                            <span style={{color:'DimGray'}}>Signed in as:</span>
-                            <Link to='/profile'>
-                                <b> {localStorage.getItem('username')} </b>
-                            </Link>
-                        </Col>
-                    </Row>
-                </Container>
-              </div>
             );
         } else {
             return (
@@ -149,45 +154,32 @@ export default class NavBar extends React.Component{
                   <Navbar.Toggle aria-controls="basic-navbar-nav" />
                   <Navbar.Collapse id="basic-navbar-nav">
 
-                    <Nav className="mr-auto">
-                      <NavItem>
-                        <Form inline>
-                            <InputGroup>
-                                <InputGroup.Prepend>
-                                    <InputGroup.Text>
-                                        <FaSearch style={{verticalAlign: 'baseline'}} />
-                                    </InputGroup.Text>
-                                </InputGroup.Prepend>
-                                <Form.Control type="text" placeholder="Search here.." />
-                            </InputGroup>
-                        </Form>
-                      </NavItem>
-                    </Nav>
+                    {navLeft}
 
                     <Nav className="justify-content-end">
-                        <NavLink to="/home">
-                          <NavItem className="button-margin">
+                        <NavItem className="button-margin">
+                          <NavLink to="/home">
                               <Button title="Home" variant="dark" style={{borderRadius: '50%'}}>
                                 <FaHome style={{verticalAlign: 'baseline'}} />
                               </Button>
-                          </NavItem>
-                        </NavLink>
+                          </NavLink>
+                        </NavItem>
 
-                        <NavLink to="/login">
-                          <NavItem className="button-margin">
+                        <NavItem className="button-margin">
+                          <NavLink to="/login">
                                <Button title="Log In" variant="outline-light" style={{borderRadius: '12px'}}>
                                <b> Login </b> <FaSignInAlt style={{verticalAlign: 'baseline'}} />
                                </Button>
-                          </NavItem>
-                        </NavLink>
+                          </NavLink>
+                        </NavItem>
 
-                        <NavLink to="/signup">
-                          <NavItem className="button-margin" >
+                        <NavItem className="button-margin" >
+                          <NavLink to="/signup">
                               <Button title="Sign Up" variant="dark" style={{borderRadius: '12px'}}>
                                 <b> Signup </b>
                               </Button>
-                          </NavItem>
-                        </NavLink>
+                          </NavLink>
+                        </NavItem>
                     </Nav>
 
                   </Navbar.Collapse>

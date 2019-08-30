@@ -44,10 +44,13 @@ export default class Profile extends React.Component {
             return (
                 <Container fluid style={{paddingLeft:'0px'}}>
                     <Row>
-                        <Col md={3}>
-                            <Card className="full-vertical">
-                                <Card.Header as="h5" className="text-center bg-dark" style={{color:'white'}}> <b> {this.state.userData.username + ' #' + this.state.userData.id} </b> </Card.Header>
+                        <Col md={2}>
+                            <Card className="full-vertical" border="light">
                                 <Card.Body>
+                                    <Card.Title as="h5" className="text-center highlight">
+                                        <b> {this.state.userData.username + ' #' + this.state.userData.id} </b>
+                                    </Card.Title>
+
                                     <Table borderless size="sm">
                                         <thead>
                                             <tr>
@@ -79,7 +82,7 @@ export default class Profile extends React.Component {
                             </Card>
                         </Col>
 
-                        <Col md={9}>
+                        <Col md={10} className="navbar-margin">
                             <Card>
                                 <Card.Body>
                                     <Tabs defaultActiveKey={0}>

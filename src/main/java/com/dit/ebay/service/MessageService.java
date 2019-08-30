@@ -1,23 +1,31 @@
 package com.dit.ebay.service;
 
 import com.dit.ebay.exception.ResourceNotFoundException;
+import com.dit.ebay.model.Item;
 import com.dit.ebay.model.Message;
 import com.dit.ebay.model.MessageDeleteState;
 import com.dit.ebay.model.User;
 import com.dit.ebay.repository.MessageRepository;
 import com.dit.ebay.repository.UserRepository;
 import com.dit.ebay.request.MessageRequest;
-import com.dit.ebay.response.ApiResponse;
+import com.dit.ebay.response.*;
 import com.dit.ebay.security.UserDetailsImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
+// Note : we could merge authorization of sender/receiver on get and delete in 1 query
 @Service
 public class MessageService {
 
@@ -29,6 +37,9 @@ public class MessageService {
 
     @Autowired
     private AuthorizationService authorizationService;
+
+    @Autowired
+    private ValidatePageParametersService validatePageParametersService;
 
     private static final Logger logger = LoggerFactory.getLogger(MessageService.class);
 
@@ -54,9 +65,67 @@ public class MessageService {
         return ResponseEntity.created(uri).body(new ApiResponse(true, "Message created successfully.", result));
     }
 
-    public ResponseEntity<?> deleteSenderMessage(Long messageId, UserDetailsImpl currentUser) {
+    // constructs paged response
+    // will only be used inside this class
+    private PagedResponse<MessageHeaderResponse> createPagedResponse(Page<Message> messagesPaged, boolean getsSent) {
+        if (messagesPaged.getNumberOfElements() == 0) {
+            return new PagedResponse<>(Collections.emptyList(), messagesPaged.getNumber(),
+                    messagesPaged.getSize(), messagesPaged.getTotalElements(),
+                    messagesPaged.getTotalPages(), messagesPaged.isLast());
+        }
+
+        List<MessageHeaderResponse> messageResponses = new ArrayList<>();
+        for (Message message : messagesPaged) {
+            MessageHeaderResponse messageResponse = new MessageHeaderResponse(message);
+            if (getsSent) messageResponse.setOtherUser(message.getUserReceiver());
+            else messageResponse.setOtherUser(message.getUserSender());
+            messageResponses.add(messageResponse);
+        }
+
+        return new PagedResponse<>(messageResponses, messagesPaged.getNumber(),
+                messagesPaged.getSize(), messagesPaged.getTotalElements(),
+                messagesPaged.getTotalPages(), messagesPaged.isLast());
+    }
+
+    public PagedResponse<MessageHeaderResponse> getSentMessages(UserDetailsImpl currentUser, int page, int size) {
+        validatePageParametersService.validate(page,size);
+
+        Page<Message> messagesPaged = messageRepository.findSentByUserId(currentUser.getId(), PageRequest.of(page, size, Sort.by("timeSent").descending()));
+
+        return createPagedResponse(messagesPaged, true);
+    }
+
+    public PagedResponse<MessageHeaderResponse> getReceivedMessages(UserDetailsImpl currentUser, int page, int size) {
+        validatePageParametersService.validate(page,size);
+
+        Page<Message> messagesPaged = messageRepository.findReceivedByUserId(currentUser.getId(), PageRequest.of(page, size, Sort.by("timeSent").descending()));
+
+        return createPagedResponse(messagesPaged, false);
+    }
+
+    // TODO : merge this 2 methods because they have the same functionality
+    public MessageResponse getSentMessage(Long messageId, UserDetailsImpl currentUser) {
+        authorizationService.checkSenderPerms(currentUser.getId(), messageId);
+
+        Message message = messageRepository.findSentByMessageId(messageId)
+                .orElseThrow(() -> new ResourceNotFoundException("Message", "id", messageId));
+        message.setSeen(true);
+        return new MessageResponse(message.getMessage());
+    }
+
+    public MessageResponse getReceivedMessage(Long messageId, UserDetailsImpl currentUser) {
+        authorizationService.checkSenderPerms(currentUser.getId(), messageId);
+
+        Message message = messageRepository.findReceivedByMessageId(messageId)
+                .orElseThrow(() -> new ResourceNotFoundException("Message", "id", messageId));
+        message.setSeen(true);
+        return new MessageResponse(message.getMessage());
+    }
+
+
+    public ResponseEntity<?> deleteSentMessage(Long messageId, UserDetailsImpl currentUser) {
         // Check if we can delete
-        authorizationService.checkDeleteSenderPerms(currentUser.getId(), messageId);
+        authorizationService.checkSenderPerms(currentUser.getId(), messageId);
 
         Message message = messageRepository.findById(messageId)
                 .orElseThrow(() -> new ResourceNotFoundException("Message", "id", messageId));
@@ -72,9 +141,9 @@ public class MessageService {
         return ResponseEntity.ok().body(new ApiResponse(true, "Message Deleted Successfully."));
     }
 
-    public ResponseEntity<?> deleteReceiverMessage(Long messageId, UserDetailsImpl currentUser) {
+    public ResponseEntity<?> deleteReceivedMessage(Long messageId, UserDetailsImpl currentUser) {
         // Check if we can delete
-        authorizationService.checkDeleteReceiverPerms(currentUser.getId(), messageId);
+        authorizationService.checkReceiverPerms(currentUser.getId(), messageId);
 
         Message message = messageRepository.findById(messageId)
                 .orElseThrow(() -> new ResourceNotFoundException("Message", "id", messageId));

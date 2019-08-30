@@ -46,59 +46,61 @@ export default class User extends React.Component {
                 )
             } else {
                 return (
-                  <Row>
-                    <Col md={2}>
-                        <Card className="full-vertical">
-                            <Card.Header as="h5" className="text-center bg-dark" style={{color:'white'}}> {this.state.userData.username} </Card.Header>
-                            <Card.Body>
-                                <Table borderless size="sm">
-                                    <thead>
-                                        <tr>
-                                            <th className="header"> Name </th>
-                                        </tr>
-                                    </thead>
-
-                                    <tbody>
-                                        <tr>
-                                            <td className="body-text"> {this.state.userData.firstName + ' ' + this.state.userData.lastName} </td>
-                                        </tr>
-                                    </tbody>
-                                </Table>
-
-                                <Table borderless size="sm">
-                                    <thead>
-                                        <tr>
-                                            <th className="header"> Address </th>
-                                        </tr>
-                                    </thead>
-
-                                    <tbody>
-                                        { this.state.userData.streetAddress == null ? (
+                  <Container fluid className="navbar-margin" style={{paddingLeft: '0px'}}>
+                      <Row>
+                        <Col md={2}>
+                            <Card className="full-vertical">
+                                <Card.Header as="h5" className="text-center bg-dark" style={{color:'white'}}> {this.state.userData.username} </Card.Header>
+                                <Card.Body>
+                                    <Table borderless size="sm">
+                                        <thead>
                                             <tr>
-                                                <td className="body-text"> Awaiting Address </td>
+                                                <th className="header"> Name </th>
                                             </tr>
-                                        ) : (
-                                            <tr>
-                                                <td className="body-text"> { this.state.userData.streetAddress + ', '
-                                                                                + this.state.userData.postalCode + ' '
-                                                                                + this.state.userData.city + ', '
-                                                                                + this.state.userData.country }
-                                                </td>
-                                            </tr>
-                                        )}
-                                    </tbody>
-                                </Table>
-                            </Card.Body>
-                        </Card>
-                    </Col>
+                                        </thead>
 
-                    <Col md={10}>
-                        <Tabs defaultActiveKey="pastBids">
-                          <Tab eventKey="pastBids" title="Past Bids" disabled> </Tab>
-                          <Tab eventKey="activeBids" title="Active Bids" disabled> </Tab>
-                        </Tabs>
-                    </Col>
-                </Row>
+                                        <tbody>
+                                            <tr>
+                                                <td className="body-text"> {this.state.userData.firstName + ' ' + this.state.userData.lastName} </td>
+                                            </tr>
+                                        </tbody>
+                                    </Table>
+
+                                    <Table borderless size="sm">
+                                        <thead>
+                                            <tr>
+                                                <th className="header"> Address </th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            { this.state.userData.streetAddress == null ? (
+                                                <tr>
+                                                    <td className="body-text"> Awaiting Address </td>
+                                                </tr>
+                                            ) : (
+                                                <tr>
+                                                    <td className="body-text"> { this.state.userData.streetAddress + ', '
+                                                                                    + this.state.userData.postalCode + ' '
+                                                                                    + this.state.userData.city + ', '
+                                                                                    + this.state.userData.country }
+                                                    </td>
+                                                </tr>
+                                            )}
+                                        </tbody>
+                                    </Table>
+                                </Card.Body>
+                            </Card>
+                        </Col>
+
+                        <Col md={10}>
+                            <Tabs defaultActiveKey="pastBids">
+                              <Tab eventKey="pastBids" title="Past Bids" disabled> </Tab>
+                              <Tab eventKey="activeBids" title="Active Bids" disabled> </Tab>
+                            </Tabs>
+                        </Col>
+                    </Row>
+                </Container>
                 )
             }
         }
