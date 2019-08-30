@@ -4,6 +4,7 @@ import com.dit.ebay.model.Message;
 import com.dit.ebay.model.MessageDeleteState;
 import com.dit.ebay.model.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
@@ -13,6 +14,7 @@ public class MessageHeaderResponse {
 
     private Long id;
 
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private User otherUser;
 
     private String header;

@@ -1,1 +1,6 @@
-usernameSender,usernameReceiver,header,message
+senderUsername,receiverUsername,header,message
+papas1,papas2,header papas1 -> papas 2,msg papas 1 papas 1 papas 2 papas 2
+papas1,papas3,header papas1 -> papas 3,msg papas 1 papas 1 papas 3 papas 3
+papas1,papas4,header papas1 -> papas 4,msg papas 1 papas 1 papas 4 papas 4
+papas1,papas5,header papas1 -> papas 5,msg papas 1 papas 1 papas 5 papas 5
+papas1,papas6,header papas1 -> papas 6,msg papas 1 papas 1 papas 6 papas 6
