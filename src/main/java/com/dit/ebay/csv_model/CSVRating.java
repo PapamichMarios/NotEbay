@@ -6,6 +6,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
 public class CSVRating {
+
     @CsvBindByName(column = "sellerUsername")
     private String sellerUsername;
 

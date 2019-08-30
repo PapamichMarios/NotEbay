@@ -1,5 +1,6 @@
 package com.dit.ebay.model;
 
+import com.dit.ebay.csv_model.CSVMessage;
 import com.dit.ebay.request.MessageRequest;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.CreatedDate;
@@ -53,6 +54,13 @@ public class Message {
         this.seen = false;
         this.header = messageRequest.getHeader();
         this.message = messageRequest.getMessage();
+        this.messageDeleteState = MessageDeleteState.DEL_NON;
+    }
+
+    public Message(CSVMessage csvMessage) {
+        this.seen = false;
+        this.header = csvMessage.getHeader();
+        this.message = csvMessage.getMessage();
         this.messageDeleteState = MessageDeleteState.DEL_NON;
     }
 

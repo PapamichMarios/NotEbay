@@ -233,7 +233,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `ted_db`.`messages` ;
 
 CREATE TABLE IF NOT EXISTS `ted_db`.`messages` (
-  `id` BIGINT NOT NULL,
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
   `sender_id` BIGINT NOT NULL,
   `receiver_id` BIGINT NOT NULL,
   `header` VARCHAR(500) NULL,

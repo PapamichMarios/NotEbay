@@ -43,6 +43,9 @@ public class PopulateDB {
     private BidderRatingRepository bidderRatingRepository;
 
     @Autowired
+    private MessageRepository messageRepository;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     private static final Logger logger = LoggerFactory.getLogger(PopulateDB.class);
@@ -55,6 +58,7 @@ public class PopulateDB {
     private static final String RATINGS_DATA_FILE  = "my_data/rating_data.csv";
     private static final String ITEMS_ENDED_DATA_FILE = "my_data/item_ended_data.csv";
     private static final String BIDS_ENDED_DATA_FILE = "my_data/bid_ended_data.csv";
+    private static final String MESSAGES_DATA_FILE = "my_data/message_data.csv";
 
     public void populateStaticRoles() {
         if (roleRepository.findById(FIRST_ID).orElse(null) != null) return;
@@ -296,6 +300,32 @@ public class PopulateDB {
                 sellerRating.setUserSeller(seller);
                 sellerRating.setUserBidder(bidder);
                 sellerRatingRepository.save(sellerRating);
+            }
+        }
+    }
+
+    public void populateMessages() throws IOException {
+        try (Reader reader = Files.newBufferedReader(Paths.get(MESSAGES_DATA_FILE))) {
+            CsvToBean<CSVMessage> csvToBean = new CsvToBeanBuilder(reader)
+                    .withType(CSVMessage.class)
+                    .withIgnoreLeadingWhiteSpace(true).build();
+
+            if (messageRepository.findById(FIRST_ID).orElse(null) != null) return;
+
+            for (CSVMessage csvMessage : csvToBean) {
+                // Get the user
+                User sender = userRepository.findByUsername(csvMessage.getSenderUsername()).orElse(null);
+                if (sender == null) continue;
+
+                // Get the user
+                User receiver = userRepository.findByUsername(csvMessage.getReceiverUsername()).orElse(null);
+                if (receiver == null) continue;
+
+                Message message = new Message(csvMessage);
+                message.setUserSender(sender);
+                message.setUserReceiver(receiver);
+
+                messageRepository.save(message);
             }
         }
     }

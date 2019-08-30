@@ -48,6 +48,7 @@ public class EbayApplication {
 			populateDB.populateBids();
 			populateDB.populateBidsEnded();
 			populateDB.populateRatings();
+			populateDB.populateMessages();
 		}
 	}
 
