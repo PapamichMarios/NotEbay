@@ -43,7 +43,7 @@ public class Message {
 
     @CreatedDate
     @Column(name = "time_sent")
-    private Timestamp timestamp;
+    private Timestamp timeSent;
 
     public Message() {
 
@@ -89,14 +89,6 @@ public class Message {
         this.message = message;
     }
 
-    public Timestamp getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(Timestamp timestamp) {
-        this.timestamp = timestamp;
-    }
-
     public User getUserReceiver() {
         return userReceiver;
     }
@@ -119,5 +111,13 @@ public class Message {
 
     public void setSeen(boolean seen) {
         this.seen = seen;
+    }
+
+    public Timestamp getTimeSent() {
+        return timeSent;
+    }
+
+    public void setTimeSent(Timestamp timeSent) {
+        this.timeSent = timeSent;
     }
 }
