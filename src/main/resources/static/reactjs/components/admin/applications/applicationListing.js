@@ -10,7 +10,7 @@ export default class ApplicationListing extends React.Component {
 
     render() {
       return (
-        <Container fluid>
+        <Container fluid className="navbar-margin">
             <Card border="dark">
                 <Card.Header as="h3" className="text-center bg-dark" style={{color:'white'}}> Applications Pending </Card.Header>
                     <Card.Body>

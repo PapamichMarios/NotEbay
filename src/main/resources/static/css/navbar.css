@@ -1,9 +1,12 @@
-.highlighted{
-    background-color : orange
+.highlight{
+    color: #003e54;
 }
 
 .button-margin{
     margin-right : 5px;
+}
+.button-margin-left {
+    margin-left: 5px;
 }
 
 .btn-circle {
@@ -11,5 +14,5 @@
 }
 
 .navbar-margin{
-    margin-bottom: 5px;
+    margin-top: 25px;
 }

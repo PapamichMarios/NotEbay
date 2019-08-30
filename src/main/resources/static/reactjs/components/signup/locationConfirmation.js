@@ -26,7 +26,7 @@ export default class LocationConfirmation extends React.Component {
 
     render() {
         return (
-            <Container>
+            <Container className="navbar-margin">
                 <Card border="dark">
                   <Card.Header as="h3" className="text-center bg-dark" style={{color:'white'}}> Signup </Card.Header>
                   <Card.Body>

@@ -248,7 +248,7 @@ export default class Bid extends React.Component {
             });
 
             return (
-                <Container fluid>
+                <Container fluid className="navbar-margin">
                     <Row>
                         <Col>
                             <Breadcrumb>

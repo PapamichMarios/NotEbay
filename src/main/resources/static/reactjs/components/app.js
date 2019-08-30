@@ -7,6 +7,7 @@ import Signup               from './signup/signup';
 import Page404              from './errors/error404';
 import Profile              from './user/profile/profile';
 import Inbox                from './user/inbox';
+import Categories           from './categories';
 
 import Auction              from './seller/auction/auction';
 import AuctionsHomepage     from './seller/myAuctions';
@@ -74,7 +75,7 @@ class App extends React.Component {
                 <Route exact path="/signup"                 component={Signup} />
                 <Route exact path="/profile"                component={Profile} />
                 <Route exact path="/inbox"                  component={Inbox} />
-
+                <Route exact path="/categories"             component={Categories} />
 
                 <Route exact path="/users"                  component={Users} />
                 <Route path="/users/:id"                    component={User} />

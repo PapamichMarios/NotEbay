@@ -64,58 +64,54 @@ export default class AuctionsHomepage extends React.Component {
             return <Loading />;
         } else {
             return(
-                <Container>
-                    <Row>
-                        <Col>
-                            <Card border="dark" style={{width:'100%'}}>
-                                <Card.Header as="h3" className="text-center bg-dark" style={{color:'white'}}> My Pending Auctions </Card.Header>
-                                <Card.Body>
-                                    <Table striped hover>
-                                        <thead>
-                                            <tr>
-                                                <th>    </th>
-                                                <th> ID </th>
-                                                <th> Name </th>
-                                                <th> Best Bid </th>
-                                                <th> Buy Price </th>
-                                                <th> Time Ending  </th>
-                                                <th> Number of Bids </th>
-                                            </tr>
-                                        </thead>
+                <Container className="navbar-margin">
+                    <Card style={{width:'100%'}} border="dark">
+                        <Card.Header as="h3" className="text-center bg-dark" style={{color:'white'}}> My Pending Auctions </Card.Header>
+                        <Card.Body>
+                            <Table striped hover>
+                                <thead>
+                                    <tr>
+                                        <th>    </th>
+                                        <th> ID </th>
+                                        <th> Name </th>
+                                        <th> Best Bid </th>
+                                        <th> Buy Price </th>
+                                        <th> Time Ending  </th>
+                                        <th> Number of Bids </th>
+                                    </tr>
+                                </thead>
 
-                                        <tbody>
-                                            {this.state.myAuctions.map(myAuction =>
-                                                <tr key={myAuction.id.toString()}>
-                                                    <td>
-                                                        <Link to={`/my-auctions/${myAuction.id.toString()}`} >
-                                                            <FaExternalLinkAlt />
-                                                        </Link>
-                                                    </td>
-                                                    <td> {myAuction.id.toString()} </td>
-                                                    <td> {myAuction.name} </td>
-                                                    { myAuction.bestBid !== null? (
-                                                        <td> {myAuction.bestBid.bidAmount.toString()} </td>
-                                                    ) : (
-                                                        <td> -- </td>
-                                                    )}
-                                                    <td> {myAuction.buyPrice.toString()} </td>
-                                                    <td> {decodeTime(myAuction.timeEnds) + ' ' + decodeDate(myAuction.timeEnds)} </td>
-                                                    <td> {myAuction.numOfBids.toString()} </td>
-                                                </tr>
+                                <tbody>
+                                    {this.state.myAuctions.map(myAuction =>
+                                        <tr key={myAuction.id.toString()}>
+                                            <td>
+                                                <Link to={`/my-auctions/${myAuction.id.toString()}`} >
+                                                    <FaExternalLinkAlt />
+                                                </Link>
+                                            </td>
+                                            <td> {myAuction.id.toString()} </td>
+                                            <td> {myAuction.name} </td>
+                                            { myAuction.bestBid !== null? (
+                                                <td> {myAuction.bestBid.bidAmount.toString()} </td>
+                                            ) : (
+                                                <td> -- </td>
                                             )}
-                                        </tbody>
-                                    </Table>
+                                            <td> {myAuction.buyPrice.toString()} </td>
+                                            <td> {decodeTime(myAuction.timeEnds) + ' ' + decodeDate(myAuction.timeEnds)} </td>
+                                            <td> {myAuction.numOfBids.toString()} </td>
+                                        </tr>
+                                    )}
+                                </tbody>
+                            </Table>
 
-                                    <Paging totalPages={this.state.paging.totalPages}
-                                            getData={this.getData}
-                                            activePage={this.state.activePage}
-                                            changeActivePage={this.changeActivePage}
-                                    />
+                            <Paging totalPages={this.state.paging.totalPages}
+                                    getData={this.getData}
+                                    activePage={this.state.activePage}
+                                    changeActivePage={this.changeActivePage}
+                            />
 
-                                </Card.Body>
-                            </Card>
-                        </Col>
-                    </Row>
+                        </Card.Body>
+                    </Card>
                 </Container>
             );
         }

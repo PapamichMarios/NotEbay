@@ -49,16 +49,8 @@ class CurrentAuction extends React.Component {
         return(
             <Container fluid>
                 <Row>
-                    <Col>
-                        <Breadcrumb>
-                            {breadcrumbs}
-                        </Breadcrumb>
-                    </Col>
-                </Row>
-
-                <Row>
                     <Col md={2} style={{paddingLeft: '0px'}}>
-                        <Card>
+                        <Card border="light">
                             <ul style={{listStyleType: 'none', height:'100vh'}}>
                                 {!this.props.auction.active && !this.props.auction.finished ? (
                                     <div>
@@ -70,7 +62,7 @@ class CurrentAuction extends React.Component {
                                             <Nav.Link style={{fontSize: '15px', color: 'Black'}} onClick={this.props.editAuction}>
                                                 <FaEdit style={{verticalAlign: 'middle'}} size={25} />
                                                 <span> &nbsp; &nbsp; </span>
-                                                <b> Edit </b>
+                                                Edit
                                             </Nav.Link>
                                         </li>
 
@@ -78,7 +70,7 @@ class CurrentAuction extends React.Component {
                                             <Nav.Link style={{fontSize: '15px', color: 'DarkRed'}} onClick={this.props.deleteAuction}>
                                                 <FaTrash style={{verticalAlign: 'middle'}} size={25} />
                                                 <span> &nbsp; &nbsp; </span>
-                                                <b> Delete </b>
+                                                Delete
                                             </Nav.Link>
                                         </li>
 
@@ -86,7 +78,7 @@ class CurrentAuction extends React.Component {
                                             <Nav.Link style={{fontSize: '15px', color: 'DarkGreen'}} onClick={this.props.beginAuction}>
                                                 <FaHourglassStart style={{verticalAlign: 'middle'}} size={25} />
                                                 <span> &nbsp; &nbsp; </span>
-                                                <b> Start Auction </b>
+                                                 Start Auction
                                             </Nav.Link>
                                         </li>
 
@@ -105,7 +97,7 @@ class CurrentAuction extends React.Component {
                                     <Nav.Link style={{fontSize: '15px', color: 'Black'}} onClick={this.props.checkBidders}>
                                         <FaSearchDollar style={{verticalAlign: 'middle'}} size={25} />
                                         <span> &nbsp; &nbsp; </span>
-                                        <b> Bids </b>
+                                        Bids
                                     </Nav.Link>
                                 </li>
 
@@ -113,7 +105,7 @@ class CurrentAuction extends React.Component {
                         </Card>
                     </Col>
 
-                    <Col>
+                    <Col className="navbar-margin">
                         <Card border="dark">
                             <Card.Header as="h3" className="text-center bg-dark" style={{color:'white'}}> Item #{this.props.auction.id} </Card.Header>
                             <Card.Body>

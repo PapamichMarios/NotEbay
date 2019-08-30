@@ -77,7 +77,7 @@ export default class Application extends React.Component {
         } else {
             if(this.state.userData === null || this.state.userData === undefined || this.state.userData.enabled) {
                 return (
-                    <Container>
+                    <Container className="navbar-margin">
                         <Alert variant="danger">
                             <Alert.Heading> No application found in the database. </Alert.Heading>
                         </Alert>
@@ -85,7 +85,7 @@ export default class Application extends React.Component {
                 )
             } else {
                 return (
-                      <Container>
+                      <Container className="navbar-margin">
                           <Card border="dark">
                             <Card.Header as="h3" className="text-center bg-dark" style={{color:'white'}}> Application </Card.Header>
                             <Card.Body>
