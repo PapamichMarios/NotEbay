@@ -53,6 +53,40 @@ public class BidService {
             throw new AppException("Sorry, You can't bid on Item which isn't active.");
         }
 
+        double buyPrice = item.getBuyPrice();
+        if (buyPrice != -1 ) {
+            if (bidRequest.getBidAmount() == buyPrice) {
+                // TODO : change duplicate code
+                Long userId = currentUser.getId();
+                User user = userRepository.findById(userId)
+                        .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+
+                Bid bid = new Bid(bidRequest.getBidAmount());
+
+                // Create bid
+                bid.setUser(user);
+                bid.setItem(item);
+                item.setBestBid(bid);
+
+                // Update counter
+                item.increaseNumOfBids();
+                item.updateTimeEnds();
+                // Auto finish the bids
+                item.setActive(false);
+                itemRepository.save(item);
+
+                Bid bidRes = bidRepository.save(bid);
+                URI uri = ServletUriComponentsBuilder
+                        .fromCurrentContextPath().path("/{bidId}")
+                        .buildAndExpand(bid.getId()).toUri();
+
+                return ResponseEntity.created(uri).body(new ApiResponse(true, "Bid created successfully.", bidRes));
+
+            } else if (bidRequest.getBidAmount() > buyPrice) {
+                throw new AppException("Sorry, You can't bid on Item more money than the buy price of it.");
+            }
+        }
+
         if (item.getFirstBid() > bidRequest.getBidAmount()) {
             throw new AppException("Sorry, You can't bid on Item with less money than the minimum bid.");
         }

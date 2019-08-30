@@ -126,7 +126,7 @@ public class Item {
         this.name = itemRequest.getName();
         this.description = itemRequest.getDescription();
         this.timeEnds = itemRequest.getTimeEnds();
-        this.buyPrice = itemRequest.getBuyPrice();  // may be null
+        this.buyPrice = itemRequest.getBuyPrice();  // may be null (means 0)
         this.firstBid = itemRequest.getFirstBid();  // can't be null
         this.numOfBids = 0;
         this.country = itemRequest.getCountry();
@@ -314,6 +314,13 @@ public class Item {
     public Set<Category> getCategories() { return categories; }
 
     public void setCategories(Set<Category> categories) { this.categories = categories; }
+
+    public void updateTimeEnds() {
+        // check dates
+        Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+        currentTime.setNanos(0); // don't count millis
+        this.timeEnds = currentTime;
+    }
 
     public boolean itemIsFinished() {
         // check dates
