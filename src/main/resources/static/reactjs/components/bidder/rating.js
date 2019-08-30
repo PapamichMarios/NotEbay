@@ -63,22 +63,23 @@ export default class BidderRating extends React.Component {
                             this.state.itemRating +
                             this.state.serviceRating) / 4;
 
-        const url = '';
-        const bodyObj = { rating: finalRating };
+        const url = '/app/users/' + this.props.match.params.id + '/sellerRating';
+        const bodyObj = { rating: Math.round(finalRating) };
 
-        //postRequest(url, bodyObj)
-        //.then( response => {
-         //   if(response.error) {
-          //      this.setState({
-            //        hasError: true,
-             //       errorMsg: response.msg
-             //   });
-           // } else {
-            //    this.setState({
-            //        success: true
-            //    });
-        //})
-        //.catch(error => console.error('Error:', error));
+        postRequest(url, bodyObj)
+        .then( response => {
+            if(response.error) {
+                this.setState({
+                    hasError: true,
+                    errorMsg: response.msg
+                });
+            } else {
+                this.setState({
+                    success: true
+                });
+            }
+        })
+        .catch(error => console.error('Error:', error));
 
         //set loading
         setTimeout(() => {
@@ -93,7 +94,11 @@ export default class BidderRating extends React.Component {
                     <Row>
                         <Col>
                             <Alert variant='success'>
-                                Your rating has been submitted! Thanks for your feedback. It is essential for the user experience of our application.
+                                <p> Your rating has been submitted! </p>
+                                <p>
+                                    Thanks for your feedback. It is essential for the
+                                    improvement of the user experience and our application in general.
+                                </p>
                             </Alert>
                         </Col>
                     </Row>
@@ -105,6 +110,7 @@ export default class BidderRating extends React.Component {
                     <Row>
                         <Col md={{offset:4, span:4}}>
                             <Card>
+                                <Card.Header as="h5" className="text-center bg-dark" style={{color:'white'}}> <b> Leave feedback </b> </Card.Header>
                                 <Card.Body>
                                     <Row>
                                         <Col>
@@ -201,6 +207,17 @@ export default class BidderRating extends React.Component {
                                         </Col>
                                     </Row>
 
+                                    {this.state.error ? (
+                                        <Row>
+                                            <Col>
+                                                <Alert variant='danger'>
+                                                    <p> {errorMsg} </p>
+                                                </Alert>
+                                            </Col>
+                                        </Row>
+                                    ) : (
+                                        null
+                                    )}
                                 </Card.Body>
                             </Card>
                         </Col>
