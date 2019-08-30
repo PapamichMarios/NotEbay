@@ -54,7 +54,7 @@ public class BidService {
         }
 
         double buyPrice = item.getBuyPrice();
-        if (buyPrice != -1 ) {
+        if (buyPrice != -1) {
             if (bidRequest.getBidAmount() == buyPrice) {
                 // TODO : change duplicate code
                 Long userId = currentUser.getId();

@@ -17,7 +17,7 @@ papas1,item33,item2description,1000,50.5,2021-11-13 17:00:00,item2Country,36.207
 papas2,item3,item3description,250,100,2021-11-13 17:00:00,item3Country,36.207040,-835.181834,item3Location,item3image,true,"cat1,cat212,cat3,cat4"
 papas2,item4,item4description,504,300,2021-11-13 17:00:00,item4Country,36.207040,-835.181834,item4Location,item4image,true,"cat1,cat243,cat3,cat4"
 papas3,item5,item1description,100,25.5,2021-11-13 17:00:00,item1Country,36.207040,-835.181834,item5Location,item5image,true,"cat1,cat2,cat3,cat4"
-papas4,item6,item6description,600,60,2021-11-13 17:00:00,item6Country,36.207040,-835.181834,item6Location,item6image,true,"cat1,cat26,cat3,cat4"
+papas4,item6,item6description,60000,60,2021-11-13 17:00:00,item6Country,36.207040,-835.181834,item6Location,item6image,true,"cat1,cat26,cat3,cat4"
 papas5,item7,item7description,2500,1500,2022-11-13 17:00:00,item1Country,36.207040,-835.181834,item1Location,item1image,true,"cat1,cat25,cat3,cat4"
 papas5,item8,item1description,100,25.5,2021-11-13 17:00:00,item1Country,36.207040,-835.181834,item1Location,item1image,true,"cat134,cat22,cat3,cat4"
 papas1,item9,item1description,100,25.5,2021-11-13 17:00:00,item1Country,36.207040,-835.181834,item1Location,item1image,true,"cat15,cat8,cat7,cat6"

@@ -60,6 +60,12 @@ public class ItemService {
             throw new AppException("Sorry, You can't create an item without providing a name");
         }
 
+        double buyPrice = itemRequest.getBuyPrice();
+        double firstBid = itemRequest.getFirstBid();
+        if (buyPrice > 0 && buyPrice < firstBid) {
+            throw new AppException("Sorry, You can't create an item with first bid bigger than the buy Price");
+        }
+
         Long userId = currentUser.getId();
 
         User user = userRepository.findById(userId)
