@@ -27,7 +27,7 @@ public class AuthorizationService {
         }
     }
 
-    public void checkDeleteReceiverPerms(Long userId, Long messageId) {
+    public void checkReceiverPerms(Long userId, Long messageId) {
         if (!messageRepository.findReceiverIdByMessageId(messageId).equals(userId)) {
             throw new NotAuthorizedException("Sorry, You're not authorized to perform this action. " +
                                              "You are not the receiver of the message with id = " + messageId + " ."
@@ -35,7 +35,7 @@ public class AuthorizationService {
         }
     }
 
-    public void checkDeleteSenderPerms(Long userId, Long messageId) {
+    public void checkSenderPerms(Long userId, Long messageId) {
         if (!messageRepository.findSenderIdByMessageId(messageId).equals(userId)) {
             throw new NotAuthorizedException("Sorry, You're not authorized to perform this action. " +
                     "You are not the sender of the message with id = " + messageId + " ."
