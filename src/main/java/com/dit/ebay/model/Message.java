@@ -28,6 +28,9 @@ public class Message {
     @JoinColumn(name = "receiver_id", nullable = false)
     private User userReceiver;
 
+    @Column(name = "seen")
+    private boolean seen;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "delete_state")
     private MessageDeleteState messageDeleteState;
@@ -47,6 +50,7 @@ public class Message {
     }
 
     public Message(MessageRequest messageRequest) {
+        this.seen = false;
         this.header = messageRequest.getHeader();
         this.message = messageRequest.getMessage();
         this.messageDeleteState = MessageDeleteState.DEL_NON;
@@ -107,5 +111,13 @@ public class Message {
 
     public void setMessageDeleteState(MessageDeleteState messageDeleteState) {
         this.messageDeleteState = messageDeleteState;
+    }
+
+    public boolean isSeen() {
+        return seen;
+    }
+
+    public void setSeen(boolean seen) {
+        this.seen = seen;
     }
 }
