@@ -2,7 +2,6 @@ package com.dit.ebay.request;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 
 /*
  * Use this class for both seller rating and bidder rating

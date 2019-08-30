@@ -103,10 +103,10 @@ export default class Activity extends React.Component {
             this.state.pagingBids.content.map(bid => {
                 bidList.push(
                     <div key={bid.bidTime}>
-                        <li>
+                        <li className='my-list'>
                             You have placed a bid of <b>{bid.bidAmount} <span>&#36;</span></b> on &nbsp;
-                            <Link to={`/auctions/${bid.id}`}>
-                                <b>item #{bid.id}</b>
+                            <Link to={`/auctions/${bid.itemId}`}>
+                                <b>{bid.itemName} #{bid.itemId}</b>
                             </Link>.
                             <br />
                             <span style={{color: 'DimGray', fontSize: '12px'}}>
@@ -123,7 +123,7 @@ export default class Activity extends React.Component {
             this.state.pagingItems.content.map(item => {
                 itemList.push(
                     <div key={item.timeStarted}>
-                        <li>
+                        <li className='my-list'>
                             You have submitted item
                             <Link to={`/my-auctions/${item.id}`}>
                                 <b> {item.name} </b>

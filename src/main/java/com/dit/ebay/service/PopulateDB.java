@@ -1,6 +1,7 @@
 package com.dit.ebay.service;
 
 import com.dit.ebay.csv_model.*;
+import com.dit.ebay.exception.AppException;
 import com.dit.ebay.model.*;
 import com.dit.ebay.repository.*;
 import com.opencsv.bean.CsvToBean;
@@ -19,6 +20,9 @@ import java.util.List;
 
 @Service
 public class PopulateDB {
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -52,7 +56,32 @@ public class PopulateDB {
     private static final String ITEMS_ENDED_DATA_FILE = "my_data/item_ended_data.csv";
     private static final String BIDS_ENDED_DATA_FILE = "my_data/bid_ended_data.csv";
 
-    public void populateUsers() throws IOException {
+    public void populateStaticRoles() {
+        if (roleRepository.findById(FIRST_ID).orElse(null) != null) return;
+        roleRepository.save(new Role((RoleName.ROLE_ADMIN)));
+        roleRepository.save(new Role(RoleName.ROLE_SELLER));
+        roleRepository.save(new Role(RoleName.ROLE_BIDDER));
+    }
+
+    /*
+     * Only admin will be created here
+     */
+    public void createAdmin() throws AppException {
+        // if admin exists just return
+        if (userRepository.findByUsername("ADM").orElse(null) != null) {
+            return;
+        }
+
+        // Create admin
+        User admin = new User("Tom", "McDonald", "ADM", passwordEncoder.encode("ADMIN123"), "adm@flo.com", true);
+        // Avoid extra insertions
+        Role userRoleAdmin = roleRepository.findByName(RoleName.ROLE_ADMIN)
+                .orElseThrow(() -> new AppException("User Role Admin not set."));
+        admin.addRole(userRoleAdmin);
+        userRepository.save(admin);
+    }
+
+    public void populateUsers() throws IOException,AppException {
         try (Reader reader = Files.newBufferedReader(Paths.get(USERS_DATA_FILE))) {
             CsvToBean<CSVUser> csvToBean = new CsvToBeanBuilder(reader)
                     .withType(CSVUser.class)
@@ -69,8 +98,17 @@ public class PopulateDB {
                 user.setPassword(passwordEncoder.encode(user.getPassword()));
 
                 // Remember all these user have both roles
+                /*
                 user.addRole(new Role(RoleName.ROLE_SELLER));
                 user.addRole(new Role(RoleName.ROLE_BIDDER));
+                */
+                // Avoid extra insertions
+                Role userRoleSeller = roleRepository.findByName(RoleName.ROLE_SELLER)
+                        .orElseThrow(() -> new AppException("User Role Seller not set."));
+                Role userRoleBidder = roleRepository.findByName(RoleName.ROLE_BIDDER)
+                        .orElseThrow(() -> new AppException("User Role Bidder not set."));
+                user.addRole(userRoleSeller);
+                user.addRole(userRoleBidder);
 
                 userRepository.save(user);
             }
@@ -211,7 +249,6 @@ public class PopulateDB {
                 if (item == null) continue;
 
                 Bid bid = new Bid(csvBidEnded);
-                System.out.println("---------------------------_" + csvBidEnded.getBidTime());
                 bid.setBidTime(csvBidEnded.getBidTime());
 
                 // Create bid

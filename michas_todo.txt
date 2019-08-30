@@ -1,0 +1,6 @@
+/profile:
+    1. buyer rating
+    2. seller rating
+
+/users/{userId}:
+    1. Na mporei enas bidder i seller na blepei to profile allou xristi, opws o admin px.

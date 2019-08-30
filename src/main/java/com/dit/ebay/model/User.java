@@ -73,7 +73,7 @@ public class User {
      * For all Users
      */
     @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinTable(
             name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
@@ -106,8 +106,16 @@ public class User {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "userSeller", cascade = CascadeType.ALL)
     private Set<SellerRating> slRatings = new HashSet<>();
 
-    public User () {
-    }
+    /*
+     * ---Messages---
+     */
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "userSender", cascade = CascadeType.ALL)
+    private Set<Message> sentMessages = new HashSet<>();
+
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "userReceiver", cascade = CascadeType.ALL)
+    private Set<Message> receivedMessages = new HashSet<>();
 
     /*
      * Only for admin
@@ -163,6 +171,10 @@ public class User {
         this.country = signUpRequest.getCountry();
         this.city = signUpRequest.getCity();
         this.phone = signUpRequest.getPhone();
+    }
+
+    public User() {
+
     }
 
     public Long getId() {
@@ -290,4 +302,5 @@ public class User {
     public void setGeoLong(BigDecimal geoLong) {
         this.geoLong = geoLong;
     }
+
 }

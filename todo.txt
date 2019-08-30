@@ -6,6 +6,7 @@ loading se kathe get
 - need to optimize webpack
 - categories /submitAuction
 - paging an einai empty na bgazei sxetiko message
+- authorize properly the endpoints
 
 profile:
     - badges me basi ta ratings
@@ -13,16 +14,13 @@ profile:
 
 bidder:
     - sta bids, best bid by username to username na einai link
-    - na mi mporei na kanei bid o seller se diko tou item
 
 homepage:
     1. products
     2.signup/login or sell it
 
 auctions/id:
-    breadcrumbs
-    OR <br/> <Button>Buy Item </Button> for {buyPrice}
-    post ratings
+    post ratings na elegxw an exei kanei pali
 
 seller:
-    post ratings
+    post ratings na elegxw an exei kanei pali

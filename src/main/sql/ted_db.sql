@@ -152,13 +152,20 @@ DROP TABLE IF EXISTS `ted_db`.`categories` ;
 
 CREATE TABLE IF NOT EXISTS `ted_db`.`categories` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `parent_id` BIGINT NULL,
   `item_id` BIGINT NOT NULL,
   `category` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_categories_items1_idx` (`item_id` ASC),
+  INDEX `fk_categories_categories1_idx` (`parent_id` ASC),
   CONSTRAINT `fk_categories_items1`
     FOREIGN KEY (`item_id`)
     REFERENCES `ted_db`.`items` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_categories_categories1`
+    FOREIGN KEY (`parent_id`)
+    REFERENCES `ted_db`.`categories` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -214,6 +221,36 @@ CREATE TABLE IF NOT EXISTS `ted_db`.`bidder_ratings` (
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_users_has_users_users4`
     FOREIGN KEY (`bidder_id`)
+    REFERENCES `ted_db`.`users` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `ted_db`.`messages`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `ted_db`.`messages` ;
+
+CREATE TABLE IF NOT EXISTS `ted_db`.`messages` (
+  `id` BIGINT NOT NULL,
+  `sender_id` BIGINT NOT NULL,
+  `receiver_id` BIGINT NOT NULL,
+  `header` VARCHAR(500) NULL,
+  `message` VARCHAR(8000) NULL,
+  `seen` TINYINT(1) NOT NULL,
+  `time_sent` TIMESTAMP NOT NULL,
+  `delete_state` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_mesages_users1_idx` (`sender_id` ASC),
+  INDEX `fk_mesages_users2_idx` (`receiver_id` ASC),
+  CONSTRAINT `fk_mesages_users1`
+    FOREIGN KEY (`sender_id`)
+    REFERENCES `ted_db`.`users` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_mesages_users2`
+    FOREIGN KEY (`receiver_id`)
     REFERENCES `ted_db`.`users` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)

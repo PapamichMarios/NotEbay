@@ -129,10 +129,9 @@ export default class NavBar extends React.Component{
                   </Navbar.Collapse>
                 </Navbar>
 
-                <br />
                 <Container fluid>
                     <Row>
-                        <Col md={{offset:11}}>
+                        <Col md={{offset:10}} className='text-center'>
                             <span style={{color:'DimGray'}}>Signed in as:</span>
                             <Link to='/profile'>
                                 <b> {localStorage.getItem('username')} </b>

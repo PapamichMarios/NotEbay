@@ -10,10 +10,13 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+/*
+ * r.name = {'ROLE_ADMIN','ROLE_SELLER','ROLE_BIDDER'}
+ */
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Long> {
 
-    Role findByName(RoleName roleName);
+    Optional<Role> findByName(RoleName roleName);
 
     // Check if current user is admin
     @Query("select case when count(r) > 0 then true else false end " +

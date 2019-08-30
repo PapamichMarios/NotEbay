@@ -63,21 +63,6 @@ public class UserService {
 
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
-    /*
-     * Only admin will be created here
-     */
-    public void createAdmin() {
-        // if admin exists just return
-        if (userRepository.findByUsername("ADM").orElse(null) != null) {
-            return;
-        }
-
-        // Create admin
-        User admin = new User("Tom", "McDonald", "ADM", passwordEncoder.encode("ADMIN123"), "adm@flo.com", true);
-        admin.addRole(new Role(RoleName.ROLE_ADMIN));
-        userRepository.save(admin);
-    }
-
     public ResponseEntity<?> signUpUser(SignUpRequest signUpRequest) {
         // Check if the user already exists
         userRepository.findByUsername(signUpRequest.getUsername())
@@ -97,8 +82,19 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         // Insert always with both roles (Seller, Bidder)
+        // Extra entries
+        /*
         user.addRole(new Role(RoleName.ROLE_BIDDER, user));
         user.addRole(new Role(RoleName.ROLE_SELLER, user));
+        */
+
+        // Avoid extra insertions
+        Role userRoleSeller = roleRepository.findByName(RoleName.ROLE_SELLER)
+                .orElseThrow(() -> new AppException("User Role Seller not set."));
+        Role userRoleBidder = roleRepository.findByName(RoleName.ROLE_BIDDER)
+                .orElseThrow(() -> new AppException("User Role Bidder not set."));
+        user.addRole(userRoleSeller);
+        user.addRole(userRoleBidder);
 
         User result = userRepository.save(user);
         URI uri = ServletUriComponentsBuilder
@@ -110,11 +106,8 @@ public class UserService {
 
     public ResponseEntity<?> signInUser(SignInRequest signInRequest) {
         // Check if the user exists
-        User user = userRepository.findByUsername(signInRequest.getUsername()).orElse(null);
-
-        if (user == null) {
-            throw new BadRequestException("Invalid username or password.");
-        }
+        User user = userRepository.findByUsername(signInRequest.getUsername()).
+                orElseThrow(() -> new AppException("Invalid username or password."));
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -122,7 +115,7 @@ public class UserService {
                         signInRequest.getPassword()
                 )
         );
-        //System.out.println("all went ok maybe");
+
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = tokenProvider.generateToken(authentication);
 

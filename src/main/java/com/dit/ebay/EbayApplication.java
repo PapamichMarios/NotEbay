@@ -38,8 +38,9 @@ public class EbayApplication {
 
 		@Override
 		public void run(String... args) throws Exception {
-			// Creates Admin on the fly
-			userService.createAdmin();
+			// Warning must always execute the above function
+			populateDB.populateStaticRoles();
+			populateDB.createAdmin();
 
 			populateDB.populateUsers();
 			populateDB.populateItems();
