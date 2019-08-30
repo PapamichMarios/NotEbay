@@ -2,11 +2,13 @@ role: admin, seller, bidder, visitor
 loading se kathe get
 
 - navbar categories dropdown
-- seller auction: 1. my auctions 2. list an item
 - need to optimize webpack
 - categories /submitAuction
 - paging an einai empty na bgazei sxetiko message
 - authorize properly the endpoints
+
+my-auctions:
+    - categories
 
 profile:
     - badges me basi ta ratings

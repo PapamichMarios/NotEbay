@@ -6,7 +6,7 @@ import Login                from './login';
 import Signup               from './signup/signup';
 import Page404              from './errors/error404';
 import Profile              from './user/profile/profile';
-import Inbox                from './user/inbox';
+import Messages             from './user/messages/messages';
 import Categories           from './categories';
 
 import Auction              from './seller/auction/auction';
@@ -74,7 +74,7 @@ class App extends React.Component {
                 <Route exact path="/login"                  render={(props) => <Login {...props} onLogin={this.handleLogin} />} />
                 <Route exact path="/signup"                 component={Signup} />
                 <Route exact path="/profile"                component={Profile} />
-                <Route exact path="/inbox"                  component={Inbox} />
+                <Route exact path="/messages"               component={Messages} />
                 <Route exact path="/categories"             component={Categories} />
 
                 <Route exact path="/users"                  component={Users} />

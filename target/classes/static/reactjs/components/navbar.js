@@ -129,8 +129,8 @@ export default class NavBar extends React.Component{
                             </NavItem>
 
                             <NavItem className="button-margin">
-                              <NavLink to="/inbox">
-                                  <Button title="Inbox" variant="dark" style={{borderRadius: '50%'}}>
+                              <NavLink to="/messages">
+                                  <Button title="Messages" variant="dark" style={{borderRadius: '50%'}}>
                                     <FaComments style={{verticalAlign: 'baseline'}} />
                                   </Button>
                               </NavLink>
