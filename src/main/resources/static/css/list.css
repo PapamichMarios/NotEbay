@@ -5,3 +5,11 @@
 .my-list:hover {
     background-color: rgba(192 ,192 ,192 , 1);
 }
+
+.my-list:active {
+    background-color: rgba(12 ,56 ,100 , 0.6);
+}
+
+.my-list-active {
+    background-color: rgba(12 ,56 ,100 , 0.6);
+}
