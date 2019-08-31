@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Loading from '../../utils/loading/loading';
+import LoadingButton from '../../utils/loading/loadingButton';
 import * as Constants from '../../utils/constants';
 import deleteRequest from '../../utils/requests/deleteRequest';
 import getRequest from '../../utils/requests/getRequest';
@@ -11,8 +12,8 @@ import timeDecoder from '../../utils/decoders/timeDecoder';
 
 import Sidebar from './sidebar';
 
-import { Card, Table, Container, Row, Col, Form } from 'react-bootstrap';
-import { FaReply, FaTrash } from 'react-icons/fa';
+import { Card, Table, Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
+import { FaReply, FaTrash, FaPaperPlane } from 'react-icons/fa';
 import { withRouter } from 'react-router-dom';
 
 class Message extends React.Component{
@@ -22,11 +23,24 @@ class Message extends React.Component{
         this.state = {
             reply: false,
             loadingMessage: true,
-            message: ''
+            loadingMessageSend: false,
+            hasError: false,
+            success: false,
+            errorMsg: '',
+            message: '',
+            replyMessage: ''
         }
 
+        this.sendReply = this.sendReply.bind(this);
+        this.onChange = this.onChange.bind(this);
         this.deleteMsg = this.deleteMsg.bind(this);
         this.replyMsg = this.replyMsg.bind(this);
+    }
+
+    onChange(e){
+        this.setState({
+            [e.target.name]: e.target.value
+        });
     }
 
     deleteMsg() {
@@ -49,8 +63,44 @@ class Message extends React.Component{
         }
     }
 
+    //reply
     replyMsg() {
-        this.setState({reply: true});
+        this.setState({
+            reply: true,
+            replyMessage: '\n\n--------> '
+                + timeDecoder(this.state.message.timeSent) + '-'
+                + dateDecoder(this.state.message.timeSent) + '\n'
+                + this.state.message.message
+        });
+    }
+
+    sendReply() {
+        this.setState({loadingMessageSend: true})
+        const bodyObj = {
+            receiverUsername: this.state.message.otherUser.username,
+            header: this.state.message.header,
+            message: this.state.replyMessage
+        };
+
+        postRequest(this.props.action, bodyObj)
+        .then(response => {
+            if(response.error) {
+                this.setState({
+                    hasError: true,
+                    errorMsg: response.message
+                });
+            } else {
+                this.setState({
+                    success: true
+                });
+            }
+        })
+        .catch(error => console.error('Error:', error));
+
+        //set loading
+        setTimeout(() => {
+          this.setState({loadingMessageSend: false})
+        }, Constants.TIMEOUT_DURATION)
     }
 
     componentDidMount() {
@@ -93,63 +143,109 @@ class Message extends React.Component{
                         </Col>
                     ) : (
                         <Col className="navbar-margin">
-                            <Row>
-                                <Col>
-                                    <Card border="light">
-                                        <Card.Body>
-                                            <Row>
-                                                <Col md={1} className="text-right">
-                                                    <b>Title:</b>
-                                                    <br/>
-                                                    <b>From:</b>
-                                                    <br/>
-                                                    <b>To:</b>
-                                                    <br/>
-                                                    <b>Date:</b>
-                                                </Col>
+                            {this.state.success ? (
+                                <Alert variant="success">
+                                    <p> Email has been sent successfully </p>
+                                </Alert>
+                            ) : (
+                                <div>
+                                    <Row>
+                                        <Col>
+                                            <Card border="light">
+                                                <Card.Body>
+                                                    <Row>
+                                                        <Col md={1} className="text-right">
+                                                            <b>Title:</b>
+                                                            <br/>
+                                                            <b>From:</b>
+                                                            <br/>
+                                                            <b>To:</b>
+                                                            <br/>
+                                                            <b>Date:</b>
+                                                        </Col>
 
-                                                <Col md={2}>
-                                                    {this.state.message.header}
-                                                    <br/>
-                                                    {this.state.message.otherUser.email} [{this.state.message.otherUser.username}]
-                                                    <br/>
-                                                    Me
-                                                    <br/>
-                                                    {timeDecoder(this.state.message.timeSent)} - {dateDecoder(this.state.message.timeSent)}
-                                                </Col>
+                                                        <Col md={2}>
+                                                            {this.state.message.header}
+                                                            <br/>
+                                                            {this.state.message.otherUser.email} [{this.state.message.otherUser.username}]
+                                                            <br/>
+                                                            Me
+                                                            <br/>
+                                                            {timeDecoder(this.state.message.timeSent)} - {dateDecoder(this.state.message.timeSent)}
+                                                        </Col>
 
-                                                <Col md={{offset:7}}>
-                                                    <ul style={{listStyleType: 'none'}}>
-                                                        <li>
-                                                            <span className='clickable' onClick={this.replyMsg}>
-                                                                Reply <FaReply style={{verticalAlign: 'baseline'}} />
-                                                            </span>
-                                                        </li>
+                                                        <Col md={{offset:7}}>
+                                                            <ul style={{listStyleType: 'none'}}>
+                                                                <li>
+                                                                    <span className='clickable' onClick={this.replyMsg}>
+                                                                        Reply <FaReply style={{verticalAlign: 'baseline'}} />
+                                                                    </span>
+                                                                </li>
 
-                                                        <li>
-                                                            <span className='clickable text-danger' onClick={this.deleteMsg}>
-                                                                Delete <FaTrash style={{verticalAlign: 'baseline'}} />
-                                                            </span>
-                                                        </li>
-                                                    </ul>
-                                                </Col>
-                                            </Row>
-                                        </Card.Body>
-                                    </Card>
-                                </Col>
-                            </Row>
+                                                                <li>
+                                                                    <span className='clickable text-danger' onClick={this.deleteMsg}>
+                                                                        Delete <FaTrash style={{verticalAlign: 'baseline'}} />
+                                                                    </span>
+                                                                </li>
+                                                            </ul>
+                                                        </Col>
+                                                    </Row>
+                                                </Card.Body>
+                                            </Card>
+                                        </Col>
+                                    </Row>
 
-                            <Row>
-                                <Col>
-                                    <Card border="light">
-                                        <Card.Body>
-                                            <p>
-                                                {this.state.message.message}
-                                            </p>
-                                        </Card.Body>
-                                    </Card>
-                                </Col>
-                            </Row>
+                                    <Row>
+                                        <Col>
+                                            <Card border="light">
+                                                <Card.Body>
+                                                    {this.state.reply ? (
+                                                        <Form>
+                                                            <Form.Group>
+                                                                <Form.Control
+                                                                    as="textarea"
+                                                                    rows="15"
+                                                                    name="replyMessage"
+                                                                    value={this.state.replyMessage}
+                                                                    onChange={this.onChange}
+                                                                />
+                                                            </Form.Group>
+
+                                                            {this.state.loadingMessageSend ? (
+                                                                <Button variant="dark" onClick={this.sendReply}>
+                                                                    <b>Loading</b>
+                                                                    <LoadingButton />
+                                                                </Button>
+                                                            ) : (
+                                                                <Button variant="dark" onClick={this.sendReply}>
+                                                                    <b> Send </b>
+                                                                    <FaPaperPlane style={{verticalAlign:'baseline'}} />
+                                                                </Button>
+                                                            )}
+                                                        </Form>
+                                                    ) : (
+                                                        <p>
+                                                            {this.state.message.message}
+                                                        </p>
+                                                    )}
+                                                </Card.Body>
+                                            </Card>
+                                        </Col>
+                                    </Row>
+
+                                    {this.state.hasError ? (
+                                        <Row>
+                                            <Col>
+                                                <Alert variant="danger">
+                                                    <pre> {this.state.errorMsg} </pre>
+                                                </Alert>
+                                            </Col>
+                                        </Row>
+                                    ) : (
+                                        null
+                                    )}
+                                </div>
+                            )}
                         </Col>
                     )}
                 </Row>

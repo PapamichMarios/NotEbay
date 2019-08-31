@@ -25,15 +25,9 @@ class Sent extends React.Component{
             activePage: 1
         };
 
-        this.replyMsg = this.replyMsg.bind(this);
         this.deleteMsg = this.deleteMsg.bind(this);
         this.changeActivePage = this.changeActivePage.bind(this);
         this.getSent = this.getSent.bind(this);
-    }
-
-    //reply
-    replyMsg(id) {
-
     }
 
     //delete
@@ -97,10 +91,6 @@ class Sent extends React.Component{
                             <Button className="button-margin" variant="danger" onClick={ () => this.deleteMsg(message.id) }>
                                 <FaTrash style={{verticalAlign: 'baseline'}} />
                             </Button>
-
-                            <Button variant="dark" onClick={ () => this.replyMsg(message.id) }>
-                                <FaReply style={{verticalAlign: 'baseline'}} />
-                            </Button>
                         </td>
                         <td> {message.otherUser.username} ({message.otherUser.email})</td>
                         <td> {message.header}</td>
@@ -116,7 +106,6 @@ class Sent extends React.Component{
                         <Table striped hover size="sm">
                             <thead>
                                 <tr>
-                                    <th> </th>
                                     <th> </th>
                                     <th> Receiver </th>
                                     <th> Title </th>
