@@ -3,6 +3,8 @@ import React from 'react';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
+import Sidebar from './sidebar';
+
 import { Container, Row, Col, Card, Form, Button, Alert } from 'react-bootstrap';
 import { FaTelegramPlane } from 'react-icons/fa';
 
@@ -48,132 +50,142 @@ export default class CreateMessage extends React.Component {
         );
 
         return (
-            <Card>
-                <Card.Header as="h3" className="text-center bg-dark" style={{color:'white'}}> Send Message </Card.Header>
-                <Card.Body>
-                    <Formik
-                        initialValues= {{
-                            title: this.state.title,
-                            to: this.state.to,
-                            msg: this.state.msg
-                        }}
-                        validationSchema={messageSchema}
-                        onSubmit={this.sendMessage}
-                    >
-                    {({
-                        handleSubmit,
-                        handleChange,
-                        handleBlur,
-                        isValid,
-                        isInvalid,
-                        errors,
-                        touched,
-                        values
-                    }) => (
-                        <Form noValidate onSubmit={handleSubmit}>
-                            <Form.Row>
-                                <Col>
-                                  <Form.Group as={Row}>
-                                    <Col md={3}>
-                                        <Form.Label > <b> To: </b> </Form.Label>
-                                    </Col>
-                                    <Col>
-                                      <Form.Control
-                                          as="select"
-                                          name="to"
-                                          onChange={e => {
-                                              handleChange(e)
-                                              this.onChange(e);
-                                          }}
-                                          value={values.to}
-                                          onBlur={handleBlur}
-                                          isValid={!errors.to && touched.to}
-                                          isInvalid={errors.to && touched.to}
-                                      >
+            <Container fluid>
+                <Row>
+                    <Col md={2} style={{paddingLeft: '0px'}}>
+                        <Sidebar />
+                    </Col>
 
-                                          {sendTo}
+                    <Col className="navbar-margin">
+                        <Card>
+                            <Card.Header as="h3" className="text-center bg-dark" style={{color:'white'}}> Send Message </Card.Header>
+                            <Card.Body>
+                                <Formik
+                                    initialValues= {{
+                                        title: this.state.title,
+                                        to: this.state.to,
+                                        msg: this.state.msg
+                                    }}
+                                    validationSchema={messageSchema}
+                                    onSubmit={this.sendMessage}
+                                >
+                                {({
+                                    handleSubmit,
+                                    handleChange,
+                                    handleBlur,
+                                    isValid,
+                                    isInvalid,
+                                    errors,
+                                    touched,
+                                    values
+                                }) => (
+                                    <Form noValidate onSubmit={handleSubmit}>
+                                        <Form.Row>
+                                            <Col>
+                                              <Form.Group as={Row}>
+                                                <Col md={3}>
+                                                    <Form.Label > <b> To: </b> </Form.Label>
+                                                </Col>
+                                                <Col>
+                                                  <Form.Control
+                                                      as="select"
+                                                      name="to"
+                                                      onChange={e => {
+                                                          handleChange(e)
+                                                          this.onChange(e);
+                                                      }}
+                                                      value={values.to}
+                                                      onBlur={handleBlur}
+                                                      isValid={!errors.to && touched.to}
+                                                      isInvalid={errors.to && touched.to}
+                                                  >
 
-                                      </Form.Control>
-                                      <Form.Control.Feedback type="invalid"> {errors.to}</Form.Control.Feedback>
-                                    </Col>
-                                  </Form.Group>
+                                                      {sendTo}
 
-                                  <Form.Group as={Row}>
-                                    <Col md={3}>
-                                        <Form.Label> <b> Title: </b> </Form.Label>
-                                    </Col>
-                                    <Col>
-                                      <Form.Control
-                                          type="text"
-                                          name="title"
-                                          onChange={e => {
-                                              handleChange(e)
-                                              this.onChange(e);
-                                          }}
-                                          value={values.title}
-                                          onBlur={handleBlur}
-                                          isValid={!errors.title && touched.title}
-                                          isInvalid={errors.title && touched.title}
-                                      />
-                                      <Form.Control.Feedback type="invalid"> {errors.title}</Form.Control.Feedback>
-                                    </Col>
-                                  </Form.Group>
+                                                  </Form.Control>
+                                                  <Form.Control.Feedback type="invalid"> {errors.to}</Form.Control.Feedback>
+                                                </Col>
+                                              </Form.Group>
 
-                                  <Form.Group as={Row}>
-                                    <Col md={3}>
-                                        <Form.Label> <b> Message: </b> </Form.Label>
-                                    </Col>
-                                    <Col>
-                                      <Form.Control
-                                          as="textarea" rows="5"
-                                          name="msg"
-                                          onChange={e => {
-                                              handleChange(e)
-                                              this.onChange(e);
-                                          }}
-                                          value={values.msg}
-                                          onBlur={handleBlur}
-                                          isValid={!errors.msg && touched.msg}
-                                          isInvalid={errors.msg && touched.msg}
-                                      />
-                                      <Form.Control.Feedback type="invalid"> {errors.msg}</Form.Control.Feedback>
-                                    </Col>
-                                  </Form.Group>
-                                </Col>
-                            </Form.Row>
+                                              <Form.Group as={Row}>
+                                                <Col md={3}>
+                                                    <Form.Label> <b> Title: </b> </Form.Label>
+                                                </Col>
+                                                <Col>
+                                                  <Form.Control
+                                                      type="text"
+                                                      name="title"
+                                                      onChange={e => {
+                                                          handleChange(e)
+                                                          this.onChange(e);
+                                                      }}
+                                                      value={values.title}
+                                                      onBlur={handleBlur}
+                                                      isValid={!errors.title && touched.title}
+                                                      isInvalid={errors.title && touched.title}
+                                                  />
+                                                  <Form.Control.Feedback type="invalid"> {errors.title}</Form.Control.Feedback>
+                                                </Col>
+                                              </Form.Group>
 
-                            <Form.Row>
-                                <Col>
-                                  { this.state.loading ? (
-                                    <Button variant="dark" disabled block>
-                                        <b> Loading... </b>
-                                        <LoadingButton />
-                                    </Button>
-                                    ) : (
-                                      <Button variant="dark" onClick={this.sendMessage} block>
-                                          <b> Submit </b>
-                                          <FaTelegramPlane />
-                                      </Button>
-                                  )}
-                                </Col>
-                            </Form.Row>
+                                              <Form.Group as={Row}>
+                                                <Col md={3}>
+                                                    <Form.Label> <b> Message: </b> </Form.Label>
+                                                </Col>
+                                                <Col>
+                                                  <Form.Control
+                                                      as="textarea" rows="5"
+                                                      name="msg"
+                                                      onChange={e => {
+                                                          handleChange(e)
+                                                          this.onChange(e);
+                                                      }}
+                                                      value={values.msg}
+                                                      onBlur={handleBlur}
+                                                      isValid={!errors.msg && touched.msg}
+                                                      isInvalid={errors.msg && touched.msg}
+                                                  />
+                                                  <Form.Control.Feedback type="invalid"> {errors.msg}</Form.Control.Feedback>
+                                                </Col>
+                                              </Form.Group>
+                                            </Col>
+                                        </Form.Row>
 
-                            { this.state.hasError ? (
-                              <Form.Row>
-                                <Col>
-                                  <Alert variant="danger">
-                                      <p> {this.state.errorMsg} </p>
-                                  </Alert>
-                                </Col>
-                              </Form.Row>
-                            ) : (
-                               null
-                            )}
-                        </Form>
-                    )}
-                    </Formik>
-                </Card.Body>
-            </Card>
+                                        <Form.Row>
+                                            <Col>
+                                              { this.state.loading ? (
+                                                <Button variant="dark" disabled block>
+                                                    <b> Loading... </b>
+                                                    <LoadingButton />
+                                                </Button>
+                                                ) : (
+                                                  <Button variant="dark" onClick={this.sendMessage} block>
+                                                      <b> Submit </b>
+                                                      <FaTelegramPlane />
+                                                  </Button>
+                                              )}
+                                            </Col>
+                                        </Form.Row>
+
+                                        { this.state.hasError ? (
+                                          <Form.Row>
+                                            <Col>
+                                              <Alert variant="danger">
+                                                  <p> {this.state.errorMsg} </p>
+                                              </Alert>
+                                            </Col>
+                                          </Form.Row>
+                                        ) : (
+                                           null
+                                        )}
+                                    </Form>
+                                )}
+                                </Formik>
+                            </Card.Body>
+                        </Card>
+                    </Col>
+                </Row>
+            </Container>
         );
     }
 }
