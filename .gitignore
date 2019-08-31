@@ -12,3 +12,4 @@ build
 *.rar
 
 target/*
+ebay_data/*

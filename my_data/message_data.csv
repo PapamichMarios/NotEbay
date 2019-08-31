@@ -4,3 +4,7 @@ papas1,papas3,header papas1 -> papas 3,msg papas 1 papas 1 papas 3 papas 3
 papas1,papas4,header papas1 -> papas 4,msg papas 1 papas 1 papas 4 papas 4
 papas1,papas5,header papas1 -> papas 5,msg papas 1 papas 1 papas 5 papas 5
 papas1,papas6,header papas1 -> papas 6,msg papas 1 papas 1 papas 6 papas 6
+papas2,papas1,header papas2 -> papas 1,msg papas 2 papas 2 papas 1 papas 1
+papas3,papas1,header papas3 -> papas 1,msg papas 3 papas 3 papas 1 papas 1
+papas4,papas1,header papas4 -> papas 1,msg papas 4 papas 4 papas 1 papas 1
+papas5,papas1,header papas5 -> papas 1,msg papas 5 papas 5 papas 1 papas 1

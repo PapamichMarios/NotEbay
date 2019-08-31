@@ -110,6 +110,7 @@ public class MessageService {
         Message message = messageRepository.findSentByMessageId(messageId)
                 .orElseThrow(() -> new ResourceNotFoundException("Message", "id", messageId));
         message.setSeen(true);
+        messageRepository.save(message);
         return new MessageResponse(message.getMessage());
     }
 
@@ -119,6 +120,7 @@ public class MessageService {
         Message message = messageRepository.findReceivedByMessageId(messageId)
                 .orElseThrow(() -> new ResourceNotFoundException("Message", "id", messageId));
         message.setSeen(true);
+        messageRepository.save(message);
         return new MessageResponse(message.getMessage());
     }
 

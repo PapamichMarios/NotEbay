@@ -66,4 +66,12 @@ public class MessageHeaderResponse {
     public void setTimeSent(Timestamp timeSent) {
         this.timeSent = timeSent;
     }
+
+    public boolean isSeen() {
+        return seen;
+    }
+
+    public void setSeen(boolean seen) {
+        this.seen = seen;
+    }
 }
