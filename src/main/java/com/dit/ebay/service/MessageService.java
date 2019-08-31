@@ -111,17 +111,21 @@ public class MessageService {
                 .orElseThrow(() -> new ResourceNotFoundException("Message", "id", messageId));
         message.setSeen(true);
         messageRepository.save(message);
-        return new MessageResponse(message.getMessage());
+        MessageResponse messageResponse = new MessageResponse(message);
+        messageResponse.setOtherUser(message.getUserReceiver());
+        return messageResponse;
     }
 
     public MessageResponse getReceivedMessage(Long messageId, UserDetailsImpl currentUser) {
-        authorizationService.checkSenderPerms(currentUser.getId(), messageId);
+        authorizationService.checkReceiverPerms(currentUser.getId(), messageId);
 
         Message message = messageRepository.findReceivedByMessageId(messageId)
                 .orElseThrow(() -> new ResourceNotFoundException("Message", "id", messageId));
         message.setSeen(true);
         messageRepository.save(message);
-        return new MessageResponse(message.getMessage());
+        MessageResponse messageResponse = new MessageResponse(message);
+        messageResponse.setOtherUser(message.getUserSender());
+        return messageResponse;
     }
 
 

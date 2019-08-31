@@ -1,13 +1,9 @@
 package com.dit.ebay.response;
 
 import com.dit.ebay.model.Message;
-import com.dit.ebay.model.MessageDeleteState;
 import com.dit.ebay.model.User;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.springframework.data.annotation.CreatedDate;
 
-import javax.persistence.*;
 import java.sql.Timestamp;
 
 public class MessageHeaderResponse {
@@ -67,11 +63,7 @@ public class MessageHeaderResponse {
         this.timeSent = timeSent;
     }
 
-    public boolean isSeen() {
-        return seen;
-    }
+    public boolean isSeen() { return seen; }
 
-    public void setSeen(boolean seen) {
-        this.seen = seen;
-    }
+    public void setSeen(boolean seen) { this.seen = seen; }
 }
