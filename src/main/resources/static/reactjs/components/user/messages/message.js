@@ -112,7 +112,6 @@ class Message extends React.Component{
 
         getRequest(url)
         .then(message => {
-            console.log(message);
             this.setState({
                 message: message
             },
@@ -164,15 +163,27 @@ class Message extends React.Component{
                                                             <b>Date:</b>
                                                         </Col>
 
-                                                        <Col md={2}>
-                                                            {this.state.message.header}
-                                                            <br/>
-                                                            {this.state.message.otherUser.email} [{this.state.message.otherUser.username}]
-                                                            <br/>
-                                                            Me
-                                                            <br/>
-                                                            {timeDecoder(this.state.message.timeSent)} - {dateDecoder(this.state.message.timeSent)}
-                                                        </Col>
+                                                        {inbox ? (
+                                                            <Col md={2}>
+                                                                {this.state.message.header}
+                                                                <br/>
+                                                                {this.state.message.otherUser.email} [{this.state.message.otherUser.username}]
+                                                                <br/>
+                                                                Me
+                                                                <br/>
+                                                                {timeDecoder(this.state.message.timeSent)} - {dateDecoder(this.state.message.timeSent)}
+                                                            </Col>
+                                                        ) : (
+                                                            <Col md={2}>
+                                                                {this.state.message.header}
+                                                                <br/>
+                                                                Me
+                                                                <br/>
+                                                                {this.state.message.otherUser.email} [{this.state.message.otherUser.username}]
+                                                                <br/>
+                                                                {timeDecoder(this.state.message.timeSent)} - {dateDecoder(this.state.message.timeSent)}
+                                                            </Col>
+                                                        )}
 
                                                         <Col md={{offset:7}}>
                                                             <ul style={{listStyleType: 'none'}}>

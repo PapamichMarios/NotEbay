@@ -14,7 +14,7 @@ import '../../../css/signup/confirmation.css';
 
 import StarRatings from 'react-star-ratings';
 import { Container, Row, Col, Form, Button, Card, ButtonToolbar, Alert, Tabs, Tab, Breadcrumb, ListGroup, InputGroup } from 'react-bootstrap';
-import { FaDollarSign } from 'react-icons/fa';
+import { FaDollarSign, FaEnvelope, FaStar } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 export default class Bid extends React.Component {
@@ -31,6 +31,7 @@ export default class Bid extends React.Component {
             bought: false
         }
 
+        this.messageSeller = this.messageSeller.bind(this);
         this.rate = this.rate.bind(this);
         this.buyItem = this.buyItem.bind(this);
         this.onChange = this.onChange.bind(this);
@@ -41,6 +42,14 @@ export default class Bid extends React.Component {
         this.setState({
             [e.target.name]: e.target.value
         });
+    }
+
+    messageSeller() {
+        //redirect to messaging
+        this.props.history.push({
+            pathname: '/messages/create-message',
+            state: { messageTo: this.state.bid.userSeller.username }
+        })
     }
 
     rate() {
@@ -145,7 +154,13 @@ export default class Bid extends React.Component {
                                 </Alert>
 
                                 <Button variant='warning' block onClick={this.rate}>
+                                    <FaStar style={{verticalAlign: 'text-bottom'}} />
                                     <b> Rate Seller </b>
+                                </Button>
+
+                                <Button variant='dark' block onClick={this.messageSeller}>
+                                    <FaEnvelope style={{verticalAlign: 'text-bottom'}} />
+                                    <b> Message Seller </b>
                                 </Button>
                             </Col>
                         </Row>

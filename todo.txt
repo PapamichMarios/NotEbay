@@ -32,4 +32,3 @@ categories (dropdown):
 
 messages:
     - replies sto idio template me to show message
-    - paging

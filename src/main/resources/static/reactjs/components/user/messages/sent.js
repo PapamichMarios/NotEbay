@@ -10,7 +10,7 @@ import timeDecoder from '../../utils/decoders/timeDecoder';
 
 import Sidebar from './sidebar';
 
-import { Container, Row, Col, Card, Table, Button } from 'react-bootstrap';
+import { Container, Row, Col, Card, Table, Button, Alert } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 import { FaReply, FaTrash } from 'react-icons/fa';
 
@@ -79,9 +79,9 @@ class Sent extends React.Component{
     }
 
     render() {
-        let inboxOrLoading;
+        let sentOrLoading;
         if(this.state.loadingSent) {
-            inboxOrLoading = (<Loading />);
+            sentOrLoading = (<Loading />);
         } else {
             let tableBody = [];
             this.state.messages.map( message => {
@@ -99,7 +99,7 @@ class Sent extends React.Component{
                 );
             });
 
-            inboxOrLoading = (
+            sentOrLoading = (
                 <Card>
                     <Card.Body>
                         <Card.Title as="h3" className="text-center"> Sent </Card.Title>
@@ -136,8 +136,18 @@ class Sent extends React.Component{
                         <Sidebar inbox={false} />
                     </Col>
 
-                    <Col className="navbar-margin">
-                        {inboxOrLoading}
+                    <Col md={10} className="navbar-margin">
+                        {this.props.location.state !== undefined ? (
+                            <Alert variant="success">
+                                <p> Your email has been sent! </p>
+                            </Alert>
+                        ) : (
+                            null
+                        )}
+
+                        <br />
+
+                        {sentOrLoading}
                     </Col>
                 </Row>
             </Container>

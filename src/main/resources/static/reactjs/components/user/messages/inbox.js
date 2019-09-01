@@ -11,7 +11,7 @@ import timeDecoder from '../../utils/decoders/timeDecoder';
 import Sidebar from './sidebar';
 
 import { FaTrash, FaReply } from 'react-icons/fa';
-import { Container, Row, Col, Card, Table, Button } from 'react-bootstrap';
+import { Container, Row, Col, Card, Table, Button, Alert } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 
 class Inbox extends React.Component{
@@ -152,7 +152,7 @@ class Inbox extends React.Component{
                         <Sidebar inbox={true} />
                     </Col>
 
-                    <Col className="navbar-margin">
+                    <Col md={10} className="navbar-margin">
                         {inboxOrLoading}
                     </Col>
                 </Row>
