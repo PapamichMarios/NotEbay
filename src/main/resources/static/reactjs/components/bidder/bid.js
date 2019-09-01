@@ -50,15 +50,27 @@ export default class Bid extends React.Component {
 
     buyItem() {
         //set loading
-         this.setState({loadingButton: true});
+        this.setState({loadingButton: true});
 
-         setTimeout(() => {
-           this.setState({
-               loadingButton: false,
-               bought: true
-           })
-         }, Constants.TIMEOUT_DURATION)
+        const url = this.props.action + this.props.match.params.id + '/bids';
+        const bodyObj = {
+            bidAmount: this.state.bid.buyPrice
+        };
 
+        postRequest(url, bodyObj)
+        .then(response => {
+            if(response.error) {
+                this.setState({
+                    hasError: true,
+                    errorMsg: response.message,
+                    loadingButton: false
+                })
+            } else {
+                //refresh page
+                location.reload();
+            }
+        })
+        .catch(error => console.error('Error:', error));
     }
 
     placeBid() {
@@ -93,17 +105,17 @@ export default class Bid extends React.Component {
     componentDidMount() {
         getRequest(this.props.action + this.props.match.params.id)
         .then(response => {
-            console.log(response);
             this.setState({
                 bid: response
-            });
+            },
+            () =>
+                //set loading
+                setTimeout(() => {
+                  this.setState({loading: false})
+                }, Constants.TIMEOUT_DURATION)
+            );
         })
         .catch(error => console.error('Error:', error));
-
-        //set loading
-        setTimeout(() => {
-          this.setState({loading: false})
-        }, Constants.TIMEOUT_DURATION)
     }
 
     render() {
@@ -234,14 +246,14 @@ export default class Bid extends React.Component {
 
             let breadcrumbs = [];
              breadcrumbs.push(
-                <Breadcrumb.Item href='/home'>
+                <Breadcrumb.Item key='home' href='/home'>
                     Home
                 </Breadcrumb.Item>
              );
 
             this.state.bid.categories.map(category => {
                 breadcrumbs.push(
-                    <Breadcrumb.Item>
+                    <Breadcrumb.Item key={category.category}>
                         {category.category}
                     </Breadcrumb.Item>
                 );
