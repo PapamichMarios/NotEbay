@@ -61,7 +61,6 @@ class Inbox extends React.Component{
 
         getRequest(url)
         .then( pages => {
-            console.log(pages);
             this.setState({
                 paging: pages,
                 messages: pages.content
