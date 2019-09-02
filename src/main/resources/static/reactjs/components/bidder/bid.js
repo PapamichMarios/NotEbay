@@ -14,7 +14,7 @@ import '../../../css/signup/confirmation.css';
 
 import StarRatings from 'react-star-ratings';
 import { Container, Row, Col, Form, Button, Card, ButtonToolbar, Alert, Tabs, Tab, Breadcrumb, ListGroup, InputGroup } from 'react-bootstrap';
-import { FaDollarSign } from 'react-icons/fa';
+import { FaDollarSign, FaEnvelope, FaStar } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 export default class Bid extends React.Component {
@@ -31,6 +31,7 @@ export default class Bid extends React.Component {
             bought: false
         }
 
+        this.messageSeller = this.messageSeller.bind(this);
         this.rate = this.rate.bind(this);
         this.buyItem = this.buyItem.bind(this);
         this.onChange = this.onChange.bind(this);
@@ -43,6 +44,14 @@ export default class Bid extends React.Component {
         });
     }
 
+    messageSeller() {
+        //redirect to messaging
+        this.props.history.push({
+            pathname: '/messages/create-message',
+            state: { messageTo: this.state.bid.userSeller.username }
+        })
+    }
+
     rate() {
         //redirect to rating
         this.props.history.push('/auctions/'+ this.state.bid.userSeller.id + '/rating');
@@ -50,15 +59,27 @@ export default class Bid extends React.Component {
 
     buyItem() {
         //set loading
-         this.setState({loadingButton: true});
+        this.setState({loadingButton: true});
 
-         setTimeout(() => {
-           this.setState({
-               loadingButton: false,
-               bought: true
-           })
-         }, Constants.TIMEOUT_DURATION)
+        const url = this.props.action + this.props.match.params.id + '/bids';
+        const bodyObj = {
+            bidAmount: this.state.bid.buyPrice
+        };
 
+        postRequest(url, bodyObj)
+        .then(response => {
+            if(response.error) {
+                this.setState({
+                    hasError: true,
+                    errorMsg: response.message,
+                    loadingButton: false
+                })
+            } else {
+                //refresh page
+                location.reload();
+            }
+        })
+        .catch(error => console.error('Error:', error));
     }
 
     placeBid() {
@@ -93,17 +114,17 @@ export default class Bid extends React.Component {
     componentDidMount() {
         getRequest(this.props.action + this.props.match.params.id)
         .then(response => {
-            console.log(response);
             this.setState({
                 bid: response
-            });
+            },
+            () =>
+                //set loading
+                setTimeout(() => {
+                  this.setState({loading: false})
+                }, Constants.TIMEOUT_DURATION)
+            );
         })
         .catch(error => console.error('Error:', error));
-
-        //set loading
-        setTimeout(() => {
-          this.setState({loading: false})
-        }, Constants.TIMEOUT_DURATION)
     }
 
     render() {
@@ -133,7 +154,13 @@ export default class Bid extends React.Component {
                                 </Alert>
 
                                 <Button variant='warning' block onClick={this.rate}>
+                                    <FaStar style={{verticalAlign: 'text-bottom'}} />
                                     <b> Rate Seller </b>
+                                </Button>
+
+                                <Button variant='dark' block onClick={this.messageSeller}>
+                                    <FaEnvelope style={{verticalAlign: 'text-bottom'}} />
+                                    <b> Message Seller </b>
                                 </Button>
                             </Col>
                         </Row>
@@ -234,14 +261,14 @@ export default class Bid extends React.Component {
 
             let breadcrumbs = [];
              breadcrumbs.push(
-                <Breadcrumb.Item href='/home'>
+                <Breadcrumb.Item key='home' href='/home'>
                     Home
                 </Breadcrumb.Item>
              );
 
             this.state.bid.categories.map(category => {
                 breadcrumbs.push(
-                    <Breadcrumb.Item>
+                    <Breadcrumb.Item key={category.category}>
                         {category.category}
                     </Breadcrumb.Item>
                 );

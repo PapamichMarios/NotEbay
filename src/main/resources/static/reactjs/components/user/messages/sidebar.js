@@ -2,10 +2,27 @@ import React from 'react';
 
 import { Card, Nav, Button } from 'react-bootstrap';
 import { FaTelegramPlane, FaInbox, FaPlus } from 'react-icons/fa';
+import { withRouter } from 'react-router-dom';
 
-export default class Sidebar extends React.Component {
+class Sidebar extends React.Component {
     constructor(props) {
         super(props)
+
+        this.showInbox = this.showInbox.bind(this);
+        this.showSent = this.showSent.bind(this);
+        this.createMessage = this.createMessage.bind(this);
+    }
+
+    showInbox() {
+        this.props.history.push('/messages/inbox');
+    }
+
+    showSent() {
+        this.props.history.push('/messages/sent');
+    }
+
+    createMessage() {
+        this.props.history.push('/messages/create-message');
     }
 
     render () {
@@ -19,7 +36,7 @@ export default class Sidebar extends React.Component {
                     {this.props.inbox ? (
                         <div>
                             <li className='my-list-active'>
-                                <Nav.Link style={{fontSize: '15px', color: 'Black'}} onClick={this.props.showInbox}>
+                                <Nav.Link style={{fontSize: '15px', color: 'Black'}} onClick={this.showInbox}>
                                     <FaInbox style={{verticalAlign: 'middle'}} size={25} />
                                     <span> &nbsp; &nbsp; </span>
                                     Inbox
@@ -27,7 +44,7 @@ export default class Sidebar extends React.Component {
                             </li>
 
                             <li className='my-list'>
-                                <Nav.Link style={{fontSize: '15px', color: 'Black'}} onClick={this.props.showSent}>
+                                <Nav.Link style={{fontSize: '15px', color: 'Black'}} onClick={this.showSent}>
                                     <FaTelegramPlane style={{verticalAlign: 'middle'}} size={25} />
                                     <span> &nbsp; &nbsp; </span>
                                     Sent
@@ -37,7 +54,7 @@ export default class Sidebar extends React.Component {
                     ) : (
                         <div>
                             <li className='my-list'>
-                                <Nav.Link style={{fontSize: '15px', color: 'Black'}} onClick={this.props.showInbox}>
+                                <Nav.Link style={{fontSize: '15px', color: 'Black'}} onClick={this.showInbox}>
                                     <FaInbox style={{verticalAlign: 'middle'}} size={25} />
                                     <span> &nbsp; &nbsp; </span>
                                     Inbox
@@ -45,7 +62,7 @@ export default class Sidebar extends React.Component {
                             </li>
 
                             <li className='my-list-active'>
-                                <Nav.Link style={{fontSize: '15px', color: 'Black'}} onClick={this.props.showSent}>
+                                <Nav.Link style={{fontSize: '15px', color: 'Black'}} onClick={this.showSent}>
                                     <FaTelegramPlane style={{verticalAlign: 'middle'}} size={25} />
                                     <span> &nbsp; &nbsp; </span>
                                     Sent
@@ -56,7 +73,7 @@ export default class Sidebar extends React.Component {
 
 
                     <br />
-                    <Button variant="dark" size="lg" block onClick={this.props.createMessage}>
+                    <Button variant="dark" size="lg" block onClick={this.createMessage}>
                          <FaPlus style={{verticalAlign: 'baseline'}}/>
                          <span> &nbsp; &nbsp; </span>
                          <b>Create Message</b>
@@ -66,3 +83,5 @@ export default class Sidebar extends React.Component {
         );
     }
 }
+
+export default withRouter(Sidebar);
