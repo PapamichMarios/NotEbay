@@ -19,10 +19,10 @@ class Sent extends React.Component{
         super(props);
 
         this.state = {
-            loadingSent: false,
+            loadingSent: true,
             paging: '',
             messages: [],
-            activePage: 1
+            activePage: 1,
         };
 
         this.deleteMsg = this.deleteMsg.bind(this);
@@ -40,8 +40,12 @@ class Sent extends React.Component{
                 if (response.error) {
                     alert(response.message);
                 } else {
-                    this.props.history.push('/messages/sent');
-                    alert('The message has been deleted from your sent folder.');
+                    //redirect
+                    this.props.history.push("/");
+                    this.props.history.push({
+                        pathname: '/messages/sent',
+                        state: { deleted: true }
+                    });
                 }
             })
             .catch(error => console.error("Error:", error));
@@ -129,6 +133,25 @@ class Sent extends React.Component{
             );
         }
 
+        let confirmation = null;
+        if(this.props.location.state !== undefined) {
+            if(this.props.location.state.sent) {
+                confirmation = (
+                    <Alert variant="success">
+                        <p> Your email has been sent! </p>
+                    </Alert>
+                );
+            }
+
+            if(this.props.location.state.deleted) {
+                confirmation = (
+                    <Alert variant="success">
+                        <p> Email has been deleted from <b>Sent</b> folder. </p>
+                    </Alert>
+                );
+            }
+        }
+
         return (
             <Container fluid>
                 <Row>
@@ -138,14 +161,10 @@ class Sent extends React.Component{
 
                     <Col md={10} className="navbar-margin">
                         {this.props.location.state !== undefined ? (
-                            <Alert variant="success">
-                                <p> Your email has been sent! </p>
-                            </Alert>
+                            confirmation
                         ) : (
                             null
                         )}
-
-                        <br />
 
                         {sentOrLoading}
                     </Col>

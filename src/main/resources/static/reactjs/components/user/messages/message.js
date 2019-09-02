@@ -25,7 +25,6 @@ class Message extends React.Component{
             loadingMessage: true,
             loadingMessageSend: false,
             hasError: false,
-            success: false,
             errorMsg: '',
             message: '',
             replyMessage: ''
@@ -55,8 +54,11 @@ class Message extends React.Component{
                 if (response.error) {
                     alert(response.message);
                 } else {
-                    this.props.history.push('/messages/' + endpoint[2]);
-                    alert('The message has been deleted from your ' + endpoint[2] + ' folder.');
+                    //redirect
+                    this.props.history.push({
+                        pathname: '/messages/' + endpoint[2],
+                        state: { deleted: true }
+                    })
                 }
             })
             .catch(error => console.error("Error:", error));
@@ -90,22 +92,19 @@ class Message extends React.Component{
                     errorMsg: response.message
                 });
             } else {
-                this.setState({
-                    success: true
-                });
+                //redirect
+                setTimeout(() => {
+                    this.props.history.push({
+                        pathname: '/messages/sent',
+                        state: { sent: true }
+                    });
+                }, Constants.TIMEOUT_DURATION);
             }
         })
         .catch(error => console.error('Error:', error));
-
-        //set loading
-        setTimeout(() => {
-          this.setState({loadingMessageSend: false})
-        }, Constants.TIMEOUT_DURATION)
     }
 
     componentDidMount() {
-        this.setState({loadingMessage: true});
-
         let endpoint = this.props.location.pathname.split('/');
         endpoint[2] === "inbox" ? endpoint[2]='received' : endpoint[2]='sent';
         const url = this.props.action + endpoint[2] + '/' + this.props.match.params.id;
@@ -223,7 +222,7 @@ class Message extends React.Component{
                                                             </Form.Group>
 
                                                             {this.state.loadingMessageSend ? (
-                                                                <Button variant="dark" onClick={this.sendReply}>
+                                                                <Button variant="dark" disabled>
                                                                     <b>Loading</b>
                                                                     <LoadingButton />
                                                                 </Button>

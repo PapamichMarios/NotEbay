@@ -3,7 +3,7 @@
 - authorize properly the endpoints
 
 submit-auction:
-    -categories
+    - categories
 
 my-auctions:
     - categories
@@ -29,6 +29,3 @@ categories (dropdown):
     1. mono layer 0 kai layer 1
     2. on click oles tupou skroutz
     3. layer 0 lista on hover expand deksia
-
-messages:
-    - replies sto idio template me to show message

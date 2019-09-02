@@ -19,10 +19,10 @@ class Inbox extends React.Component{
         super(props);
 
         this.state = {
-            loadingInbox: false,
+            loadingInbox: true,
             paging: '',
             messages: [],
-            activePage: 1
+            activePage: 1,
         };
 
         this.deleteMsg = this.deleteMsg.bind(this);
@@ -40,8 +40,12 @@ class Inbox extends React.Component{
                 if (response.error) {
                     alert(response.message);
                 } else {
-                    this.props.history.push('/messages/inbox');
-                    alert('The message has been deleted from your inbox folder.');
+                    //refresh
+                    this.props.history.push("/");
+                    this.props.history.push({
+                        pathname: '/messages/inbox',
+                        state: { deleted: true }
+                    })
                 }
             })
             .catch(error => console.error("Error:", error));
@@ -87,28 +91,28 @@ class Inbox extends React.Component{
             this.state.messages.map( message => {
                 if(message.seen) {
                     tableBody.push (
-                        <tr key={message.timeSent} className="clickable" onClick={() => this.props.history.push('/messages/inbox/message/' + message.id)}>
+                        <tr key={message.timeSent} className="clickable">
                             <td>
                                 <Button className="button-margin" variant="danger" onClick={ () => this.deleteMsg(message.id) }>
                                     <FaTrash style={{verticalAlign: 'baseline'}} />
                                 </Button>
                             </td>
-                            <td> {message.otherUser.username} ({message.otherUser.email})</td>
-                            <td> {message.header}</td>
-                            <td> {timeDecoder(message.timeSent)} - {dateDecoder(message.timeSent)} </td>
+                            <td onClick={() => this.props.history.push('/messages/inbox/message/' + message.id)}> {message.otherUser.username} ({message.otherUser.email})</td>
+                            <td onClick={() => this.props.history.push('/messages/inbox/message/' + message.id)}> {message.header}</td>
+                            <td onClick={() => this.props.history.push('/messages/inbox/message/' + message.id)}> {timeDecoder(message.timeSent)} - {dateDecoder(message.timeSent)} </td>
                         </tr>
                     );
                 } else {
                     tableBody.push (
-                        <tr key={message.timeSent} className="clickable my-list-not-seen" onClick={() => this.props.history.push('/messages/inbox/message/' + message.id)}>
+                        <tr key={message.timeSent} className="clickable my-list-not-seen">
                             <td>
                                 <Button className="button-margin" variant="danger" onClick={ () => this.deleteMsg(message.id) }>
                                     <FaTrash style={{verticalAlign: 'baseline'}} />
                                 </Button>
                             </td>
-                            <td> <b>{message.otherUser.username} [{message.otherUser.email}]</b></td>
-                            <td> <b>{message.header}</b></td>
-                            <td> <b>{timeDecoder(message.timeSent)} - {dateDecoder(message.timeSent)}</b> </td>
+                            <td onClick={() => this.props.history.push('/messages/inbox/message/' + message.id)}> <b>{message.otherUser.username} [{message.otherUser.email}]</b></td>
+                            <td onClick={() => this.props.history.push('/messages/inbox/message/' + message.id)}> <b>{message.header}</b></td>
+                            <td onClick={() => this.props.history.push('/messages/inbox/message/' + message.id)}> <b>{timeDecoder(message.timeSent)} - {dateDecoder(message.timeSent)}</b> </td>
                         </tr>
                     );
                 }
@@ -144,6 +148,17 @@ class Inbox extends React.Component{
             );
         }
 
+        let confirmation;
+        if(this.props.location.state !== undefined) {
+            if(this.props.location.state.deleted) {
+                confirmation = (
+                    <Alert variant="success">
+                        <p> Email has been deleted from <b>Inbox</b> folder. </p>
+                    </Alert>
+                );
+            }
+        }
+
         return (
             <Container fluid>
                 <Row>
@@ -152,6 +167,12 @@ class Inbox extends React.Component{
                     </Col>
 
                     <Col md={10} className="navbar-margin">
+                        {this.props.location.state !== undefined ? (
+                            confirmation
+                        ) : (
+                            null
+                        )}
+
                         {inboxOrLoading}
                     </Col>
                 </Row>
