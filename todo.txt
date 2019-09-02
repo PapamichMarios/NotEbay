@@ -1,5 +1,4 @@
 - need to optimize webpack
-- paging an einai empty na bgazei sxetiko message
 - authorize properly the endpoints
 
 submit-auction:
