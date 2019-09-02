@@ -21,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.math.BigDecimal;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -53,9 +54,9 @@ public class BidService {
             throw new AppException("Sorry, You can't bid on Item which isn't active.");
         }
 
-        double buyPrice = item.getBuyPrice();
-        if (buyPrice != -1) {
-            if (bidRequest.getBidAmount() == buyPrice) {
+        BigDecimal buyPrice = item.getBuyPrice();
+        if (buyPrice != null) {
+            if (bidRequest.getBidAmount().equals(buyPrice)) {
                 // TODO : change duplicate code
                 Long userId = currentUser.getId();
                 User user = userRepository.findById(userId)
@@ -82,12 +83,12 @@ public class BidService {
 
                 return ResponseEntity.created(uri).body(new ApiResponse(true, "Bid created successfully.", bidRes));
 
-            } else if (bidRequest.getBidAmount() > buyPrice) {
+            } else if (bidRequest.getBidAmount().compareTo(buyPrice) > 0) {
                 throw new AppException("Sorry, You can't bid on Item more money than the buy price of it.");
             }
         }
 
-        if (item.getFirstBid() > bidRequest.getBidAmount()) {
+        if (item.getFirstBid().compareTo(bidRequest.getBidAmount()) > 0) {
             throw new AppException("Sorry, You can't bid on Item with less money than the minimum bid.");
         }
 
@@ -114,7 +115,7 @@ public class BidService {
         Bid bidRes = bidRepository.save(bid);
         Bid bestBid = itemRepository.findBestBidByItemId(item.getId()).orElse(null);
 
-        if (bestBid == null || bid.getBidAmount() > bestBid.getBidAmount()) {
+        if (bestBid == null || bid.getBidAmount().compareTo(bestBid.getBidAmount()) > 0) {
             item.setBestBid(bidRes);
         }
 

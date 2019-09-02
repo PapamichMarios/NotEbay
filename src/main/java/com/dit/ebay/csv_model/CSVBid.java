@@ -2,6 +2,8 @@ package com.dit.ebay.csv_model;
 
 import com.opencsv.bean.CsvBindByName;
 
+import java.math.BigDecimal;
+
 public class CSVBid {
     @CsvBindByName(column ="user_name")
     private String username;
@@ -10,7 +12,7 @@ public class CSVBid {
     private String itemName;
 
     @CsvBindByName(column = "bid_amount")
-    private double bidAmount;
+    private BigDecimal bidAmount;
 
     @CsvBindByName(column = "accepted")
     private boolean accepted;
@@ -23,11 +25,11 @@ public class CSVBid {
         this.itemName = itemName;
     }
 
-    public double getBidAmount() {
+    public BigDecimal getBidAmount() {
         return bidAmount;
     }
 
-    public void setBidAmount(double bidAmount) {
+    public void setBidAmount(BigDecimal bidAmount) {
         this.bidAmount = bidAmount;
     }
 

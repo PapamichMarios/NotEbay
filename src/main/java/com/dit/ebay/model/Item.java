@@ -3,6 +3,8 @@ package com.dit.ebay.model;
 import com.dit.ebay.csv_model.CSVItem;
 import com.dit.ebay.csv_model.CSVItemEnded;
 import com.dit.ebay.request.ItemRequest;
+import com.dit.ebay.xml_model.XMLItem;
+import com.dit.ebay.xml_model.XMLItemLocation;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -56,11 +58,11 @@ public class Item {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "buy_price")
-    private double buyPrice;
+    @Column(name = "buy_price", precision = 19, scale = 4)
+    private BigDecimal buyPrice;
 
-    @Column(name = "first_bid")
-    private double firstBid;
+    @Column(name = "first_bid", precision = 19, scale = 4)
+    private BigDecimal firstBid;
 
     @Column(name = "num_of_bids")
     private int numOfBids;
@@ -140,19 +142,36 @@ public class Item {
         this.active = itemRequest.isActive();
     }
 
-    public double getBuyPrice() {
+    public Item(XMLItem xmlItem) {
+        this.name = xmlItem.getName();
+        this.firstBid = xmlItem.getFirstBid();
+        this.buyPrice = xmlItem.getBuyPrice(); // default
+        this.numOfBids = xmlItem.getNumOfBids();
+        this.timeStarted = xmlItem.getTimeStarted();
+        this.timeEnds = xmlItem.getTimeEnds();
+        this.description = this.getDescription();
+
+        XMLItemLocation xmlItemLocation = xmlItem.getLocation();
+        if (xmlItemLocation != null) {
+            this.geoLat = xmlItemLocation.getLat(); // maybe be null
+            this.geoLong = xmlItemLocation.getLng(); // maybe be null
+            this.location = xmlItemLocation.getLocation();
+        }
+    }
+
+    public BigDecimal getBuyPrice() {
         return buyPrice;
     }
 
-    public void setBuyPrice(double buyPrice) {
+    public void setBuyPrice(BigDecimal buyPrice) {
         this.buyPrice = buyPrice;
     }
 
-    public double getFirstBid() {
+    public BigDecimal getFirstBid() {
         return firstBid;
     }
 
-    public void setFirstBid(double firstBid) {
+    public void setFirstBid(BigDecimal firstBid) {
         this.firstBid = firstBid;
     }
 
@@ -277,11 +296,11 @@ public class Item {
             this.description = itemRequest.getDescription();
         }
 
-        if (itemRequest.getFirstBid() != -1) {
+        if (itemRequest.getFirstBid() != null) {
             this.firstBid = itemRequest.getFirstBid();
         }
 
-        if (itemRequest.getBuyPrice() != -1) {
+        if (itemRequest.getBuyPrice() != null) {
             this.buyPrice = itemRequest.getBuyPrice();
         }
 

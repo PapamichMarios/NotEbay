@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Pagination } from 'react-bootstrap';
+import { Pagination, Alert } from 'react-bootstrap';
 
 export default class Paging extends React.Component {
     constructor(props) {
@@ -48,29 +48,37 @@ export default class Paging extends React.Component {
     }
 
     render() {
-        let active = this.props.activePage;
-        let items = [];
-
-        for(let i=1; i<=this.props.totalPages; i++) {
-            items.push(
-                <Pagination.Item key={i} id={i} active={i === active} onClick={this.handlePageChange}>
-                    {i}
-                </Pagination.Item>
+        if(this.props.totalPages === 0) {
+            return (
+                <Alert variant="primary" className="text-center">
+                    <p> Folder is empty! </p>
+                </Alert>
             );
+        } else {
+            let active = this.props.activePage;
+            let items = [];
+
+            for(let i=1; i<=this.props.totalPages; i++) {
+                items.push(
+                    <Pagination.Item key={i} id={i} active={i === active} onClick={this.handlePageChange}>
+                        {i}
+                    </Pagination.Item>
+                );
+            }
+
+            const pagination = (
+                <Pagination className="text-center">
+                    <Pagination.First onClick={this.handleFirst} />
+                    <Pagination.Prev onClick={this.handlePrev} />
+
+                    {items}
+
+                    <Pagination.Next onClick={this.handleNext} />
+                    <Pagination.Last onClick={this.handleLast} />
+                </Pagination>
+            );
+
+            return (pagination);
         }
-
-        const pagination = (
-            <Pagination>
-                <Pagination.First onClick={this.handleFirst} />
-                <Pagination.Prev onClick={this.handlePrev} />
-
-                {items}
-
-                <Pagination.Next onClick={this.handleNext} />
-                <Pagination.Last onClick={this.handleLast} />
-            </Pagination>
-        );
-
-        return (pagination);
     }
 }

@@ -1,12 +1,13 @@
 package com.dit.ebay.request;
 
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 
 public class BidRequest {
 
-    private double bidAmount;
+    private BigDecimal bidAmount;
 
-    public void setBidAmount(double bidAmount) { this.bidAmount = bidAmount; }
+    public void setBidAmount(BigDecimal bidAmount) { this.bidAmount = bidAmount; }
 
-    public double getBidAmount() { return bidAmount; }
+    public BigDecimal getBidAmount() { return bidAmount; }
 }

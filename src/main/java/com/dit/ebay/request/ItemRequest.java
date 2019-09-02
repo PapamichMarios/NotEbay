@@ -3,6 +3,7 @@ package com.dit.ebay.request;
 import com.dit.ebay.util.JsonGeoPoint;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -16,10 +17,10 @@ public class ItemRequest {
     private Timestamp timeEnds;
 
     // Minimum first bid, determined by the seller
-    private double firstBid;
+    private BigDecimal firstBid;
 
     // Buy item directly
-    private double buyPrice;
+    private BigDecimal buyPrice;
 
     private String country;
 
@@ -33,19 +34,19 @@ public class ItemRequest {
 
     private List<String> categoriesNames;
 
-    public double getFirstBid() {
+    public BigDecimal getFirstBid() {
         return firstBid;
     }
 
-    public void setFirstBid(double firstBid) {
+    public void setFirstBid(BigDecimal firstBid) {
         this.firstBid = firstBid;
     }
 
-    public double getBuyPrice() {
+    public BigDecimal getBuyPrice() {
         return buyPrice;
     }
 
-    public void setBuyPrice(double buyPrice) {
+    public void setBuyPrice(BigDecimal buyPrice) {
         this.buyPrice = buyPrice;
     }
 

@@ -10,6 +10,7 @@ import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
 */
 
+import com.dit.ebay.service.XMLService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -30,11 +31,12 @@ public class EbayApplication {
 	// Create admin on the fly
 	@Component
 	public class CommandLineAppStartupRunner implements CommandLineRunner {
-		@Autowired
-		UserService userService;
 
 		@Autowired
 		PopulateDB populateDB;
+
+		@Autowired
+		XMLService xmlService;
 
 		@Override
 		public void run(String... args) throws Exception {
@@ -49,6 +51,8 @@ public class EbayApplication {
 			populateDB.populateBidsEnded();
 			populateDB.populateRatings();
 			populateDB.populateMessages();
+
+			//xmlService.XMLImport(); // import for lsh
 		}
 	}
 

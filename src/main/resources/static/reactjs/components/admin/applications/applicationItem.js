@@ -55,14 +55,12 @@ class ApplicationItem extends React.Component {
                             <FaExternalLinkAlt />
                         </Link>
                     </td>
-                    <td> {this.props.value.id} </td>
-                    <td> {this.props.value.username} </td>
+                    <td> {this.props.value.username} #{this.props.value.id} </td>
                     <td> {this.props.value.firstName} </td>
                     <td> {this.props.value.lastName} </td>
                     <td> {this.props.value.email} </td>
                     <td> {this.props.value.phone} </td>
                     <td> {this.props.value.streetAddress} </td>
-                    <td> {this.props.value.postalCode} </td>
                     <td> {this.props.value.city} </td>
                     <td> {this.props.value.country} </td>
 

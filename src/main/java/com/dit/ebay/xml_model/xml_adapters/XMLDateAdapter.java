@@ -1,4 +1,4 @@
-package com.dit.ebay.xml_model;
+package com.dit.ebay.xml_model.xml_adapters;
 
 
 import java.sql.Timestamp;

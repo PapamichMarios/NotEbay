@@ -2,11 +2,13 @@ package com.dit.ebay.model;
 
 import com.dit.ebay.csv_model.CSVBid;
 import com.dit.ebay.exception.AppException;
+import com.dit.ebay.xml_model.XMLBid;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 @Entity
@@ -29,8 +31,8 @@ public class Bid {
     @JoinColumn(name = "item_id", nullable = false)
     private Item item;
 
-    @Column(name = "bid_amount")
-    private double bidAmount;
+    @Column(name = "bid_amount", precision = 19, scale = 4)
+    private BigDecimal bidAmount;
 
     //@CreatedDate
     @Column(name = "bid_time")
@@ -65,19 +67,25 @@ public class Bid {
      */
     public Bid(CSVBid csvBid) {
         this.bidAmount = csvBid.getBidAmount();
-        this.accepted = csvBid.isAccepted();
+        this.accepted = true;
     }
 
-    public Bid(double bidAmount) {
+    public Bid(BigDecimal bidAmount) {
         this.bidAmount = bidAmount;
         this.accepted = true; // have to remove it
     }
 
-    public double getBidAmount() {
+    public Bid(XMLBid xmlBid) {
+        this.bidAmount = xmlBid.getBidAmount();
+        this.bidTime = xmlBid.getBidDate();
+        this.accepted = true;
+    }
+
+    public BigDecimal getBidAmount() {
         return bidAmount;
     }
 
-    public void setBidAmount(double bidAmount) {
+    public void setBidAmount(BigDecimal bidAmount) {
         this.bidAmount = bidAmount;
     }
 

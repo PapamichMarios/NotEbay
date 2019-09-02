@@ -1,11 +1,13 @@
-role: admin, seller, bidder, visitor
-loading se kathe get
-
-- navbar categories dropdown
 - need to optimize webpack
-- categories /submitAuction
-- paging an einai empty na bgazei sxetiko message
 - authorize properly the endpoints
+
+categories (dropdown):
+    1. mono layer 0 kai layer 1
+    2. on click oles tupou skroutz
+    3. layer 0 lista on hover expand deksia
+
+submit-auction:
+    - categories
 
 my-auctions:
     - categories
@@ -13,14 +15,9 @@ my-auctions:
 profile:
     - badges me basi ta ratings
     - na balw ratings (seller kai bidder)
-    - dropdown
 
 bidder:
     - sta bids, best bid by username to username na einai link
-
-homepage:
-    1. products
-    2. signup/login or sell it
 
 auctions/id:
     post ratings na elegxw an exei kanei pali
@@ -28,7 +25,7 @@ auctions/id:
 seller:
     post ratings na elegxw an exei kanei pali
 
-categories (dropdown):
-    1. mono layer 0 kai layer 1
-    2. on click oles tupou skroutz
-    3. layer 0 lista on hover expand deksia
+admin:
+    na ftiaksw ta profile pages
+    na ftiaksw ta application pages
+    export button for auction

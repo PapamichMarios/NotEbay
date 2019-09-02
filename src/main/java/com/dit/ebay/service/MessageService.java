@@ -1,7 +1,6 @@
 package com.dit.ebay.service;
 
 import com.dit.ebay.exception.ResourceNotFoundException;
-import com.dit.ebay.model.Item;
 import com.dit.ebay.model.Message;
 import com.dit.ebay.model.MessageDeleteState;
 import com.dit.ebay.model.User;

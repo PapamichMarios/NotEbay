@@ -2,6 +2,8 @@ package com.dit.ebay.model;
 
 import com.dit.ebay.csv_model.CSVUser;
 import com.dit.ebay.request.SignUpRequest;
+import com.dit.ebay.xml_model.XMLBidder;
+import com.dit.ebay.xml_model.XMLSeller;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
@@ -171,6 +173,20 @@ public class User {
         this.country = signUpRequest.getCountry();
         this.city = signUpRequest.getCity();
         this.phone = signUpRequest.getPhone();
+    }
+
+    public User(XMLSeller xmlSeller) {
+        this.username = xmlSeller.getUsername();
+        this.password = xmlSeller.getUsername() + "123";
+        this.email = xmlSeller.getUsername() + "@ebayexamples.com";
+    }
+
+    public User(XMLBidder xmlBidder) {
+        this.username = xmlBidder.getUsername();
+        this.password = xmlBidder.getUsername() + "123";
+        this.email = xmlBidder.getUsername() + "@ebayexamples.com";
+        this.country = xmlBidder.getCountry();
+        this.city = xmlBidder.getLocation();
     }
 
     public User() {

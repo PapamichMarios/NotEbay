@@ -13,14 +13,12 @@ function UserItem(props) {
                         <FaExternalLinkAlt />
                     </Link>
                 </td>
-                <td> {props.value.id} </td>
-                <td> {props.value.username} </td>
+                <td> {props.value.username} #{props.value.id}</td>
                 <td> {props.value.firstName} </td>
                 <td> {props.value.lastName} </td>
                 <td> {props.value.email} </td>
                 <td> {props.value.phone} </td>
                 <td> {props.value.streetAddress} </td>
-                <td> {props.value.postalCode} </td>
                 <td> {props.value.city} </td>
                 <td> {props.value.country} </td>
                 <td style={{textAlign: 'center'}}> <FaUserCheck /> </td>
@@ -34,14 +32,12 @@ function UserItem(props) {
                         <FaExternalLinkAlt />
                     </Link>
                 </td>
-                <td> {props.value.id} </td>
-                <td> {props.value.username} </td>
+                <td> {props.value.username} #{props.value.id} </td>
                 <td> {props.value.firstName} </td>
                 <td> {props.value.lastName} </td>
                 <td> {props.value.email} </td>
                 <td> {props.value.phone} </td>
                 <td> {props.value.streetAddress} </td>
-                <td> {props.value.postalCode} </td>
                 <td> {props.value.city} </td>
                 <td> {props.value.country} </td>
                 <td style={{textAlign: 'center'}}> <FaUserTimes /> </td>
@@ -65,14 +61,12 @@ export default class UserListing extends React.Component {
                             <thead>
                                 <tr>
                                     <th> </th>
-                                    <th> User ID </th>
                                     <th> Username </th>
                                     <th> First Name </th>
                                     <th> Last Name </th>
                                     <th> Email  </th>
                                     <th> Phone </th>
                                     <th> Street Address </th>
-                                    <th> Postal Code </th>
                                     <th> City </th>
                                     <th> Country </th>
                                     <th> Approved </th>

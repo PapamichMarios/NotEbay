@@ -24,6 +24,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.math.BigDecimal;
 import java.net.URI;
 import java.sql.Time;
 import java.sql.Timestamp;
@@ -60,9 +61,9 @@ public class ItemService {
             throw new AppException("Sorry, You can't create an item without providing a name");
         }
 
-        double buyPrice = itemRequest.getBuyPrice();
-        double firstBid = itemRequest.getFirstBid();
-        if (buyPrice > 0 && buyPrice < firstBid) {
+        BigDecimal buyPrice = itemRequest.getBuyPrice();
+        BigDecimal firstBid = itemRequest.getFirstBid();
+        if (buyPrice != null && buyPrice.compareTo(firstBid) < 0) {
             throw new AppException("Sorry, You can't create an item with first bid bigger than the buy Price");
         }
 

@@ -2,8 +2,10 @@ import React from 'react';
 import '../../../css/utils/map.css';
 import '../../../css/signup/confirmation.css';
 
-import OpenStreetMapsWrapperLatLng from '../utils/maps/openStreetMapsWrapperLatLng.js';
-import SignUpHeader from './signupHeader.js';
+import * as Constants from '../utils/constants';
+import LoadingButton from '../utils/loading/loadingButton';
+import OpenStreetMapsWrapperLatLng from '../utils/maps/openStreetMapsWrapperLatLng';
+import SignUpHeader from './signupHeader';
 
 import { Formik } from 'formik';
 import * as Yup from 'yup';
@@ -18,7 +20,8 @@ export default class Confirmation extends React.Component {
         this.state = {
             show:false,
             hasError: false,
-            errorMsg: ''
+            errorMsg: '',
+            loadingSubmit: false
         }
 
         this.hidePassword = this.hidePassword.bind(this);
@@ -47,12 +50,14 @@ export default class Confirmation extends React.Component {
     onSubmit(e) {
         e.preventDefault();
 
+        this.setState({loadingButton: true})
         //check passwords are matching
         if ( this.props.values.password !== this.props.values.confirmPassword)
         {
             this.setState({
                 hasError: true,
-                errorMsg: 'Passwords given do not match.'
+                errorMsg: 'Passwords given do not match.',
+                loadingButton: false
             });
 
             return ;
@@ -91,11 +96,14 @@ export default class Confirmation extends React.Component {
             if (!response.success) {
                 this.setState({
                     hasError: true,
-                    errorMsg: response.message
+                    errorMsg: response.message,
+                    loadingButton: false
                 });
             } else {
                 //go to final success step
-                this.props.nextStep();
+                setTimeout( () => {
+                    this.props.nextStep();
+                }, Constants.TIMEOUT_DURATION);
             }
         })
 
@@ -341,10 +349,17 @@ export default class Confirmation extends React.Component {
                             </Col>
 
                             <Col md={{offset:3, span: 2}}>
+                            { this.state.loadingButton ? (
+                                <Button variant="dark" block disabled>
+                                    <b> Loading </b>
+                                    <LoadingButton />
+                                 </Button>
+                            ) : (
                                 <Button variant="dark" block onClick={this.onSubmit}>
                                     <b> Submit </b>
                                     <FaPaperPlane style={{verticalAlign: 'baseline'}} />
                                  </Button>
+                            )}
                             </Col>
                         </Form.Row>
 

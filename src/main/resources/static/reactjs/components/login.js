@@ -116,7 +116,7 @@ export default class Login extends React.Component {
                           { this.state.loading ? (
                               <ButtonToolbar size="lg">
                                 <Button type="submit" variant="dark" block disabled>
-                                  <b> Loading... </b>
+                                  <b> Loading </b>
                                   <LoadingButton />
                                 </Button>
                               </ButtonToolbar>

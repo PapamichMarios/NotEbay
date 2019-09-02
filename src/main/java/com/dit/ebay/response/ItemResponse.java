@@ -21,9 +21,9 @@ public class ItemResponse {
 
     protected String description;
 
-    protected double buyPrice;
+    protected BigDecimal buyPrice;
 
-    protected double firstBid;
+    protected BigDecimal firstBid;
 
     protected int numOfBids;
 
@@ -88,17 +88,19 @@ public class ItemResponse {
         this.description = description;
     }
 
-    public double getBuyPrice() {
+    public BigDecimal getBuyPrice() {
         return buyPrice;
     }
 
-    public void setBuyPrice(double buyPrice) { this.buyPrice = buyPrice; }
+    public void setBuyPrice(BigDecimal buyPrice) {
+        this.buyPrice = buyPrice;
+    }
 
-    public double getFirstBid() {
+    public BigDecimal getFirstBid() {
         return firstBid;
     }
 
-    public void setFirstBid(double firstBid) {
+    public void setFirstBid(BigDecimal firstBid) {
         this.firstBid = firstBid;
     }
 

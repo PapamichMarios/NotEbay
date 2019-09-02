@@ -1,6 +1,12 @@
 /profile:
-    1. buyer rating
-    2. seller rating
+    1. buyer rating & number of ratings
+    2. seller rating & number of ratings
 
 /users/{userId}:
     1. Na mporei enas bidder i seller na blepei to profile allou xristi, opws o admin px.
+
+/rating
+    1. na kratame pote se ena auction exei ginei rating eite apo xristi eite apo buyer gia na min ginetai parapanw apo mia fora
+
+/auction
+    1. mazi me to rating tou seller na gurnaei kai to number twn ratings apo allous buyers

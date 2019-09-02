@@ -4,6 +4,7 @@ import com.dit.ebay.model.Bid;
 import com.dit.ebay.model.User;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 public class BidResponse {
@@ -16,7 +17,7 @@ public class BidResponse {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private User user;
 
-    private double bidAmount;
+    private BigDecimal bidAmount;
 
     private Timestamp bidTime;
 
@@ -41,13 +42,6 @@ public class BidResponse {
         this.user = user;
     }
 
-    public double getBidAmount() {
-        return bidAmount;
-    }
-
-    public void setBidAmount(double bidAmount) {
-        this.bidAmount = bidAmount;
-    }
 
     public Timestamp getBidTime() {
         return bidTime;
@@ -87,5 +81,13 @@ public class BidResponse {
 
     public void setItemName(String itemName) {
         this.itemName = itemName;
+    }
+
+    public BigDecimal getBidAmount() {
+        return bidAmount;
+    }
+
+    public void setBidAmount(BigDecimal bidAmount) {
+        this.bidAmount = bidAmount;
     }
 }

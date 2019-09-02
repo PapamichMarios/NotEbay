@@ -83,14 +83,6 @@ export default class NavBar extends React.Component{
                           </NavItem>
 
                           <NavItem className="button-margin">
-                            <NavLink to="/inbox">
-                              <Button title="Inbox" variant="dark" style={{borderRadius: '50%'}}>
-                                <FaComments style={{verticalAlign: 'baseline'}} />
-                              </Button>
-                            </NavLink>
-                          </NavItem>
-
-                          <NavItem className="button-margin">
                                <Button title="Log Out" variant="outline-danger" onClick={this.props.onLogout} style={{borderRadius: '12px'}}>
                                 <b> Logout </b> <FaSignOutAlt style={{verticalAlign: 'baseline'}} />
                                </Button>
@@ -129,7 +121,7 @@ export default class NavBar extends React.Component{
                             </NavItem>
 
                             <NavItem className="button-margin">
-                              <NavLink to="/messages">
+                              <NavLink to="/messages/inbox">
                                   <Button title="Messages" variant="dark" style={{borderRadius: '50%'}}>
                                     <FaComments style={{verticalAlign: 'baseline'}} />
                                   </Button>
@@ -148,7 +140,6 @@ export default class NavBar extends React.Component{
             );
         } else {
             return (
-              <div className="navbar-margin">
                 <Navbar bg="dark" variant="dark">
                   <Navbar.Brand href="/welcome"> <b> BidIt </b> </Navbar.Brand>
                   <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -184,7 +175,6 @@ export default class NavBar extends React.Component{
 
                   </Navbar.Collapse>
                 </Navbar>
-              </div>
             );
         }
     }

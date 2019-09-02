@@ -223,7 +223,7 @@ public class PopulateDB {
                 // increment the bids
                 Bid bestBid = itemRepository.findBestBidByItemId(item.getId()).orElse(null);
 
-                if (bestBid == null || bid.getBidAmount() > bestBid.getBidAmount()) {
+                if (bestBid == null || bid.getBidAmount().compareTo(bestBid.getBidAmount()) > 0) {
                     item.setBestBid(bidRes);
                 }
 
@@ -263,7 +263,7 @@ public class PopulateDB {
                 // increment the bids
                 Bid bestBid = itemRepository.findBestBidByItemId(item.getId()).orElse(null);
 
-                if (bestBid == null || bid.getBidAmount() > bestBid.getBidAmount()) {
+                if (bestBid == null || bid.getBidAmount().compareTo(bestBid.getBidAmount()) > 0) {
                     item.setBestBid(bidRes);
                 }
 
