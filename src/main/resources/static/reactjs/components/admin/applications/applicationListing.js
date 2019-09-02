@@ -18,14 +18,12 @@ export default class ApplicationListing extends React.Component {
                             <thead>
                                 <tr>
                                     <th> </th>
-                                    <th> User ID </th>
                                     <th> Username </th>
                                     <th> First Name </th>
                                     <th> Last Name </th>
                                     <th> Email  </th>
                                     <th> Phone </th>
                                     <th> Street Address </th>
-                                    <th> Postal Code </th>
                                     <th> City </th>
                                     <th> Country </th>
                                     <th> Approve </th>

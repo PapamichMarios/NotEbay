@@ -1,6 +1,11 @@
 - need to optimize webpack
 - authorize properly the endpoints
 
+categories (dropdown):
+    1. mono layer 0 kai layer 1
+    2. on click oles tupou skroutz
+    3. layer 0 lista on hover expand deksia
+
 submit-auction:
     - categories
 
@@ -14,17 +19,13 @@ profile:
 bidder:
     - sta bids, best bid by username to username na einai link
 
-homepage:
-    1. products
-    2. signup/login or sell it
-
 auctions/id:
     post ratings na elegxw an exei kanei pali
 
 seller:
     post ratings na elegxw an exei kanei pali
 
-categories (dropdown):
-    1. mono layer 0 kai layer 1
-    2. on click oles tupou skroutz
-    3. layer 0 lista on hover expand deksia
+admin:
+    na ftiaksw ta profile pages
+    na ftiaksw ta application pages
+    export button for auction

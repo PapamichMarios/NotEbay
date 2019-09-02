@@ -83,14 +83,6 @@ export default class NavBar extends React.Component{
                           </NavItem>
 
                           <NavItem className="button-margin">
-                            <NavLink to="/inbox">
-                              <Button title="Inbox" variant="dark" style={{borderRadius: '50%'}}>
-                                <FaComments style={{verticalAlign: 'baseline'}} />
-                              </Button>
-                            </NavLink>
-                          </NavItem>
-
-                          <NavItem className="button-margin">
                                <Button title="Log Out" variant="outline-danger" onClick={this.props.onLogout} style={{borderRadius: '12px'}}>
                                 <b> Logout </b> <FaSignOutAlt style={{verticalAlign: 'baseline'}} />
                                </Button>
