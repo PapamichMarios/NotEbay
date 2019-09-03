@@ -18,20 +18,37 @@ class EditAuction extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            loading: false,
-            hasError: false,
-            errorMsg: '',
+        if(this.props.user.buyPrice === null) {
+            this.state = {
+                loading: false,
+                hasError: false,
+                errorMsg: '',
 
-            name: this.props.user.name,
-            description: this.props.user.description,
-            dateEnds: this.props.user.dateEnds,
-            timeEnds: this.props.user.timeEnds,
-            firstBid: this.props.user.firstBid,
-            country: this.props.user.country,
-            location: this.props.user.location,
-            buyPrice: this.props.user.buyPrice
-        };
+                name: this.props.user.name,
+                description: this.props.user.description,
+                dateEnds: this.props.user.dateEnds,
+                timeEnds: this.props.user.timeEnds,
+                firstBid: this.props.user.firstBid,
+                country: this.props.user.country,
+                location: this.props.user.location,
+                buyPrice: ''
+            };
+        } else {
+            this.state = {
+                loading: false,
+                hasError: false,
+                errorMsg: '',
+
+                name: this.props.user.name,
+                description: this.props.user.description,
+                dateEnds: this.props.user.dateEnds,
+                timeEnds: this.props.user.timeEnds,
+                firstBid: this.props.user.firstBid,
+                country: this.props.user.country,
+                location: this.props.user.location,
+                buyPrice: this.props.user.buyPrice
+            };
+        }
 
         this.onChange = this.onChange.bind(this);
         this.back = this.back.bind(this);
@@ -60,7 +77,12 @@ class EditAuction extends React.Component {
             firstBid: this.state.firstBid,
             buyPrice: this.state.buyPrice,
             country: this.state.country,
-            location: this.state.location
+            location: this.state.location,
+            jgp: {
+                geoLat: this.props.user.lat,
+                geoLong: this.props.user.lng
+            },
+            categoriesNames: ['xa0']
         };
 
         putRequest(this.props.action + this.props.match.params.id, bodyObj)
