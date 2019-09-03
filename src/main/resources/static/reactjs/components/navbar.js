@@ -16,13 +16,25 @@ export default class NavBar extends React.Component{
     render() {
         //categories dropdown
         const categories = (
-            <DropdownButton title="Categories" variant="dark">
-                <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+            <Dropdown>
+                <Dropdown.Toggle variant="light" id="dropdown-basic">
+                    Dropdown Button
+                </Dropdown.Toggle>
 
-                <Dropdown.Divider />
-                <Dropdown.Item href="/categories" style={{color: 'CornFlowerBlue'}}> See all the categories </Dropdown.Item>
-            </DropdownButton>
+                <Dropdown.Menu>
+                    <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+
+                    <Dropdown.Toggle variant="light">
+                        Collectibles
+                    </Dropdown.Toggle>
+
+                    <Dropdown.Menu>
+                        <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+                    </Dropdown.Menu>
+
+                    <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                </Dropdown.Menu>
+            </Dropdown>
         );
 
         //left part of the navbar
@@ -41,7 +53,7 @@ export default class NavBar extends React.Component{
                 </Form>
               </NavItem>
 
-              <NavItem className="button-margin-left">
+              <NavItem className="button-margin">
                   {categories}
               </NavItem>
             </Nav>
