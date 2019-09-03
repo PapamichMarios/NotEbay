@@ -1,5 +1,6 @@
 package com.dit.ebay.xml_model;
 
+import com.dit.ebay.model.Bid;
 import com.dit.ebay.xml_model.xml_adapters.XMLRatingAdapter;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -7,6 +8,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import java.math.BigDecimal;
 
 @XmlRootElement(name = "Seller")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -14,16 +16,16 @@ public class XMLSeller {
 
     @XmlAttribute(name = "Rating")
     @XmlJavaTypeAdapter(XMLRatingAdapter.class)
-    private Double rating;
+    private Long rating;
 
     @XmlAttribute(name = "UserID")
     private String username;
 
-    public Double getRating() {
+    public Long getRating() {
         return rating;
     }
 
-    public void setRating(Double rating) {
+    public void setRating(Long rating) {
         this.rating = rating;
     }
 
@@ -33,12 +35,10 @@ public class XMLSeller {
         this.username = username;
     }
 
-    /*
-    public XMLSeller() {
-        this.itemId = "itemId-1";
-        this.userId = "userId-1";
+    public XMLSeller(String username, Long rating) {
+        this.rating = rating;
+        this.username = username;
     }
-    */
 
     @Override
     public String toString() {

@@ -9,6 +9,8 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface BidRepository extends PagingAndSortingRepository<Bid, Long> {
 
@@ -21,4 +23,7 @@ public interface BidRepository extends PagingAndSortingRepository<Bid, Long> {
 
     @Query("select b from Bid b where b.user.id = :userId")
     Page<Bid> findByUserId(@Param("userId") Long userId, Pageable pageable);
+
+    @Query("select b from Bid b where b.item.id = :itemId")
+    List<Bid> findByItemId(@Param("itemId") Long itemId);
 }

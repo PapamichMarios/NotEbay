@@ -1,6 +1,7 @@
 package com.dit.ebay.xml_model;
 
 
+import com.dit.ebay.model.Bid;
 import com.dit.ebay.xml_model.xml_adapters.XMLDateAdapter;
 import com.dit.ebay.xml_model.xml_adapters.XMLDollarAdapter;
 
@@ -49,14 +50,10 @@ public class XMLBid {
         this.bidAmount = bidAmount;
     }
 
-    /*
-    public XMLBid() {
-        this.bidder = new XMLBidder();
-        this.bidDate = new Timestamp(System.currentTimeMillis());
-        bidDate.setNanos(0); // don't count millis
-        this.bidAmmount = 21.9;
+    public XMLBid(Bid bid) {
+        this.bidDate = bid.getBidTime();
+        this.bidAmount = bid.getBidAmount();
     }
-    */
 
     @Override
     public String toString() {

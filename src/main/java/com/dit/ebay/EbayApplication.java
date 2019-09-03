@@ -52,7 +52,7 @@ public class EbayApplication {
 			populateDB.populateRatings();
 			populateDB.populateMessages();
 
-			//xmlService.XMLImport(); // import for lsh
+			//xmlService.XmlImport(); // import for lsh
 		}
 	}
 

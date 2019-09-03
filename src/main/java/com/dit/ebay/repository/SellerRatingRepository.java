@@ -12,6 +12,9 @@ import java.util.Optional;
 @Repository
 public interface SellerRatingRepository extends JpaRepository<SellerRating, Long> {
 
+    @Query("select sum(sl.rating) from SellerRating sl where sl.userSeller.id = :userId")
+    Optional<Long> aggrRatingByUserId(@Param("userId") Long userId);
+
     @Query("select avg(sl.rating) from SellerRating sl where sl.userSeller.id = :userId")
     Optional<BigDecimal> avgRatingByUserId(@Param("userId") Long userId);
 }

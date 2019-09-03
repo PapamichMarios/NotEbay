@@ -45,13 +45,11 @@ public class XMLItemLocation {
         this.location = location;
     }
 
-    /*
-    public XMLItemLocation() {
-        this.lat = new BigDecimal("41.901849");
-        this.lng  = new BigDecimal("-75.10493");
-        this.location = "loca_loca";
+    public XMLItemLocation(String location, BigDecimal lat, BigDecimal lng) {
+        this.lat = lat;
+        this.lng = lng;
+        this.location = location;
     }
-    */
 
     @Override
     public String toString() {

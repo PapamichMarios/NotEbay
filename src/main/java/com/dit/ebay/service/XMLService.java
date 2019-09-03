@@ -2,13 +2,8 @@ package com.dit.ebay.service;
 
 import com.dit.ebay.exception.AppException;
 import com.dit.ebay.model.*;
-import com.dit.ebay.repository.BidRepository;
-import com.dit.ebay.repository.ItemRepository;
-import com.dit.ebay.repository.RoleRepository;
-import com.dit.ebay.repository.UserRepository;
-import com.dit.ebay.xml_model.XMLBid;
-import com.dit.ebay.xml_model.XMLItem;
-import com.dit.ebay.xml_model.XMLItems;
+import com.dit.ebay.repository.*;
+import com.dit.ebay.xml_model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -21,6 +16,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,9 +41,15 @@ public class XMLService {
     private RoleRepository roleRepository;
 
     @Autowired
+    private SellerRatingRepository sellerRatingRepository;
+
+    @Autowired
+    private BidderRatingRepository bidderRatingRepository;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public void XMLImport() throws JAXBException, IOException {
+    public void XmlImport() throws JAXBException, IOException {
         JAXBContext context = JAXBContext.newInstance(XMLItems.class);
 
         // XML => objects
@@ -113,32 +115,28 @@ public class XMLService {
         }
     }
 
-
-}
-
-/*
-       // Object => XML
+    public XMLItems getXmlItems(Long userId) {
+        //Object => XML (maybe use it)
         //Marshaller marshaller = context.createMarshaller();
-        //marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+        //marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true)
+        //marshaller.marshal(xmlItems, System.out);
 
-        // XML => objects
-        Unmarshaller unmarshaller = context.createUnmarshaller();
-
-        List<XMLItem> xmlItemsList = new ArrayList<>();
-        XMLItem xmlItem = new XMLItem();
-        xmlItem.getCategory().add("1");
-        xmlItem.getCategory().add("2");
-        xmlItem.getCategory().add("3");
-        xmlItem.getCategory().add("4");
-        xmlItemsList.add(xmlItem);
-        xmlItemsList.add(xmlItem);
-        xmlItemsList.add(xmlItem);
-        xmlItemsList.add(xmlItem);
-        xmlItemsList.add(xmlItem);
-        xmlItemsList.add(xmlItem);
+        List<Item> itemsList = itemRepository.findAllByUserId(userId);
         XMLItems xmlItems = new XMLItems();
-        xmlItems.setXmlItems(xmlItemsList);
 
-        // print them
-        marshaller.marshal(xmlItems, System.out);
-*/
+        for (Item item : itemsList) {
+            XMLItem xmlItem = new XMLItem(item);
+            xmlItem.setSeller(new XMLSeller(item.getUser().getUsername(),
+                            sellerRatingRepository.aggrRatingByUserId(userId).orElse(null)));
+            List<Bid> bidsList = bidRepository.findByItemId(item.getId());
+            for (Bid bid : bidsList) {
+                XMLBid xmlBid = new XMLBid(bid);
+                xmlBid.setBidder(new XMLBidder(bid.getUser(),
+                                 bidderRatingRepository.aggrRatingByUserId(bid.getUser().getId()).orElse(null)));
+                xmlItem.addBid(xmlBid);
+            }
+            xmlItems.addItem(xmlItem);
+        }
+        return xmlItems;
+    }
+}

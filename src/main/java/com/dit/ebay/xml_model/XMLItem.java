@@ -1,5 +1,6 @@
 package com.dit.ebay.xml_model;
 
+import com.dit.ebay.model.Item;
 import com.dit.ebay.xml_model.xml_adapters.XMLDateAdapter;
 import com.dit.ebay.xml_model.xml_adapters.XMLDollarAdapter;
 
@@ -7,6 +8,7 @@ import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 @XmlRootElement(name = "Item")
@@ -61,42 +63,19 @@ public class XMLItem {
     @XmlElement(name = "Description")
     private String description;
 
-    /*
-    public XMLItem(String name, String currently, String firstBid, int numOfBids,
-                   String location, String country, String description) {
-        this.name = name;
-        //this.currently = currently;
-        //this.firstBid = firstBid;
-        this.numOfBids = numOfBids;
-        //this.location = location;
-        this.country = country;
-        this.description = description;
+    public XMLItem(Item item) {
+        this.itemId = item.getId().toString();
+        this.name = item.getName();
+        this.firstBid = item.getFirstBid();
+        this.buyPrice = item.getBuyPrice();
+        this.currently = item.getBestBid() != null ? item.getBestBid().getBidAmount() : firstBid;
+        this.timeStarted = item.getTimeStarted();
+        this.timeEnds = item.getTimeEnds();
+        this.description = item.getDescription();
+        this.country = item.getCountry();
+        this.location = new XMLItemLocation(item.getLocation(), item.getGeoLat(), item.getGeoLong());
+        this.numOfBids = item.getNumOfBids();
     }
-
-    public XMLItem() {
-        this.itemId = "1111111";
-        this.name = "1";
-        this.currently = 12.3;
-        this.firstBid = 213.912;
-        this.numOfBids = 2;
-        this.location = new XMLItemLocation();
-        this.country = "423";
-        this.description = "dadasd";
-        this.seller = new XMLSeller();
-        this.bids = new ArrayList<>();
-        this.bids.add(new XMLBid());
-        this.bids.add(new XMLBid());
-        this.bids.add(new XMLBid());
-        this.bids.add(new XMLBid());
-        this.bids.add(new XMLBid());
-        this.bids.add(new XMLBid());
-        this.timeStarted = new Timestamp(System.currentTimeMillis());
-        timeStarted.setNanos(0); // don't count millis
-        this.timeEnds = new Timestamp(System.currentTimeMillis());
-        timeEnds.setNanos(0); // don't count millis
-        this.category = new ArrayList<>();
-    }
-    */
 
     public String getItemId() {
         return itemId;
@@ -208,6 +187,11 @@ public class XMLItem {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public void addBid(XMLBid xmlBid) {
+        if (bids == null) bids = new ArrayList<>();
+        this.bids.add(xmlBid);
     }
 
     @Override

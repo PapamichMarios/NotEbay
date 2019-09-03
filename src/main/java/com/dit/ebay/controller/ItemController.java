@@ -10,10 +10,13 @@ import com.dit.ebay.response.PagedResponse;
 import com.dit.ebay.security.CurrentUser;
 import com.dit.ebay.security.UserDetailsImpl;
 import com.dit.ebay.service.ItemService;
+import com.dit.ebay.service.XMLService;
 import com.dit.ebay.util.PaginationConstants;
+import com.dit.ebay.xml_model.XMLItems;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -26,18 +29,21 @@ import javax.validation.Valid;
  * all get etc with prefix Bidder mean tha we do something on others seller item
  */
 @RestController
-@RequestMapping("/app/items")
+@RequestMapping("/app")
 public class ItemController {
 
     @Autowired
     private ItemService itemService;
+
+    @Autowired
+    private XMLService xmlService;
 
     private static final Logger logger = LoggerFactory.getLogger(ItemController.class);
 
     /*
      * ---For Seller---
      */
-    @PostMapping
+    @PostMapping(path = "/items")
     @PreAuthorize("hasRole('ROLE_SELLER')")
     public ResponseEntity<?> createItem(@Valid @RequestBody ItemRequest itemRequest,
                                         @Valid @CurrentUser UserDetailsImpl currentUser) {
@@ -46,7 +52,7 @@ public class ItemController {
 
     // Get items (auctions) of current logged in user
     // Note don't need to transform Page<Item> => PagedResponse<Item> (did it to be more simple for the json response)
-    @GetMapping(params = {"page", "size"})
+    @GetMapping(path = "/items", params = {"page", "size"})
     //@GetMapping
     @PreAuthorize("hasRole('ROLE_SELLER')")
     public PagedResponse<ItemResponse> getSellerItems(@RequestParam(value = "page", defaultValue = PaginationConstants.DEFAULT_PAGE) int page,
@@ -57,14 +63,14 @@ public class ItemController {
 
     // Get currents Logged in item info
     // must be the owner here the item id changes
-    @GetMapping("/owner/{itemId}")
+    @GetMapping("items/owner/{itemId}")
     @PreAuthorize("hasRole('ROLE_SELLER')")
     public OwnerItemResponse getSellerItemById(@PathVariable(value = "itemId") Long itemId,
                                                @Valid @CurrentUser UserDetailsImpl currentUser) {
         return itemService.getSellerItemById(itemId, currentUser);
     }
 
-    @PutMapping("/{itemId}")
+    @PutMapping("items/{itemId}")
     @PreAuthorize("hasRole('ROLE_SELLER')")
     public Item updateSellerItemById(@PathVariable(value = "itemId") Long itemId,
                                      @Valid @RequestBody ItemRequest itemRequest,
@@ -73,7 +79,7 @@ public class ItemController {
     }
 
     // update status
-    @PutMapping("/{itemId}/active")
+    @PutMapping("items/{itemId}/active")
     @PreAuthorize("hasRole('ROLE_SELLER')")
     public Item updateSellerActiveById(@PathVariable(value = "itemId") Long itemId,
                                        @Valid @RequestBody ItemActiveRequest itemActiveRequest,
@@ -81,7 +87,7 @@ public class ItemController {
         return itemService.updateSellerItemById(itemId, itemActiveRequest, currentUser);
     }
 
-    @DeleteMapping("/{itemId}")
+    @DeleteMapping("items/{itemId}")
     @PreAuthorize("hasRole('ROLE_SELLER')")
     public ResponseEntity<?> deleteSellerItemById(@PathVariable(value = "itemId") Long itemId,
                                                   @Valid @CurrentUser UserDetailsImpl currentUser) {
@@ -91,7 +97,7 @@ public class ItemController {
     /*
      * ---For Bidder---
      */
-    @GetMapping("/{itemId}")
+    @GetMapping("items/{itemId}")
     @PreAuthorize("hasRole('ROLE_BIDDER')")
     public BidderItemResponse getBidderItemById(@PathVariable(value = "itemId") Long itemId,
                                                 @Valid @CurrentUser UserDetailsImpl currentUser) {
@@ -99,7 +105,7 @@ public class ItemController {
     }
 
     // get items bidder has bid on  and is the best bid (last)
-    @GetMapping(path = "/bestBidItems", params = {"page", "size"})
+    @GetMapping(path = "items/bestBidItems", params = {"page", "size"})
     @PreAuthorize("hasRole('ROLE_BIDDER')")
     public PagedResponse<ItemResponse> getBestBidItems(@RequestParam(value = "page", defaultValue = PaginationConstants.DEFAULT_PAGE) int page,
                                                        @RequestParam(value = "size", defaultValue = PaginationConstants.DEFAULT_SIZE) int size,
@@ -107,11 +113,21 @@ public class ItemController {
         return itemService.getBestBidItems(currentUser, page, size);
     }
 
-    @GetMapping(path = "/bidsWonItems", params = {"page", "size"})
+    @GetMapping(path = "items/bidsWonItems", params = {"page", "size"})
     @PreAuthorize("hasRole('ROLE_BIDDER')")
     public PagedResponse<ItemResponse> getBidWonItems(@RequestParam(value = "page", defaultValue = PaginationConstants.DEFAULT_PAGE) int page,
                                                       @RequestParam(value = "size", defaultValue = PaginationConstants.DEFAULT_SIZE) int size,
                                                       @Valid @CurrentUser UserDetailsImpl currentUser) {
         return itemService.getBidsWonItems(currentUser, page, size);
+    }
+
+    /*
+     * Export fro json and xml
+     */
+    @GetMapping(path = "users/{userId}/items/xml")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public XMLItems getXmlItems(@PathVariable(value = "userId") Long userId,
+                                @Valid @CurrentUser UserDetailsImpl currentUser) {
+        return xmlService.getXmlItems(userId);
     }
 }

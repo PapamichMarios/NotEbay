@@ -48,5 +48,8 @@ public interface ItemRepository extends PagingAndSortingRepository<Item, Long> {
 
     @Query("select i from Item i where i.active = true")
     List<Item> findAllActive();
+
+    @Query("select i from Item i where i.user.id = :userId")
+    List<Item> findAllByUserId(@Param("userId") Long userId);
 }
 
