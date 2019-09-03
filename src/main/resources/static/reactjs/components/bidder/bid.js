@@ -27,8 +27,7 @@ export default class Bid extends React.Component {
             bid: '',
             bet: '',
             errorMsg: '',
-            hasError: false,
-            bought: false
+            hasError: false
         }
 
         this.messageSeller = this.messageSeller.bind(this);
@@ -516,21 +515,23 @@ export default class Bid extends React.Component {
                                             <br />
 
                                             <Row>
-                                                <Card style={{width: '100%'}}>
-                                                    <Card.Body>
-                                                        <Card.Title as="h6" className="text-center">
-                                                            <b>
-                                                                Item Location
-                                                                < br/>
-                                                                <span style={{color:'DimGray'}}>{this.state.bid.location}</span>,
-                                                                <span style={{color:'DimGray'}}> {this.state.bid.country}</span>
-                                                            </b>
-                                                        </Card.Title>
-                                                        <div className="leaflet">
-                                                            <OpenStreetMap lat={this.state.bid.geoLat} lng={this.state.bid.geoLong} />
-                                                        </div>
-                                                    </Card.Body>
-                                                </Card>
+                                                <Col>
+                                                    <Card style={{width: '100%'}}>
+                                                        <Card.Body>
+                                                            <Card.Title as="h6" className="text-center">
+                                                                <b>
+                                                                    Item Location
+                                                                    < br/>
+                                                                    <span style={{color:'DimGray'}}>{this.state.bid.location}</span>,
+                                                                    <span style={{color:'DimGray'}}> {this.state.bid.country}</span>
+                                                                </b>
+                                                            </Card.Title>
+                                                            <div className="leaflet">
+                                                                <OpenStreetMap lat={this.state.bid.geoLat} lng={this.state.bid.geoLong} />
+                                                            </div>
+                                                        </Card.Body>
+                                                    </Card>
+                                                </Col>
                                             </Row>
                                         </Col>
                                     </Row>
