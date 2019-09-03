@@ -51,7 +51,7 @@ export default class Paging extends React.Component {
         if(this.props.totalPages === 0) {
             return (
                 <Alert variant="primary" className="text-center">
-                    <p> Folder is empty! </p>
+                    <h5> Folder is empty! </h5>
                 </Alert>
             );
         } else {

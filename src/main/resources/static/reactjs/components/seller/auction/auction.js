@@ -75,7 +75,7 @@ export default class Auction extends React.Component{
             alert('Cannot delete item after someone has placed a bid.');
         } else {
             if (window.confirm('Are you sure you want to delete the current item?')) {
-                deleteRequest(this.props.action + this.props.match.params.id)
+                deleteRequest('/app/items/' + this.props.match.params.id)
                 .then((response) => {
                     if (response.error) {
                         alert(response.message);
@@ -110,6 +110,7 @@ export default class Auction extends React.Component{
     componentDidMount() {
         getRequest(this.props.action + this.props.match.params.id)
         .then(data => {
+            console.log(data);
             const [date, time] = splitDateAndTime(data.timeEnds);
             this.setState({
                 auction: data,

@@ -18,38 +18,20 @@ class EditAuction extends React.Component {
     constructor(props) {
         super(props);
 
-        //if buy price was not given anything
-        if(this.props.user.buyPrice === 0) {
-            this.state = {
-                loading: false,
-                hasError: false,
-                errorMsg: '',
+        this.state = {
+            loading: false,
+            hasError: false,
+            errorMsg: '',
 
-                name: this.props.user.name,
-                description: this.props.user.description,
-                dateEnds: this.props.user.dateEnds,
-                timeEnds: this.props.user.timeEnds,
-                firstBid: this.props.user.firstBid,
-                country: this.props.user.country,
-                location: this.props.user.location,
-                buyPrice: ''
-            };
-        } else {
-            this.state = {
-                loading: false,
-                hasError: false,
-                errorMsg: '',
-
-                name: this.props.user.name,
-                description: this.props.user.description,
-                dateEnds: this.props.user.dateEnds,
-                timeEnds: this.props.user.timeEnds,
-                firstBid: this.props.user.firstBid,
-                country: this.props.user.country,
-                location: this.props.user.location,
-                buyPrice: this.props.user.buyPrice
-            };
-        }
+            name: this.props.user.name,
+            description: this.props.user.description,
+            dateEnds: this.props.user.dateEnds,
+            timeEnds: this.props.user.timeEnds,
+            firstBid: this.props.user.firstBid,
+            country: this.props.user.country,
+            location: this.props.user.location,
+            buyPrice: this.props.user.buyPrice
+        };
 
         this.onChange = this.onChange.bind(this);
         this.back = this.back.bind(this);
@@ -66,16 +48,9 @@ class EditAuction extends React.Component {
         });
     }
 
-    save() {
+    save(e) {
         //set loading
         this.setState({loading: true});
-
-        //if buy price was not given anything
-        if(this.state.buyPrice === '') {
-            this.setState({
-                buyPrice: -1
-            });
-        }
 
         //fetch request
         const bodyObj = {
@@ -136,7 +111,7 @@ class EditAuction extends React.Component {
                               location: this.state.location
                           }}
                           validationSchema={SubmitItemSchema}
-                          onSubmit={this.onSubmit}
+                          onSubmit={this.save}
                       >
                       {({
                           handleSubmit,
@@ -373,7 +348,7 @@ class EditAuction extends React.Component {
 
                                 <Col md={{offset:8, span:2}}>
                                     <ButtonToolbar size="lg">
-                                      <Button variant="dark" onClick={this.save} block>
+                                      <Button variant="dark" type="submit" block>
                                           <b> Save </b>
                                           <FaAngleRight />
                                       </Button>

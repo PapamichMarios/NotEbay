@@ -197,7 +197,7 @@ class CurrentAuction extends React.Component {
                                             </Col>
                                         </Form.Group>
 
-                                        { this.props.auction.buyPrice === 0 ? (
+                                        { this.props.auction.buyPrice === null ? (
                                             <Form.Group as={Row}>
                                                 <Form.Label column md="5"> <b> Buy Price: </b> </Form.Label>
                                                 <Col>
@@ -326,7 +326,7 @@ class CurrentAuction extends React.Component {
                                         )}
                                     </Col>
 
-                                    <Col>
+                                    <Col md={3}>
                                         <Card style={{width: '100%'}}>
                                             <Card.Body>
                                                 <Card.Title as="h6" className="text-center">
