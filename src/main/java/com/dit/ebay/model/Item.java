@@ -283,39 +283,39 @@ public class Item {
      * Checks from request which fields aren't blank to change them
      */
     public void updateItemFields(ItemRequest itemRequest) {
-        if (itemRequest.getName() != null) {
+        //if (itemRequest.getName() != null) {
             this.name = itemRequest.getName();
-        }
+        //}
 
         // TODO : add date checking
-        if (itemRequest.getTimeEnds() != null) {
+        //if (itemRequest.getTimeEnds() != null) {
             this.timeEnds = itemRequest.getTimeEnds();
-        }
+        //}
 
-        if (itemRequest.getDescription() != null) {
+        //if (itemRequest.getDescription() != null) {
             this.description = itemRequest.getDescription();
-        }
+        //}
 
-        if (itemRequest.getFirstBid() != null) {
+        //if (itemRequest.getFirstBid() != null) {
             this.firstBid = itemRequest.getFirstBid();
-        }
+        //}
 
-        if (itemRequest.getBuyPrice() != null) {
+        //if (itemRequest.getBuyPrice() != null) {
             this.buyPrice = itemRequest.getBuyPrice();
-        }
+        //}
 
-        if (itemRequest.getCountry() != null) {
+        //if (itemRequest.getCountry() != null) {
             this.country = itemRequest.getCountry();
-        }
+        //}
 
-        if (itemRequest.getLocation() != null) {
+        //if (itemRequest.getLocation() != null) {
             this.location = itemRequest.getLocation();
-        }
+        //}
 
-        if (itemRequest.getJgp() != null) {
+        //if (itemRequest.getJgp() != null) {
             this.geoLat = itemRequest.getJgp().getGeoLat();
             this.geoLong = itemRequest.getJgp().getGeoLong();
-        }
+        //}
 
         this.active = itemRequest.isActive();
     }
