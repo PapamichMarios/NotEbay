@@ -1,12 +1,10 @@
 package com.dit.ebay.model;
 
 import com.dit.ebay.csv_model.CSVItem;
-import com.dit.ebay.csv_model.CSVItemEnded;
 import com.dit.ebay.request.ItemRequest;
-import com.dit.ebay.xml_model.XMLItem;
-import com.dit.ebay.xml_model.XMLItemLocation;
+import com.dit.ebay.xml_model.XmlItem;
+import com.dit.ebay.xml_model.XmlItemLocation;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
@@ -142,7 +140,7 @@ public class Item {
         this.active = itemRequest.isActive();
     }
 
-    public Item(XMLItem xmlItem) {
+    public Item(XmlItem xmlItem) {
         this.name = xmlItem.getName();
         this.firstBid = xmlItem.getFirstBid();
         this.buyPrice = xmlItem.getBuyPrice(); // default
@@ -151,7 +149,7 @@ public class Item {
         this.timeEnds = xmlItem.getTimeEnds();
         this.description = this.getDescription();
 
-        XMLItemLocation xmlItemLocation = xmlItem.getLocation();
+        XmlItemLocation xmlItemLocation = xmlItem.getLocation();
         if (xmlItemLocation != null) {
             this.geoLat = xmlItemLocation.getLat(); // maybe be null
             this.geoLong = xmlItemLocation.getLng(); // maybe be null

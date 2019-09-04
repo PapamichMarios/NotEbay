@@ -1,30 +1,28 @@
 package com.dit.ebay.xml_model;
 
-import com.dit.ebay.model.Bid;
-import com.dit.ebay.xml_model.xml_adapters.XMLRatingAdapter;
+import com.dit.ebay.xml_model.xml_adapters.XmlRatingAdapter;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import java.math.BigDecimal;
 
 //@XmlRootElement(name = "Seller")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class XMLSeller {
+public class XmlSeller {
 
     @XmlAttribute(name = "Rating")
-    @XmlJavaTypeAdapter(XMLRatingAdapter.class)
+    @XmlJavaTypeAdapter(XmlRatingAdapter.class)
     private Long rating;
 
     @XmlAttribute(name = "UserID")
     private String username;
 
-    public XMLSeller() {
+    public XmlSeller() {
     }
 
-    public XMLSeller(String username, Long rating) {
+    public XmlSeller(String username, Long rating) {
         this.rating = rating;
         this.username = username;
     }
@@ -45,7 +43,7 @@ public class XMLSeller {
 
     @Override
     public String toString() {
-        return "XMLSeller{" +
+        return "XmlSeller{" +
                 "rating='" + rating + '\'' +
                 ", userId='" + username + '\'' +
                 "}\n";

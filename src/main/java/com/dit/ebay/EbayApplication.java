@@ -10,13 +10,12 @@ import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
 */
 
-import com.dit.ebay.service.XMLService;
+import com.dit.ebay.service.XmlService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Component;
-import com.dit.ebay.service.UserService;
 import com.dit.ebay.service.PopulateDB;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
@@ -37,7 +36,7 @@ public class EbayApplication {
 		PopulateDB populateDB;
 
 		@Autowired
-		XMLService xmlService;
+		XmlService xmlService;
 
 		@Override
 		public void run(String... args) throws Exception {

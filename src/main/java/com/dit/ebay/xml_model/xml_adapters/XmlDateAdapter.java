@@ -6,7 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-public class  XMLDateAdapter extends XmlAdapter<String, Timestamp> {
+public class XmlDateAdapter extends XmlAdapter<String, Timestamp> {
 
     private SimpleDateFormat dateFormat = new SimpleDateFormat("MMM-dd-yy HH:mm:ss");
 

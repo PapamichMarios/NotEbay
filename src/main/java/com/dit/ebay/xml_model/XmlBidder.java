@@ -1,18 +1,17 @@
 package com.dit.ebay.xml_model;
 
 import com.dit.ebay.model.User;
-import com.dit.ebay.xml_model.xml_adapters.XMLRatingAdapter;
+import com.dit.ebay.xml_model.xml_adapters.XmlRatingAdapter;
 
 import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import java.time.LocalDateTime;
 
 //@XmlRootElement(name = "Bidder")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class XMLBidder {
+public class XmlBidder {
 
     @XmlAttribute(name = "Rating")
-    @XmlJavaTypeAdapter(XMLRatingAdapter.class)
+    @XmlJavaTypeAdapter(XmlRatingAdapter.class)
     private Long rating;
 
     @XmlAttribute(name = "UserID")
@@ -24,11 +23,11 @@ public class XMLBidder {
     @XmlElement(name = "Country")
     private String country;
 
-    public XMLBidder() {
+    public XmlBidder() {
     }
 
 
-    public XMLBidder(User bidder, Long rating) {
+    public XmlBidder(User bidder, Long rating) {
         this.rating = rating;
         this.username = bidder.getUsername();
         this.location = bidder.getCity();
@@ -69,7 +68,7 @@ public class XMLBidder {
 
     @Override
     public String toString() {
-        return "XMLBidder{" +
+        return "XmlBidder{" +
                 "rating='" + rating + '\'' +
                 ", bidderUsername='" + username + '\'' +
                 ", location='" + location + '\'' +

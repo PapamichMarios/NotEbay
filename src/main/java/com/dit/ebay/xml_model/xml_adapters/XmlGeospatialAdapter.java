@@ -4,7 +4,7 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
 import java.math.BigDecimal;
 
 
-public class XMLGeospatialAdapter extends XmlAdapter<String, BigDecimal> {
+public class XmlGeospatialAdapter extends XmlAdapter<String, BigDecimal> {
 
     public BigDecimal unmarshal(String val) throws Exception {
         return new BigDecimal(val);

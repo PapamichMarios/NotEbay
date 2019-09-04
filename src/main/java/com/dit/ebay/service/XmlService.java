@@ -7,25 +7,20 @@ import com.dit.ebay.xml_model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import java.io.File;
 import java.io.FileReader;
-import java.io.FilenameFilter;
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 /*
  * User it to read xml files and write
  */
 @Service
-public class XMLService {
+public class XmlService {
 
     private static final String EBAY_DATA = "ebay_data/";
 
@@ -51,7 +46,7 @@ public class XMLService {
     private PasswordEncoder passwordEncoder;
 
     public void XmlImport() throws JAXBException, IOException {
-        JAXBContext context = JAXBContext.newInstance(XMLItems.class);
+        JAXBContext context = JAXBContext.newInstance(XmlItems.class);
 
         // XML => objects
         Unmarshaller unmarshaller = context.createUnmarshaller();
@@ -61,9 +56,9 @@ public class XMLService {
         File[] files = dir.listFiles((dir1, name) -> name.endsWith(".xml"));
         for (File xmlFile : files) {
             //System.out.println("---------------------" + xmlFile + "------------------------");
-            XMLItems xmlItems = (XMLItems) unmarshaller.unmarshal(new FileReader(xmlFile));
+            XmlItems xmlItems = (XmlItems) unmarshaller.unmarshal(new FileReader(xmlFile));
             // loop over all xml items
-            for (XMLItem xmlItem :  xmlItems.getXmlItems()) {
+            for (XmlItem xmlItem :  xmlItems.getXmlItems()) {
                 User seller = userRepository.findByUsername(xmlItem.getSeller().getUsername()).orElse(null);
                 if (seller == null) {
                     seller = new User(xmlItem.getSeller());
@@ -88,7 +83,7 @@ public class XMLService {
                 }
 
                 Bid lastBid = null;
-                for (XMLBid xmlBid : xmlItem.getBids()) {
+                for (XmlBid xmlBid : xmlItem.getBids()) {
                     if (xmlBid.getBidder() == null) break;
                     User bidder = userRepository.findByUsername(xmlBid.getBidder().getUsername()).orElse(null);
                     if (bidder == null) {
@@ -117,51 +112,53 @@ public class XMLService {
     }
 
     //@Transactional
-    public XMLItems getXmlItems(Long userId) {
+    public XmlItems getXmlItems(Long userId) {
         //Object => XML (maybe use it)
-        //JAXBContext context = JAXBContext.newInstance(XMLItems.class);
+        //JAXBContext context = JAXBContext.newInstance(XmlItems.class);
         //Marshaller marshaller = context.createMarshaller();
+        //marshaller.setProperty(MarshallerProperties.MEDIA_TYPE, "application/json");
+        //marshaller.setProperty(MarshallerProperties.JSON_INCLUDE_ROOT, true);
         //marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
         List<Item> itemsList = itemRepository.findAllByUserId(userId);
-        XMLItems xmlItems = new XMLItems();
+        XmlItems xmlItems = new XmlItems();
 
         for (Item item : itemsList) {
-            XMLItem xmlItem = new XMLItem(item);
-            xmlItem.setSeller(new XMLSeller(item.getUser().getUsername(),
+            XmlItem xmlItem = new XmlItem(item);
+            xmlItem.setSeller(new XmlSeller(item.getUser().getUsername(),
                             sellerRatingRepository.aggrRatingByUserId(userId).orElse(null)));
             List<Bid> bidsList = bidRepository.findByItemId(item.getId());
             for (Bid bid : bidsList) {
-                XMLBid xmlBid = new XMLBid(bid);
-                xmlBid.setBidder(new XMLBidder(bid.getUser(),
+                XmlBid xmlBid = new XmlBid(bid);
+                xmlBid.setBidder(new XmlBidder(bid.getUser(),
                                  bidderRatingRepository.aggrRatingByUserId(bid.getUser().getId()).orElse(null)));
                 xmlItem.addBid(xmlBid);
             }
             xmlItems.addItem(xmlItem);
         }
         //System.out.println(xmlItems);
-        //marshaller.marshal(xmlItems, new File("out.xml"));
+        //marshaller.marshal(xmlItems, new File("out.json"));
         return xmlItems;
     }
 
     //@Transactional
-    public XMLItems getAllXmlItems() {
+    public XmlItems getAllXmlItems() {
         //Object => XML (maybe use it)
-        //JAXBContext context = JAXBContext.newInstance(XMLItems.class);
+        //JAXBContext context = JAXBContext.newInstance(XmlItems.class);
         //Marshaller marshaller = context.createMarshaller();
         //marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
         Iterable<Item> itemsList = itemRepository.findAll();
-        XMLItems xmlItems = new XMLItems();
+        XmlItems xmlItems = new XmlItems();
 
         for (Item item : itemsList) {
-            XMLItem xmlItem = new XMLItem(item);
-            xmlItem.setSeller(new XMLSeller(item.getUser().getUsername(),
+            XmlItem xmlItem = new XmlItem(item);
+            xmlItem.setSeller(new XmlSeller(item.getUser().getUsername(),
                     sellerRatingRepository.aggrRatingByUserId(item.getUser().getId()).orElse(null)));
             List<Bid> bidsList = bidRepository.findByItemId(item.getId());
             for (Bid bid : bidsList) {
-                XMLBid xmlBid = new XMLBid(bid);
-                xmlBid.setBidder(new XMLBidder(bid.getUser(),
+                XmlBid xmlBid = new XmlBid(bid);
+                xmlBid.setBidder(new XmlBidder(bid.getUser(),
                         bidderRatingRepository.aggrRatingByUserId(bid.getUser().getId()).orElse(null)));
                 xmlItem.addBid(xmlBid);
             }

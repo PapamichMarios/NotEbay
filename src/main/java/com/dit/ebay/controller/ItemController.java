@@ -1,5 +1,6 @@
 package com.dit.ebay.controller;
 
+import com.dit.ebay.json_model.JsonItems;
 import com.dit.ebay.model.Item;
 import com.dit.ebay.request.ItemActiveRequest;
 import com.dit.ebay.request.ItemRequest;
@@ -10,13 +11,13 @@ import com.dit.ebay.response.PagedResponse;
 import com.dit.ebay.security.CurrentUser;
 import com.dit.ebay.security.UserDetailsImpl;
 import com.dit.ebay.service.ItemService;
-import com.dit.ebay.service.XMLService;
+import com.dit.ebay.service.JsonService;
+import com.dit.ebay.service.XmlService;
 import com.dit.ebay.util.PaginationConstants;
-import com.dit.ebay.xml_model.XMLItems;
+import com.dit.ebay.xml_model.XmlItems;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -37,7 +38,10 @@ public class ItemController {
     private ItemService itemService;
 
     @Autowired
-    private XMLService xmlService;
+    private XmlService xmlService;
+
+    @Autowired
+    private JsonService jsonService;
 
     private static final Logger logger = LoggerFactory.getLogger(ItemController.class);
 
@@ -127,30 +131,27 @@ public class ItemController {
      */
     @GetMapping(path = "users/{userId}/items/xml", produces = {MediaType.APPLICATION_XML_VALUE})
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public XMLItems getXmlItems(@PathVariable(value = "userId") Long userId,
+    public XmlItems getXmlItems(@PathVariable(value = "userId") Long userId,
                                 @Valid @CurrentUser UserDetailsImpl currentUser) {
             return xmlService.getXmlItems(userId);
     }
 
     @GetMapping(path = "users/{userId}/items/json", produces = {MediaType.APPLICATION_JSON_VALUE})
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public XMLItems getJsonItems(@PathVariable(value = "userId") Long userId,
-                                @Valid @CurrentUser UserDetailsImpl currentUser) {
-        return xmlService.getXmlItems(userId);
+    public JsonItems getJsonItems(@PathVariable(value = "userId") Long userId,
+                                  @Valid @CurrentUser UserDetailsImpl currentUser) {
+        return jsonService.getJsonItems(userId);
     }
 
-    /*
-     * Export fro json and xml
-     */
     @GetMapping(path = "/items/xml", produces = {MediaType.APPLICATION_XML_VALUE})
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public XMLItems getXmlAllItems(@Valid @CurrentUser UserDetailsImpl currentUser) {
+    public XmlItems getXmlAllItems(@Valid @CurrentUser UserDetailsImpl currentUser) {
         return xmlService.getAllXmlItems();
     }
 
     @GetMapping(path = "/items/json", produces = {MediaType.APPLICATION_JSON_VALUE})
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public XMLItems getJsonAllItems(@Valid @CurrentUser UserDetailsImpl currentUser) {
-        return xmlService.getAllXmlItems();
+    public JsonItems getJsonAllItems(@Valid @CurrentUser UserDetailsImpl currentUser) {
+        return jsonService.getAllJsonItems();
     }
 }

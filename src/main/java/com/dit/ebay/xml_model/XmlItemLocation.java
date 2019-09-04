@@ -1,6 +1,6 @@
 package com.dit.ebay.xml_model;
 
-import com.dit.ebay.xml_model.xml_adapters.XMLGeospatialAdapter;
+import com.dit.ebay.xml_model.xml_adapters.XmlGeospatialAdapter;
 
 import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -8,24 +8,24 @@ import java.math.BigDecimal;
 
 //@XmlRootElement(name = "Location")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class XMLItemLocation {
+public class XmlItemLocation {
 
     @XmlAttribute(name = "Latitude")
-    @XmlJavaTypeAdapter(XMLGeospatialAdapter.class)
+    @XmlJavaTypeAdapter(XmlGeospatialAdapter.class)
     private BigDecimal lat;
 
     @XmlAttribute(name = "Longitude")
-    @XmlJavaTypeAdapter(XMLGeospatialAdapter.class)
+    @XmlJavaTypeAdapter(XmlGeospatialAdapter.class)
     private BigDecimal lng;
 
     @XmlValue
     private String location;
 
-    public XMLItemLocation() {
+    public XmlItemLocation() {
 
     }
 
-    public XMLItemLocation(String location, BigDecimal lat, BigDecimal lng) {
+    public XmlItemLocation(String location, BigDecimal lat, BigDecimal lng) {
         this.lat = lat;
         this.lng = lng;
         this.location = location;
@@ -58,7 +58,7 @@ public class XMLItemLocation {
 
     @Override
     public String toString() {
-        return "XMLItemLocation{" +
+        return "XmlItemLocation{" +
                 "lat='" + lat + '\'' +
                 ", lng='" + lng + '\'' +
                 ", location='" + location + '\'' +

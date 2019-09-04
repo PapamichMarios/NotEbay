@@ -1,8 +1,9 @@
 package com.dit.ebay.xml_model;
 
 import com.dit.ebay.model.Item;
-import com.dit.ebay.xml_model.xml_adapters.XMLDateAdapter;
-import com.dit.ebay.xml_model.xml_adapters.XMLDollarAdapter;
+import com.dit.ebay.xml_model.xml_adapters.XmlDateAdapter;
+import com.dit.ebay.xml_model.xml_adapters.XmlDollarAdapter;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -13,7 +14,7 @@ import java.util.List;
 
 //@XmlRootElement(name = "Item")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class XMLItem {
+public class XmlItem {
 
     @XmlAttribute(name = "ItemID")
     private String itemId;
@@ -25,15 +26,15 @@ public class XMLItem {
     private List<String> category = null;
 
     @XmlElement(name = "Currently")
-    @XmlJavaTypeAdapter(XMLDollarAdapter.class)
+    @XmlJavaTypeAdapter(XmlDollarAdapter.class)
     private BigDecimal currently;
 
     @XmlElement(name = "Buy_Price")
-    @XmlJavaTypeAdapter(XMLDollarAdapter.class)
+    @XmlJavaTypeAdapter(XmlDollarAdapter.class)
     private BigDecimal buyPrice;
 
     @XmlElement(name = "First_Bid")
-    @XmlJavaTypeAdapter(XMLDollarAdapter.class)
+    @XmlJavaTypeAdapter(XmlDollarAdapter.class)
     private BigDecimal firstBid;
 
     @XmlElement(name = "Number_of_Bids")
@@ -41,33 +42,33 @@ public class XMLItem {
 
     @XmlElementWrapper(name="Bids")
     @XmlElement(name = "Bid")
-    private List<XMLBid> bids = new ArrayList<>();
+    private List<XmlBid> bids = new ArrayList<>();
 
     @XmlElement(name = "Location")
-    private XMLItemLocation location;
+    private XmlItemLocation location;
 
     @XmlElement(name = "Country")
     private String country;
 
     @XmlElement(name = "Started")
-    @XmlJavaTypeAdapter(XMLDateAdapter.class)
+    @XmlJavaTypeAdapter(XmlDateAdapter.class)
     private Timestamp timeStarted;
 
     @XmlElement(name = "Ends")
-    @XmlJavaTypeAdapter(XMLDateAdapter.class)
+    @XmlJavaTypeAdapter(XmlDateAdapter.class)
     private Timestamp timeEnds;
 
     @XmlElement(name = "Seller")
-    private XMLSeller seller;
+    private XmlSeller seller;
 
     @XmlElement(name = "Description")
     private String description;
 
-    public XMLItem() {
+    public XmlItem() {
 
     }
 
-    public XMLItem(Item item) {
+    public XmlItem(Item item) {
         this.itemId = item.getId().toString();
         this.name = item.getName();
         this.firstBid = item.getFirstBid();
@@ -77,7 +78,7 @@ public class XMLItem {
         this.timeEnds = item.getTimeEnds();
         this.description = item.getDescription();
         this.country = item.getCountry();
-        this.location = new XMLItemLocation(item.getLocation(), item.getGeoLat(), item.getGeoLong());
+        this.location = new XmlItemLocation(item.getLocation(), item.getGeoLat(), item.getGeoLong());
         this.numOfBids = item.getNumOfBids();
     }
 
@@ -137,19 +138,19 @@ public class XMLItem {
         this.numOfBids = numOfBids;
     }
 
-    public List<XMLBid> getBids() {
+    public List<XmlBid> getBids() {
         return bids;
     }
 
-    public void setBids(List<XMLBid> bids) {
+    public void setBids(List<XmlBid> bids) {
         this.bids = bids;
     }
 
-    public XMLItemLocation getLocation() {
+    public XmlItemLocation getLocation() {
         return location;
     }
 
-    public void setLocation(XMLItemLocation location) {
+    public void setLocation(XmlItemLocation location) {
         this.location = location;
     }
 
@@ -177,11 +178,11 @@ public class XMLItem {
         this.timeEnds = timeEnds;
     }
 
-    public XMLSeller getSeller() {
+    public XmlSeller getSeller() {
         return seller;
     }
 
-    public void setSeller(XMLSeller seller) {
+    public void setSeller(XmlSeller seller) {
         this.seller = seller;
     }
 
@@ -193,13 +194,13 @@ public class XMLItem {
         this.description = description;
     }
 
-    public void addBid(XMLBid xmlBid) {
+    public void addBid(XmlBid xmlBid) {
         this.bids.add(xmlBid);
     }
 
     @Override
     public String toString() {
-        return "XMLItem{" +
+        return "XmlItem{" +
                 "itemId='" + itemId + '\'' + "\n" +
                 ", name='" + name + '\'' + "\n" +
                 ", category=" + category + "\n" +

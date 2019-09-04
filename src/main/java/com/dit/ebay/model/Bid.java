@@ -2,9 +2,8 @@ package com.dit.ebay.model;
 
 import com.dit.ebay.csv_model.CSVBid;
 import com.dit.ebay.exception.AppException;
-import com.dit.ebay.xml_model.XMLBid;
+import com.dit.ebay.xml_model.XmlBid;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
@@ -75,7 +74,7 @@ public class Bid {
         this.accepted = true; // have to remove it
     }
 
-    public Bid(XMLBid xmlBid) {
+    public Bid(XmlBid xmlBid) {
         this.bidAmount = xmlBid.getBidAmount();
         this.bidTime = xmlBid.getBidDate();
         this.accepted = true;

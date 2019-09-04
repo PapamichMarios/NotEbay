@@ -2,8 +2,8 @@ package com.dit.ebay.xml_model;
 
 
 import com.dit.ebay.model.Bid;
-import com.dit.ebay.xml_model.xml_adapters.XMLDateAdapter;
-import com.dit.ebay.xml_model.xml_adapters.XMLDollarAdapter;
+import com.dit.ebay.xml_model.xml_adapters.XmlDateAdapter;
+import com.dit.ebay.xml_model.xml_adapters.XmlDollarAdapter;
 
 import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -12,33 +12,33 @@ import java.sql.Timestamp;
 
 @XmlRootElement(name = "Bid")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class XMLBid {
+public class XmlBid {
 
     @XmlElement(name = "Bidder")
-    private XMLBidder bidder;
+    private XmlBidder bidder;
 
     @XmlElement(name = "Time")
-    @XmlJavaTypeAdapter(XMLDateAdapter.class)
+    @XmlJavaTypeAdapter(XmlDateAdapter.class)
     private Timestamp bidDate;
 
     @XmlElement(name = "Amount")
-    @XmlJavaTypeAdapter(XMLDollarAdapter.class)
+    @XmlJavaTypeAdapter(XmlDollarAdapter.class)
     private BigDecimal bidAmount;
 
-    public XMLBid() {
+    public XmlBid() {
 
     }
 
-    public XMLBid(Bid bid) {
+    public XmlBid(Bid bid) {
         this.bidDate = bid.getBidTime();
         this.bidAmount = bid.getBidAmount();
     }
 
-    public XMLBidder getBidder() {
+    public XmlBidder getBidder() {
         return bidder;
     }
 
-    public void setBidder(XMLBidder bidder) {
+    public void setBidder(XmlBidder bidder) {
         this.bidder = bidder;
     }
 
@@ -60,7 +60,7 @@ public class XMLBid {
 
     @Override
     public String toString() {
-        return "XMLBid{" +
+        return "XmlBid{" +
                 "bidder=" + bidder +
                 ", bidDate=" + bidDate +
                 ", bidAmmount=" + bidAmount +

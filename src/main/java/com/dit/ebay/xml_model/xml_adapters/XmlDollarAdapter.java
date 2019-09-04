@@ -8,7 +8,7 @@ import java.text.ParsePosition;
 import java.util.Locale;
 
 
-public class XMLDollarAdapter extends XmlAdapter<String, BigDecimal> {
+public class XmlDollarAdapter extends XmlAdapter<String, BigDecimal> {
 
     private final Locale in_ID = new Locale("en","US");
     private final DecimalFormat dfImport = (DecimalFormat) NumberFormat.getInstance(in_ID);

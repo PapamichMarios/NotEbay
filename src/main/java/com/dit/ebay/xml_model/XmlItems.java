@@ -6,31 +6,31 @@ import java.util.List;
 
 @XmlRootElement(name = "Items")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class XMLItems {
+public class XmlItems {
 
     @XmlElement(name = "Item")
-    private List<XMLItem> xmlItems = null;
+    private List<XmlItem> xmlItems = new ArrayList<>();
 
-    public XMLItems() {
+    public XmlItems() {
 
     }
 
-    public List<XMLItem> getXmlItems() {
+    public List<XmlItem> getXmlItems() {
         return xmlItems;
     }
 
-    public void setXmlItems(List<XMLItem> xmlItems) {
+    public void setXmlItems(List<XmlItem> xmlItems) {
         this.xmlItems = xmlItems;
     }
 
-    public void addItem(XMLItem xmlItem) {
-        if (xmlItems == null) xmlItems = new ArrayList<>();
+    public void addItem(XmlItem xmlItem) {
+       // if (xmlItems == null) xmlItems = new ArrayList<>();
         xmlItems.add(xmlItem);
     }
 
     @Override
     public String toString() {
-        return "XMLItems{" +
+        return "XmlItems{" +
                 "xmlItems=" + xmlItems +
                 "}\n";
     }
