@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-@XmlRootElement(name = "Item")
+//@XmlRootElement(name = "Item")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class XMLItem {
 
@@ -41,7 +41,7 @@ public class XMLItem {
 
     @XmlElementWrapper(name="Bids")
     @XmlElement(name = "Bid")
-    private List<XMLBid> bids = null;
+    private List<XMLBid> bids = new ArrayList<>();
 
     @XmlElement(name = "Location")
     private XMLItemLocation location;
@@ -62,6 +62,10 @@ public class XMLItem {
 
     @XmlElement(name = "Description")
     private String description;
+
+    public XMLItem() {
+
+    }
 
     public XMLItem(Item item) {
         this.itemId = item.getId().toString();
@@ -190,7 +194,6 @@ public class XMLItem {
     }
 
     public void addBid(XMLBid xmlBid) {
-        if (bids == null) bids = new ArrayList<>();
         this.bids.add(xmlBid);
     }
 

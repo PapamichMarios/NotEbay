@@ -9,6 +9,6 @@ public class XMLRatingAdapter extends XmlAdapter<String, Long> {
     }
 
     public String marshal(Long val) throws Exception {
-        return val.toString();
+        return val != null ? val.toString() : null;
     }
 }

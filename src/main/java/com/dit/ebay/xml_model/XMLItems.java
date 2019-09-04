@@ -11,6 +11,10 @@ public class XMLItems {
     @XmlElement(name = "Item")
     private List<XMLItem> xmlItems = null;
 
+    public XMLItems() {
+
+    }
+
     public List<XMLItem> getXmlItems() {
         return xmlItems;
     }

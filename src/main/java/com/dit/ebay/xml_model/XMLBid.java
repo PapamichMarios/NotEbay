@@ -25,6 +25,14 @@ public class XMLBid {
     @XmlJavaTypeAdapter(XMLDollarAdapter.class)
     private BigDecimal bidAmount;
 
+    public XMLBid() {
+
+    }
+
+    public XMLBid(Bid bid) {
+        this.bidDate = bid.getBidTime();
+        this.bidAmount = bid.getBidAmount();
+    }
 
     public XMLBidder getBidder() {
         return bidder;
@@ -48,11 +56,6 @@ public class XMLBid {
 
     public void setBidAmount(BigDecimal bidAmount) {
         this.bidAmount = bidAmount;
-    }
-
-    public XMLBid(Bid bid) {
-        this.bidDate = bid.getBidTime();
-        this.bidAmount = bid.getBidAmount();
     }
 
     @Override

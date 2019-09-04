@@ -7,6 +7,7 @@ import com.dit.ebay.xml_model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -115,11 +116,12 @@ public class XMLService {
         }
     }
 
+    //@Transactional
     public XMLItems getXmlItems(Long userId) {
         //Object => XML (maybe use it)
+        //JAXBContext context = JAXBContext.newInstance(XMLItems.class);
         //Marshaller marshaller = context.createMarshaller();
-        //marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true)
-        //marshaller.marshal(xmlItems, System.out);
+        //marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
         List<Item> itemsList = itemRepository.findAllByUserId(userId);
         XMLItems xmlItems = new XMLItems();
@@ -137,6 +139,9 @@ public class XMLService {
             }
             xmlItems.addItem(xmlItem);
         }
+        System.out.println(xmlItems);
+        //System.out.println(xmlItems);
+        //marshaller.marshal(xmlItems, new File("out.xml"));
         return xmlItems;
     }
 }

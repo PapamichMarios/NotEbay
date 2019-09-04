@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDateTime;
 
-@XmlRootElement(name = "Bidder")
+//@XmlRootElement(name = "Bidder")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class XMLBidder {
 
@@ -23,6 +23,10 @@ public class XMLBidder {
 
     @XmlElement(name = "Country")
     private String country;
+
+    public XMLBidder() {
+    }
+
 
     public XMLBidder(User bidder, Long rating) {
         this.rating = rating;

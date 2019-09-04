@@ -20,6 +20,7 @@ import com.dit.ebay.service.UserService;
 import com.dit.ebay.service.PopulateDB;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+
 @SpringBootApplication
 @EnableScheduling
 public class EbayApplication {
@@ -52,6 +53,10 @@ public class EbayApplication {
 			populateDB.populateRatings();
 			populateDB.populateMessages();
 
+			// for testing
+			//Object o = xmlService.getXmlItems(new Long(2));
+
+			// uncomment when lsh is finished
 			//xmlService.XmlImport(); // import for lsh
 		}
 	}

@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.query.Procedure;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -124,9 +125,16 @@ public class ItemController {
     /*
      * Export fro json and xml
      */
-    @GetMapping(path = "users/{userId}/items/xml")
+    @GetMapping(path = "users/{userId}/items/xml", produces = {MediaType.APPLICATION_XML_VALUE})
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public XMLItems getXmlItems(@PathVariable(value = "userId") Long userId,
+                                @Valid @CurrentUser UserDetailsImpl currentUser) {
+            return xmlService.getXmlItems(userId);
+    }
+
+    @GetMapping(path = "users/{userId}/items/json", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public XMLItems getJsonItems(@PathVariable(value = "userId") Long userId,
                                 @Valid @CurrentUser UserDetailsImpl currentUser) {
         return xmlService.getXmlItems(userId);
     }

@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.math.BigDecimal;
 
-@XmlRootElement(name = "Seller")
+//@XmlRootElement(name = "Seller")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class XMLSeller {
 
@@ -20,6 +20,14 @@ public class XMLSeller {
 
     @XmlAttribute(name = "UserID")
     private String username;
+
+    public XMLSeller() {
+    }
+
+    public XMLSeller(String username, Long rating) {
+        this.rating = rating;
+        this.username = username;
+    }
 
     public Long getRating() {
         return rating;
@@ -32,11 +40,6 @@ public class XMLSeller {
     public String getUsername() { return username; }
 
     public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public XMLSeller(String username, Long rating) {
-        this.rating = rating;
         this.username = username;
     }
 

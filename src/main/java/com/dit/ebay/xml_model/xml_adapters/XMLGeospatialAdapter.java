@@ -11,6 +11,6 @@ public class XMLGeospatialAdapter extends XmlAdapter<String, BigDecimal> {
     }
 
     public String marshal(BigDecimal val) throws Exception {
-        return val.toString();
+        return val != null ? val.toString() : null;
     }
 }
