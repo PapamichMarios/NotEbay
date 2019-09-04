@@ -6,8 +6,9 @@ import LoadingButton from '../utils/loading/loadingButton';
 import postRequest from '../utils/requests/postRequest';
 
 import { Container, Row, Col, Card, Button, Alert }  from 'react-bootstrap';
+import { withRouter } from 'react-router-dom';
 
-export default class BidderRating extends React.Component {
+class BidderRating extends React.Component {
     constructor(props) {
         super(props);
 
@@ -73,6 +74,14 @@ export default class BidderRating extends React.Component {
                     hasError: true,
                     errorMsg: response.msg
                 });
+
+                if(response.status === 500) {
+                    this.props.history.push('/internal-server-error');
+                }
+
+                if(response.status === 404) {
+                    this.props.history.push('/seller-not-found');
+                }
             } else {
                 this.setState({
                     success: true
@@ -227,3 +236,5 @@ export default class BidderRating extends React.Component {
         }
     }
 }
+
+export default withRouter(BidderRating);

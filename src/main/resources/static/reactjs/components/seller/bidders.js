@@ -8,8 +8,9 @@ import Paging from '../utils/paging';
 import '../../../css/signup/confirmation.css';
 
 import { Container, Row, Col, Button, Pagination, Card, Table } from 'react-bootstrap';
+import { withRouter } from 'react-router-dom';
 
-export default class BidList extends React.Component {
+class BidList extends React.Component {
     constructor(props) {
         super(props);
 
@@ -40,17 +41,27 @@ export default class BidList extends React.Component {
 
         getRequest(url)
         .then(data => {
-            this.setState({
-                bidders: data.content,
-                paging: data
-            });
+            if(data.error) {
+                if(data.status === 500) {
+                    this.props.history.push('/internal-server-error');
+                }
+
+                if(data.status === 404) {
+                    this.props.history.push('/bidders-not-found');
+                }
+            } else {
+                this.setState({
+                    bidders: data.content,
+                    paging: data
+                });
+
+                //set loading
+                setTimeout(() => {
+                  this.setState({loading: false})
+                }, Constants.TIMEOUT_DURATION)
+            }
         })
         .catch(error => console.error('Error:', error));
-
-        //set loading
-        setTimeout(() => {
-          this.setState({loading: false})
-        }, Constants.TIMEOUT_DURATION)
     }
 
     componentDidMount() {
@@ -111,3 +122,5 @@ export default class BidList extends React.Component {
         }
     }
 }
+
+export default withRouter(BidList);

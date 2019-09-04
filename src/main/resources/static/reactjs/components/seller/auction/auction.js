@@ -15,7 +15,7 @@ import deleteRequest from '../../utils/requests/deleteRequest';
 import { withRouter } from 'react-router-dom';
 import {FaEdit, FaSearchDollar, FaTrash, FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 
-export default class Auction extends React.Component{
+class Auction extends React.Component{
     constructor(props) {
         super(props);
 
@@ -110,27 +110,36 @@ export default class Auction extends React.Component{
     componentDidMount() {
         getRequest(this.props.action + this.props.match.params.id)
         .then(data => {
-            console.log(data);
-            const [date, time] = splitDateAndTime(data.timeEnds);
-            this.setState({
-                auction: data,
-                name: data.name,
-                description: data.description,
-                timeEnds: time,
-                dateEnds: date,
-                firstBid: data.firstBid,
-                buyPrice: data.buyPrice,
-                country: data.country,
-                location: data.location,
-                lat: data.geoLat,
-                lng: data.geoLong,
-                active: data.active,
-                finished: data.finished
-            }, () => {
-                setTimeout(() => {
-                  this.setState({loading: false})
-                }, Constants.TIMEOUT_DURATION)
-            });
+            if(data.error) {
+                if(data.status === 500) {
+                    this.props.history.push('/internal-server-error');
+                }
+
+                if(data.status === 404) {
+                    this.props.history.push('/auction-not-found');
+                }
+            } else {
+                const [date, time] = splitDateAndTime(data.timeEnds);
+                this.setState({
+                    auction: data,
+                    name: data.name,
+                    description: data.description,
+                    timeEnds: time,
+                    dateEnds: date,
+                    firstBid: data.firstBid,
+                    buyPrice: data.buyPrice,
+                    country: data.country,
+                    location: data.location,
+                    lat: data.geoLat,
+                    lng: data.geoLong,
+                    active: data.active,
+                    finished: data.finished
+                }, () => {
+                    setTimeout(() => {
+                      this.setState({loading: false})
+                    }, Constants.TIMEOUT_DURATION)
+                });
+            }
         })
         .catch(error => console.error('Error:', error));
     }
@@ -167,3 +176,5 @@ export default class Auction extends React.Component{
 Auction.defaultProps = {
     action: '/app/items/owner/',
 };
+
+export default withRouter(Auction);

@@ -111,14 +111,24 @@ class Message extends React.Component{
 
         getRequest(url)
         .then(message => {
-            this.setState({
-                message: message
-            },
-            () =>
-                setTimeout(() => {
-                  this.setState({loadingMessage: false})
-                }, Constants.TIMEOUT_DURATION)
-            );
+            if(message.error) {
+                if(message.status === 500) {
+                    this.props.history.push('/internal-server-error');
+                }
+
+                if(message.status === 404) {
+                    this.props.history.push('/auction-not-found');
+                }
+            } else {
+                this.setState({
+                    message: message
+                },
+                () =>
+                    setTimeout(() => {
+                      this.setState({loadingMessage: false})
+                    }, Constants.TIMEOUT_DURATION)
+                );
+            }
         })
         .catch(error => console.error("Error:", error));
     }

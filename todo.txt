@@ -1,5 +1,4 @@
 - need to optimize webpack
-- authorize properly the endpoints
 
 categories (dropdown):
     1. mono layer 0 kai layer 1
