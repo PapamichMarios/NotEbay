@@ -138,4 +138,19 @@ public class ItemController {
                                 @Valid @CurrentUser UserDetailsImpl currentUser) {
         return xmlService.getXmlItems(userId);
     }
+
+    /*
+     * Export fro json and xml
+     */
+    @GetMapping(path = "/items/xml", produces = {MediaType.APPLICATION_XML_VALUE})
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public XMLItems getXmlAllItems(@Valid @CurrentUser UserDetailsImpl currentUser) {
+        return xmlService.getAllXmlItems();
+    }
+
+    @GetMapping(path = "/items/json", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public XMLItems getJsonAllItems(@Valid @CurrentUser UserDetailsImpl currentUser) {
+        return xmlService.getAllXmlItems();
+    }
 }

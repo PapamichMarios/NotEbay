@@ -139,7 +139,34 @@ public class XMLService {
             }
             xmlItems.addItem(xmlItem);
         }
-        System.out.println(xmlItems);
+        //System.out.println(xmlItems);
+        //marshaller.marshal(xmlItems, new File("out.xml"));
+        return xmlItems;
+    }
+
+    //@Transactional
+    public XMLItems getAllXmlItems() {
+        //Object => XML (maybe use it)
+        //JAXBContext context = JAXBContext.newInstance(XMLItems.class);
+        //Marshaller marshaller = context.createMarshaller();
+        //marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+
+        Iterable<Item> itemsList = itemRepository.findAll();
+        XMLItems xmlItems = new XMLItems();
+
+        for (Item item : itemsList) {
+            XMLItem xmlItem = new XMLItem(item);
+            xmlItem.setSeller(new XMLSeller(item.getUser().getUsername(),
+                    sellerRatingRepository.aggrRatingByUserId(item.getUser().getId()).orElse(null)));
+            List<Bid> bidsList = bidRepository.findByItemId(item.getId());
+            for (Bid bid : bidsList) {
+                XMLBid xmlBid = new XMLBid(bid);
+                xmlBid.setBidder(new XMLBidder(bid.getUser(),
+                        bidderRatingRepository.aggrRatingByUserId(bid.getUser().getId()).orElse(null)));
+                xmlItem.addBid(xmlBid);
+            }
+            xmlItems.addItem(xmlItem);
+        }
         //System.out.println(xmlItems);
         //marshaller.marshal(xmlItems, new File("out.xml"));
         return xmlItems;
