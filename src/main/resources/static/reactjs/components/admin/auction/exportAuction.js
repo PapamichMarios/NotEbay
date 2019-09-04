@@ -10,14 +10,47 @@ export default class ExportAuction extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            loading: false
-        };
-
-        this.exportAuction = this.exportAuction.bind(this);
+        this.exportAuctionUser = this.exportAuctionUser.bind(this);
+        this.exportAuctionAll = this.exportAuctionAll.bind(this);
     }
 
-    exportAuction () {
+    exportAuctionAll() {
+        const url = '/app/items/';
+
+        if(this.props.format === 'json') {
+            fetch(url + 'json', {
+                headers: {
+                    'Authorization': Constants.ACCESS_TOKEN
+                }
+            })
+            .then(response => response.blob())
+            .then(blob => {
+                let url = window.URL.createObjectURL(blob);
+                let a = document.createElement('a');
+                a.href = url;
+                a.download = 'all_auctions.json';
+                a.click();
+            })
+            .catch(error => console.error("Error: ", error));
+        } else {
+            fetch(url + 'xml', {
+                headers: {
+                    'Authorization': Constants.ACCESS_TOKEN
+                }
+            })
+            .then(response => response.blob())
+            .then(blob => {
+                let url = window.URL.createObjectURL(blob);
+                let a = document.createElement('a');
+                a.href = url;
+                a.download = 'all_auctions.xml';
+                a.click();
+            })
+            .catch(error => console.error("Error: ", error));
+        }
+    }
+
+    exportAuctionUser() {
         const url = this.props.action + this.props.id + '/items/';
 
         if(this.props.format === 'json') {
@@ -54,11 +87,19 @@ export default class ExportAuction extends React.Component {
     }
 
     render() {
-        return (
-           <Button onClick={this.exportAuction} variant="outline-primary">
-                <FaFileExport style={{verticalAlign: 'baseline'}} />
-           </Button>
-        );
+        if(this.props.all) {
+            return (
+               <Button onClick={this.exportAuctionAll} style={{borderWidth:'0px', borderRadius: '50%'}} variant="outline-primary">
+                    <FaFileExport style={{verticalAlign: 'baseline'}} />
+               </Button>
+            );
+        } else {
+            return (
+               <Button onClick={this.exportAuctionUser} style={{borderWidth:'0px'}} variant="outline-primary">
+                    <FaFileExport style={{verticalAlign: 'baseline'}} />
+               </Button>
+            );
+        }
     }
 }
 
