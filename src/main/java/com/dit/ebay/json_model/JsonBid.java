@@ -2,13 +2,18 @@ package com.dit.ebay.json_model;
 
 import com.dit.ebay.json_model.json_serializers.JsonDollarSerializer;
 import com.dit.ebay.model.Bid;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.WRAPPER_OBJECT
+)
+@JsonSubTypes({
+        @JsonSubTypes.Type(name = "Bid", value = JsonBid.class)
+})
 public class JsonBid {
 
     @JsonProperty("Bidder")

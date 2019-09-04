@@ -9,7 +9,13 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.WRAPPER_OBJECT
+)
+@JsonSubTypes({
+        @JsonSubTypes.Type(name = "Item", value = JsonItem.class)
+})
 public class JsonItem {
 
     @JsonProperty("ItemID")
