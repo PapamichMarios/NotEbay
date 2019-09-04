@@ -1,4 +1,7 @@
 import React    from 'react';
+
+import ExportAuction from '../auction/exportAuction';
+
 import { Container, Table, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { FaExternalLinkAlt, FaUserCheck, FaUserTimes } from 'react-icons/fa';
@@ -13,6 +16,8 @@ function UserItem(props) {
                         <FaExternalLinkAlt />
                     </Link>
                 </td>
+                <td> <ExportAuction format='json' id={props.value.id} /> </td>
+                <td> <ExportAuction format='xml'  id={props.value.id} /> </td>
                 <td> {props.value.username} #{props.value.id}</td>
                 <td> {props.value.firstName} </td>
                 <td> {props.value.lastName} </td>
@@ -61,6 +66,8 @@ export default class UserListing extends React.Component {
                             <thead>
                                 <tr>
                                     <th> </th>
+                                    <th> JSON </th>
+                                    <th> XML </th>
                                     <th> Username </th>
                                     <th> First Name </th>
                                     <th> Last Name </th>

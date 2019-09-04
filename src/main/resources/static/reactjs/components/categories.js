@@ -14,6 +14,10 @@ export default class Categories extends React.Component {
                     <Col>
                         <h1> Categories </h1>
                     </Col>
+
+                    <Col className="navbar-margin">
+                        <h1> Lol </h1>
+                    </Col>
                 </Row>
             </Container>
         );
