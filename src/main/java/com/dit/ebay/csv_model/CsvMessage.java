@@ -2,7 +2,7 @@ package com.dit.ebay.csv_model;
 
 import com.opencsv.bean.CsvBindByName;
 
-public class CSVMessage {
+public class CsvMessage {
 
     @CsvBindByName(column = "senderUsername")
     private String senderUsername;
@@ -16,7 +16,7 @@ public class CSVMessage {
     @CsvBindByName(column = "message")
     private String message;
 
-    public CSVMessage() {
+    public CsvMessage() {
 
     }
 

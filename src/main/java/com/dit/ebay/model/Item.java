@@ -1,6 +1,6 @@
 package com.dit.ebay.model;
 
-import com.dit.ebay.csv_model.CSVItem;
+import com.dit.ebay.csv_model.CsvItem;
 import com.dit.ebay.request.ItemRequest;
 import com.dit.ebay.xml_model.XmlItem;
 import com.dit.ebay.xml_model.XmlItemLocation;
@@ -104,7 +104,7 @@ public class Item {
     /*
      * Insert from csv
      */
-    public Item(CSVItem csvItem) {
+    public Item(CsvItem csvItem) {
         this.name = csvItem.getName();
         this.description = csvItem.getDescription();
         this.timeEnds = csvItem.getTimeEnds();

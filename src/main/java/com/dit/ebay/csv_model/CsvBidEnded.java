@@ -4,7 +4,7 @@ import com.opencsv.bean.CsvBindByName;
 
 import java.sql.Timestamp;
 
-public class CSVBidEnded extends CSVBid {
+public class CsvBidEnded extends CsvBid {
 
     @CsvBindByName(column = "bid_time")
     private Timestamp bidTime;

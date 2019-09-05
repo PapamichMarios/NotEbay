@@ -4,7 +4,7 @@ import com.opencsv.bean.CsvBindByName;
 
 import java.math.BigDecimal;
 
-public class CSVUser {
+public class CsvUser {
     @CsvBindByName(column = "first_name")
     private String firstName;
 

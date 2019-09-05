@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
 
-public class CSVItem {
+public class CsvItem {
     // which user created (role = SELLER)
     @CsvBindByName(column = "username")
     private String username;

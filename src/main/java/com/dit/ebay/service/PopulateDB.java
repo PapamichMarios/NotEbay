@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.List;
 
 @Service
 public class PopulateDB {
@@ -87,11 +86,11 @@ public class PopulateDB {
 
     public void populateUsers() throws IOException,AppException {
         try (Reader reader = Files.newBufferedReader(Paths.get(USERS_DATA_FILE))) {
-            CsvToBean<CSVUser> csvToBean = new CsvToBeanBuilder(reader)
-                    .withType(CSVUser.class)
+            CsvToBean<CsvUser> csvToBean = new CsvToBeanBuilder(reader)
+                    .withType(CsvUser.class)
                     .withIgnoreLeadingWhiteSpace(true).build();
 
-            for (CSVUser csvUser : csvToBean) {
+            for (CsvUser csvUser : csvToBean) {
 
                 if (userRepository.findByUsername(csvUser.getUsername()).orElse(null) != null) continue;
 
@@ -121,13 +120,13 @@ public class PopulateDB {
 
     public void populateItems() throws IOException {
         try (Reader reader = Files.newBufferedReader(Paths.get(ITEMS_DATA_FILE))) {
-            CsvToBean<CSVItem> csvToBean = new CsvToBeanBuilder(reader)
-                    .withType(CSVItem.class)
+            CsvToBean<CsvItem> csvToBean = new CsvToBeanBuilder(reader)
+                    .withType(CsvItem.class)
                     .withIgnoreLeadingWhiteSpace(true).build();
 
             if (itemRepository.findById(FIRST_ID).orElse(null) != null) return;
 
-            for (CSVItem csvItem : csvToBean) {
+            for (CsvItem csvItem : csvToBean) {
 
                 if (itemRepository.findByName(csvItem.getName()).orElse(null) != null) continue;
 
@@ -159,11 +158,11 @@ public class PopulateDB {
 
     public void populateItemsEnded() throws IOException {
         try (Reader reader = Files.newBufferedReader(Paths.get(ITEMS_ENDED_DATA_FILE))) {
-            CsvToBean<CSVItemEnded> csvToBean = new CsvToBeanBuilder(reader)
-                    .withType(CSVItemEnded.class)
+            CsvToBean<CsvItemEnded> csvToBean = new CsvToBeanBuilder(reader)
+                    .withType(CsvItemEnded.class)
                     .withIgnoreLeadingWhiteSpace(true).build();
 
-            for (CSVItemEnded csvItemEnded : csvToBean) {
+            for (CsvItemEnded csvItemEnded : csvToBean) {
                 // Get the user
                 User user = userRepository.findByUsername(csvItemEnded.getUsername()).orElse(null);
                 if (user == null) continue;
@@ -196,14 +195,14 @@ public class PopulateDB {
 
     public void populateBids() throws IOException {
         try (Reader reader = Files.newBufferedReader(Paths.get(BIDS_DATA_FILE))) {
-            CsvToBean<CSVBid> csvToBean = new CsvToBeanBuilder(reader)
-                    .withType(CSVBid.class)
+            CsvToBean<CsvBid> csvToBean = new CsvToBeanBuilder(reader)
+                    .withType(CsvBid.class)
                     .withIgnoreLeadingWhiteSpace(true).build();
 
             // insert only once (populate)
             if (bidRepository.findById(FIRST_ID).orElse(null) != null) return;
 
-            for (CSVBid csvBid : csvToBean) {
+            for (CsvBid csvBid : csvToBean) {
 
                 // Get the user
                 User user = userRepository.findByUsername(csvBid.getUsername()).orElse(null);
@@ -236,13 +235,13 @@ public class PopulateDB {
 
     public void populateBidsEnded() throws IOException {
         try (Reader reader = Files.newBufferedReader(Paths.get(BIDS_ENDED_DATA_FILE))) {
-            CsvToBean<CSVBidEnded> csvToBean = new CsvToBeanBuilder(reader)
-                    .withType(CSVBidEnded.class)
+            CsvToBean<CsvBidEnded> csvToBean = new CsvToBeanBuilder(reader)
+                    .withType(CsvBidEnded.class)
                     .withIgnoreLeadingWhiteSpace(true).build();
 
             if (bidRepository.findById(LAST_BID_ENDED_ID).orElse(null) != null) return;
 
-            for (CSVBidEnded csvBidEnded : csvToBean) {
+            for (CsvBidEnded csvBidEnded : csvToBean) {
 
                 // Get the user
                 User user = userRepository.findByUsername(csvBidEnded.getUsername()).orElse(null);
@@ -276,13 +275,13 @@ public class PopulateDB {
 
     public void populateRatings() throws IOException {
         try (Reader reader = Files.newBufferedReader(Paths.get(RATINGS_DATA_FILE))) {
-            CsvToBean<CSVRating> csvToBean = new CsvToBeanBuilder(reader)
-                    .withType(CSVRating.class)
+            CsvToBean<CsvRating> csvToBean = new CsvToBeanBuilder(reader)
+                    .withType(CsvRating.class)
                     .withIgnoreLeadingWhiteSpace(true).build();
 
             if (sellerRatingRepository.findById(FIRST_ID).orElse(null) != null) return;
 
-            for (CSVRating csvRating : csvToBean) {
+            for (CsvRating csvRating : csvToBean) {
                 // Get the user
                 User seller = userRepository.findByUsername(csvRating.getSellerUsername()).orElse(null);
                 if (seller == null) continue;
@@ -306,13 +305,13 @@ public class PopulateDB {
 
     public void populateMessages() throws IOException {
         try (Reader reader = Files.newBufferedReader(Paths.get(MESSAGES_DATA_FILE))) {
-            CsvToBean<CSVMessage> csvToBean = new CsvToBeanBuilder(reader)
-                    .withType(CSVMessage.class)
+            CsvToBean<CsvMessage> csvToBean = new CsvToBeanBuilder(reader)
+                    .withType(CsvMessage.class)
                     .withIgnoreLeadingWhiteSpace(true).build();
 
             if (messageRepository.findById(FIRST_ID).orElse(null) != null) return;
 
-            for (CSVMessage csvMessage : csvToBean) {
+            for (CsvMessage csvMessage : csvToBean) {
                 // Get the user
                 User sender = userRepository.findByUsername(csvMessage.getSenderUsername()).orElse(null);
                 if (sender == null) continue;

@@ -1,6 +1,6 @@
 package com.dit.ebay.model;
 
-import com.dit.ebay.csv_model.CSVBid;
+import com.dit.ebay.csv_model.CsvBid;
 import com.dit.ebay.exception.AppException;
 import com.dit.ebay.xml_model.XmlBid;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -64,7 +64,7 @@ public class Bid {
     /*
      * Insert from csv
      */
-    public Bid(CSVBid csvBid) {
+    public Bid(CsvBid csvBid) {
         this.bidAmount = csvBid.getBidAmount();
         this.accepted = true;
     }

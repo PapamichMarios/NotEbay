@@ -2,12 +2,11 @@ package com.dit.ebay.csv_model;
 
 import com.opencsv.bean.CsvBindByName;
 
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 // ---could also use inheritance
 // ---but using safe extra class cause the csv reader format
-public class CSVItemEnded extends CSVItem {
+public class CsvItemEnded extends CsvItem {
     // extra field
     @CsvBindByName(column = "time_started")
     private Timestamp timeStarted;

@@ -5,7 +5,7 @@ import com.opencsv.bean.CsvBindByName;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
-public class CSVRating {
+public class CsvRating {
 
     @CsvBindByName(column = "sellerUsername")
     private String sellerUsername;
@@ -21,7 +21,7 @@ public class CSVRating {
     @CsvBindByName(column = "comment")
     private String comment;
 
-    public CSVRating() {
+    public CsvRating() {
 
     }
 

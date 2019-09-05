@@ -1,6 +1,6 @@
 package com.dit.ebay.model;
 
-import com.dit.ebay.csv_model.CSVUser;
+import com.dit.ebay.csv_model.CsvUser;
 import com.dit.ebay.request.SignUpRequest;
 import com.dit.ebay.xml_model.XmlBidder;
 import com.dit.ebay.xml_model.XmlSeller;
@@ -135,7 +135,7 @@ public class User {
     /*
      * Insert from csv
      */
-    public User(CSVUser csvUser) {
+    public User(CsvUser csvUser) {
         this.firstName = csvUser.getFirstName();
         this.lastName = csvUser.getLastName();
         this.username = csvUser.getUsername();
