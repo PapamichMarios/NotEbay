@@ -11,8 +11,9 @@ import '../../../../css/signup/confirmation.css';
 
 import { Container, Row, Col, Card, Table, Tabs, Tab, Button, Alert, Form } from 'react-bootstrap';
 import { FaCheck, FaTimes } from 'react-icons/fa';
+import { withRouter } from 'react-router-dom';
 
-export default class Application extends React.Component {
+class Application extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -60,14 +61,22 @@ export default class Application extends React.Component {
                 this.setState({
                     userData: data
                 });
+
+                //set loading
+                setTimeout(() => {
+                  this.setState({loading: false})
+                }, Constants.TIMEOUT_DURATION)
+            } else {
+                if(data.status === 500) {
+                    this.props.history.push('/internal-server-error');
+                }
+
+                if(data.status === 404) {
+                    this.props.history.push('/application-not-found');
+                }
             }
         })
         .catch(error => console.error('Error:', error));
-
-        //set loading
-        setTimeout(() => {
-          this.setState({loading: false})
-        }, Constants.TIMEOUT_DURATION)
     }
 
     render() {
@@ -75,186 +84,176 @@ export default class Application extends React.Component {
         if (this.state.loading) {
             return <Loading />
         } else {
-            if(this.state.userData === null || this.state.userData === undefined || this.state.userData.enabled) {
-                return (
-                    <Container className="navbar-margin">
-                        <Alert variant="danger">
-                            <Alert.Heading> No application found in the database. </Alert.Heading>
-                        </Alert>
-                    </Container>
-                )
-            } else {
-                return (
-                      <Container className="navbar-margin">
-                          <Card border="dark">
-                            <Card.Header as="h3" className="text-center bg-dark" style={{color:'white'}}> Application </Card.Header>
-                            <Card.Body>
-                              <Form>
-                                  <Form.Row>
-                                      <Col md={5}>
-                                         <Form.Group as={Row} controlId="formUsername">
-                                           <Form.Label column md="4"> <b> Username: </b> </Form.Label>
-                                           <Col>
-                                             <Form.Control
-                                                  plaintext
-                                                  readOnly
-                                                  defaultValue={this.state.userData.username}
-                                                  className="col-user"
-                                             />
-                                           </Col>
-                                         </Form.Group>
-                                      </Col>
+            return (
+                  <Container className="navbar-margin">
+                      <Card border="dark">
+                        <Card.Header as="h3" className="text-center bg-dark" style={{color:'white'}}> Application </Card.Header>
+                        <Card.Body>
+                          <Form>
+                              <Form.Row>
+                                  <Col md={5}>
+                                     <Form.Group as={Row} controlId="formUsername">
+                                       <Form.Label column md="4"> <b> Username: </b> </Form.Label>
+                                       <Col>
+                                         <Form.Control
+                                              plaintext
+                                              readOnly
+                                              defaultValue={this.state.userData.username}
+                                              className="col-user"
+                                         />
+                                       </Col>
+                                     </Form.Group>
+                                  </Col>
 
-                                      <Col>
-                                         <Form.Group as={Row} controlId="formStreetAddress">
-                                           <Form.Label column> <b> Street Address: </b> </Form.Label>
-                                           <Col>
-                                             <Form.Control
+                                  <Col>
+                                     <Form.Group as={Row} controlId="formStreetAddress">
+                                       <Form.Label column> <b> Street Address: </b> </Form.Label>
+                                       <Col>
+                                         <Form.Control
+                                              plaintext
+                                              readOnly
+                                              defaultValue={this.state.userData.streetAddress}
+                                              className="col-user"
+                                          />
+                                       </Col>
+                                     </Form.Group>
+                                  </Col>
+
+                                  <Col>
+                                     <Form.Group as={Row} controlId="formPostalCode">
+                                       <Form.Label column> <b> Postal Code: </b></Form.Label>
+                                       <Col>
+                                         <Form.Control
+                                              plaintext
+                                              readOnly
+                                              defaultValue={this.state.userData.postalCode}
+                                              className="col-user"
+                                         />
+                                       </Col>
+                                     </Form.Group>
+                                  </Col>
+                              </Form.Row>
+
+                              <Form.Row>
+                                  <Col md={5}>
+                                     <Form.Group as={Row} controlId="formEmail">
+                                       <Form.Label column md="4"> <b> Email: </b> </Form.Label>
+                                       <Col>
+                                         <Form.Control
+                                              plaintext
+                                              readOnly
+                                              defaultValue={this.state.userData.email}
+                                              className="col-user"
+                                          />
+                                       </Col>
+                                     </Form.Group>
+                                 </Col>
+
+                                  <Col>
+                                      <Form.Group as={Row} controlId="formCity">
+                                          <Form.Label column > <b> City: </b> </Form.Label>
+                                          <Col>
+                                              <Form.Control
                                                   plaintext
                                                   readOnly
-                                                  defaultValue={this.state.userData.streetAddress}
+                                                  defaultValue={this.state.userData.city}
                                                   className="col-user"
                                               />
-                                           </Col>
-                                         </Form.Group>
-                                      </Col>
+                                          </Col>
+                                      </Form.Group>
+                                  </Col>
 
-                                      <Col>
-                                         <Form.Group as={Row} controlId="formPostalCode">
-                                           <Form.Label column> <b> Postal Code: </b></Form.Label>
-                                           <Col>
-                                             <Form.Control
+                                  <Col>
+                                      <Form.Group as={Row} controlId="formCountry">
+                                          <Form.Label column> <b> Country: </b> </Form.Label>
+                                          <Col>
+                                              <Form.Control
                                                   plaintext
                                                   readOnly
-                                                  defaultValue={this.state.userData.postalCode}
-                                                  className="col-user"
-                                             />
-                                           </Col>
-                                         </Form.Group>
-                                      </Col>
-                                  </Form.Row>
-
-                                  <Form.Row>
-                                      <Col md={5}>
-                                         <Form.Group as={Row} controlId="formEmail">
-                                           <Form.Label column md="4"> <b> Email: </b> </Form.Label>
-                                           <Col>
-                                             <Form.Control
-                                                  plaintext
-                                                  readOnly
-                                                  defaultValue={this.state.userData.email}
+                                                  defaultValue={this.state.userData.country}
                                                   className="col-user"
                                               />
-                                           </Col>
-                                         </Form.Group>
-                                     </Col>
+                                          </Col>
+                                      </Form.Group>
+                                  </Col>
+                              </Form.Row>
 
-                                      <Col>
-                                          <Form.Group as={Row} controlId="formCity">
-                                              <Form.Label column > <b> City: </b> </Form.Label>
-                                              <Col>
-                                                  <Form.Control
-                                                      plaintext
-                                                      readOnly
-                                                      defaultValue={this.state.userData.city}
-                                                      className="col-user"
-                                                  />
-                                              </Col>
-                                          </Form.Group>
-                                      </Col>
+                              <Form.Row>
+                                  <Col md={5}>
+                                       <Form.Group as={Row} controlId="formFirstName">
+                                          <Form.Label column md="4"> <b> First Name: </b> </Form.Label>
+                                          <Col>
+                                              <Form.Control
+                                                  plaintext
+                                                  readOnly
+                                                  defaultValue={this.state.userData.firstName}
+                                                  className="col-user"
+                                              />
+                                          </Col>
+                                      </Form.Group>
 
-                                      <Col>
-                                          <Form.Group as={Row} controlId="formCountry">
-                                              <Form.Label column> <b> Country: </b> </Form.Label>
-                                              <Col>
-                                                  <Form.Control
-                                                      plaintext
-                                                      readOnly
-                                                      defaultValue={this.state.userData.country}
-                                                      className="col-user"
-                                                  />
-                                              </Col>
-                                          </Form.Group>
-                                      </Col>
-                                  </Form.Row>
+                                       <Form.Group as={Row} controlId="formLastName">
+                                          <Form.Label column md="4"> <b> Last Name: </b> </Form.Label>
+                                          <Col>
+                                              <Form.Control
+                                                  plaintext
+                                                  readOnly
+                                                  defaultValue={this.state.userData.lastName}
+                                                  className="col-user"
+                                              />
+                                          </Col>
+                                      </Form.Group>
 
-                                  <Form.Row>
-                                      <Col md={5}>
-                                           <Form.Group as={Row} controlId="formFirstName">
-                                              <Form.Label column md="4"> <b> First Name: </b> </Form.Label>
-                                              <Col>
-                                                  <Form.Control
-                                                      plaintext
-                                                      readOnly
-                                                      defaultValue={this.state.userData.firstName}
-                                                      className="col-user"
-                                                  />
-                                              </Col>
-                                          </Form.Group>
+                                       <Form.Group as={Row} controlId="formPhone">
+                                          <Form.Label column md="4"> <b> Phone Number: </b> </Form.Label>
+                                          <Col>
+                                              <Form.Control
+                                                  plaintext
+                                                  readOnly
+                                                  defaultValue={this.state.userData.phone}
+                                                  className="col-user"
+                                              />
+                                          </Col>
+                                      </Form.Group>
 
-                                           <Form.Group as={Row} controlId="formLastName">
-                                              <Form.Label column md="4"> <b> Last Name: </b> </Form.Label>
-                                              <Col>
-                                                  <Form.Control
-                                                      plaintext
-                                                      readOnly
-                                                      defaultValue={this.state.userData.lastName}
-                                                      className="col-user"
-                                                  />
-                                              </Col>
-                                          </Form.Group>
+                                       <Form.Group as={Row} controlId="formTin">
+                                          <Form.Label column md="4"> <b> TIN: </b> </Form.Label>
+                                          <Col>
+                                              <Form.Control
+                                                  plaintext
+                                                  readOnly
+                                                  defaultValue={this.state.userData.tin}
+                                                  className="col-user"
+                                              />
+                                          </Col>
+                                      </Form.Group>
+                                  </Col>
 
-                                           <Form.Group as={Row} controlId="formPhone">
-                                              <Form.Label column md="4"> <b> Phone Number: </b> </Form.Label>
-                                              <Col>
-                                                  <Form.Control
-                                                      plaintext
-                                                      readOnly
-                                                      defaultValue={this.state.userData.phone}
-                                                      className="col-user"
-                                                  />
-                                              </Col>
-                                          </Form.Group>
+                                  <Col md={7}>
+                                      <div className="leaflet">
+                                          <OpenStreetMapsWrapperLatLng lat={this.state.userData.geoLat} lng={this.state.userData.geoLong} />
+                                      </div>
+                                  </Col>
+                              </Form.Row>
 
-                                           <Form.Group as={Row} controlId="formTin">
-                                              <Form.Label column md="4"> <b> TIN: </b> </Form.Label>
-                                              <Col>
-                                                  <Form.Control
-                                                      plaintext
-                                                      readOnly
-                                                      defaultValue={this.state.userData.tin}
-                                                      className="col-user"
-                                                  />
-                                              </Col>
-                                          </Form.Group>
-                                      </Col>
+                              <br />
 
-                                      <Col md={7}>
-                                          <div className="leaflet">
-                                              <OpenStreetMapsWrapperLatLng lat={this.state.userData.geoLat} lng={this.state.userData.geoLong} />
-                                          </div>
-                                      </Col>
-                                  </Form.Row>
-
-                                  <br />
-
-                                  <Form.Row>
-                                      <Col md={{span: 6}}>
-                                          <Button block variant="success" block onClick={this.approve}> <FaCheck /> </Button>
-                                      </Col>
+                              <Form.Row>
+                                  <Col md={{span: 6}}>
+                                      <Button block variant="success" block onClick={this.approve}> <FaCheck /> </Button>
+                                  </Col>
 
 
-                                      <Col md={{ span: 6}}>
-                                          <Button block variant="danger" block onClick={this.deny}> <FaTimes /> </Button>
-                                      </Col>
-                                  </Form.Row>
+                                  <Col md={{ span: 6}}>
+                                      <Button block variant="danger" block onClick={this.deny}> <FaTimes /> </Button>
+                                  </Col>
+                              </Form.Row>
 
-                              </Form>
-                            </Card.Body>
-                          </Card>
-                      </Container>
-                )
-            }
+                          </Form>
+                        </Card.Body>
+                      </Card>
+                  </Container>
+            )
         }
     }
 }
@@ -263,3 +262,5 @@ Application.defaultProps = {
     action: '/app/users/',
     method: 'GET'
 };
+
+export default withRouter(Application);

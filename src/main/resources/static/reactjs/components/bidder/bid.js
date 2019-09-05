@@ -15,9 +15,9 @@ import '../../../css/signup/confirmation.css';
 import StarRatings from 'react-star-ratings';
 import { Container, Row, Col, Form, Button, Card, ButtonToolbar, Alert, Tabs, Tab, Breadcrumb, ListGroup, InputGroup } from 'react-bootstrap';
 import { FaDollarSign, FaEnvelope, FaStar } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
-export default class Bid extends React.Component {
+class Bid extends React.Component {
     constructor(props) {
         super(props);
 
@@ -113,15 +113,25 @@ export default class Bid extends React.Component {
     componentDidMount() {
         getRequest(this.props.action + this.props.match.params.id)
         .then(response => {
-            this.setState({
-                bid: response
-            },
-            () =>
-                //set loading
-                setTimeout(() => {
-                  this.setState({loading: false})
-                }, Constants.TIMEOUT_DURATION)
-            );
+            if(response.error) {
+                if(response.status === 500) {
+                    this.props.history.push('/internal-server-error');
+                }
+
+                if(response.status === 404) {
+                    this.props.history.push('/auction-not-found');
+                }
+            } else {
+                this.setState({
+                    bid: response
+                },
+                () =>
+                    //set loading
+                    setTimeout(() => {
+                      this.setState({loading: false})
+                    }, Constants.TIMEOUT_DURATION)
+                );
+            }
         })
         .catch(error => console.error('Error:', error));
     }
@@ -548,3 +558,5 @@ export default class Bid extends React.Component {
 Bid.defaultProps = {
     action: '/app/items/'
 };
+
+export default withRouter(Bid);

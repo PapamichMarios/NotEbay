@@ -6,8 +6,9 @@ import * as Constants from '../utils/constants';
 import LoadingButton from '../utils/loading/loadingButton';
 
 import { Container, Row, Col, Card, Button, Alert }  from 'react-bootstrap';
+import { withRouter } from 'react-router-dom';
 
-export default class SellerRating extends React.Component {
+class SellerRating extends React.Component {
     constructor(props) {
         super(props);
 
@@ -53,6 +54,14 @@ export default class SellerRating extends React.Component {
                     hasError: true,
                     errorMsg: response.msg
                 });
+
+                if(response.status === 500) {
+                    this.props.history.push('/internal-server-error');
+                }
+
+                if(response.status === 404) {
+                    this.props.history.push('/buyer-not-found');
+                }
             } else {
                 this.setState({
                     success: true
@@ -167,3 +176,5 @@ export default class SellerRating extends React.Component {
         }
     }
 }
+
+export default withRouter(SellerRating);

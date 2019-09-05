@@ -3,9 +3,11 @@ import '../../css/navbar.css';
 const React = require('react');
 const ReactDOM = require('react-dom');
 
+import ExportAuction from './admin/auction/exportAuction';
+
 import { NavLink, Link } from "react-router-dom";
 import { Container, Row, Col, Navbar, Nav, NavItem, NavDropdown, Form, FormControl, Button, InputGroup, DropdownButton, Dropdown } from 'react-bootstrap';
-import { FaSearch, FaHome, FaUser, FaComments, FaDatabase, FaSignInAlt, FaSignOutAlt, FaTasks, FaPlus } from 'react-icons/fa';
+import { FaSearch, FaHome, FaUser, FaComments, FaDatabase, FaSignInAlt, FaSignOutAlt, FaTasks, FaPlus, FaFileExport } from 'react-icons/fa';
 import { MdPlaylistAddCheck, MdGavel } from 'react-icons/md';
 
 export default class NavBar extends React.Component{
@@ -70,6 +72,18 @@ export default class NavBar extends React.Component{
 
                     { localStorage.getItem("isAdmin") === 'true' ? (
                         <Nav className="justify-content-end">
+                          <NavItem className="button-margin">
+                             <b style={{color:'white'}}>JSON</b>
+                             &nbsp;
+                             <ExportAuction format='json' all={true} />
+                          </NavItem>
+
+                          <NavItem className="button-margin">
+                             <b style={{color:'white'}}>XML</b>
+                             &nbsp;
+                             <ExportAuction format='xml' all={true} />
+                          </NavItem>
+
                           <NavItem className="button-margin">
                             <NavLink to="/users">
                               <Button title="User Database" style={{borderWidth:'0px', borderRadius: '50%'}} variant="outline-primary">
