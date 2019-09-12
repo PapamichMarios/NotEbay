@@ -18,30 +18,27 @@ export default class NavBar extends React.Component{
     render() {
         //categories dropdown
         const categories = (
-            <Dropdown>
-                <Dropdown.Toggle variant="light" id="dropdown-basic">
-                    Dropdown Button
-                </Dropdown.Toggle>
+            <DropdownButton title="Categories" variant="dark">
+              <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
 
-                <Dropdown.Menu>
-                    <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+              <Dropdown.Divider />
 
-                    <Dropdown.Toggle variant="light">
-                        Collectibles
-                    </Dropdown.Toggle>
+                <Dropdown.Item>
+                    <Link to="/categories">
+                        <b>All categories</b>
+                    </Link>
+                </Dropdown.Item>
 
-                    <Dropdown.Menu>
-                        <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                    </Dropdown.Menu>
-
-                    <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-                </Dropdown.Menu>
-            </Dropdown>
+            </DropdownButton>
         );
 
         //left part of the navbar
         const navLeft = (
             <Nav className="mr-auto">
+              <NavItem className="button-margin-left">
+                  {categories}
+              </NavItem>
+
               <NavItem>
                 <Form inline>
                     <InputGroup>
@@ -50,13 +47,17 @@ export default class NavBar extends React.Component{
                                 <FaSearch style={{verticalAlign: 'baseline'}}/>
                             </InputGroup.Text>
                         </InputGroup.Prepend>
-                        <Form.Control type="text" placeholder="Search here.." />
+                        <Form.Control type="text" placeholder="Search here..." />
                     </InputGroup>
                 </Form>
               </NavItem>
 
-              <NavItem className="button-margin">
-                  {categories}
+              <NavItem>
+                <Link to="/advanced-search">
+                    <Button title="Advanced Search" variant="dark">
+                        Advanced Search
+                    </Button>
+                </Link>
               </NavItem>
             </Nav>
         );

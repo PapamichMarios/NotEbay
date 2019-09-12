@@ -1,7 +1,7 @@
 import React                from 'react';
 
 import NavBar               from './navbar';
-import Home                 from './homepage';
+import Home                 from './homepage/homepage';
 import Login                from './login';
 import Signup               from './signup/signup';
 import Page404              from './errors/error404/error404';
@@ -9,6 +9,7 @@ import Page401              from './errors/error401/error401';
 import Page500              from './errors/error500/error500';
 import Profile              from './user/profile/profile';
 import Categories           from './categories';
+import AdvancedSearch       from './advancedSearch';
 
 import Auction              from './seller/auction/auction';
 import AuctionsHomepage     from './seller/myAuctions';
@@ -78,10 +79,11 @@ class App extends React.Component {
 
               <Switch>
                 {/* public */}
-                <Route exact path="/"                               component={Home}   />
-                <Route exact path="/welcome"                        component={Home}   />
-                <Route exact path="/home"                           component={Home}   />
+                <Route exact path="/"                               render={ (props) => <Home {...props} onLogin={this.handleLogin} /> } />
+                <Route exact path="/welcome"                        render={ (props) => <Home {...props} onLogin={this.handleLogin} /> } />
+                <Route exact path="/home"                           render={ (props) => <Home {...props} onLogin={this.handleLogin} /> } />
                 <Route exact path="/categories"                     component={Categories} />
+                <Route exact path="/advanced-search"                component={AdvancedSearch} />
 
                 <Route exact path="/login"                          render={ (props) => !isAuthenticated() ? <Login {...props} onLogin={this.handleLogin} /> : <Redirect to="/" />} />
                 <Route exact path="/signup"                         render={ () => !isAuthenticated() ? <Signup /> : <Redirect to="/" /> } />

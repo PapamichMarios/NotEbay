@@ -1,5 +1,5 @@
 const React = require('react');
-const ReactDOM = require('react-dom');
+
 import LoadingButton from './utils/loading/loadingButton.js';
 import * as Constants from './utils/constants.js';
 
