@@ -5,12 +5,12 @@ const ReactDOM = require('react-dom');
 
 import ExportAuction from './admin/auction/exportAuction';
 
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, withRouter } from "react-router-dom";
 import { Container, Row, Col, Navbar, Nav, NavItem, NavDropdown, Form, FormControl, Button, InputGroup, DropdownButton, Dropdown } from 'react-bootstrap';
 import { FaSearch, FaHome, FaUser, FaComments, FaDatabase, FaSignInAlt, FaSignOutAlt, FaTasks, FaPlus, FaFileExport } from 'react-icons/fa';
 import { MdPlaylistAddCheck, MdGavel } from 'react-icons/md';
 
-export default class NavBar extends React.Component{
+class NavBar extends React.Component{
     constructor(props) {
         super(props);
     }
@@ -18,45 +18,43 @@ export default class NavBar extends React.Component{
     render() {
         //categories dropdown
         const categories = (
-            <Dropdown>
-                <Dropdown.Toggle variant="light" id="dropdown-basic">
-                    Dropdown Button
-                </Dropdown.Toggle>
+            <DropdownButton title="Categories" variant="dark">
+              <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
 
-                <Dropdown.Menu>
-                    <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+              <Dropdown.Divider />
 
-                    <Dropdown.Toggle variant="light">
-                        Collectibles
-                    </Dropdown.Toggle>
 
-                    <Dropdown.Menu>
-                        <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                    </Dropdown.Menu>
+              <Dropdown.Item onClick={() => this.props.history.push('/categories')} className="text-primary">
+                  <b>Click to see all the categories!</b>
+              </Dropdown.Item>
 
-                    <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-                </Dropdown.Menu>
-            </Dropdown>
+
+            </DropdownButton>
         );
 
         //left part of the navbar
         const navLeft = (
             <Nav className="mr-auto">
+              <NavItem className="button-margin">
+                  {categories}
+              </NavItem>
+
               <NavItem>
                 <Form inline>
-                    <InputGroup>
-                        <InputGroup.Prepend>
-                            <InputGroup.Text>
-                                <FaSearch style={{verticalAlign: 'baseline'}}/>
-                            </InputGroup.Text>
-                        </InputGroup.Prepend>
-                        <Form.Control type="text" placeholder="Search here.." />
-                    </InputGroup>
+                    <Form.Control type="text" placeholder="Search here..." style={{width:'450px'}}/>
+                    <Button variant="outline-success">
+                        <b> Search </b>
+                        <FaSearch style={{verticalAlign: 'baseline'}}/>
+                    </Button>
                 </Form>
               </NavItem>
 
-              <NavItem className="button-margin">
-                  {categories}
+              <NavItem className="button-margin-left">
+                <Link to="/advanced-search">
+                    <Button title="Advanced Search" variant="dark">
+                        Advanced Search
+                    </Button>
+                </Link>
               </NavItem>
             </Nav>
         );
@@ -205,3 +203,5 @@ export default class NavBar extends React.Component{
         }
     }
 }
+
+export default withRouter(NavBar);

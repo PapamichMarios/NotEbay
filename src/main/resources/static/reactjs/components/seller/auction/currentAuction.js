@@ -58,6 +58,7 @@ class CurrentAuction extends React.Component {
         return(
             <Container fluid>
                 <Row>
+                    {/* sidebar for the seller */}
                     <Col md={2} style={{paddingLeft: '0px'}}>
                         <Card border="light">
                             <ul style={{listStyleType: 'none', height:'100vh'}}>
@@ -114,151 +115,171 @@ class CurrentAuction extends React.Component {
                         </Card>
                     </Col>
 
+                    {/* item details */}
                     <Col className="navbar-margin">
                         <Card border="dark">
                             <Card.Header as="h3" className="text-center bg-dark" style={{color:'white'}}> Item #{this.props.auction.id} </Card.Header>
                             <Card.Body>
                                 <Row>
-                                    <Col md={3}>
+                                    {/* image & map */}
+                                    <Col md={6}>
                                         <Row>
-                                            <h3> To put Image </h3>
+                                            <Col>
+                                                <h3> To put Image </h3>
+                                            </Col>
+                                        </Row>
+
+                                        <Row>
+                                            <Col>
+                                                <Card.Title as="h6" className="text-center">
+                                                    <b>
+                                                        Item Location
+                                                        < br/>
+                                                        <span style={{color:'DimGray'}}>{this.props.auction.location}</span>,
+                                                        <span style={{color:'DimGray'}}> {this.props.auction.country}</span>
+                                                    </b>
+                                                </Card.Title>
+
+                                                <div className="leaflet">
+                                                    <OpenStreetMap lat={this.props.auction.geoLat} lng={this.props.auction.geoLong} />
+                                                </div>
+                                            </Col>
                                         </Row>
                                     </Col>
 
+                                    {/* tabs */}
                                     <Col md={6}>
-                                        <br/>
-                                        <Card.Title as="h4" className="text-center"> <b> Item Details </b> </Card.Title>
-                                        <Form.Group as={Row}>
-                                            <Form.Label column md="5"> <b> Name: </b> </Form.Label>
-                                            <Col>
-                                                <Form.Control
-                                                    plaintext
-                                                    readOnly
-                                                    defaultValue= {this.props.auction.name}
-                                                    className="col-user"
-                                                />
-                                            </Col>
-                                        </Form.Group>
+                                        <Tabs defaultActiveKey="item" id="item-tabs">
+                                            <Tab eventKey="item" title="Item">
+                                                <br/>
+                                                <Form.Group as={Row}>
+                                                    <Form.Label column md="5"> <b> Name: </b> </Form.Label>
+                                                    <Col>
+                                                        <Form.Control
+                                                            plaintext
+                                                            readOnly
+                                                            defaultValue={this.props.auction.name}
+                                                            className="col-user"
+                                                        />
+                                                    </Col>
+                                                </Form.Group>
 
-                                        <Form.Group as={Row}>
-                                            <Form.Label column md="5"> <b> Description: </b> </Form.Label>
-                                            <Col>
-                                                <Form.Control
-                                                    as="textarea"
-                                                    plaintext
-                                                    readOnly
-                                                    defaultValue= {this.props.auction.description}
-                                                    className="col-user"
-                                                />
-                                            </Col>
-                                        </Form.Group>
+                                                { this.props.auction.bestBid ? (
+                                                    <Form.Group as={Row}>
+                                                        <Form.Label column md="5"> <b> Current Best Bid: </b> </Form.Label>
+                                                        <Col>
+                                                            <Form.Control
+                                                                plaintext
+                                                                readOnly
+                                                                defaultValue= {this.props.auction.bestBid.bidAmount + '$'}
+                                                                className="col-user"
+                                                            />
+                                                            <span>
+                                                                by &nbsp;
+                                                                <Link to='#'>
+                                                                    <b>{this.props.auction.bestBidder.username} </b>
+                                                                </Link>
+                                                            </span>
+                                                        </Col>
+                                                    </Form.Group>
+                                                ) : (
+                                                    <Form.Group as={Row}>
+                                                        <Form.Label column md="5"> <b> Current Best Bid: </b> </Form.Label>
+                                                        <Col>
+                                                            <Form.Control
+                                                                plaintext
+                                                                readOnly
+                                                                defaultValue= '--'
+                                                                className="col-user"
+                                                            />
+                                                        </Col>
+                                                    </Form.Group>
+                                                )}
 
-                                        { this.props.auction.bestBid ? (
-                                            <Form.Group as={Row}>
-                                                <Form.Label column md="5"> <b> Current Best Bid: </b> </Form.Label>
-                                                <Col>
-                                                    <Form.Control
-                                                        plaintext
-                                                        readOnly
-                                                        defaultValue= {this.props.auction.bestBid.bidAmount + '$'}
-                                                        className="col-user"
-                                                    />
-                                                    <span>
-                                                        by &nbsp;
-                                                        <Link to='#'>
-                                                            <b>{this.props.auction.bestBidder.username} </b>
-                                                        </Link>
-                                                    </span>
-                                                </Col>
-                                            </Form.Group>
-                                        ) : (
-                                            <Form.Group as={Row}>
-                                                <Form.Label column md="5"> <b> Current Best Bid: </b> </Form.Label>
-                                                <Col>
-                                                    <Form.Control
-                                                        plaintext
-                                                        readOnly
-                                                        defaultValue= '--'
-                                                        className="col-user"
-                                                    />
-                                                </Col>
-                                            </Form.Group>
-                                        )}
+                                                <Form.Group as={Row}>
+                                                    <Form.Label column md="5"> <b> Starting Bid: </b> </Form.Label>
+                                                    <Col>
+                                                        <Form.Control
+                                                            plaintext
+                                                            readOnly
+                                                            defaultValue= {this.props.auction.firstBid + '$'}
+                                                            className="col-user"
+                                                        />
+                                                    </Col>
+                                                </Form.Group>
 
-                                        <Form.Group as={Row}>
-                                            <Form.Label column md="5"> <b> Starting Bid: </b> </Form.Label>
-                                            <Col>
-                                                <Form.Control
-                                                    plaintext
-                                                    readOnly
-                                                    defaultValue= {this.props.auction.firstBid + '$'}
-                                                    className="col-user"
-                                                />
-                                            </Col>
-                                        </Form.Group>
+                                                { this.props.auction.buyPrice === null ? (
+                                                    <Form.Group as={Row}>
+                                                        <Form.Label column md="5"> <b> Buy Price: </b> </Form.Label>
+                                                        <Col>
+                                                            <Form.Control
+                                                                plaintext
+                                                                readOnly
+                                                                defaultValue= '--'
+                                                                className="col-user"
+                                                            />
+                                                        </Col>
+                                                    </Form.Group>
+                                                ) : (
+                                                    <Form.Group as={Row}>
+                                                        <Form.Label column md="5"> <b> Buy Price: </b> </Form.Label>
+                                                        <Col>
+                                                            <Form.Control
+                                                                plaintext
+                                                                readOnly
+                                                                defaultValue= {this.props.auction.buyPrice + '$'}
+                                                                className="col-user"
+                                                            />
+                                                        </Col>
+                                                    </Form.Group>
+                                                )}
 
-                                        { this.props.auction.buyPrice === null ? (
-                                            <Form.Group as={Row}>
-                                                <Form.Label column md="5"> <b> Buy Price: </b> </Form.Label>
-                                                <Col>
-                                                    <Form.Control
-                                                        plaintext
-                                                        readOnly
-                                                        defaultValue= '--'
-                                                        className="col-user"
-                                                    />
-                                                </Col>
-                                            </Form.Group>
-                                        ) : (
-                                            <Form.Group as={Row}>
-                                                <Form.Label column md="5"> <b> Buy Price: </b> </Form.Label>
-                                                <Col>
-                                                    <Form.Control
-                                                        plaintext
-                                                        readOnly
-                                                        defaultValue= {this.props.auction.buyPrice + '$'}
-                                                        className="col-user"
-                                                    />
-                                                </Col>
-                                            </Form.Group>
-                                        )}
+                                                <Form.Group as={Row}>
+                                                    <Form.Label column md="5"> <b> Number of bids: </b> </Form.Label>
+                                                    <Col>
+                                                        <Form.Control
+                                                            plaintext
+                                                            readOnly
+                                                            defaultValue= {this.props.auction.numOfBids}
+                                                            className="col-user"
+                                                        />
+                                                    </Col>
+                                                </Form.Group>
 
-                                        <Form.Group as={Row}>
-                                            <Form.Label column md="5"> <b> Number of bids: </b> </Form.Label>
-                                            <Col>
-                                                <Form.Control
-                                                    plaintext
-                                                    readOnly
-                                                    defaultValue= {this.props.auction.numOfBids}
-                                                    className="col-user"
-                                                />
-                                            </Col>
-                                        </Form.Group>
+                                                <Form.Group as={Row}>
+                                                    <Form.Label column md="5"> <b> Time Started: </b> </Form.Label>
+                                                    <Col>
+                                                        <Form.Control
+                                                            plaintext
+                                                            readOnly
+                                                            defaultValue= { startTime + ' ' + startDate }
+                                                            className="col-user"
+                                                        />
+                                                    </Col>
+                                                </Form.Group>
 
-                                        <Form.Group as={Row}>
-                                            <Form.Label column md="5"> <b> Time Started: </b> </Form.Label>
-                                            <Col>
-                                                <Form.Control
-                                                    plaintext
-                                                    readOnly
-                                                    defaultValue= { startTime + ' ' + startDate }
-                                                    className="col-user"
-                                                />
-                                            </Col>
-                                        </Form.Group>
+                                                <Form.Group as={Row}>
+                                                    <Form.Label column md="5"> <b> Time Ending: </b> </Form.Label>
+                                                    <Col>
+                                                        <Form.Control
+                                                            plaintext
+                                                            readOnly
+                                                            defaultValue= { endTime + ' ' + endDate }
+                                                            className="col-user"
+                                                        />
+                                                    </Col>
+                                                </Form.Group>
+                                            </Tab>
 
-                                        <Form.Group as={Row}>
-                                            <Form.Label column md="5"> <b> Time Ending: </b> </Form.Label>
-                                            <Col>
-                                                <Form.Control
-                                                    plaintext
-                                                    readOnly
-                                                    defaultValue= { endTime + ' ' + endDate }
-                                                    className="col-user"
-                                                />
-                                            </Col>
-                                        </Form.Group>
+                                            <Tab eventKey="desc" title="Description">
+                                                <br/>
+                                                <p>
+                                                    {this.props.auction.description}
+                                                </p>
+                                            </Tab>
+                                        </Tabs>
 
+                                        {/* various info alert boxes */}
                                         {!this.props.auction.active && !this.props.auction.finished ? (
                                             <Row>
                                                 <Col>
@@ -324,24 +345,6 @@ class CurrentAuction extends React.Component {
                                         ) : (
                                             null
                                         )}
-                                    </Col>
-
-                                    <Col md={3}>
-                                        <Card style={{width: '100%'}}>
-                                            <Card.Body>
-                                                <Card.Title as="h6" className="text-center">
-                                                    <b>
-                                                        Item Location
-                                                        < br/>
-                                                        <span style={{color:'DimGray'}}>{this.props.auction.location}</span>,
-                                                        <span style={{color:'DimGray'}}> {this.props.auction.country}</span>
-                                                    </b>
-                                                </Card.Title>
-                                                <div className="leaflet">
-                                                    <OpenStreetMap lat={this.props.auction.geoLat} lng={this.props.auction.geoLong} />
-                                                </div>
-                                            </Card.Body>
-                                        </Card>
                                     </Col>
                                 </Row>
                             </Card.Body>
