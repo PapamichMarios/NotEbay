@@ -299,121 +299,199 @@ class Bid extends React.Component {
                                 <Card.Header as="h3" className="text-center bg-dark" style={{color:'white'}}> Item #{this.state.bid.id} </Card.Header>
                                 <Card.Body>
                                     <Row>
-                                        <Col md={3}>
+                                        {/* image */}
+                                        <Col md={6}>
                                             <Row>
-                                                <h3> To put Image Carousel</h3>
+                                                <Col>
+                                                    <h3> To put Image</h3>
+                                                </Col>
+                                            </Row>
+
+                                            <Row>
+                                                <Col>
+                                                    <Card.Title as="h6" className="text-center">
+                                                        <b>
+                                                            Item Location
+                                                            < br/>
+                                                            <span style={{color:'DimGray'}}>{this.state.bid.location}</span>,
+                                                            <span style={{color:'DimGray'}}> {this.state.bid.country}</span>
+                                                        </b>
+                                                    </Card.Title>
+
+                                                    <div className="leaflet">
+                                                        <OpenStreetMap lat={this.state.bid.geoLat} lng={this.state.bid.geoLong} />
+                                                    </div>
+                                                </Col>
                                             </Row>
                                         </Col>
 
+                                        {/* tabs */}
                                         <Col md={6}>
-                                            <br/>
-                                            <Card.Title as="h4" className="text-center"> <b> Item Details </b> </Card.Title>
-                                            <Form.Group as={Row}>
-                                                <Form.Label column md="5"> <b> Name: </b> </Form.Label>
-                                                <Col>
-                                                    <Form.Control
-                                                        plaintext
-                                                        readOnly
-                                                        defaultValue= {this.state.bid.name}
-                                                        className="col-user"
-                                                    />
-                                                </Col>
-                                            </Form.Group>
-
-                                            <Form.Group as={Row}>
-                                                <Form.Label column md="5"> <b> Description: </b> </Form.Label>
-                                                <Col>
-                                                    <Form.Control
-                                                        as="textarea"
-                                                        plaintext
-                                                        readOnly
-                                                        defaultValue= {this.state.bid.description}
-                                                        className="col-user"
-                                                    />
-                                                </Col>
-                                            </Form.Group>
-
-                                            { this.state.bid.bestBid ? (
-                                                <Form.Group as={Row}>
-                                                    <Form.Label column md="5"> <b> Current Best Bid: </b> </Form.Label>
-                                                    <Col>
-                                                        <Form.Control
-                                                            plaintext
-                                                            readOnly
-                                                            defaultValue= {this.state.bid.bestBid.bidAmount + '$'}
-                                                            className="col-user"
-                                                        />
-                                                        <span>
-                                                            by &nbsp;
-                                                            <Link to='#'>
-                                                                <b>{this.state.bid.bestBidder.username} </b>
-                                                            </Link>
-                                                        </span>
-                                                    </Col>
-                                                </Form.Group>
-                                            ) : (
-                                                <div>
+                                            <Tabs defaultActiveKey="item">
+                                                <Tab eventKey="item" title="Item">
+                                                    <br/>
                                                     <Form.Group as={Row}>
-                                                        <Form.Label column md="5"> <b> Starting Bid: </b> </Form.Label>
+                                                        <Form.Label column md="5"> <b> Name: </b> </Form.Label>
                                                         <Col>
                                                             <Form.Control
                                                                 plaintext
                                                                 readOnly
-                                                                defaultValue= {this.state.bid.firstBid + '$'}
+                                                                defaultValue= {this.state.bid.name}
+                                                                className="col-user"
+                                                            />
+                                                        </Col>
+                                                    </Form.Group>
+
+                                                    { this.state.bid.bestBid ? (
+                                                        <Form.Group as={Row}>
+                                                            <Form.Label column md="5"> <b> Current Best Bid: </b> </Form.Label>
+                                                            <Col>
+                                                                <Form.Control
+                                                                    plaintext
+                                                                    readOnly
+                                                                    defaultValue= {this.state.bid.bestBid.bidAmount + '$'}
+                                                                    className="col-user"
+                                                                />
+                                                                <span>
+                                                                    by &nbsp;
+                                                                    <Link to='#'>
+                                                                        <b>{this.state.bid.bestBidder.username} </b>
+                                                                    </Link>
+                                                                </span>
+                                                            </Col>
+                                                        </Form.Group>
+                                                    ) : (
+                                                        <div>
+                                                            <Form.Group as={Row}>
+                                                                <Form.Label column md="5"> <b> Starting Bid: </b> </Form.Label>
+                                                                <Col>
+                                                                    <Form.Control
+                                                                        plaintext
+                                                                        readOnly
+                                                                        defaultValue= {this.state.bid.firstBid + '$'}
+                                                                        className="col-user"
+                                                                    />
+                                                                </Col>
+                                                            </Form.Group>
+
+                                                            <Form.Group as={Row}>
+                                                                <Form.Label column md="5"> <b> Current Best Bid: </b> </Form.Label>
+                                                                <Col>
+                                                                    <Form.Control
+                                                                        plaintext
+                                                                        readOnly
+                                                                        defaultValue= '--'
+                                                                        className="col-user"
+                                                                    />
+                                                                </Col>
+                                                            </Form.Group>
+                                                        </div>
+                                                    )}
+
+                                                    <Form.Group as={Row}>
+                                                        <Form.Label column md="5"> <b> Number of bids: </b> </Form.Label>
+                                                        <Col>
+                                                            <Form.Control
+                                                                plaintext
+                                                                readOnly
+                                                                defaultValue= {this.state.bid.numOfBids}
                                                                 className="col-user"
                                                             />
                                                         </Col>
                                                     </Form.Group>
 
                                                     <Form.Group as={Row}>
-                                                        <Form.Label column md="5"> <b> Current Best Bid: </b> </Form.Label>
+                                                        <Form.Label column md="5"> <b> Time Started: </b> </Form.Label>
                                                         <Col>
                                                             <Form.Control
                                                                 plaintext
                                                                 readOnly
-                                                                defaultValue= '--'
+                                                                defaultValue= { startTime + ' ' + startDate }
                                                                 className="col-user"
                                                             />
                                                         </Col>
                                                     </Form.Group>
-                                                </div>
-                                            )}
 
-                                            <Form.Group as={Row}>
-                                                <Form.Label column md="5"> <b> Number of bids: </b> </Form.Label>
-                                                <Col>
-                                                    <Form.Control
-                                                        plaintext
-                                                        readOnly
-                                                        defaultValue= {this.state.bid.numOfBids}
-                                                        className="col-user"
-                                                    />
-                                                </Col>
-                                            </Form.Group>
+                                                    <Form.Group as={Row}>
+                                                        <Form.Label column md="5"> <b> Time Ending: </b> </Form.Label>
+                                                        <Col>
+                                                            <Form.Control
+                                                                plaintext
+                                                                readOnly
+                                                                defaultValue= { endTime + ' ' + endDate }
+                                                                className="col-user"
+                                                            />
+                                                        </Col>
+                                                    </Form.Group>
+                                                </Tab>
 
-                                            <Form.Group as={Row}>
-                                                <Form.Label column md="5"> <b> Time Started: </b> </Form.Label>
-                                                <Col>
-                                                    <Form.Control
-                                                        plaintext
-                                                        readOnly
-                                                        defaultValue= { startTime + ' ' + startDate }
-                                                        className="col-user"
-                                                    />
-                                                </Col>
-                                            </Form.Group>
+                                                <Tab eventKey="description" title="Description">
+                                                    <br/>
+                                                    <p>
+                                                        {this.state.bid.description}
+                                                    </p>
+                                                </Tab>
 
-                                            <Form.Group as={Row}>
-                                                <Form.Label column md="5"> <b> Time Ending: </b> </Form.Label>
-                                                <Col>
-                                                    <Form.Control
-                                                        plaintext
-                                                        readOnly
-                                                        defaultValue= { endTime + ' ' + endDate }
-                                                        className="col-user"
-                                                    />
-                                                </Col>
-                                            </Form.Group>
+                                                <Tab eventKey="seller" title="Seller">
+                                                    <br/>
+                                                    <Form.Group as={Row}>
+                                                        <Form.Label column md="5"> <b> Seller: </b> </Form.Label>
+                                                        <Col>
+                                                            <Form.Control
+                                                                plaintext
+                                                                readOnly
+                                                                defaultValue= {this.state.bid.userSeller.username}
+                                                                className="col-user"
+                                                            />
+                                                        </Col>
+                                                    </Form.Group>
+
+                                                    <Form.Group as={Row}>
+                                                        <Form.Label column md="5"> <b> Rating: </b> </Form.Label>
+
+                                                        {this.state.bid.rating !== null ? (
+                                                            <Col>
+                                                                <StarRatings
+                                                                  name="sellerRating"
+                                                                  numberOfStars={Constants.RATING_STARS}
+                                                                  rating={this.state.bid.rating}
+                                                                  starRatedColor="SandyBrown"
+                                                                  starDimension="18px"
+                                                                  starSpacing="2px"
+                                                                />
+                                                                <br />
+                                                                (<b style={{fontSize: '17.5px'}}>{this.state.bid.rating}</b>/<span style={{color:'SteelBlue'}}>5</span>)
+                                                            </Col>
+                                                        ) : (
+                                                            <Col>
+                                                                <StarRatings
+                                                                  name="sellerRating"
+                                                                  numberOfStars={Constants.RATING_STARS}
+                                                                  rating={0}
+                                                                  starRatedColor="SandyBrown"
+                                                                  starDimension="18px"
+                                                                  starSpacing="2px"
+                                                                />
+                                                                <br />
+                                                                <b style={{fontSize:'15px', color:'SandyBrown'}}> This seller has not received a review yet. </b>
+                                                            </Col>
+                                                        )}
+
+                                                    </Form.Group>
+
+                                                    <Form.Group as={Row}>
+                                                        <Form.Label column md="5"> <b> Country: </b> </Form.Label>
+                                                        <Col>
+                                                            <Form.Control
+                                                                plaintext
+                                                                readOnly
+                                                                defaultValue= {this.state.bid.userSeller.country}
+                                                                className="col-user"
+                                                            />
+                                                        </Col>
+                                                    </Form.Group>
+                                                </Tab>
+                                            </Tabs>
 
                                             {returnButtonOrRating}
 
@@ -455,94 +533,6 @@ class Bid extends React.Component {
                                             ) : (
                                                null
                                             )}
-                                        </Col>
-
-                                        <Col>
-                                            <Row>
-                                                <Card style={{width: '100%'}}>
-                                                    <Card.Body>
-                                                    <Card.Title as="h6" className="text-center"> <b> Seller Details </b> </Card.Title>
-                                                        <Form.Group as={Row}>
-                                                            <Form.Label column md="5"> <b> Seller: </b> </Form.Label>
-                                                            <Col>
-                                                                <Form.Control
-                                                                    plaintext
-                                                                    readOnly
-                                                                    defaultValue= {this.state.bid.userSeller.username}
-                                                                    className="col-user"
-                                                                />
-                                                            </Col>
-                                                        </Form.Group>
-
-                                                        <Form.Group as={Row}>
-                                                            <Form.Label column md="5"> <b> Rating: </b> </Form.Label>
-
-                                                            {this.state.bid.rating !== null ? (
-                                                                <Col>
-                                                                    <StarRatings
-                                                                      name="sellerRating"
-                                                                      numberOfStars={Constants.RATING_STARS}
-                                                                      rating={this.state.bid.rating}
-                                                                      starRatedColor="SandyBrown"
-                                                                      starDimension="18px"
-                                                                      starSpacing="2px"
-                                                                    />
-                                                                    <br />
-                                                                    (<b style={{fontSize: '17.5px'}}>{this.state.bid.rating}</b>/<span style={{color:'SteelBlue'}}>5</span>)
-                                                                </Col>
-                                                            ) : (
-                                                                <Col>
-                                                                    <StarRatings
-                                                                      name="sellerRating"
-                                                                      numberOfStars={Constants.RATING_STARS}
-                                                                      rating={0}
-                                                                      starRatedColor="SandyBrown"
-                                                                      starDimension="18px"
-                                                                      starSpacing="2px"
-                                                                    />
-                                                                    <br />
-                                                                    <b style={{fontSize:'15px', color:'SandyBrown'}}> This seller has not received a review yet. </b>
-                                                                </Col>
-                                                            )}
-
-                                                        </Form.Group>
-
-                                                        <Form.Group as={Row}>
-                                                            <Form.Label column md="5"> <b> Country: </b> </Form.Label>
-                                                            <Col>
-                                                                <Form.Control
-                                                                    plaintext
-                                                                    readOnly
-                                                                    defaultValue= {this.state.bid.userSeller.country}
-                                                                    className="col-user"
-                                                                />
-                                                            </Col>
-                                                        </Form.Group>
-                                                    </Card.Body>
-                                                </Card>
-                                            </Row>
-
-                                            <br />
-
-                                            <Row>
-                                                <Col>
-                                                    <Card style={{width: '100%'}}>
-                                                        <Card.Body>
-                                                            <Card.Title as="h6" className="text-center">
-                                                                <b>
-                                                                    Item Location
-                                                                    < br/>
-                                                                    <span style={{color:'DimGray'}}>{this.state.bid.location}</span>,
-                                                                    <span style={{color:'DimGray'}}> {this.state.bid.country}</span>
-                                                                </b>
-                                                            </Card.Title>
-                                                            <div className="leaflet">
-                                                                <OpenStreetMap lat={this.state.bid.geoLat} lng={this.state.bid.geoLong} />
-                                                            </div>
-                                                        </Card.Body>
-                                                    </Card>
-                                                </Col>
-                                            </Row>
                                         </Col>
                                     </Row>
                                 </Card.Body>

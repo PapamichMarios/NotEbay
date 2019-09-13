@@ -5,12 +5,12 @@ const ReactDOM = require('react-dom');
 
 import ExportAuction from './admin/auction/exportAuction';
 
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, withRouter } from "react-router-dom";
 import { Container, Row, Col, Navbar, Nav, NavItem, NavDropdown, Form, FormControl, Button, InputGroup, DropdownButton, Dropdown } from 'react-bootstrap';
 import { FaSearch, FaHome, FaUser, FaComments, FaDatabase, FaSignInAlt, FaSignOutAlt, FaTasks, FaPlus, FaFileExport } from 'react-icons/fa';
 import { MdPlaylistAddCheck, MdGavel } from 'react-icons/md';
 
-export default class NavBar extends React.Component{
+class NavBar extends React.Component{
     constructor(props) {
         super(props);
     }
@@ -23,11 +23,11 @@ export default class NavBar extends React.Component{
 
               <Dropdown.Divider />
 
-                <Dropdown.Item>
-                    <Link to="/categories">
-                        <b>All categories</b>
-                    </Link>
-                </Dropdown.Item>
+
+              <Dropdown.Item onClick={() => this.props.history.push('/categories')} className="text-primary">
+                  <b>Click to see all the categories!</b>
+              </Dropdown.Item>
+
 
             </DropdownButton>
         );
@@ -35,24 +35,21 @@ export default class NavBar extends React.Component{
         //left part of the navbar
         const navLeft = (
             <Nav className="mr-auto">
-              <NavItem className="button-margin-left">
+              <NavItem className="button-margin">
                   {categories}
               </NavItem>
 
               <NavItem>
                 <Form inline>
-                    <InputGroup>
-                        <InputGroup.Prepend>
-                            <InputGroup.Text>
-                                <FaSearch style={{verticalAlign: 'baseline'}}/>
-                            </InputGroup.Text>
-                        </InputGroup.Prepend>
-                        <Form.Control type="text" placeholder="Search here..." />
-                    </InputGroup>
+                    <Form.Control type="text" placeholder="Search here..." style={{width:'450px'}}/>
+                    <Button variant="outline-success">
+                        <b> Search </b>
+                        <FaSearch style={{verticalAlign: 'baseline'}}/>
+                    </Button>
                 </Form>
               </NavItem>
 
-              <NavItem>
+              <NavItem className="button-margin-left">
                 <Link to="/advanced-search">
                     <Button title="Advanced Search" variant="dark">
                         Advanced Search
@@ -206,3 +203,5 @@ export default class NavBar extends React.Component{
         }
     }
 }
+
+export default withRouter(NavBar);

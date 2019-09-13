@@ -22,7 +22,7 @@ export default class Home extends React.Component {
                 <Row>
                     <Col>
                         <br/>
-                        <h4> Welcome, <b>{localStorage.getItem('username')}</b> </h4>
+                        <h4> Welcome, <b className="text-primary">{localStorage.getItem('username')}</b> </h4>
                     </Col>
                 </Row>
             );
