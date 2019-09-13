@@ -1,6 +1,7 @@
 package com.dit.ebay.service;
 
 import com.dit.ebay.model.Item;
+import com.dit.ebay.model.Item_;
 import com.dit.ebay.model.SellerRating;
 import com.dit.ebay.repository.CategoryRepository;
 import com.dit.ebay.repository.ItemRepository;
@@ -22,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -86,9 +88,120 @@ public class SearchService {
     }
 
     @Transactional(readOnly = true)
-    public PagedResponse<SearchResponse> searchByMultiFields(Long categoryId, SearchRequest searchRequest,
+    public PagedResponse<SearchResponse> searchByMultiFields2(Long categoryId, SearchRequest searchRequest,
                                                              int page, int size) {
         validatePageParametersService.validate(page, size);
+        int count = 0;
+        String hqlQuery = "select i from Item i where";
+        if (categoryId != null) {
+            hqlQuery += " i.category.id = :categoryId ";
+            count++;
+        }
+
+        if (searchRequest.getName() != null && !searchRequest.getName().isEmpty()) {
+            if (count != 0) {
+                hqlQuery += " and ";
+            }
+            hqlQuery += " lower(i.name) like lower(concat('%', :name,'%')) ";
+            count++;
+        }
+
+        if (searchRequest.getMinM() != null) {
+            if (count != 0) {
+                hqlQuery += " and ";
+            }
+            hqlQuery += " i.buyPrice >= :minMoney ";
+            count++;
+        }
+
+        if (searchRequest.getMaxM() != null) {
+            if (count != 0) {
+                hqlQuery += " and ";
+            }
+            hqlQuery += " i.buyPrice <= :maxMoney ";
+            count++;
+        }
+
+        if (searchRequest.getCnt() != null && !searchRequest.getCnt().isEmpty()) {
+            if (count != 0) {
+                hqlQuery += " and ";
+            }
+            hqlQuery += " i.country = :country ";
+            count++;
+        }
+
+        if (searchRequest.getLoc() != null && !searchRequest.getLoc().isEmpty()) {
+            if (count != 0) {
+                hqlQuery += " and ";
+            }
+            hqlQuery += " i.location = :location ";
+            count++;
+        }
+
+        if (searchRequest.getDescr() != null && !searchRequest.getDescr().isEmpty()) {
+            if (count != 0) {
+                hqlQuery += " and ";
+            }
+            hqlQuery += " lower(i.description) like lower(concat('%', :description,'%')) ";
+            count++;
+        }
+        Query query = entityManager.createQuery(hqlQuery, Item.class);
+
+        // set params
+        if (categoryId != null) {
+            query.setParameter("categoryId", categoryId);
+        }
+
+        if (searchRequest.getName() != null && !searchRequest.getName().isEmpty()) {
+            query.setParameter("name", searchRequest.getName());
+        }
+
+        if (searchRequest.getMinM() != null) {
+            query.setParameter("minMoney", searchRequest.getMinM());
+
+        }
+
+        if (searchRequest.getMaxM() != null) {
+            query.setParameter("maxMoney", searchRequest.getMaxM());
+        }
+
+        if (searchRequest.getCnt() != null && !searchRequest.getCnt().isEmpty()) {
+            query.setParameter("country", searchRequest.getCnt());
+
+        }
+
+        if (searchRequest.getLoc() != null && !searchRequest.getLoc().isEmpty()) {
+            query.setParameter("location", searchRequest.getLoc());
+
+        }
+
+        if (searchRequest.getDescr() != null && !searchRequest.getDescr().isEmpty()) {
+            query.setParameter("description", searchRequest.getDescr());
+        }
+        System.out.println(hqlQuery);
+
+        Page<Item> itemsPaged = Page.empty();
+        if (count != 0) {
+            System.out.println(query.getParameters());
+            query.setFirstResult(page * size);
+            query.setMaxResults(size);
+            //List<Item> items = itemRepository.itemsMoneySearch(searchRequest.getMinM(), searchRequest.getMaxM());
+            //for (Item item : items) {
+            //    System.out.println(item);
+            //}
+            itemsPaged = new PageImpl<>(query.getResultList(), PageRequest.of(page,size), query.getResultList().size());
+        } else {
+            Query queryAll = entityManager.createQuery("select i from Item i");
+            queryAll.setFirstResult(page * size);
+            queryAll.setMaxResults(size);
+            itemsPaged = new PageImpl<>(queryAll.getResultList(), PageRequest.of(page,size), queryAll.getResultList().size());
+        }
+        return createPagedResponse(itemsPaged);
+    }
+
+    @Transactional(readOnly = true)
+    public PagedResponse<SearchResponse> searchByMultiFields(Long categoryId, SearchRequest searchRequest,
+                                                             int page, int size) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Item> cq = cb.createQuery(Item.class);
         Root<Item> iRoot = cq.from(Item.class);
@@ -99,44 +212,49 @@ public class SearchService {
         }
 
         if (searchRequest.getName() != null) {
-            predicates.add(cb.like(cb.lower(iRoot.<String>get("name")),
+            predicates.add(cb.like(cb.lower(iRoot.get(Item_.name)),
                     "%" + searchRequest.getName().toLowerCase() + "%"));
         }
 
         if (searchRequest.getMinM() != null) {
-            predicates.add(cb.greaterThanOrEqualTo(iRoot.<BigDecimal>get("buyPrice"), searchRequest.getMinM()));
+            predicates.add(cb.greaterThanOrEqualTo(iRoot.get(Item_.buyPrice), searchRequest.getMinM()));
         }
 
         if (searchRequest.getMaxM() != null) {
-            predicates.add(cb.lessThanOrEqualTo(iRoot.<BigDecimal>get("buyPrice"), searchRequest.getMaxM()));
+            predicates.add(cb.lessThanOrEqualTo(iRoot.get(Item_.buyPrice), searchRequest.getMaxM()));
         }
 
         if (searchRequest.getCnt() != null && !searchRequest.getCnt().isEmpty()) {
-            predicates.add(cb.equal(iRoot.<String>get("country"), searchRequest.getCnt()));
+            predicates.add(cb.equal(iRoot.get(Item_.country), searchRequest.getCnt()));
         }
 
         if (searchRequest.getLoc() != null && !searchRequest.getLoc().isEmpty()) {
-            predicates.add(cb.equal(iRoot.<String>get("location"), searchRequest.getLoc()));
+            predicates.add(cb.equal(iRoot.get(Item_.location), searchRequest.getLoc()));
         }
 
         if (searchRequest.getDescr() != null && !searchRequest.getDescr().isEmpty()) {
-            predicates.add(cb.like(cb.lower(iRoot.<String>get("description")),
+            predicates.add(cb.like(cb.lower(iRoot.get(Item_.description)),
                     "%" + searchRequest.getDescr().toLowerCase() + "%"));
         }
 
         //cq.select(iRoot).where(cb.and(predicates.toArray(new Predicate[]{})));
-        cq.select(iRoot).where(predicates.toArray(new Predicate[]{}));
+        cq.select(iRoot).where(cb.and(predicates.toArray(new Predicate[predicates.size()])));
+        //cq.select(iRoot).where(predicates.toArray(new Predicate[]{}));
         //cq.orderBy(cb.desc(iRoot.get("id")));
 
         final TypedQuery<Item> query = entityManager.createQuery(cq);
+        query.getParameters();
         query.setFirstResult(page * size);
         query.setMaxResults(size);
         int totalRows = query.getResultList().size();
-        if (totalRows == 0) System.out.println("NOT FOUNDDDDDDDDDDDD");
+        /*
+        if (totalRows == 0) System.out.println("NO RES");
         for (Item item : query.getResultList()) {
             System.out.println(item.getName());
         }
+        */
         Page<Item> itemsPaged = new PageImpl<>(query.getResultList(), PageRequest.of(page,size), totalRows);
         return createPagedResponse(itemsPaged);
+
     }
 }

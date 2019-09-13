@@ -11,6 +11,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
@@ -58,5 +59,8 @@ public interface ItemRepository extends PagingAndSortingRepository<Item, Long> {
 
     @Query("select i from Item i where i.category.id = :categoryId")
     Page<Item> findItemsByCategoryId(@Param("categoryId") Long categoryId, Pageable pageable);
+
+    @Query("select i from Item i where i.buyPrice >= :minMoney  and  i.buyPrice <= :maxMoney")
+    List<Item> itemsMoneySearch(@Param("minMoney")BigDecimal minMoney, @Param("maxMoney")BigDecimal maxMoney);
 }
 
