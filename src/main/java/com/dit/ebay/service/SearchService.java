@@ -1,23 +1,20 @@
 package com.dit.ebay.service;
 
+import com.dit.ebay.exception.ResourceNotFoundException;
+import com.dit.ebay.model.Category;
 import com.dit.ebay.model.Item;
-import com.dit.ebay.model.Item_;
-import com.dit.ebay.model.SellerRating;
+import com.dit.ebay.model.MetaModel.Item_;
 import com.dit.ebay.repository.CategoryRepository;
 import com.dit.ebay.repository.ItemRepository;
 import com.dit.ebay.repository.SellerRatingRepository;
 import com.dit.ebay.request.SearchNameRequest;
 import com.dit.ebay.request.SearchRequest;
-import com.dit.ebay.response.ItemResponse;
 import com.dit.ebay.response.PagedResponse;
 import com.dit.ebay.response.SearchResponse;
-import net.bytebuddy.asm.Advice;
-import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.jpa.provider.HibernateUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,7 +26,8 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.math.BigDecimal;
+import javax.persistence.metamodel.EntityType;
+import javax.persistence.metamodel.Metamodel;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -88,7 +86,7 @@ public class SearchService {
     }
 
     @Transactional(readOnly = true)
-    public PagedResponse<SearchResponse> searchByMultiFields2(Long categoryId, SearchRequest searchRequest,
+    public PagedResponse<SearchResponse> searchByMultiFields(Long categoryId, SearchRequest searchRequest,
                                                              int page, int size) {
         validatePageParametersService.validate(page, size);
         int count = 0;
@@ -145,6 +143,7 @@ public class SearchService {
             hqlQuery += " lower(i.description) like lower(concat('%', :description,'%')) ";
             count++;
         }
+
         Query query = entityManager.createQuery(hqlQuery, Item.class);
 
         // set params
@@ -178,11 +177,12 @@ public class SearchService {
         if (searchRequest.getDescr() != null && !searchRequest.getDescr().isEmpty()) {
             query.setParameter("description", searchRequest.getDescr());
         }
-        System.out.println(hqlQuery);
+
+        //System.out.println(hqlQuery);
 
         Page<Item> itemsPaged = Page.empty();
         if (count != 0) {
-            System.out.println(query.getParameters());
+            //System.out.println(query.getParameters());
             query.setFirstResult(page * size);
             query.setMaxResults(size);
             //List<Item> items = itemRepository.itemsMoneySearch(searchRequest.getMinM(), searchRequest.getMaxM());
@@ -199,8 +199,9 @@ public class SearchService {
         return createPagedResponse(itemsPaged);
     }
 
+    // Has bug in querying category
     @Transactional(readOnly = true)
-    public PagedResponse<SearchResponse> searchByMultiFields(Long categoryId, SearchRequest searchRequest,
+    public PagedResponse<SearchResponse> searchByMultiFields2(Long categoryId, SearchRequest searchRequest,
                                                              int page, int size) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Item> cq = cb.createQuery(Item.class);
@@ -208,7 +209,9 @@ public class SearchService {
         List<Predicate> predicates = new ArrayList<>();
         System.out.println("Execute for : " + searchRequest);
         if (categoryId != null) {
-            predicates.add(cb.equal(iRoot.<Long>get("id"), categoryId));
+            //Category lastCategory = categoryRepository.findById(categoryId)
+            //        .orElseThrow(() -> new ResourceNotFoundException("Category", "id", categoryId));
+            //predicates.add(cb.equal(iRoot.get(Item_.category), lastCategory));
         }
 
         if (searchRequest.getName() != null) {
