@@ -1,6 +1,7 @@
 package com.dit.ebay.json_model;
 
 import com.dit.ebay.json_model.json_serializers.JsonDollarSerializer;
+import com.dit.ebay.model.Category;
 import com.dit.ebay.model.Item;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -25,7 +26,7 @@ public class JsonItem {
     private String name;
 
     @JsonProperty("Category")
-    private List<String> category = null;
+    private List<String> category = new ArrayList<>();
 
     @JsonProperty("Currently")
     @JsonSerialize(using = JsonDollarSerializer.class)
@@ -98,14 +99,6 @@ public class JsonItem {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public List<String> getCategory() {
-        return category;
-    }
-
-    public void setCategory(List<String> category) {
-        this.category = category;
     }
 
     public BigDecimal getCurrently() {
@@ -198,6 +191,14 @@ public class JsonItem {
 
     public void addBid(JsonBid JsonBid) {
         this.bids.add(JsonBid);
+    }
+
+    public List<String> getCategory() {
+        return category;
+    }
+
+    public void setCategory(List<String> category) {
+        this.category = category;
     }
 
     @Override

@@ -33,6 +33,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
+//@Transactional
 public class ItemService {
 
     @Autowired
@@ -53,8 +54,12 @@ public class ItemService {
     @Autowired
     private ValidatePageParametersService validatePageParametersService;
 
+    @Autowired
+    private CategoryService categoryService;
+
     private static final Logger logger = LoggerFactory.getLogger(ItemService.class);
 
+    //@Transactional
     public ResponseEntity<?> createItem(UserDetailsImpl currentUser, ItemRequest itemRequest) {
 
         if (itemRequest.getName() == null) {
@@ -81,17 +86,12 @@ public class ItemService {
         item.setUser(user);
         Item result = itemRepository.save(item);
 
-        List<String> categoriesNames = itemRequest.getCategoriesNames();
-        // Insert categories here
-        for (String categoryStr : categoriesNames) {
-            // safe check here
-            if (categoryRepository.findByItemIdAndCategoryStr(item.getId(), categoryStr).isEmpty()) {
-                Category category = new Category(categoryStr);
-                category.setItem(result);
-                categoryRepository.save(category);
-            }
+        Long lastCategoryId = itemRequest.getLastCategoryId();
+        if (lastCategoryId != null) {
+            Category lastCategory = categoryRepository.findById(lastCategoryId)
+                    .orElseThrow(() -> new ResourceNotFoundException("Category", "id", lastCategoryId));
+            item.setCategory(lastCategory);
         }
-
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentContextPath().path("/{itemId}")
                 .buildAndExpand(item.getId()).toUri();
@@ -99,9 +99,10 @@ public class ItemService {
         return ResponseEntity.created(uri).body(new ApiResponse(true, "Item created successfully.", result));
     }
 
+    //@Transactional
     // constructs paged response
     // will only be used inside this class
-    private PagedResponse<ItemResponse> createPagedResponse(Page<Item> itemsPaged) {
+    public PagedResponse<ItemResponse> createPagedResponse(Page<Item> itemsPaged) {
         if (itemsPaged.getNumberOfElements() == 0) {
             return new PagedResponse<>(Collections.emptyList(), itemsPaged.getNumber(),
                     itemsPaged.getSize(), itemsPaged.getTotalElements(),
@@ -111,6 +112,8 @@ public class ItemService {
         List<ItemResponse> itemResponses = new ArrayList<>();
         for (Item item : itemsPaged) {
             ItemResponse itemResponse = new ItemResponse(item);
+            List<Category> categories = categoryService.getCategoriesReversed(item);
+            itemResponse.setCategories(categories);
             itemResponse.setRating(sellerRatingRepository.avgRatingByUserId(item.getUser().getId()).orElse(null));
             itemResponses.add(itemResponse);
         }
@@ -120,7 +123,7 @@ public class ItemService {
                 itemsPaged.getTotalPages(), itemsPaged.isLast());
     }
 
-
+    //@Transactional
     public PagedResponse<ItemResponse> getSellerItems(UserDetailsImpl currentUser, int page, int size) {
         validatePageParametersService.validate(page, size);
 
@@ -128,6 +131,7 @@ public class ItemService {
         return createPagedResponse(itemsPaged);
     }
 
+    //@Transactional
     public OwnerItemResponse getSellerItemById(Long itemId, UserDetailsImpl currentUser) {
 
         // safe check here
@@ -135,15 +139,18 @@ public class ItemService {
 
         Item item =  itemRepository.findById(itemId)
                 .orElseThrow(() -> new ResourceNotFoundException("Item", "id", itemId));
+        List<Category> categories = categoryService.getCategoriesReversed(item);
+        OwnerItemResponse ownerItemResponse = new OwnerItemResponse(item);
+        ownerItemResponse.setCategories(categories);
 
         // check dates
         // maybe remove it WARNING
         boolean finished = item.itemIsFinished();
         if (finished && item.isActive()) {
             item.setActive(false);
+            ownerItemResponse.setActive(false);
             itemRepository.save(item);
         }
-        OwnerItemResponse ownerItemResponse = new OwnerItemResponse(item);
         ownerItemResponse.setFinished(finished);
         return ownerItemResponse;
     }
@@ -152,6 +159,7 @@ public class ItemService {
      * Remember the itemRequest must be filled with the old info + the new (changed fields)
      * Update only before the first bid or when its active
      */
+    //@Transactional
     public Item updateSellerItemById(Long itemId, ItemRequest itemRequest, UserDetailsImpl currentUser) {
 
         // safe check here
@@ -173,6 +181,7 @@ public class ItemService {
         return itemRepository.save(item);
     }
 
+    //@Transactional
     public Item updateSellerItemById(Long itemId, ItemActiveRequest itemActiveRequest, UserDetailsImpl currentUser) {
         // safe check here
         authorizationService.isSellerOfItem(currentUser.getId(), itemId);
@@ -193,6 +202,7 @@ public class ItemService {
         return itemRepository.save(item);
     }
 
+    //@Transactional
     public ResponseEntity<?> deleteSellerItemById(Long itemId) {
         Item item = itemRepository.findById(itemId)
                 .orElseThrow(() -> new ResourceNotFoundException("Item", "id", itemId));
@@ -201,11 +211,13 @@ public class ItemService {
         return ResponseEntity.ok().body(new ApiResponse(true, "Item Deleted Successfully."));
     }
 
+    //@Transactional
     public BidderItemResponse getBidderItemById(Long itemId) {
         Item item = itemRepository.findById(itemId)
                 .orElseThrow(() -> new ResourceNotFoundException("Item", "id", itemId));
-
+        List<Category> categories = categoryService.getCategoriesReversed(item);
         BidderItemResponse bidderItemResponse = new BidderItemResponse(item);
+        bidderItemResponse.setCategories(categories);
         bidderItemResponse.setRating(sellerRatingRepository.avgRatingByUserId(item.getUser().getId()).orElse(null));
 
         // check dates
@@ -213,12 +225,14 @@ public class ItemService {
         boolean finished = item.itemIsFinished();
         if (finished && item.isActive()) {
             item.setActive(false);
+            bidderItemResponse.setActive(false);
             itemRepository.save(item);
         }
         bidderItemResponse.setFinished(finished);
         return bidderItemResponse;
     }
 
+    //@Transactional
     public PagedResponse<ItemResponse> getBestBidItems(UserDetailsImpl currentUser, int page, int size) {
         validatePageParametersService.validate(page, size);
 
@@ -227,6 +241,7 @@ public class ItemService {
         return createPagedResponse(itemsPaged);
     }
 
+    //@Transactional
     public PagedResponse<ItemResponse> getBidsWonItems(UserDetailsImpl currentUser, int page, int size) {
         validatePageParametersService.validate(page, size);
 

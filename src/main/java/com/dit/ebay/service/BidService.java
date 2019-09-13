@@ -28,6 +28,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
+//@Transactional
 public class BidService {
 
     @Autowired
@@ -45,6 +46,7 @@ public class BidService {
     @Autowired
     private ValidatePageParametersService validatePageParametersService;
 
+    //@Transactional
     public ResponseEntity<?> createBid(Long itemId, BidRequest bidRequest, UserDetailsImpl currentUser) {
 
         Item item = itemRepository.findById(itemId)
@@ -148,6 +150,7 @@ public class BidService {
                 bidsPaged.getTotalPages(), bidsPaged.isLast());
     }
 
+    //@Transactional
     // used from other service
     // composite page response in user-activity
     public PagedResponse<BidResponse> getUserBids(UserDetailsImpl currentUser, int page, int size) {
@@ -157,6 +160,7 @@ public class BidService {
         return createPagedResponse(bidsPaged);
     }
 
+    //@Transactional
     public PagedResponse<BidResponse> getBids(Long itemId, UserDetailsImpl currentUser, int page, int size) {
 
         // safe check here

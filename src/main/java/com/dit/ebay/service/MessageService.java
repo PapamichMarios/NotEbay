@@ -26,6 +26,7 @@ import java.util.List;
 
 // Note : we could merge authorization of sender/receiver on get and delete in 1 query
 @Service
+//@Transactional
 public class MessageService {
 
     @Autowired
@@ -42,6 +43,8 @@ public class MessageService {
 
     private static final Logger logger = LoggerFactory.getLogger(MessageService.class);
 
+
+    //@Transactional
     public ResponseEntity<?> createMessage(MessageRequest messageRequest, UserDetailsImpl currentUser) {
         // get logged in user
         User userSender = userRepository.findById(currentUser.getId())
@@ -86,6 +89,7 @@ public class MessageService {
                 messagesPaged.getTotalPages(), messagesPaged.isLast());
     }
 
+    //@Transactional
     public PagedResponse<MessageHeaderResponse> getSentMessages(UserDetailsImpl currentUser, int page, int size) {
         validatePageParametersService.validate(page,size);
 
@@ -94,6 +98,7 @@ public class MessageService {
         return createPagedResponse(messagesPaged, true);
     }
 
+    //@Transactional
     public PagedResponse<MessageHeaderResponse> getReceivedMessages(UserDetailsImpl currentUser, int page, int size) {
         validatePageParametersService.validate(page,size);
 
@@ -103,6 +108,7 @@ public class MessageService {
     }
 
     // TODO : merge this 2 methods because they have the same functionality
+    //@Transactional(readOnly = true)
     public MessageResponse getSentMessage(Long messageId, UserDetailsImpl currentUser) {
         authorizationService.checkSenderPerms(currentUser.getId(), messageId);
 
@@ -115,6 +121,7 @@ public class MessageService {
         return messageResponse;
     }
 
+    //@Transactional
     public MessageResponse getReceivedMessage(Long messageId, UserDetailsImpl currentUser) {
         authorizationService.checkReceiverPerms(currentUser.getId(), messageId);
 
@@ -128,6 +135,7 @@ public class MessageService {
     }
 
 
+    //@Transactional
     public ResponseEntity<?> deleteSentMessage(Long messageId, UserDetailsImpl currentUser) {
         // Check if we can delete
         authorizationService.checkSenderPerms(currentUser.getId(), messageId);
@@ -146,6 +154,7 @@ public class MessageService {
         return ResponseEntity.ok().body(new ApiResponse(true, "Message Deleted Successfully."));
     }
 
+    //@Transactional
     public ResponseEntity<?> deleteReceivedMessage(Long messageId, UserDetailsImpl currentUser) {
         // Check if we can delete
         authorizationService.checkReceiverPerms(currentUser.getId(), messageId);

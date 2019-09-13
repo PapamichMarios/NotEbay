@@ -44,8 +44,8 @@ public class CsvItem {
     @CsvBindByName(column = "active")
     private boolean active;
 
-    @CsvBindByName(column = "categoriesNames")
-    private String categoriesNames;
+    @CsvBindByName(column = "categoryId")
+    private Long categoryId;
 
     public String getUsername() {
         return username;
@@ -143,11 +143,11 @@ public class CsvItem {
         this.active = active;
     }
 
-    public void setCategoriesNames(String categoriesNames) {
-        this.categoriesNames = categoriesNames;
+    public Long getCategoryId() {
+        return categoryId;
     }
 
-    public String getCategoriesNames() {
-        return categoriesNames;
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
     }
 }

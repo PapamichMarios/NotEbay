@@ -4,6 +4,8 @@ import com.dit.ebay.csv_model.*;
 import com.dit.ebay.exception.AppException;
 import com.dit.ebay.model.*;
 import com.dit.ebay.repository.*;
+import com.dit.ebay.util.LevelCategory;
+import com.dit.ebay.util.RecursiveQueries;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 import org.slf4j.Logger;
@@ -11,11 +13,18 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.io.IOException;
 import java.io.Reader;
+import java.math.BigInteger;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class PopulateDB {
@@ -53,11 +62,15 @@ public class PopulateDB {
     private static final long LAST_BID_ENDED_ID = 21;
     private static final String USERS_DATA_FILE = "my_data/user_data.csv";
     private static final String ITEMS_DATA_FILE = "my_data/item_data.csv";
+    //private static final String CATEGORIES_DATA_FILE = "my_data/category_data.csv";
     private static final String BIDS_DATA_FILE  = "my_data/bid_data.csv";
     private static final String RATINGS_DATA_FILE  = "my_data/rating_data.csv";
     private static final String ITEMS_ENDED_DATA_FILE = "my_data/item_ended_data.csv";
     private static final String BIDS_ENDED_DATA_FILE = "my_data/bid_ended_data.csv";
     private static final String MESSAGES_DATA_FILE = "my_data/message_data.csv";
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     public void populateStaticRoles() {
         if (roleRepository.findById(FIRST_ID).orElse(null) != null) return;
@@ -69,6 +82,7 @@ public class PopulateDB {
     /*
      * Only admin will be created here
      */
+    //@Transactional
     public void createAdmin() throws AppException {
         // if admin exists just return
         if (userRepository.findByUsername("ADM").orElse(null) != null) {
@@ -84,6 +98,7 @@ public class PopulateDB {
         userRepository.save(admin);
     }
 
+    //@Transactional
     public void populateUsers() throws IOException,AppException {
         try (Reader reader = Files.newBufferedReader(Paths.get(USERS_DATA_FILE))) {
             CsvToBean<CsvUser> csvToBean = new CsvToBeanBuilder(reader)
@@ -118,6 +133,7 @@ public class PopulateDB {
         }
     }
 
+    //@Transactional
     public void populateItems() throws IOException {
         try (Reader reader = Files.newBufferedReader(Paths.get(ITEMS_DATA_FILE))) {
             CsvToBean<CsvItem> csvToBean = new CsvToBeanBuilder(reader)
@@ -128,34 +144,38 @@ public class PopulateDB {
 
             for (CsvItem csvItem : csvToBean) {
 
-                if (itemRepository.findByName(csvItem.getName()).orElse(null) != null) continue;
-
                 // Get the user
                 User user = userRepository.findByUsername(csvItem.getUsername()).orElse(null);
                 if (user == null) continue;
 
                 Item item = new Item(csvItem);
                 item.setUser(user);
-                Item result = itemRepository.save(item);
-
                 // Insert categories
-                String tempStr = csvItem.getCategoriesNames();
-                if (!tempStr.isEmpty()) {
-                    String[] categoriesNames = tempStr.split(",");
-                    // Insert categories here
-                    for (String categoryStr : categoriesNames) {
-                        // safe check here
-                        if (categoryRepository.findByItemIdAndCategoryStr(result.getId(), categoryStr).isEmpty()) {
-                            Category category = new Category(categoryStr);
-                            category.setItem(result);
-                            categoryRepository.save(category);
-                        }
-                    }
-                }
+                Long categoryId = csvItem.getCategoryId();
+                Category category = categoryRepository.findById(categoryId).orElse(null);
+                if (category != null) item.setCategory(category);
+                Item result = itemRepository.save(item);
             }
         }
     }
 
+    private List<LevelCategory> createLevelCategoriesList(long lvl) {
+        //hierarchyLevelQuery
+        Query q = entityManager.createNativeQuery(RecursiveQueries.hierarchyLevelQuery).setParameter(1, lvl);
+        List<Object[]> objs = q.getResultList();
+        entityManager.clear();
+
+        List<LevelCategory> levelsCategories = new ArrayList<>();
+        // object[] = {id, name, lvl
+        for (Object[] o : objs) {
+            BigInteger tempId = (BigInteger) o[0];
+            BigInteger tempLvl = (BigInteger) o[2];
+            levelsCategories.add(new LevelCategory(tempId.longValue(), (String) o[1], tempLvl.longValue()));
+        }
+        return levelsCategories;
+    }
+
+    //@Transactional
     public void populateItemsEnded() throws IOException {
         try (Reader reader = Files.newBufferedReader(Paths.get(ITEMS_ENDED_DATA_FILE))) {
             CsvToBean<CsvItemEnded> csvToBean = new CsvToBeanBuilder(reader)
@@ -173,26 +193,17 @@ public class PopulateDB {
                 Item item = new Item(csvItemEnded);
                 item.setTimeStarted(csvItemEnded.getTimeStarted());
                 item.setUser(user);
-                Item result = itemRepository.save(item);
 
                 // Insert categories
-                String tempStr = csvItemEnded.getCategoriesNames();
-                if (!tempStr.isEmpty()) {
-                    String[] categoriesNames = tempStr.split(",");
-                    // Insert categories here
-                    for (String categoryStr : categoriesNames) {
-                        // safe check here
-                        if (categoryRepository.findByItemIdAndCategoryStr(result.getId(), categoryStr).isEmpty()) {
-                            Category category = new Category(categoryStr);
-                            category.setItem(result);
-                            categoryRepository.save(category);
-                        }
-                    }
-                }
+                Long categoryId = csvItemEnded.getCategoryId();
+                Category category = categoryRepository.findById(categoryId).orElse(null);
+                if (category != null) item.setCategory(category);
+                Item result = itemRepository.save(item);
             }
         }
     }
 
+    //@Transactional
     public void populateBids() throws IOException {
         try (Reader reader = Files.newBufferedReader(Paths.get(BIDS_DATA_FILE))) {
             CsvToBean<CsvBid> csvToBean = new CsvToBeanBuilder(reader)
@@ -233,6 +244,7 @@ public class PopulateDB {
         }
     }
 
+    //@Transactional
     public void populateBidsEnded() throws IOException {
         try (Reader reader = Files.newBufferedReader(Paths.get(BIDS_ENDED_DATA_FILE))) {
             CsvToBean<CsvBidEnded> csvToBean = new CsvToBeanBuilder(reader)
@@ -273,6 +285,7 @@ public class PopulateDB {
         }
     }
 
+    //@Transactional
     public void populateRatings() throws IOException {
         try (Reader reader = Files.newBufferedReader(Paths.get(RATINGS_DATA_FILE))) {
             CsvToBean<CsvRating> csvToBean = new CsvToBeanBuilder(reader)
@@ -303,6 +316,7 @@ public class PopulateDB {
         }
     }
 
+    //@Transactional
     public void populateMessages() throws IOException {
         try (Reader reader = Files.newBufferedReader(Paths.get(MESSAGES_DATA_FILE))) {
             CsvToBean<CsvMessage> csvToBean = new CsvToBeanBuilder(reader)

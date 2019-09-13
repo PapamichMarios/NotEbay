@@ -23,7 +23,7 @@ public class XmlItem {
     private String name;
 
     @XmlElement(name = "Category")
-    private List<String> category = null;
+    private List<String> category = new ArrayList<>();
 
     @XmlElement(name = "Currently")
     @XmlJavaTypeAdapter(XmlDollarAdapter.class)

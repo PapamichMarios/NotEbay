@@ -17,6 +17,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 
 @Service
+//@Transactional
 public class SellerRatingService {
 
     @Autowired
@@ -25,6 +26,7 @@ public class SellerRatingService {
     @Autowired
     private UserRepository userRepository;
 
+    //@Transactional
     public ResponseEntity<?> createSellerRating(Long userId, UserDetailsImpl currentUser, RatingRequest ratingRequest) {
 
         if (userId.equals(currentUser.getId())) {

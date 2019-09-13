@@ -20,6 +20,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.dit.ebay.exception.ResourceNotFoundException;
 import com.dit.ebay.exception.UserExistsException;
@@ -124,6 +125,7 @@ public class UserService {
                                 roleRepository.findRoleAdminById(user.getId())));
     }
 
+    //@Transactional
     public User updateUserById(Long userId, SignUpRequest userRequest, UserDetailsImpl currentUser) {
 
         if(!currentUser.getId().equals(userId)) { throw new ResourceNotFoundException("User", "id", userId); }

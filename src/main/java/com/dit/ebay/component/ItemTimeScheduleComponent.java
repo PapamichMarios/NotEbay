@@ -17,15 +17,15 @@ import java.util.List;
 /*
  * Real time checking database to see
  */
-
+/*
 @Component
 @EnableScheduling
 public class ItemTimeScheduleComponent {
 
     private static final Logger log = LoggerFactory.getLogger(ItemTimeScheduleComponent.class);
 
-    private static final String CRON_EVERY_20_MINS = "0 */20 * * * *";
-
+    private static final String CRON_EVERY_20_MINS = "0 * 20* * * * ; // <--- add "
+/*
     @Autowired
     private ItemRepository itemRepository;
 
@@ -45,3 +45,6 @@ public class ItemTimeScheduleComponent {
         }
     }
 }
+*/
+
+public class ItemTimeScheduleComponent { }

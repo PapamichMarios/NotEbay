@@ -108,6 +108,25 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `ted_db`.`categories`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `ted_db`.`categories` ;
+
+CREATE TABLE IF NOT EXISTS `ted_db`.`categories` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `parent_id` BIGINT NULL,
+  `name` VARCHAR(120) NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_categories_categories1_idx` (`parent_id` ASC),
+  CONSTRAINT `fk_categories_categories1`
+    FOREIGN KEY (`parent_id`)
+    REFERENCES `ted_db`.`categories` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `ted_db`.`items`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `ted_db`.`items` ;
@@ -115,6 +134,7 @@ DROP TABLE IF EXISTS `ted_db`.`items` ;
 CREATE TABLE IF NOT EXISTS `ted_db`.`items` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `seller_id` BIGINT NOT NULL,
+  `category_id` BIGINT NULL,
   `buy_price` DECIMAL(19,4) NULL,
   `first_bid` DECIMAL(19,4) NULL,
   `num_of_bids` INT NULL,
@@ -132,6 +152,7 @@ CREATE TABLE IF NOT EXISTS `ted_db`.`items` (
   PRIMARY KEY (`id`),
   INDEX `fk_items_users1_idx` (`seller_id` ASC),
   INDEX `fk_items_bids1_idx` (`best_bid_id` ASC),
+  INDEX `fk_items_categories1_idx` (`category_id` ASC),
   CONSTRAINT `fk_items_users1`
     FOREIGN KEY (`seller_id`)
     REFERENCES `ted_db`.`users` (`id`)
@@ -141,30 +162,9 @@ CREATE TABLE IF NOT EXISTS `ted_db`.`items` (
     FOREIGN KEY (`best_bid_id`)
     REFERENCES `ted_db`.`bids` (`id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `ted_db`.`categories`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `ted_db`.`categories` ;
-
-CREATE TABLE IF NOT EXISTS `ted_db`.`categories` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `parent_id` BIGINT NULL,
-  `item_id` BIGINT NOT NULL,
-  `category` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_categories_items1_idx` (`item_id` ASC),
-  INDEX `fk_categories_categories1_idx` (`parent_id` ASC),
-  CONSTRAINT `fk_categories_items1`
-    FOREIGN KEY (`item_id`)
-    REFERENCES `ted_db`.`items` (`id`)
-    ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_categories_categories1`
-    FOREIGN KEY (`parent_id`)
+  CONSTRAINT `fk_items_categories1`
+    FOREIGN KEY (`category_id`)
     REFERENCES `ted_db`.`categories` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)

@@ -21,7 +21,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 
 @SpringBootApplication
-@EnableScheduling
+//@EnableScheduling // uncomment for cron operations
 public class EbayApplication {
 
 	public static void main(String[] args) {
@@ -44,6 +44,7 @@ public class EbayApplication {
 			populateDB.populateStaticRoles();
 			populateDB.createAdmin();
 
+			//xmlService.XmlCategoriesImport();
 			populateDB.populateUsers();
 			populateDB.populateItems();
 			populateDB.populateItemsEnded();

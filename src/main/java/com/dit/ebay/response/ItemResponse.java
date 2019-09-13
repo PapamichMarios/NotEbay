@@ -3,19 +3,17 @@ package com.dit.ebay.response;
 import com.dit.ebay.model.Bid;
 import com.dit.ebay.model.Category;
 import com.dit.ebay.model.Item;
-import com.dit.ebay.model.User;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ItemResponse {
 
     protected Long id;
 
-    protected Set<Category> categories = new HashSet<>(); // maybe be null
+    protected List<Category> categories = new ArrayList<>(); // maybe be null
 
     protected String name;
 
@@ -56,7 +54,7 @@ public class ItemResponse {
     public ItemResponse(Item item) {
         this.id = item.getId();
         this.name = item.getName();
-        this.categories = item.getCategories();
+        //this.categories = item.getCategories();
         this.description = item.getDescription();
         this.timeStarted = item.getTimeStarted();
         this.timeEnds = item.getTimeEnds();
@@ -71,6 +69,10 @@ public class ItemResponse {
         this.active = item.isActive();
         this.bestBid = item.getBestBid(); // maybe null
     }
+
+    public List<Category> getCategories() { return categories; }
+
+    public void setCategories(List<Category> categories) { this.categories = categories; }
 
     public String getName() {
         return name;
@@ -192,13 +194,6 @@ public class ItemResponse {
         this.bestBid = bestBid;
     }
 
-    public Set<Category> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(Set<Category> categories) {
-        this.categories = categories;
-    }
 
     public BigDecimal getRating() { return rating; }
 

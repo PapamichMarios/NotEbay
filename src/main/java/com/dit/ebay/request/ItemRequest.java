@@ -32,7 +32,7 @@ public class ItemRequest {
 
     private boolean active;
 
-    private List<String> categoriesNames;
+    private Long lastCategoryId;
 
     public BigDecimal getFirstBid() {
         return firstBid;
@@ -102,8 +102,12 @@ public class ItemRequest {
 
     public void setImagePath(String imagePath) { this.imagePath = imagePath; }
 
-    public List<String> getCategoriesNames() { return categoriesNames; }
+    public Long getLastCategoryId() {
+        return lastCategoryId;
+    }
 
-    public void setCategoriesNames(List<String> categoriesNames) { this.categoriesNames = categoriesNames; }
+    public void setLastCategoryId(Long lastCategoryId) {
+        this.lastCategoryId = lastCategoryId;
+    }
 }
 

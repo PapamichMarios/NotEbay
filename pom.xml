@@ -23,6 +23,8 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
 		<jjwt.version>0.9.0</jjwt.version>
+		<mysql.version>8.0.16</mysql.version>
+
 	</properties>
 
     <dependencies>
@@ -53,6 +55,12 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>5.4.0.Final</version>
 		</dependency>
 
 		<!-- For Java 8 Date/Time Support -->
@@ -86,7 +94,7 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.6</version>
+			<version>${mysql.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eu.acolyte</groupId>

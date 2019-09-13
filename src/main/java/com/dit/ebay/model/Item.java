@@ -32,8 +32,9 @@ public class Item {
     private Set<Bid> bids = new HashSet<>();
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "item", cascade = CascadeType.ALL)
-    private Set<Category> categories = new HashSet<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private Category category;
 
     /*
      * User, owns item
@@ -328,10 +329,6 @@ public class Item {
 
     public void increaseNumOfBids() { this.numOfBids++; }
 
-    public Set<Category> getCategories() { return categories; }
-
-    public void setCategories(Set<Category> categories) { this.categories = categories; }
-
     public void updateTimeEnds() {
         // check dates
         Timestamp currentTime = new Timestamp(System.currentTimeMillis());
@@ -344,5 +341,13 @@ public class Item {
         Timestamp currentTime = new Timestamp(System.currentTimeMillis());
         currentTime.setNanos(0); // don't count millis
         return currentTime.after(this.timeEnds);
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }

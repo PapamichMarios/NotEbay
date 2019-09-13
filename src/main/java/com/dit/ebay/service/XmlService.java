@@ -3,26 +3,36 @@ package com.dit.ebay.service;
 import com.dit.ebay.exception.AppException;
 import com.dit.ebay.model.*;
 import com.dit.ebay.repository.*;
+import com.dit.ebay.util.LevelCategory;
+import com.dit.ebay.util.RecursiveQueries;
 import com.dit.ebay.xml_model.*;
+import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /*
  * User it to read xml files and write
  */
 @Service
+//@Transactional
 public class XmlService {
 
-    private static final String EBAY_DATA = "ebay_data/";
+    private static final String EBAY_DATA = "ebay-data/";
 
     @Autowired
     private UserRepository userRepository;
@@ -45,6 +55,144 @@ public class XmlService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private CategoryRepository categoryRepository;
+
+    @Autowired
+    private ItemService itemService;
+
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    @Autowired
+    private CategoryService categoryService;
+
+    private List<LevelCategory> createLevelCategoriesList(long lvl) {
+        //hierarchyLevelQuery
+        Query q = entityManager.createNativeQuery(RecursiveQueries.hierarchyLevelQuery).setParameter(1, lvl);
+        List<Object[]> objs = q.getResultList();
+        entityManager.clear();
+
+        List<LevelCategory> levelsCategories = new ArrayList<>();
+        // object[] = {id, name, lvl
+        for (Object[] o : objs) {
+            BigInteger tempId = (BigInteger) o[0];
+            BigInteger tempLvl = (BigInteger) o[2];
+            levelsCategories.add(new LevelCategory(tempId.longValue(), (String) o[1], tempLvl.longValue()));
+        }
+        return levelsCategories;
+    }
+
+    private Category xmlItemCategoriesImport(List<String> categoriesNames) {
+        Category currentParent = null;
+        Category lastCat = null;
+        boolean parentCheck = false;
+        for (String catName : categoriesNames) {
+            List<Category> currentCategory = categoryRepository.findByCategoryName(catName);
+            if (currentCategory.isEmpty()) {
+                Category newCat = new Category(catName);
+                newCat.setParentCategory(currentParent);
+                newCat = categoryRepository.save(newCat);
+                currentParent = newCat;
+                lastCat = newCat;
+            } else {
+                parentCheck = false;
+                for (Category catFound : currentCategory) {
+                    Category parent = catFound.getParentCategory();
+                    if (parent == null && currentParent == null) {
+                        currentParent = catFound;
+                        lastCat = catFound;
+                        parentCheck = true;
+                        break;
+                    } else if (parent != null && currentParent != null && parent.getId().equals(currentParent.getId())) {
+                        currentParent = catFound;
+                        lastCat = catFound;
+                        parentCheck = true;
+                        break;
+                    }
+                }
+                if (!parentCheck) {
+                    Category newCat = new Category(catName);
+                    newCat.setParentCategory(currentParent);
+                    newCat = categoryRepository.save(newCat);
+                    currentParent = newCat;
+                    lastCat = newCat;
+                }
+            }
+        }
+        return lastCat; // returns last cat to put fk from item to category
+    }
+
+    @Transactional
+    public void XmlCategoriesImport() throws JAXBException, IOException {
+        JAXBContext context = JAXBContext.newInstance(XmlItems.class);
+
+        // XML => objects
+        Unmarshaller unmarshaller = context.createUnmarshaller();
+
+        // eliminate code
+        File dir = new File(EBAY_DATA);
+        File[] files = dir.listFiles((dir1, name) -> name.endsWith(".xml"));
+
+        // root
+        Category rootCategory = null;
+        /*
+        // hierarchy query needs mainRoot
+        List<Category> catRoot = categoryRepository.findByCategoryName("MainRoot");
+        if (catRoot.isEmpty()) {
+           rootCategory = new Category("MainRoot");
+           rootCategory.setParentCategory(null);
+           categoryRepository.save(rootCategory);
+        } else {
+            rootCategory = catRoot.get(0);
+        }
+        */
+        for (File xmlFile : files) {
+            XmlItems xmlItems = (XmlItems) unmarshaller.unmarshal(new FileReader(xmlFile));
+            //System.out.println("------------" + xmlFile.getName() + "--------\n\n\n");
+            for (XmlItem xmlItem : xmlItems.getXmlItems()) {
+                List<String> categoriesNames = xmlItem.getCategory();
+                Category currentParent = rootCategory;
+                Category lastCat = null;
+                boolean parentCheck = false;
+                for (String catName : categoriesNames) {
+                    List<Category> currentCategory = categoryRepository.findByCategoryName(catName);
+                    if (currentCategory.isEmpty()) {
+                        Category newCat = new Category(catName);
+                        newCat.setParentCategory(currentParent);
+                        newCat = categoryRepository.save(newCat);
+                        currentParent = newCat;
+                        lastCat = newCat;
+                    } else {
+                        parentCheck = false;
+                        for (Category catFound : currentCategory) {
+                            Category parent = catFound.getParentCategory();
+                            if (parent == null && currentParent == null) {
+                                currentParent = catFound;
+                                lastCat = catFound;
+                                parentCheck = true;
+                                break;
+                            } else if (parent != null && currentParent != null && parent.getId().equals(currentParent.getId())) {
+                                currentParent = catFound;
+                                lastCat = catFound;
+                                parentCheck = true;
+                                break;
+                            }
+                        }
+                        if (!parentCheck) {
+                            Category newCat = new Category(catName);
+                            newCat.setParentCategory(currentParent);
+                            newCat = categoryRepository.save(newCat);
+                            currentParent = newCat;
+                            lastCat = newCat;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    //@Transactional
     public void XmlImport() throws JAXBException, IOException {
         JAXBContext context = JAXBContext.newInstance(XmlItems.class);
 
@@ -73,14 +221,15 @@ public class XmlService {
                     seller = userRepository.save(seller);
                 }
 
-                Item item = itemRepository.findByName(xmlItem.getName()).orElse(null);
-                if (item == null) {
-                    //System.out.println("===============>" + xmlItem.getName()+ "<=================");
-                    item = new Item(xmlItem);
-                    item.setUser(seller);
-                    item.setActive(false);
-                    item = itemRepository.save(item);
-                }
+                //System.out.println("===============>" + xmlItem.getName()+ "<=================");
+                Item item = new Item(xmlItem);
+                item.setUser(seller);
+                item.setActive(false);
+
+                // categories insertion here
+                Category lastCategory = xmlItemCategoriesImport(xmlItem.getCategory());
+                item.setCategory(lastCategory);
+                item = itemRepository.save(item);
 
                 Bid lastBid = null;
                 for (XmlBid xmlBid : xmlItem.getBids()) {
@@ -125,6 +274,8 @@ public class XmlService {
 
         for (Item item : itemsList) {
             XmlItem xmlItem = new XmlItem(item);
+            List<String> categories = categoryService.getCategoriesReversedNames(item);
+            if (!categories.isEmpty()) xmlItem.setCategory(categories);
             xmlItem.setSeller(new XmlSeller(item.getUser().getUsername(),
                             sellerRatingRepository.aggrRatingByUserId(userId).orElse(null)));
             List<Bid> bidsList = bidRepository.findByItemId(item.getId());
@@ -153,6 +304,8 @@ public class XmlService {
 
         for (Item item : itemsList) {
             XmlItem xmlItem = new XmlItem(item);
+            List<String> categories = categoryService.getCategoriesReversedNames(item);
+            if (!categories.isEmpty()) xmlItem.setCategory(categories);
             xmlItem.setSeller(new XmlSeller(item.getUser().getUsername(),
                     sellerRatingRepository.aggrRatingByUserId(item.getUser().getId()).orElse(null)));
             List<Bid> bidsList = bidRepository.findByItemId(item.getId());

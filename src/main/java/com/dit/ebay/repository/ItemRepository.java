@@ -3,6 +3,7 @@ package com.dit.ebay.repository;
 import com.dit.ebay.model.Bid;
 import com.dit.ebay.model.Item;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -42,7 +43,7 @@ public interface ItemRepository extends PagingAndSortingRepository<Item, Long> {
     @Query("select i from Item i where i.bestBid.user.id = :userId")
     Page<Item> findBestBidItemsByUserId(@Param("userId") Long userId, Pageable pageable);
 
-    // 1st time active is true then if date passes auction ends so it goes off then he wons
+    // 1st time active is true then if date passes auction ends so it goes off then he wins
     @Query("select i from Item i where i.bestBid.user.id = :userId and i.timeEnds <= :currTime")
     Page<Item> findWonItemsByUserId(@Param("userId") Long userId, @Param("currTime") Timestamp currentTimeStamp, Pageable pageable);
 
@@ -51,5 +52,11 @@ public interface ItemRepository extends PagingAndSortingRepository<Item, Long> {
 
     @Query("select i from Item i where i.user.id = :userId")
     List<Item> findAllByUserId(@Param("userId") Long userId);
+
+    @Query("select i from Item i where lower(i.name) like lower(concat('%', :itemName,'%'))")
+    Page<Item> findItemsByName(@Param("itemName") String itemName, Pageable pageable);
+
+    @Query("select i from Item i where i.category.id = :categoryId")
+    Page<Item> findItemsByCategoryId(@Param("categoryId") Long categoryId, Pageable pageable);
 }
 
