@@ -274,6 +274,7 @@ public class SearchService {
         User bestBidder = item.getBestBid() != null ? item.getBestBid().getUser() : null;
         SearchItemResponse searchItemResponse = new SearchItemResponse(item, item.getUser(), bestBidder);
         searchItemResponse.setCategories(categories);
+        searchItemResponse.setRating(sellerRatingRepository.avgRatingByUserId(item.getUser().getId()).orElse(null));
         return searchItemResponse;
     }
 }
