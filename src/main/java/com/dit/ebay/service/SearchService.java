@@ -1,15 +1,18 @@
 package com.dit.ebay.service;
 
 import com.dit.ebay.exception.ResourceNotFoundException;
+import com.dit.ebay.model.Bid;
 import com.dit.ebay.model.Category;
 import com.dit.ebay.model.Item;
 import com.dit.ebay.model.MetaModel.Item_;
+import com.dit.ebay.model.User;
 import com.dit.ebay.repository.CategoryRepository;
 import com.dit.ebay.repository.ItemRepository;
 import com.dit.ebay.repository.SellerRatingRepository;
 import com.dit.ebay.request.SearchNameRequest;
 import com.dit.ebay.request.SearchRequest;
 import com.dit.ebay.response.PagedResponse;
+import com.dit.ebay.response.SearchItemResponse;
 import com.dit.ebay.response.SearchResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -48,6 +51,9 @@ public class SearchService {
 
     @PersistenceContext
     private EntityManager entityManager;
+
+    @Autowired
+    private CategoryService categoryService;
 
     @Autowired
     private ValidatePageParametersService validatePageParametersService;
@@ -259,5 +265,15 @@ public class SearchService {
         Page<Item> itemsPaged = new PageImpl<>(query.getResultList(), PageRequest.of(page,size), totalRows);
         return createPagedResponse(itemsPaged);
 
+    }
+
+    public SearchItemResponse getSearchItem(Long itemId) {
+        Item item =  itemRepository.findById(itemId)
+                .orElseThrow(() -> new ResourceNotFoundException("Item", "id", itemId));
+        List<Category> categories = categoryService.getCategoriesReversed(item);
+        User bestBidder = item.getBestBid() != null ? item.getBestBid().getUser() : null;
+        SearchItemResponse searchItemResponse = new SearchItemResponse(item, item.getUser(), bestBidder);
+        searchItemResponse.setCategories(categories);
+        return searchItemResponse;
     }
 }

@@ -7,6 +7,7 @@ package com.dit.ebay.controller;
 import com.dit.ebay.request.SearchNameRequest;
 import com.dit.ebay.request.SearchRequest;
 import com.dit.ebay.response.PagedResponse;
+import com.dit.ebay.response.SearchItemResponse;
 import com.dit.ebay.response.SearchResponse;
 import com.dit.ebay.service.SearchService;
 import com.dit.ebay.util.PaginationConstants;
@@ -49,5 +50,10 @@ public class SearchController {
                                                              @PathVariable(value = "categoryId") Long categoryId,
                                                              @Valid SearchRequest searchRequest) {
         return searchService.searchByMultiFields(categoryId, searchRequest, page, size);
+    }
+
+    @GetMapping("/items/{itemId}")
+    public SearchItemResponse getSearchItem(@PathVariable(value = "itemId") Long itemId) {
+        return searchService.getSearchItem(itemId);
     }
 }

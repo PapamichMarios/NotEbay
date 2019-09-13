@@ -36,8 +36,8 @@ public class CategoryService {
         }
         while (currentParent != null) {
             categories.add(currentParent);
-            currentParent = categoryRepository.findById(currentParent.getId()).orElse(null);
-
+            if (currentParent.getParentCategory() == null) break;
+            currentParent = categoryRepository.findById(currentParent.getParentCategory().getId()).orElse(null);
         }
         if (!categories.isEmpty()) {
             Collections.reverse(categories);
@@ -55,8 +55,8 @@ public class CategoryService {
         }
         while (currentParent != null) {
             categories.add(currentParent.getName());
-            currentParent = categoryRepository.findById(currentParent.getId()).orElse(null);
-
+            if (currentParent.getParentCategory() == null) break;
+            currentParent = categoryRepository.findById(currentParent.getParentCategory().getId()).orElse(null);
         }
         if (!categories.isEmpty()) {
             Collections.reverse(categories);

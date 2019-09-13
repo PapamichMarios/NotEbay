@@ -154,4 +154,5 @@ public class ItemController {
     public JsonItems getJsonAllItems(@Valid @CurrentUser UserDetailsImpl currentUser) {
         return jsonService.getAllJsonItems();
     }
+
 }

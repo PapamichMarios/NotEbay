@@ -3,6 +3,8 @@ package com.dit.ebay.response;
 import com.dit.ebay.model.Bid;
 import com.dit.ebay.model.Category;
 import com.dit.ebay.model.Item;
+import com.dit.ebay.model.User;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -13,6 +15,7 @@ public class ItemResponse {
 
     protected Long id;
 
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     protected List<Category> categories = new ArrayList<>(); // maybe be null
 
     protected String name;
