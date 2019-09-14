@@ -79,7 +79,7 @@ export default class SearchResult extends React.Component {
         this.setState({loading: true});
 
         //make the request
-        const url = '/app/search/itemName?name=' + name + 'page=' + (pageNum-1) + '&size=10';
+        const url = '/app/search/itemName?page=' + (pageNum-1) + '&size=10' + '&name=' + name;
 
         getRequestUnauth(url)
         .then(items =>  {
