@@ -17,18 +17,104 @@ class NavBar extends React.Component{
 
     render() {
         //categories dropdown
+        let categoriesBody1 = [];
+        let categoriesBody2 = [];
+        let categoriesBody3 = [];
+        this.props.categories.map( (category, index) => {
+
+            let breadcrumbs = [{name: category.name, id: category.id}];
+
+            switch(index % 3) {
+                case 0:
+                    categoriesBody1.push(
+                        <Dropdown.Item
+                            onClick={() => {
+                                    this.props.history.push({
+                                        pathname: '/categories',
+                                        state: {
+                                            name: category.name,
+                                            id: category.id,
+                                            breadcrumbs: breadcrumbs
+                                        }
+                                    });
+                                }
+                            }
+                            key={category.id}
+                        >
+                            {category.name}
+                        </Dropdown.Item>
+                    );
+                    break;
+
+                case 1:
+                    categoriesBody2.push(
+                        <Dropdown.Item
+                            onClick={() => {
+                                    this.props.history.push({
+                                        pathname: '/categories',
+                                        state: {
+                                            name: category.name,
+                                            id: category.id,
+                                            breadcrumbs: breadcrumbs
+                                        }
+                                    });
+                                }
+                            }
+                            key={category.id}
+                        >
+                            {category.name}
+                        </Dropdown.Item>
+                    );
+                    break;
+
+                case 2:
+                    categoriesBody3.push(
+                        <Dropdown.Item
+                            onClick={() => {
+                                    this.props.history.push({
+                                        pathname: '/categories',
+                                        state: {
+                                            name: category.name,
+                                            id: category.id,
+                                            breadcrumbs: breadcrumbs,
+                                        }
+                                    });
+                                }
+                            }
+                            key={category.id}
+                        >
+                            {category.name}
+                        </Dropdown.Item>
+                    );
+                    break;
+            }
+        });
+
         const categories = (
             <DropdownButton title="Categories" variant="dark">
-              <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+
+              <Row>
+                <Col>
+                    {categoriesBody2}
+                </Col>
+
+                <Col>
+                    {categoriesBody1}
+                </Col>
+
+                <Col>
+                    {categoriesBody3}
+                </Col>
+              </Row>
 
               <Dropdown.Divider />
 
-
-              <Dropdown.Item onClick={() => this.props.history.push('/categories')} className="text-primary">
-                  <b>Click to see all the categories!</b>
+              <Dropdown.Item
+                onClick={() => { this.props.history.push('/categories')} }
+                className="text-primary"
+              >
+                  <b>Click here to see all the categories!</b>
               </Dropdown.Item>
-
-
             </DropdownButton>
         );
 
@@ -123,7 +209,7 @@ class NavBar extends React.Component{
                             </NavItem>
 
                             <NavItem className="button-margin">
-                              <DropdownButton title={<FaUser style={{verticalAlign: 'baseline'}}/>} variant="dark" style={{borderRadius: '50px'}}>
+                              <DropdownButton title={<FaUser style={{verticalAlign: 'baseline'}}/>} variant="dark" style={{borderRadius: '50px'}} className="my-dropdown-menu">
 
                                 <Dropdown.Item as={Link} to="/profile" className="text-center">
                                     <b style={{color: '#20A5CA'}}> {localStorage.getItem('username')} </b>

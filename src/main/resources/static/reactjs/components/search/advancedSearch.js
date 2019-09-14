@@ -1,8 +1,8 @@
 import React from 'react';
 
-import postRequest from './utils/requests/postRequest';
-import LoadingButton from './utils/loading/loadingButton.js';
-import * as Constants from './utils/constants.js';
+import postRequest from '../utils/requests/postRequest';
+import LoadingButton from '../utils/loading/loadingButton.js';
+import * as Constants from '../utils/constants.js';
 
 import { Container, Row, Col, Card, Button, Form, InputGroup } from 'react-bootstrap';
 import { FaSearch } from 'react-icons/fa';
@@ -130,21 +130,31 @@ export default class AdvancedSearch extends React.Component {
 
                                             <Row>
                                                 <Col>
-                                                    <Form.Control
-                                                        type="number"
-                                                        placeholder= "eg. 100"
-                                                        name="minPrice"
-                                                        onChange={this.onChange}
-                                                    />
+                                                    <InputGroup>
+                                                        <Form.Control
+                                                            type="number"
+                                                            placeholder= "eg. 100"
+                                                            name="minPrice"
+                                                            onChange={this.onChange}
+                                                        />
+                                                        <InputGroup.Append>
+                                                            <InputGroup.Text> &#36; </InputGroup.Text>
+                                                        </InputGroup.Append>
+                                                    </InputGroup>
                                                 </Col>
 
                                                 <Col>
-                                                    <Form.Control
-                                                        type="number"
-                                                        placeholder= "eg. 1000"
-                                                        name="maxPrice"
-                                                        onChange={this.onChange}
-                                                    />
+                                                    <InputGroup>
+                                                        <Form.Control
+                                                            type="number"
+                                                            placeholder= "eg. 1000"
+                                                            name="maxPrice"
+                                                            onChange={this.onChange}
+                                                        />
+                                                        <InputGroup.Append>
+                                                            <InputGroup.Text> &#36; </InputGroup.Text>
+                                                        </InputGroup.Append>
+                                                    </InputGroup>
                                                 </Col>
                                             </Row>
                                         </Form.Group>

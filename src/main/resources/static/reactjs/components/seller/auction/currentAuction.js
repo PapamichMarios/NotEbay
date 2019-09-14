@@ -8,7 +8,7 @@ import '../../../../css/utils/map.css';
 import '../../../../css/signup/confirmation.css';
 
 import { Container, Row, Col, Form, Button, Card, ButtonToolbar, Alert, Tabs, Tab, Breadcrumb, ListGroup, Nav } from 'react-bootstrap';
-import {FaEdit, FaSearchDollar, FaTrash, FaHourglassStart, FaStar, FaEnvelope } from 'react-icons/fa';
+import { FaEdit, FaSearchDollar, FaTrash, FaHourglassStart, FaStar, FaEnvelope } from 'react-icons/fa';
 import { withRouter, Link } from 'react-router-dom';
 
 class CurrentAuction extends React.Component {

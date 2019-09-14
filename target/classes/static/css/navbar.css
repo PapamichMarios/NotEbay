@@ -5,6 +5,7 @@
 .button-margin{
     margin-right : 5px;
 }
+
 .button-margin-left {
     margin-left: 5px;
 }
@@ -15,4 +16,9 @@
 
 .navbar-margin{
     margin-top: 25px;
+}
+
+.dropdown-menu {
+	width: 800px;
+	font-size: 14px;
 }
