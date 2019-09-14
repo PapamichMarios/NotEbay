@@ -13,9 +13,22 @@ import { MdPlaylistAddCheck, MdGavel } from 'react-icons/md';
 class NavBar extends React.Component{
     constructor(props) {
         super(props);
+
+        this.state = {
+            search: ''
+        };
+
+        this.onChange = this.onChange.bind(this);
+    }
+
+    onChange(e){
+        this.setState({
+            [e.target.name]: e.target.value
+        });
     }
 
     render() {
+
         //categories dropdown
         let categoriesBody1 = [];
         let categoriesBody2 = [];
@@ -127,8 +140,28 @@ class NavBar extends React.Component{
 
               <NavItem>
                 <Form inline>
-                    <Form.Control type="text" placeholder="Search here..." style={{width:'450px'}}/>
-                    <Button variant="outline-success">
+                    <Form.Control
+                        type="text"
+                        name="search"
+                        placeholder="Search here..."
+                        onChange={ this.onChange }
+                        style={{width:'450px'}}
+                    />
+
+                    <Button
+                        variant="outline-success"
+                        onClick={ () => {
+
+                            //redirect to searchResults
+                            this.props.history.push({
+                                pathname: '/searchResult?name=' + this.state.search,
+                                state: {
+                                    name: this.state.search
+                                }
+                            })
+
+                        }}
+                    >
                         <b> Search </b>
                         <FaSearch style={{verticalAlign: 'baseline'}}/>
                     </Button>
@@ -145,7 +178,9 @@ class NavBar extends React.Component{
             </Nav>
         );
 
+        //for the logged in users
         if(localStorage.getItem('loggedIn') === 'true') {
+
             return (
                 <Navbar bg="dark" variant="dark">
                   <Navbar.Brand href="/welcome"> <b> BidIt </b> </Navbar.Brand>
@@ -154,6 +189,7 @@ class NavBar extends React.Component{
 
                     {navLeft}
 
+                    {/* for the admins */}
                     { localStorage.getItem("isAdmin") === 'true' ? (
                         <Nav className="justify-content-end">
                           <NavItem className="button-margin">
@@ -248,7 +284,10 @@ class NavBar extends React.Component{
                   </Navbar.Collapse>
                 </Navbar>
             );
+
         } else {
+
+            //for visitors
             return (
                 <Navbar bg="dark" variant="dark">
                   <Navbar.Brand href="/welcome"> <b> BidIt </b> </Navbar.Brand>

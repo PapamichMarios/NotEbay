@@ -30,15 +30,34 @@ export default class Categories extends React.Component {
             const url = '/app/categories/' + this.props.location.state.id + '/subs';
             getRequestUnauth(url)
             .then(categories => {
-                this.setState({
-                    categories: categories,
-                    breadcrumbs: this.props.location.state.breadcrumbs
-                },
-                () => {
-                    setTimeout( () => {
-                        this.setState({loading: false})
-                    }, Constants.TIMEOUT_DURATION);
-                });
+
+                if(categories.length === 0) {
+
+                    //redirect to searchResults
+                    this.props.history.push({
+                        pathname: '/searchResult?category=' + this.props.location.state.name,
+                        state: {
+                            category: this.props.location.state.name,
+                            id: this.props.location.state.id,
+                            breadcrumbs: this.props.location.state.breadcrumbs
+                        }
+                    });
+
+                } else {
+
+                    //keep on printing the children
+                    this.setState({
+                        categories: categories,
+                        breadcrumbs: this.props.location.state.breadcrumbs
+                    },
+                    () => {
+                        setTimeout( () => {
+                            this.setState({loading: false})
+                        }, Constants.TIMEOUT_DURATION);
+                    });
+
+                }
+
             })
             .catch(error => console.error('Error', error));
 

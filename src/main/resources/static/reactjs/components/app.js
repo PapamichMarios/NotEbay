@@ -116,44 +116,46 @@ class App extends React.Component {
 
                   <Switch>
                     {/* public */}
-                    <Route exact path="/"                               render={ (props) => <Home {...props} onLogin={this.handleLogin} /> } />
-                    <Route exact path="/welcome"                        render={ (props) => <Home {...props} onLogin={this.handleLogin} /> } />
-                    <Route exact path="/home"                           render={ (props) => <Home {...props} onLogin={this.handleLogin} /> } />
-                    <Route exact path="/categories"                     component={Categories} />
-                    <Route exact path="/advanced-search"                component={AdvancedSearch} />
-                    <Route path="/search"                               component={SearchResult} />
+                    <Route exact path="/"                                render={ (props) => <Home {...props} onLogin={this.handleLogin} /> } />
+                    <Route exact path="/welcome"                         render={ (props) => <Home {...props} onLogin={this.handleLogin} /> } />
+                    <Route exact path="/home"                            render={ (props) => <Home {...props} onLogin={this.handleLogin} /> } />
+                    <Route exact path="/categories"                      component={Categories} />
+                    <Route exact path="/advanced-search"                 component={AdvancedSearch} />
 
-                    <Route exact path="/login"                          render={ (props) => !isAuthenticated() ? <Login {...props} onLogin={this.handleLogin} /> : <Redirect to="/" />} />
-                    <Route exact path="/signup"                         render={ () => !isAuthenticated() ? <Signup /> : <Redirect to="/" /> } />
+                    <Route exact path="/searchResult?category=:category" component={SearchResult} />
+                    <Route exact path="/searchResult?name=:name"         component={SearchResult} />
+
+                    <Route exact path="/login"                           render={ (props) => !isAuthenticated() ? <Login {...props} onLogin={this.handleLogin} /> : <Redirect to="/" />} />
+                    <Route exact path="/signup"                          render={ () => !isAuthenticated() ? <Signup /> : <Redirect to="/" /> } />
 
                     {/* admin */}
-                    <Route exact path="/users"                          render={ () => isAdmin() ? <Users />        : <Redirect to="/unauthorized" /> } />
-                    <Route exact path="/users/:id"                      render={ () => isAdmin() ? <User />         : <Redirect to="/unauthorized" /> } />
-                    <Route exact path="/applications"                   render={ () => isAdmin() ? <Applications /> : <Redirect to="/unauthorized" /> } />
-                    <Route exact path="/applications/:id"               render={ () => isAdmin() ? <Application />  : <Redirect to="/unauthorized" /> } />
+                    <Route exact path="/users"                           render={ () => isAdmin() ? <Users />        : <Redirect to="/unauthorized" /> } />
+                    <Route exact path="/users/:id"                       render={ () => isAdmin() ? <User />         : <Redirect to="/unauthorized" /> } />
+                    <Route exact path="/applications"                    render={ () => isAdmin() ? <Applications /> : <Redirect to="/unauthorized" /> } />
+                    <Route exact path="/applications/:id"                render={ () => isAdmin() ? <Application />  : <Redirect to="/unauthorized" /> } />
 
                     {/* authenticated */}
-                    <Route exact path="/profile"                        render={ () => isAuthenticated() ? <Profile />          : <Redirect to="/unauthorized" /> } />
+                    <Route exact path="/profile"                         render={ () => isAuthenticated() ? <Profile />          : <Redirect to="/unauthorized" /> } />
 
-                    <Route exact path="/my-auctions"                    render={ () => isAuthenticated() ? <AuctionsHomepage /> : <Redirect to="/unauthorized" /> } />
-                    <Route exact path="/my-auctions/:id"                render={ () => isAuthenticated() ? <Auction />          : <Redirect to="/unauthorized" /> } />
-                    <Route exact path="/my-auctions/:id/bids"           render={ () => isAuthenticated() ? <BidList />          : <Redirect to="/unauthorized" /> } />
-                    <Route exact path="/my-auctions/:id/rating"         render={ () => isAuthenticated() ? <SellerRating />     : <Redirect to="/unauthorized" /> } />
-                    <Route exact path="/submit-auction"                 render={ () => isAuthenticated() ? <SubmitAuction />    : <Redirect to="/unauthorized" /> } />
+                    <Route exact path="/my-auctions"                     render={ () => isAuthenticated() ? <AuctionsHomepage /> : <Redirect to="/unauthorized" /> } />
+                    <Route exact path="/my-auctions/:id"                 render={ () => isAuthenticated() ? <Auction />          : <Redirect to="/unauthorized" /> } />
+                    <Route exact path="/my-auctions/:id/bids"            render={ () => isAuthenticated() ? <BidList />          : <Redirect to="/unauthorized" /> } />
+                    <Route exact path="/my-auctions/:id/rating"          render={ () => isAuthenticated() ? <SellerRating />     : <Redirect to="/unauthorized" /> } />
+                    <Route exact path="/submit-auction"                  render={ () => isAuthenticated() ? <SubmitAuction />    : <Redirect to="/unauthorized" /> } />
 
-                    <Route exact path="/auctions/:id"                   render={ () => isAuthenticated() ? <Bid />              : <Redirect to="/unauthorized" /> } />
-                    <Route exact path="/auctions/:id/rating"            render={ () => isAuthenticated() ? <BidderRating />     : <Redirect to="/unauthorized" /> } />
+                    <Route exact path="/auctions/:id"                    render={ () => isAuthenticated() ? <Bid />              : <Redirect to="/unauthorized" /> } />
+                    <Route exact path="/auctions/:id/rating"             render={ () => isAuthenticated() ? <BidderRating />     : <Redirect to="/unauthorized" /> } />
 
-                    <Route exact path="/messages"                       render={ () => isAuthenticated() ? <Inbox />            : <Redirect to="/unauthorized" /> } />
-                    <Route exact path="/messages/inbox"                 render={ () => isAuthenticated() ? <Inbox/>             : <Redirect to="/unauthorized" /> } />
-                    <Route exact path="/messages/sent"                  render={ () => isAuthenticated() ? <Sent />             : <Redirect to="/unauthorized" /> } />
-                    <Route exact path="/messages/inbox/message/:id"     render={ () => isAuthenticated() ? <Message />          : <Redirect to="/unauthorized" /> } />
-                    <Route exact path="/messages/sent/message/:id"      render={ () => isAuthenticated() ? <Message />          : <Redirect to="/unauthorized" /> } />
-                    <Route exact path="/messages/create-message"        render={ () => isAuthenticated() ? <CreateMessage />    : <Redirect to="/unauthorized" /> } />
+                    <Route exact path="/messages"                        render={ () => isAuthenticated() ? <Inbox />            : <Redirect to="/unauthorized" /> } />
+                    <Route exact path="/messages/inbox"                  render={ () => isAuthenticated() ? <Inbox/>             : <Redirect to="/unauthorized" /> } />
+                    <Route exact path="/messages/sent"                   render={ () => isAuthenticated() ? <Sent />             : <Redirect to="/unauthorized" /> } />
+                    <Route exact path="/messages/inbox/message/:id"      render={ () => isAuthenticated() ? <Message />          : <Redirect to="/unauthorized" /> } />
+                    <Route exact path="/messages/sent/message/:id"       render={ () => isAuthenticated() ? <Message />          : <Redirect to="/unauthorized" /> } />
+                    <Route exact path="/messages/create-message"         render={ () => isAuthenticated() ? <CreateMessage />    : <Redirect to="/unauthorized" /> } />
 
                     {/* errors */}
-                    <Route exact path="/unauthorized"                   component={Page401} />
-                    <Route exact path="/internal-server-error"          component={Page500} />
+                    <Route exact path="/unauthorized"                    component={Page401} />
+                    <Route exact path="/internal-server-error"           component={Page500} />
                     <Route component={Page404} />
                   </Switch>
                 </div>
