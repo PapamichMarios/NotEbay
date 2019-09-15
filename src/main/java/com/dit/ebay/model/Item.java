@@ -148,7 +148,7 @@ public class Item {
         this.numOfBids = xmlItem.getNumOfBids();
         this.timeStarted = xmlItem.getTimeStarted();
         this.timeEnds = xmlItem.getTimeEnds();
-        this.description = this.getDescription();
+        this.description = xmlItem.getDescription();
 
         XmlItemLocation xmlItemLocation = xmlItem.getLocation();
         if (xmlItemLocation != null) {

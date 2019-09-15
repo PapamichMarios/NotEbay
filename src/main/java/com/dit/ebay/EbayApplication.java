@@ -57,7 +57,7 @@ public class EbayApplication {
 			//Object o = xmlService.getXmlItems(new Long(2));
 
 			// uncomment when lsh is finished
-			//xmlService.XmlImport(); // import for lsh
+			xmlService.XmlImport(); // import for lsh
 		}
 	}
 
