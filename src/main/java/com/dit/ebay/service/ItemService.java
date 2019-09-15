@@ -84,7 +84,6 @@ public class ItemService {
         Item item = new Item(itemRequest);
 
         item.setUser(user);
-        Item result = itemRepository.save(item);
 
         Long lastCategoryId = itemRequest.getLastCategoryId();
         if (lastCategoryId != null) {
@@ -92,6 +91,7 @@ public class ItemService {
                     .orElseThrow(() -> new ResourceNotFoundException("Category", "id", lastCategoryId));
             item.setCategory(lastCategory);
         }
+        Item result = itemRepository.save(item);
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentContextPath().path("/{itemId}")
                 .buildAndExpand(item.getId()).toUri();
