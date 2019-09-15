@@ -35,6 +35,7 @@ export default class AdvancedSearch extends React.Component {
         this.getOptions = this.getOptions.bind(this);
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+        this.mapOptionsToValues = this.mapOptionsToValues.bind(this);
     }
 
     handleChange(selectedOption) {
@@ -71,6 +72,7 @@ export default class AdvancedSearch extends React.Component {
         }
     }
 
+    //categories multi select
     mapOptionsToValues(options){
         return options.map(option => ({
             value: option.id,
@@ -108,12 +110,14 @@ export default class AdvancedSearch extends React.Component {
         }
     }
 
+    //country
     selectCountry (val) {
         this.setState({
             country: val
         });
     }
 
+    //submission
     onChange(e){
         this.setState({
             [e.target.name]: e.target.value
@@ -211,6 +215,7 @@ export default class AdvancedSearch extends React.Component {
                                                 defaultOptions
                                                 loadOptions={this.getOptions}
                                                 onChange={this.handleChange}
+                                                placeholder='Select Categories...'
                                             />
                                         </Form.Group>
 
