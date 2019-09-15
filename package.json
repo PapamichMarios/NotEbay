@@ -45,6 +45,7 @@
     "react-leaflet": "^2.4.0",
     "react-router": "^5.0.1",
     "react-router-dom": "^5.0.1",
+    "react-select": "^3.0.4",
     "react-spinners": "^0.5.13",
     "react-star-ratings": "^2.3.0",
     "style-loader": "^1.0.0",
