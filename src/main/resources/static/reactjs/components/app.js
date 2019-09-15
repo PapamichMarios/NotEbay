@@ -122,8 +122,11 @@ class App extends React.Component {
                     <Route exact path="/categories"                      component={Categories} />
                     <Route exact path="/advanced-search"                 component={AdvancedSearch} />
 
-                    <Route exact path="/searchResult?category=:category" component={SearchResult} />
-                    <Route exact path="/searchResult?name=:name"         component={SearchResult} />
+                    <Route exact path="/searchResults?category=:category" component={SearchResult} />
+                    <Route exact path="/searchResults?name=:name"         component={SearchResult} />
+                    <Route exact path="/searchResults?category=:category&name=:name&description=:description&minPrice=:minPrice&maxPrice=:maxPrice&city=:city&country=:country"
+                                                                         component={SearchResult} />
+
 
                     <Route exact path="/login"                           render={ (props) => !isAuthenticated() ? <Login {...props} onLogin={this.handleLogin} /> : <Redirect to="/" />} />
                     <Route exact path="/signup"                          render={ () => !isAuthenticated() ? <Signup /> : <Redirect to="/" /> } />

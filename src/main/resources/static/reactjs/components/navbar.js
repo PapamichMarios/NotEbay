@@ -104,31 +104,36 @@ class NavBar extends React.Component{
         });
 
         const categories = (
-            <DropdownButton title="Categories" variant="dark">
+            <Dropdown>
+                <Dropdown.Toggle variant="dark">
+                    <b> Categories </b>
+                </Dropdown.Toggle>
 
-              <Row>
-                <Col>
-                    {categoriesBody2}
-                </Col>
+                <Dropdown.Menu style={{	width: '800px', fontSize: '14px'}}>
+                    <Row>
+                        <Col>
+                            {categoriesBody2}
+                        </Col>
 
-                <Col>
-                    {categoriesBody1}
-                </Col>
+                        <Col>
+                            {categoriesBody1}
+                        </Col>
 
-                <Col>
-                    {categoriesBody3}
-                </Col>
-              </Row>
+                        <Col>
+                            {categoriesBody3}
+                        </Col>
+                    </Row>
 
-              <Dropdown.Divider />
+                    <Dropdown.Divider />
 
-              <Dropdown.Item
-                onClick={() => { this.props.history.push('/categories')} }
-                className="text-primary"
-              >
-                  <b>Click here to see all the categories!</b>
-              </Dropdown.Item>
-            </DropdownButton>
+                    <Dropdown.Item
+                        onClick={() => { this.props.history.push('/categories')} }
+                        className="text-primary"
+                    >
+                        <b>Click here to see all the categories!</b>
+                    </Dropdown.Item>
+                </Dropdown.Menu>
+            </Dropdown>
         );
 
         //left part of the navbar
@@ -154,7 +159,7 @@ class NavBar extends React.Component{
 
                             //redirect to searchResults
                             this.props.history.push({
-                                pathname: '/searchResult?name=' + this.state.search,
+                                pathname: '/searchResults?name=' + this.state.search,
                                 state: {
                                     name: this.state.search
                                 }
@@ -245,7 +250,7 @@ class NavBar extends React.Component{
                             </NavItem>
 
                             <NavItem className="button-margin">
-                              <DropdownButton title={<FaUser style={{verticalAlign: 'baseline'}}/>} variant="dark" style={{borderRadius: '50px'}} className="my-dropdown-menu">
+                              <DropdownButton title={<FaUser style={{verticalAlign: 'baseline'}}/>} variant="dark" style={{borderRadius: '50px'}}>
 
                                 <Dropdown.Item as={Link} to="/profile" className="text-center">
                                     <b style={{color: '#20A5CA'}}> {localStorage.getItem('username')} </b>

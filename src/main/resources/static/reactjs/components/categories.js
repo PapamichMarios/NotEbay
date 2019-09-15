@@ -35,7 +35,7 @@ export default class Categories extends React.Component {
 
                     //redirect to searchResults
                     this.props.history.push({
-                        pathname: '/searchResult?category=' + this.props.location.state.name,
+                        pathname: '/searchResults?category=' + this.props.location.state.name,
                         state: {
                             category: this.props.location.state.name,
                             id: this.props.location.state.id,

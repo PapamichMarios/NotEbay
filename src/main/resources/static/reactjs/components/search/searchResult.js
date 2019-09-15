@@ -35,6 +35,59 @@ export default class SearchResult extends React.Component {
         });
     }
 
+    //advanced search
+    multiSearch(pageNum, state) {
+        this.setState({loading: true});
+
+        let url = '/app/search';
+
+        //add categories to link
+        (state.categories != null) ? (url += '/' + state.categories[state.categories.length-1].value) : null;
+
+        url += '/mulFields?page=' + (pageNum-1) + '&size=10';
+
+        //add name to the request
+        (state.name != null) ? (url += '&name=' + state.name) : null;
+
+        //add the rest likewise
+        (state.minPrice     != null) ? (url += '&minM' + state.minPrice)     : null;
+        (state.maxPrice     != null) ? (url += '&maxM' + state.maxPrice)     : null;
+        (state.country      != null) ? (url += '&cnt' + state.country)       : null;
+        (state.city         != null) ? (url += '&loc' + state.city)          : null;
+        (state.description  != null) ? (url += '&descr' + state.description) : null;
+
+        //make the request
+        getRequestUnauth(url)
+        .then(items => {
+            console.log(items);
+            if(items.error) {
+
+                if(items.status === 500) {
+                    this.props.history.push('/internal-server-error');
+                }
+
+                if(items.status === 404) {
+                    this.props.history.push('/items-not-found');
+                }
+
+            } else {
+
+                this.setState({
+                    items: items.content,
+                    paging: items
+                },
+                () => {
+                    //set loading
+                    setTimeout(() => {
+                      this.setState({loading: false})
+                    }, Constants.TIMEOUT_DURATION)
+                })
+
+            }
+        })
+        .catch(error => console.error('Error', error));
+    }
+
     //search a category
     searchCategory(pageNum, id) {
 
@@ -113,8 +166,18 @@ export default class SearchResult extends React.Component {
     }
 
     whatToSearch(pageNum) {
+
+        //need to see if we have advanced search
         if(this.props.location.state.category !== undefined) {
-            this.searchCategory(pageNum, this.props.location.state.id)
+
+            //meaning we have advanced search
+            if(this.props.location.state.name != null) {
+                this.multiSearch(pageNum, this.props.location.state)
+            } else {
+                //simple category search
+                this.searchCategory(pageNum, this.props.location.state.id)
+            }
+
         } else if (this.props.location.state.name !== undefined) {
             this.searchName(pageNum, this.props.location.state.name)
         }
@@ -139,8 +202,8 @@ export default class SearchResult extends React.Component {
             let results = [];
             this.state.items.map( item => {
                 results.push (
-                    <div>
-                        <Card border="black" style={{width: '100%'}} key={item.id}>
+                    <div key={item.id}>
+                        <Card border="black" style={{width: '100%'}} >
                             <Card.Body>
                                 <Row>
                                     <Col md="3">
