@@ -183,9 +183,11 @@ CREATE TABLE IF NOT EXISTS `ted_db`.`seller_ratings` (
   `rating` TINYINT NOT NULL,
   `comment` VARCHAR(200) NULL,
   `rate_date` TIMESTAMP NULL,
+  `item_id` BIGINT NOT NULL,
   INDEX `fk_users_has_users_users2_idx` (`bidder_id` ASC),
   INDEX `fk_users_has_users_users1_idx` (`seller_id` ASC),
   PRIMARY KEY (`id`),
+  INDEX `fk_seller_ratings_items1_idx` (`item_id` ASC),
   CONSTRAINT `fk_users_has_users_users1`
     FOREIGN KEY (`seller_id`)
     REFERENCES `ted_db`.`users` (`id`)
@@ -194,6 +196,11 @@ CREATE TABLE IF NOT EXISTS `ted_db`.`seller_ratings` (
   CONSTRAINT `fk_users_has_users_users2`
     FOREIGN KEY (`bidder_id`)
     REFERENCES `ted_db`.`users` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_seller_ratings_items1`
+    FOREIGN KEY (`item_id`)
+    REFERENCES `ted_db`.`items` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -211,9 +218,11 @@ CREATE TABLE IF NOT EXISTS `ted_db`.`bidder_ratings` (
   `rating` TINYINT NOT NULL,
   `comment` VARCHAR(200) NULL,
   `rate_date` TIMESTAMP NULL,
+  `item_id` BIGINT NOT NULL,
   INDEX `fk_users_has_users_users4_idx` (`bidder_id` ASC),
   INDEX `fk_users_has_users_users3_idx` (`seller_id` ASC),
   PRIMARY KEY (`id`),
+  INDEX `fk_bidder_ratings_items1_idx` (`item_id` ASC),
   CONSTRAINT `fk_users_has_users_users3`
     FOREIGN KEY (`seller_id`)
     REFERENCES `ted_db`.`users` (`id`)
@@ -222,6 +231,11 @@ CREATE TABLE IF NOT EXISTS `ted_db`.`bidder_ratings` (
   CONSTRAINT `fk_users_has_users_users4`
     FOREIGN KEY (`bidder_id`)
     REFERENCES `ted_db`.`users` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_bidder_ratings_items1`
+    FOREIGN KEY (`item_id`)
+    REFERENCES `ted_db`.`items` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

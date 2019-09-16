@@ -1,7 +1,7 @@
-sellerUsername,bidderUsername,rating,comment
-papas1,papas2,1,comment12
-papas1,papas3,2,comment13
-papas4,papas6,3,comment46
-papas6,papas5,5,comment65
-papas5,papas3,2,comment53
-papas2,papas3,4,comment23
+sellerUsername,bidderUsername,rating,comment,itemName
+papas1,papas2,1,comment12,item1
+papas1,papas3,2,comment13,item2
+papas4,papas6,3,comment46,item6
+papas6,papas5,5,comment65,item6
+papas5,papas3,2,comment53,item7
+papas2,papas3,4,comment23,item4
