@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Component;
 import com.dit.ebay.service.PopulateDB;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -22,6 +23,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 //@EnableScheduling // uncomment for cron operations
+@EnableConfigurationProperties(StorageProperties.class)
 public class EbayApplication {
 
     public static void main(String[] args) {
@@ -44,7 +46,7 @@ public class EbayApplication {
             populateDB.populateStaticRoles();
             populateDB.createAdmin();
 
-            xmlService.XmlCategoriesImport();
+            //xmlService.XmlCategoriesImport();
             populateDB.populateUsers();
             populateDB.populateItems();
             populateDB.populateItemsEnded();
