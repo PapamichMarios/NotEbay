@@ -8,8 +8,9 @@ import dateDecoder from './utils/decoders/dateDecoder';
 import timeDecoder from './utils/decoders/timeDecoder';
 
 import { Container, Row, Col, Card, Breadcrumb, Button } from 'react-bootstrap';
+import { Link, withRouter } from 'react-router-dom';
 
-export default class Categories extends React.Component {
+class Categories extends React.Component {
     constructor(props) {
         super(props);
 
@@ -51,7 +52,7 @@ export default class Categories extends React.Component {
 
                     //redirect to searchResults
                     this.props.history.push({
-                        pathname: '/searchResults?category=' + this.props.location.state.name,
+                        pathname: '/searchResults/category=' + this.props.location.state.name,
                         state: {
                             category: this.props.location.state.name,
                             id: this.props.location.state.id,
@@ -252,7 +253,9 @@ export default class Categories extends React.Component {
                                         <Col md="9">
                                             <Row>
                                                 <Col className="body-text">
-                                                    <b> {item.name} </b>
+                                                    <Link to={'/auctions/' + item.id}>
+                                                        <b> {item.name} </b>
+                                                    </Link>
                                                 </Col>
                                             </Row>
 
@@ -359,3 +362,5 @@ export default class Categories extends React.Component {
         }
     }
 }
+
+export default withRouter(Categories);

@@ -132,7 +132,6 @@ export default class SearchResult extends React.Component {
 
     //search an item name
     searchName(pageNum, name) {
-        console.log(name);
         this.setState({loading: true});
 
         //make the request
@@ -172,18 +171,24 @@ export default class SearchResult extends React.Component {
     whatToSearch(pageNum) {
 
         //need to see if we have advanced search
-        if(this.props.location.state.category !== undefined) {
+        if(this.props.location.state.category != null) {
 
             //meaning we have advanced search
             if(this.props.location.state.name != null) {
+
                 this.multiSearch(pageNum, this.props.location.state)
+
             } else {
+
                 //simple category search
                 this.searchCategory(pageNum, this.props.location.state.id)
+
             }
 
-        } else if (this.props.location.state.name !== undefined) {
+        } else if (this.props.location.state.name != null) {
+
             this.searchName(pageNum, this.props.location.state.name)
+
         }
     }
 
@@ -194,7 +199,12 @@ export default class SearchResult extends React.Component {
     }
 
     componentDidMount() {
-        this.whatToSearch(this.state.activePage);
+        if(this.props.location.state != null) {
+            this.whatToSearch(this.state.activePage);
+        } else {
+            this.props.history.push('/items-not-found');
+        }
+
     }
 
     render() {

@@ -159,7 +159,7 @@ class NavBar extends React.Component{
 
                         //redirect to searchResults
                         this.props.history.push({
-                            pathname: '/searchResults?name=' + this.state.search,
+                            pathname: '/searchResults/name=' + this.state.search,
                             state: {
                                 name: this.state.search
                             }

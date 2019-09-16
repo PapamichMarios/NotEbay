@@ -148,14 +148,7 @@ export default class AdvancedSearch extends React.Component {
                     : '';
 
                 this.props.history.push({
-                    pathname: '/searchResults'
-                               + '?category='       + catName
-                               + '&name='           + this.state.name
-                               + '&description='    + this.state.description
-                               + '&minPrice='       + this.state.minPrice
-                               + '&maxPrice='       + this.state.maxPrice
-                               + '&city='           + this.state.city
-                               + '&country='        + this.state.country,
+                    pathname: '/searchResults/advancedSearch',
                     state: {
                         category: this.state.categories,
                         name: this.state.name,
