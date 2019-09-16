@@ -11,8 +11,9 @@ import postRequest from '../../utils/requests/postRequest';
 
 import { Container, Row, Col, Card, Form, Button, Alert } from 'react-bootstrap';
 import { FaTelegramPlane } from 'react-icons/fa';
+import { withRouter } from 'react-router-dom';
 
-export default class CreateMessage extends React.Component {
+class CreateMessage extends React.Component {
     constructor(props) {
         super(props);
 
@@ -66,7 +67,7 @@ export default class CreateMessage extends React.Component {
     }
 
     componentDidMount() {
-        if(this.props.location.state !== undefined) {
+        if(this.props.location.state != null) {
             this.setState({
                 to: this.props.location.state.messageTo
             });
@@ -90,7 +91,7 @@ export default class CreateMessage extends React.Component {
 
 
             let sendTo = [];
-             if(this.props.location.state === undefined) {
+             if(this.props.location.state == null) {
                 sendTo.push(
                     <option key='buyer'> Select Buyer </option>
                 );
@@ -246,3 +247,5 @@ export default class CreateMessage extends React.Component {
 CreateMessage.defaultProps = {
     action: '/app/messages'
 };
+
+export default withRouter(CreateMessage);

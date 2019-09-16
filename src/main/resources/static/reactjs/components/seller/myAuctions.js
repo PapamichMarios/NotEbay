@@ -102,15 +102,18 @@ class AuctionsHomepage extends React.Component {
                                             <td> {decodeTime(myAuction.timeEnds) + ' ' + decodeDate(myAuction.timeEnds)} </td>
                                             <td> {myAuction.numOfBids.toString()} </td>
 
-                                            {myAuction.active ? (
+                                            {myAuction.active && (
                                                 <td className="text-success"> Active </td>
-                                            ) : (
-                                                myAuction.finished ? (
-                                                    <td className="text-success"> Finished </td>
-                                                ) : (
-                                                    <td className="text-danger"> Inactive </td>
-                                                )
                                             )}
+
+                                            {!myAuction.active && myAuction.finished && (
+                                                <td className="text-success"> Finished </td>
+                                            )}
+
+                                            {!myAuction.active && !myAuction.finished && (
+                                                <td className="text-danger"> Inactive </td>
+                                            )}
+
                                         </tr>
                                     )}
                                 </tbody>

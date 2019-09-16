@@ -112,6 +112,7 @@ class Auction extends React.Component{
     componentDidMount() {
         getRequest(this.props.action + this.props.match.params.id)
         .then(data => {
+            console.log(data);
             if(data.error) {
                 if(data.status === 500) {
                     this.props.history.push('/internal-server-error');

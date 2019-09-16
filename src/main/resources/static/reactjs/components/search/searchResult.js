@@ -39,25 +39,27 @@ export default class SearchResult extends React.Component {
 
     //advanced search
     multiSearch(pageNum, state) {
+        console.log(state);
         this.setState({loading: true});
 
         let url = '/app/search';
 
         //add categories to link
-        (state.categories != null) ? (url += '/' + state.categories[state.categories.length-1].value) : null;
+        (state.category.length > 0) ? (url += '/' + state.category[state.category.length-1].value) : null;
 
         url += '/mulFields?page=' + (pageNum-1) + '&size=10';
 
         //add name to the request
-        (state.name != null) ? (url += '&name=' + state.name) : null;
+        (state.name  !== '') ? (url += '&name=' + state.name) : null;
 
         //add the rest likewise
-        (state.minPrice     != null) ? (url += '&minM' + state.minPrice)     : null;
-        (state.maxPrice     != null) ? (url += '&maxM' + state.maxPrice)     : null;
-        (state.country      != null) ? (url += '&cnt' + state.country)       : null;
-        (state.city         != null) ? (url += '&loc' + state.city)          : null;
-        (state.description  != null) ? (url += '&descr' + state.description) : null;
+        (state.minPrice !== ''    ) ? (url += '&minM=' + state.minPrice)     : null;
+        (state.maxPrice !== ''    ) ? (url += '&maxM=' + state.maxPrice)     : null;
+        (state.country !== ''     ) ? (url += '&cnt=' + state.country)       : null;
+        (state.city !== ''        ) ? (url += '&loc=' + state.city)          : null;
+        (state.description !== '' ) ? (url += '&descr=' + state.description) : null;
 
+        console.log(url);
         //make the request
         getRequestUnauth(url)
         .then(items => {
@@ -278,7 +280,7 @@ export default class SearchResult extends React.Component {
 
                                     <li className='my-list'>
                                         <Nav.Link style={{fontSize: '15px', color: 'Black'}} className="text-center">
-                                            <b>{this.props.location.state.category}</b>
+
                                         </Nav.Link>
                                     </li>
 
