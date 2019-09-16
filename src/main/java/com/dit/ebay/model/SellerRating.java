@@ -39,6 +39,15 @@ public class SellerRating {
     @Column(name = "rate_date")
     private Timestamp rateDate;
 
+    /*
+     * Has 1 fk on the best bid
+     */
+    /*
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "item_id", nullable = false)
+    private Item item; // may be null
+    */
+
     public SellerRating(byte rating, String comment) {
         this.rating = rating;
         this.comment = comment;
@@ -105,4 +114,5 @@ public class SellerRating {
     public void setUserSeller(User userSeller) {
         this.userSeller = userSeller;
     }
+
 }

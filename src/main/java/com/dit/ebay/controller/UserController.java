@@ -1,10 +1,7 @@
 package com.dit.ebay.controller;
 
 import com.dit.ebay.request.EnableRequest;
-import com.dit.ebay.response.BidResponse;
-import com.dit.ebay.response.CompositePagedResponse;
-import com.dit.ebay.response.ItemResponse;
-import com.dit.ebay.response.PagedResponse;
+import com.dit.ebay.response.*;
 import com.dit.ebay.util.PaginationConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -80,24 +77,23 @@ public class UserController {
         return userService.deleteUserById(userId);
     }
 
-    /*
+    // can remove it and only use the above mapping
     @GetMapping("/users/profile")
     //@PreAuthorize("hasRole('ROLE_SELLER')") //every user is seller & bidder here we check for one role only
     @PreAuthorize("hasAnyRole('ROLE_SELLER', 'ROLE_BIDDER')")
-    public User getLoggedInUserProfile(@Valid @CurrentUser UserDetailsImpl currentUser) {
-        return userService.getLoggedInUserProfile(currentUser.getId());
+    public ProfileResponse getLoggedInUserProfile(@Valid @CurrentUser UserDetailsImpl currentUser) {
+        return userService.getUserById(currentUser.getId());
     }
-    */
+
+
     // Given an Id of a user
     // Gets his profile
     @GetMapping("/users/{userId}")
     //@PreAuthorize("hasRole('ROLE_ADMIN')")
-    public User getUserById(@PathVariable(value = "userId") Long userId,
-                            @Valid @CurrentUser UserDetailsImpl currentUser) {
+    public ProfileResponse getUserById(@PathVariable(value = "userId") Long userId) {
         return userService.getUserById(userId);
 
     }
-
 
     /*
      * Activity returns paginated bids and items of user seller/bidder

@@ -2,6 +2,7 @@ package com.dit.ebay.request;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 /*
  * Use this class for both seller rating and bidder rating
@@ -11,6 +12,9 @@ public class RatingRequest {
     @Min(value = 1, message = "Rating must be equal/greater of 1")
     @Max(value = 5, message = "Rating's max value is 5")
     private byte rating;  // 1,2,3,4,5
+
+    @NotNull
+    private Long itemId;
 
     private String comment;
 
@@ -34,4 +38,11 @@ public class RatingRequest {
         this.comment = comment;
     }
 
+    public Long getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(Long itemId) {
+        this.itemId = itemId;
+    }
 }
