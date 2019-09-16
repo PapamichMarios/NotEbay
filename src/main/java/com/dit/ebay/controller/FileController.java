@@ -30,11 +30,15 @@ public class FileController {
         Item item = itemRepository.findById(itemId)
                 .orElseThrow(() -> new ResourceNotFoundException("Item", "id", itemId));
         if (item.getImagePath() == null) {
-            return null;
+            return ResponseEntity
+                    .notFound()
+                    .build();
         }
         Resource resource = fileService.loadAsResource(item.getImagePath());
         if (resource == null) {
-            return null;
+            return ResponseEntity
+                    .notFound()
+                    .build();
         }
 
         return ResponseEntity.ok()
