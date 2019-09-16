@@ -23,6 +23,8 @@ export default class SearchResult extends React.Component {
             paging: ''
         };
 
+        this.multiSearch = this.multiSearch.bind(this);
+        this.searchName = this.searchName.bind(this);
         this.changeActivePage = this.changeActivePage.bind(this);
         this.searchCategory = this.searchCategory.bind(this);
         this.whatToSearch = this.whatToSearch.bind(this);

@@ -1,8 +1,11 @@
 import React from 'react';
 
+import Paging from './utils/paging';
 import getRequestUnauth from './utils/requests/getRequestUnauthorized';
 import Loading from './utils/loading/loading';
 import * as Constants from './utils/constants';
+import dateDecoder from './utils/decoders/dateDecoder';
+import timeDecoder from './utils/decoders/timeDecoder';
 
 import { Container, Row, Col, Card, Breadcrumb, Button } from 'react-bootstrap';
 
@@ -13,10 +16,23 @@ export default class Categories extends React.Component {
         this.state = {
             loading: true,
             categories: [],
-            breadcrumbs: []
+            breadcrumbs: [],
+
+            items: [],
+            activePage: 1,
+            paging: ''
         };
 
+        this.getItems = this.getItems.bind(this);
+        this.changeActivePage = this.changeActivePage.bind(this);
         this.getLocationProps = this.getLocationProps.bind(this);
+    }
+
+    //paging
+    changeActivePage(pageNum) {
+        this.setState({
+            activePage: pageNum
+        });
     }
 
     getLocationProps(props) {
@@ -76,15 +92,71 @@ export default class Categories extends React.Component {
         }
     }
 
+    getItems(pageNum) {
+
+        //set loading
+        this.setState({ loading: true });
+
+        //make the request
+        const url = '/app/search/' + this.props.location.state.id + '?page='
+                    + (pageNum-1) + '&size=10';
+
+        getRequestUnauth(url)
+        .then(items =>  {
+
+            if(items.error) {
+
+                if(items.status === 500) {
+                    this.props.history.push('/internal-server-error');
+                }
+
+                if(items.status === 404) {
+                    this.props.history.push('/items-not-found');
+                }
+
+            } else {
+
+                this.setState({
+                    items: items.content,
+                    paging: items
+                },
+                () => {
+                    //set loading
+                    setTimeout(() => {
+                      this.setState({loading: false})
+                    }, Constants.TIMEOUT_DURATION)
+                })
+
+            }
+        })
+        .catch(error => console.error('Error', error));
+    }
+
     //when a user chooses a new category
     componentDidUpdate(nextProps) {
         if (JSON.stringify(nextProps.location) !== JSON.stringify(this.props.location)) {
+
+            //get children subcategories
             this.getLocationProps(this.props.location);
+
+            //get items in the current category
+            if(this.props.location.state !== undefined) {
+                this.getItems(this.state.activePage);
+            }
+
         }
     }
 
     componentDidMount() {
+
+        console.log(this.props.location);
+        //get children subcategories
         this.getLocationProps(this.props.location);
+
+        //get items in the current category
+        if(this.props.location.state !== undefined) {
+            this.getItems(this.state.activePage);
+        }
     }
 
     render() {
@@ -164,25 +236,122 @@ export default class Categories extends React.Component {
                 );
             });
 
+            //handle items for each category
+            let items = [];
+            if (this.state.items.length > 0 ) {
+                this.state.items.map( item => {
+                    items.push (
+                        <div key={item.id}>
+                            <Card border="black" style={{width: '100%'}} >
+                                <Card.Body>
+                                    <Row>
+                                        <Col md="3">
+                                            to put image
+                                        </Col>
+
+                                        <Col md="9">
+                                            <Row>
+                                                <Col className="body-text">
+                                                    <b> {item.name} </b>
+                                                </Col>
+                                            </Row>
+
+                                            <br/>
+
+                                            <Row>
+                                                <Col md="4">
+                                                    <Row>
+                                                        <Col className="header" md="6">
+                                                            Bids: <br/>
+                                                            Best Bid: <br/>
+                                                            Buy Price: <br/>
+                                                        </Col>
+
+                                                        <Col className="body-text" md="6">
+                                                            {item.numOfBids} <br/>
+                                                            { item.bestBid ? item.bestBid.bidAmount + '$' : '--' } <br/>
+                                                            { item.buyPrice ? item.buyPrice + '$' : '--' } <br/>
+                                                        </Col>
+                                                    </Row>
+                                                </Col>
+
+                                                <Col md="8">
+                                                    <Row>
+                                                        <Col className="header" md="4">
+                                                            Location: <br/>
+                                                            Seller: <br/>
+                                                            Time Ending: <br/>
+                                                        </Col>
+
+                                                        <Col className="body-text" md="8">
+                                                            {item.location} <br/>
+                                                            to put seller <br/>
+                                                            {timeDecoder(item.timeEnds) + ', ' + dateDecoder(item.timeEnds)} <br/>
+                                                        </Col>
+                                                    </Row>
+                                                </Col>
+                                            </Row>
+                                        </Col>
+                                    </Row>
+                                </Card.Body>
+                            </Card>
+
+                            <br/>
+                        </div>
+                    );
+                });
+            }
+
             return (
                 <Container className="navbar-margin">
                     <Row>
                         <Col>
-                            <Card>
-                                <Breadcrumb>
-                                    {breadcrumbBody}
-                                </Breadcrumb>
 
-                                <Card.Body>
-                                    <Card.Title as='h4'>
-                                        Category: <b> {this.props.location.state !== undefined ? this.props.location.state.name : 'All'} </b>
-                                    </Card.Title>
+                            {/* breadcrumbs */}
+                            <Row>
+                                <Col>
+                                    <Breadcrumb>
+                                        {breadcrumbBody}
+                                    </Breadcrumb>
+                                </Col>
+                            </Row>
 
-                                    <Row>
-                                        {childrenCategories}
-                                    </Row>
-                                </Card.Body>
-                            </Card>
+                            {/* categories */}
+                            <Row>
+                                <Col>
+                                    <Card>
+                                        <Card.Body>
+                                            <Card.Title as='h4'>
+                                                Category: <b> {this.props.location.state !== undefined ? this.props.location.state.name : 'All'} </b>
+                                            </Card.Title>
+
+                                            <Row>
+                                                {childrenCategories}
+                                            </Row>
+                                        </Card.Body>
+                                    </Card>
+                                </Col>
+                            </Row>
+
+                            <br />
+                            <br />
+
+                            {/* items for each category */}
+                            {items.length > 0 && (
+                                <Row>
+                                    <Col>
+                                        {items}
+
+                                        <Paging
+                                            totalPages={this.state.paging.totalPages}
+                                            getData={this.getItems}
+                                            activePage={this.state.activePage}
+                                            changeActivePage={this.changeActivePage}
+                                        />
+                                    </Col>
+                                </Row>
+                            )}
+
                         </Col>
                     </Row>
                 </Container>
