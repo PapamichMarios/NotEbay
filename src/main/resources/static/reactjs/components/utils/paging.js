@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Pagination, Alert } from 'react-bootstrap';
+import { FaBoxOpen } from 'react-icons/fa';
 
 export default class Paging extends React.Component {
     constructor(props) {
@@ -51,7 +52,11 @@ export default class Paging extends React.Component {
         if(this.props.totalPages === 0) {
             return (
                 <Alert variant="primary" className="text-center">
-                    <h5> Folder is empty! </h5>
+                    <h5>
+                        Folder is empty!
+                        &nbsp;
+                        <FaBoxOpen size="30px" />
+                    </h5>
                 </Alert>
             );
         } else {

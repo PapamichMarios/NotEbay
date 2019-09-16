@@ -28,3 +28,7 @@ admin:
     na ftiaksw ta profile pages
     na ftiaksw ta application pages
     export button for auction
+
+editAuction: change categories
+categories: na balw items apo katw
+admin lists clickable

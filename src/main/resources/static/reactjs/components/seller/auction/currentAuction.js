@@ -42,15 +42,29 @@ class CurrentAuction extends React.Component {
 
         let breadcrumbs = [];
         breadcrumbs.push(
-            <Breadcrumb.Item key='home' href='/home'>
-                Home
+            <Breadcrumb.Item
+                key='home'
+                onClick={ () => this.props.history.push('/categories') }
+            >
+                All Categories
             </Breadcrumb.Item>
         );
 
         this.props.auction.categories.map(category => {
             breadcrumbs.push(
-                <Breadcrumb.Item key={category.category}>
-                    {category.category}
+                <Breadcrumb.Item
+                    key={category.id}
+                    onClick={ () => {
+                        this.props.history.push({
+                            pathname: '/searchResults?category=' + category.id,
+                            state: {
+                                category: category.name,
+                                id: category.id
+                            }
+                        });
+                    }}
+                >
+                    {category.name}
                 </Breadcrumb.Item>
             );
         });
@@ -117,6 +131,11 @@ class CurrentAuction extends React.Component {
 
                     {/* item details */}
                     <Col className="navbar-margin">
+
+                        <Breadcrumb>
+                            {breadcrumbs}
+                        </Breadcrumb>
+
                         <Card border="dark">
                             <Card.Header as="h3" className="text-center bg-dark" style={{color:'white'}}> Item #{this.props.auction.id} </Card.Header>
                             <Card.Body>
@@ -133,8 +152,8 @@ class CurrentAuction extends React.Component {
                                             <Col>
                                                 <Card.Title as="h6" className="text-center">
                                                     <b>
-                                                        Item Location
-                                                        < br/>
+                                                        Item Location:
+                                                        &nbsp;
                                                         <span style={{color:'DimGray'}}>{this.props.auction.location}</span>,
                                                         <span style={{color:'DimGray'}}> {this.props.auction.country}</span>
                                                     </b>

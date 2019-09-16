@@ -1,9 +1,5 @@
 import React from 'react';
 
-import { Container, Row, Col, Button, Card, Table } from 'react-bootstrap';
-import {FaExternalLinkAlt} from 'react-icons/fa';
-import { Link } from 'react-router-dom';
-
 import decodeTime from '../utils/decoders/timeDecoder';
 import decodeDate from '../utils/decoders/dateDecoder';
 import Loading from '../utils/loading/loading';
@@ -11,9 +7,13 @@ import * as Constants from '../utils/constants';
 import getRequest from '../utils/requests/getRequest';
 import Paging from '../utils/paging';
 
+import { Container, Row, Col, Button, Card, Table } from 'react-bootstrap';
+import { Link, withRouter } from 'react-router-dom';
+import { FaExternalLinkAlt } from 'react-icons/fa';
+
 import '../../../css/auctions/auctions.css';
 
-export default class AuctionsHomepage extends React.Component {
+class AuctionsHomepage extends React.Component {
     constructor(props) {
         super(props);
 
@@ -42,6 +42,7 @@ export default class AuctionsHomepage extends React.Component {
 
         getRequest(url)
         .then(data => {
+            console.log(data);
             this.setState({
                 myAuctions: data.content,
                 paging: data
@@ -66,29 +67,30 @@ export default class AuctionsHomepage extends React.Component {
             return(
                 <Container className="navbar-margin">
                     <Card style={{width:'100%'}} border="dark">
-                        <Card.Header as="h3" className="text-center bg-dark" style={{color:'white'}}> My Pending Auctions </Card.Header>
+                        <Card.Header as="h4" className="text-center bg-dark" style={{color:'white'}}> My Auctions </Card.Header>
                         <Card.Body>
                             <Table striped hover>
                                 <thead>
                                     <tr>
-                                        <th>    </th>
+                                        <th> </th>
                                         <th> ID </th>
                                         <th> Name </th>
                                         <th> Best Bid </th>
                                         <th> Buy Price </th>
                                         <th> Time Ending  </th>
                                         <th> Number of Bids </th>
+                                        <th> Activity </th>
                                     </tr>
                                 </thead>
 
                                 <tbody>
                                     {this.state.myAuctions.map(myAuction =>
-                                        <tr key={myAuction.id.toString()}>
-                                            <td>
-                                                <Link to={`/my-auctions/${myAuction.id.toString()}`} >
-                                                    <FaExternalLinkAlt />
-                                                </Link>
-                                            </td>
+                                        <tr
+                                            key={myAuction.id.toString()}
+                                            className="clickable"
+                                            onClick={ () => this.props.history.push('/my-auctions/' + myAuction.id)}
+                                        >
+                                            <td> <FaExternalLinkAlt style={{verticalAlign: 'baseline'}} className="text-primary"/> </td>
                                             <td> {myAuction.id.toString()} </td>
                                             <td> {myAuction.name} </td>
                                             { myAuction.bestBid !== null? (
@@ -99,6 +101,16 @@ export default class AuctionsHomepage extends React.Component {
                                             <td> {myAuction.buyPrice.toString()} </td>
                                             <td> {decodeTime(myAuction.timeEnds) + ' ' + decodeDate(myAuction.timeEnds)} </td>
                                             <td> {myAuction.numOfBids.toString()} </td>
+
+                                            {myAuction.active ? (
+                                                <td className="text-success"> Active </td>
+                                            ) : (
+                                                myAuction.finished ? (
+                                                    <td className="text-success"> Finished </td>
+                                                ) : (
+                                                    <td className="text-danger"> Inactive </td>
+                                                )
+                                            )}
                                         </tr>
                                     )}
                                 </tbody>
@@ -121,3 +133,5 @@ export default class AuctionsHomepage extends React.Component {
 AuctionsHomepage.defaultProps = {
     action: '/app/items'
 };
+
+export default withRouter(AuctionsHomepage);

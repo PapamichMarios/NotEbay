@@ -230,6 +230,7 @@ class Bid extends React.Component {
                                     </Row>
 
                                     <br/>
+
                                     <Row>
                                         <Col md={{offset:2, span:8}} className='text-center'>
                                             { this.state.loadingButton ? (
@@ -269,16 +270,30 @@ class Bid extends React.Component {
             }
 
             let breadcrumbs = [];
-             breadcrumbs.push(
-                <Breadcrumb.Item key='home' href='/home'>
-                    Home
+            breadcrumbs.push(
+                <Breadcrumb.Item
+                    key='home'
+                    onClick={ () => this.props.history.push('/categories') }
+                >
+                    All Categories
                 </Breadcrumb.Item>
-             );
+            );
 
             this.state.bid.categories.map(category => {
                 breadcrumbs.push(
-                    <Breadcrumb.Item key={category.category}>
-                        {category.category}
+                    <Breadcrumb.Item
+                        key={category.id}
+                        onClick={ () => {
+                            this.props.history.push({
+                                pathname: '/searchResults?category=' + category.id,
+                                state: {
+                                    category: category.name,
+                                    id: category.id
+                                }
+                            });
+                        }}
+                    >
+                        {category.name}
                     </Breadcrumb.Item>
                 );
             });
@@ -311,8 +326,8 @@ class Bid extends React.Component {
                                                 <Col>
                                                     <Card.Title as="h6" className="text-center">
                                                         <b>
-                                                            Item Location
-                                                            < br/>
+                                                            Item Location:
+                                                            &nbsp;
                                                             <span style={{color:'DimGray'}}>{this.state.bid.location}</span>,
                                                             <span style={{color:'DimGray'}}> {this.state.bid.country}</span>
                                                         </b>

@@ -10,10 +10,11 @@ import * as Constants from '../utils/constants.js';
 
 import postRequest from '../utils/requests/postRequest';
 
-import { Container, Card, Form, Col, InputGroup, Button, Row, ButtonToolbar, Alert } from 'react-bootstrap';
+import { withRouter } from 'react-router-dom';
+import { Container, Card, Form, Col, InputGroup, Button, Row, Alert } from 'react-bootstrap';
 import { CountryDropdown } from 'react-country-region-selector';
 
-export default class SubmitAuction extends React.Component {
+class SubmitAuction extends React.Component {
     constructor(props) {
         super(props);
 
@@ -139,11 +140,13 @@ export default class SubmitAuction extends React.Component {
             buyPrice: this.state.buyPrice,
             country: this.state.country,
             location: this.state.location,
+            imagePath: '',
             jgp: {
                 geoLat: this.state.lat,
                 geoLong: this.state.lng
             },
-            categoriesNames: ['xa0']
+            active: false,
+            lastCategoryId: this.state.categories[this.state.categories.length-1].value
         };
 
         postRequest(this.props.action, bodyObj)
@@ -492,16 +495,12 @@ export default class SubmitAuction extends React.Component {
                           </Form.Row>
 
                           { this.state.loading ? (
-                              <ButtonToolbar size="lg">
-                                <Button type="submit" variant="dark" block disabled>
-                                  <b> Loading... </b>
-                                  <LoadingButton />
-                                </Button>
-                              </ButtonToolbar>
+                            <Button type="submit" variant="dark" block disabled>
+                              <b> Loading </b>
+                              <LoadingButton />
+                            </Button>
                           ) : (
-                              <ButtonToolbar size="lg">
-                                <Button type="submit" variant="dark" block> <b> Submit </b> </Button>
-                              </ButtonToolbar>
+                            <Button type="submit" variant="dark" block> <b> Submit </b> </Button>
                           )}
 
                           { this.state.hasError ? (
@@ -528,6 +527,8 @@ export default class SubmitAuction extends React.Component {
 }
 
 SubmitAuction.defaultProps= {
-    action: 'app/items',
+    action: '/app/items',
     method: 'POST'
 }
+
+export default withRouter(SubmitAuction);

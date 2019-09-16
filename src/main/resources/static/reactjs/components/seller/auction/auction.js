@@ -35,6 +35,8 @@ class Auction extends React.Component{
             location: '',
             lat: '',
             lng: '',
+            categories: [],
+
             active: false,
             finished: false
         };
@@ -80,7 +82,7 @@ class Auction extends React.Component{
                     if (response.error) {
                         alert(response.message);
                     } else {
-                        this.props.history.push('/auctions');
+                        this.props.history.push('/my-auctions');
                         alert('Item has been deleted from the platform.');
                     }
                 })
@@ -133,7 +135,8 @@ class Auction extends React.Component{
                     lat: data.geoLat,
                     lng: data.geoLong,
                     active: data.active,
-                    finished: data.finished
+                    finished: data.finished,
+                    categories: data.categories
                 }, () => {
                     setTimeout(() => {
                       this.setState({loading: false})
@@ -149,8 +152,8 @@ class Auction extends React.Component{
             return <Loading />;
         } else {
             if(this.state.edit && !this.state.auction.active){
-                const { name, description, timeEnds, dateEnds, firstBid, buyPrice, country, location, lat, lng, active, finished} = this.state
-                const editUser = { name, description, timeEnds, dateEnds, firstBid, buyPrice, country, location, lat, lng };
+                const { name, description, categories, timeEnds, dateEnds, firstBid, buyPrice, country, location, lat, lng, active, finished} = this.state
+                const editUser = { name, description, timeEnds, dateEnds, categories, firstBid, buyPrice, country, location, lat, lng };
 
                 return(
                     <EditAuction

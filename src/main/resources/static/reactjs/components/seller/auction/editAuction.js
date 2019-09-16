@@ -1,4 +1,6 @@
 import React from 'react';
+
+import AsyncSelect from 'react-select/async';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
@@ -18,6 +20,16 @@ class EditAuction extends React.Component {
     constructor(props) {
         super(props);
 
+        console.log(this.props.user);
+
+        let defaultOptions = [];
+        this.props.user.categories.map( category => {
+            defaultOptions.push({
+                value: category.id,
+                label: category.name
+            });
+        })
+
         if(this.props.user.buyPrice === null) {
             this.state = {
                 loading: false,
@@ -31,7 +43,11 @@ class EditAuction extends React.Component {
                 firstBid: this.props.user.firstBid,
                 country: this.props.user.country,
                 location: this.props.user.location,
-                buyPrice: ''
+                buyPrice: '',
+
+                categories: defaultOptions,
+                currId: '',
+                root: true
             };
         } else {
             this.state = {
@@ -46,13 +62,93 @@ class EditAuction extends React.Component {
                 firstBid: this.props.user.firstBid,
                 country: this.props.user.country,
                 location: this.props.user.location,
-                buyPrice: this.props.user.buyPrice
+                buyPrice: this.props.user.buyPrice,
+
+                categories: defaultOptions,
+                currId: '',
+                root: true
             };
         }
+
+        this.handleChange = this.handleChange.bind(this);
+        this.getOptions = this.getOptions.bind(this);
+        this.mapOptionsToValues = this.mapOptionsToValues.bind(this);
 
         this.onChange = this.onChange.bind(this);
         this.back = this.back.bind(this);
         this.save = this.save.bind(this);
+    }
+
+    //categories
+    handleChange(selectedOption) {
+
+        //when deleting the first selected category
+        if(selectedOption == null) {
+
+            this.setState({
+                categories: [],
+                currId: '',
+                root: true
+            })
+
+        } else {
+
+            //when resetting
+            if(selectedOption.length === 0) {
+
+                this.setState({
+                    categories: [],
+                    currId: '',
+                    root: true
+                })
+
+            } else {
+
+                this.setState({
+                    categories: selectedOption,
+                    currId: selectedOption[selectedOption.length-1].value
+                });
+
+            }
+
+        }
+    }
+
+    mapOptionsToValues(options){
+        return options.map(option => ({
+            value: option.id,
+            label: option.name
+        }));
+    };
+
+    getOptions(inputValue, callback) {
+
+        //parent categories
+        if(this.state.root) {
+
+            fetch('/app/categories/rootSubs')
+            .then( response => response.json())
+            .then( response => {
+                //map response to multi select
+                this.setState({
+                    root: false
+                },
+                    () => {
+                        callback(this.mapOptionsToValues(response));
+                    }
+                )
+            });
+
+        } else {
+
+            fetch('/app/categories/' + this.state.currId + '/subs')
+            .then( response => response.json())
+            .then( response => {
+                //map response to multi select
+                callback(this.mapOptionsToValues(response));
+            });
+
+        }
     }
 
     back() {
@@ -82,7 +178,6 @@ class EditAuction extends React.Component {
                 geoLat: this.props.user.lat,
                 geoLong: this.props.user.lng
             },
-            categoriesNames: ['xa0']
         };
 
         putRequest(this.props.action + this.props.match.params.id, bodyObj)
@@ -113,7 +208,13 @@ class EditAuction extends React.Component {
                       firstBid: Yup.number().label('Initial Bid').required(),
                       buyPrice: Yup.number().label('Buy Directly'),
                       country: Yup.string().label('Country').required(),
-                      location: Yup.string().label('Location').required()
+                      location: Yup.string().label('Location').required(),
+                      categories: Yup.array().of(
+                          Yup.object().shape({
+                              value: Yup.string().required(),
+                              label: Yup.string().required()
+                          })
+                      ).label('Categories').required()
         });
 
         return(
@@ -130,7 +231,8 @@ class EditAuction extends React.Component {
                               firstBid: this.state.firstBid,
                               buyPrice: this.state.buyPrice,
                               country: this.state.country,
-                              location: this.state.location
+                              location: this.state.location,
+                              categories: this.state.categories
                           }}
                           validationSchema={SubmitItemSchema}
                           onSubmit={this.save}
@@ -143,7 +245,9 @@ class EditAuction extends React.Component {
                           isInvalid,
                           errors,
                           touched,
-                          values
+                          values,
+                          setFieldTouched,
+                          setFieldValue
                       }) => (
                         <Form noValidate onSubmit={handleSubmit}>
                           <Form.Row>
@@ -191,6 +295,37 @@ class EditAuction extends React.Component {
                                           isInvalid={errors.description && touched.description}
                                       />
                                       <Form.Control.Feedback type="invalid"> {errors.description}</Form.Control.Feedback>
+                                    </Col>
+                                  </Form.Group>
+
+                                  <Form.Group as={Row}>
+                                    <Col md={3}>
+                                        <Form.Label >
+                                            <b> Categories: *</b>
+                                        </Form.Label>
+                                    </Col>
+                                    <Col>
+                                      <AsyncSelect
+                                          key={JSON.stringify(this.state.currId)}
+                                          isMulti
+                                          isDisabled
+                                          cacheOptions
+                                          options={this.state.categories}
+                                          loadOptions={this.getOptions}
+                                          value={values.categories}
+                                          onChange={value => {
+                                            setFieldValue("categories", value);
+                                            this.handleChange(value);
+                                            }
+                                          }
+                                          placeholder='Select Categories...'
+                                          onBlur={ () => setFieldTouched("categories", true)}
+                                      />
+                                      {!!errors.categories && touched.categories && (
+                                        <div className="text-danger" style={{ marginTop: ".5rem", fontSize:'13px' }}>
+                                          {errors.categories}
+                                        </div>
+                                      )}
                                     </Col>
                                   </Form.Group>
 

@@ -7,11 +7,11 @@ import Paging from '../../utils/paging';
 
 import { FaExternalLinkAlt } from 'react-icons/fa';
 import { Container, Row, Col, Table } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
 import '../../../../css/user/profile.css';
 
-export default class ActiveBids extends React.Component {
+class ActiveBids extends React.Component {
     constructor(props) {
         super(props);
 
@@ -75,12 +75,12 @@ export default class ActiveBids extends React.Component {
 
                                 <tbody>
                                     {this.state.bids.map(bid =>
-                                        <tr key={bid.id}>
-                                            <td>
-                                                <Link to={`/auctions/${bid.id}`} >
-                                                    <FaExternalLinkAlt />
-                                                </Link>
-                                            </td>
+                                        <tr
+                                            key={bid.id}
+                                            className="clickable"
+                                            onClick={ () => this.props.history.push('/auctions/' + bid.id)}
+                                        >
+                                            <td> <FaExternalLinkAlt style={{verticalAlign: 'baseline'}} className="text-primary"/> </td>
                                             <td> {bid.name} </td>
                                             <td> {bid.country} </td>
                                             <td> {bid.bestBid.bidAmount} </td>
@@ -102,3 +102,5 @@ export default class ActiveBids extends React.Component {
         }
     }
 }
+
+export default withRouter(ActiveBids);

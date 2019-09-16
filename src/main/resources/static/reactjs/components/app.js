@@ -99,7 +99,7 @@ class App extends React.Component {
 
     componentDidMount() {
       //save the categories in the session
-      if(localStorage.getItem('categories') === null) {
+      if(localStorage.getItem('categories') == null) {
         this.saveCategories();
       }
     }
@@ -126,7 +126,6 @@ class App extends React.Component {
                     <Route exact path="/searchResults?name=:name"         component={SearchResult} />
                     <Route exact path="/searchResults?category=:category&name=:name&description=:description&minPrice=:minPrice&maxPrice=:maxPrice&city=:city&country=:country"
                                                                          component={SearchResult} />
-
 
                     <Route exact path="/login"                           render={ (props) => !isAuthenticated() ? <Login {...props} onLogin={this.handleLogin} /> : <Redirect to="/" />} />
                     <Route exact path="/signup"                          render={ () => !isAuthenticated() ? <Signup /> : <Redirect to="/" /> } />

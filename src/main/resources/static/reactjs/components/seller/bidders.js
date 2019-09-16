@@ -77,7 +77,7 @@ class BidList extends React.Component {
                     <Row>
                         <Col>
                             <Card border="dark" style={{width:'100%'}}>
-                                <Card.Header className="text-center bg-dark" style={{color:'white'}}> List of Bidders </Card.Header>
+                                <Card.Header as="h4" className="text-center bg-dark" style={{color:'white'}}> List of Bidders </Card.Header>
                                 <Card.Body>
                                     <Table striped hover>
                                         <thead>

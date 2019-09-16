@@ -33,75 +33,79 @@ class NavBar extends React.Component{
         let categoriesBody1 = [];
         let categoriesBody2 = [];
         let categoriesBody3 = [];
-        this.props.categories.map( (category, index) => {
 
-            let breadcrumbs = [{name: category.name, id: category.id}];
+        if(this.props.categories != null) {
 
-            switch(index % 3) {
-                case 0:
-                    categoriesBody1.push(
-                        <Dropdown.Item
-                            onClick={() => {
-                                    this.props.history.push({
-                                        pathname: '/categories',
-                                        state: {
-                                            name: category.name,
-                                            id: category.id,
-                                            breadcrumbs: breadcrumbs
-                                        }
-                                    });
+            this.props.categories.map( (category, index) => {
+
+                let breadcrumbs = [{name: category.name, id: category.id}];
+
+                switch(index % 3) {
+                    case 0:
+                        categoriesBody1.push(
+                            <Dropdown.Item
+                                onClick={() => {
+                                        this.props.history.push({
+                                            pathname: '/categories',
+                                            state: {
+                                                name: category.name,
+                                                id: category.id,
+                                                breadcrumbs: breadcrumbs
+                                            }
+                                        });
+                                    }
                                 }
-                            }
-                            key={category.id}
-                        >
-                            {category.name}
-                        </Dropdown.Item>
-                    );
-                    break;
+                                key={category.id}
+                            >
+                                {category.name}
+                            </Dropdown.Item>
+                        );
+                        break;
 
-                case 1:
-                    categoriesBody2.push(
-                        <Dropdown.Item
-                            onClick={() => {
-                                    this.props.history.push({
-                                        pathname: '/categories',
-                                        state: {
-                                            name: category.name,
-                                            id: category.id,
-                                            breadcrumbs: breadcrumbs
-                                        }
-                                    });
+                    case 1:
+                        categoriesBody2.push(
+                            <Dropdown.Item
+                                onClick={() => {
+                                        this.props.history.push({
+                                            pathname: '/categories',
+                                            state: {
+                                                name: category.name,
+                                                id: category.id,
+                                                breadcrumbs: breadcrumbs
+                                            }
+                                        });
+                                    }
                                 }
-                            }
-                            key={category.id}
-                        >
-                            {category.name}
-                        </Dropdown.Item>
-                    );
-                    break;
+                                key={category.id}
+                            >
+                                {category.name}
+                            </Dropdown.Item>
+                        );
+                        break;
 
-                case 2:
-                    categoriesBody3.push(
-                        <Dropdown.Item
-                            onClick={() => {
-                                    this.props.history.push({
-                                        pathname: '/categories',
-                                        state: {
-                                            name: category.name,
-                                            id: category.id,
-                                            breadcrumbs: breadcrumbs,
-                                        }
-                                    });
+                    case 2:
+                        categoriesBody3.push(
+                            <Dropdown.Item
+                                onClick={() => {
+                                        this.props.history.push({
+                                            pathname: '/categories',
+                                            state: {
+                                                name: category.name,
+                                                id: category.id,
+                                                breadcrumbs: breadcrumbs,
+                                            }
+                                        });
+                                    }
                                 }
-                            }
-                            key={category.id}
-                        >
-                            {category.name}
-                        </Dropdown.Item>
-                    );
-                    break;
-            }
-        });
+                                key={category.id}
+                            >
+                                {category.name}
+                            </Dropdown.Item>
+                        );
+                        break;
+                }
+            });
+        }
 
         const categories = (
             <Dropdown>
