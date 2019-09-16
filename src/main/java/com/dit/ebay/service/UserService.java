@@ -149,13 +149,15 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public CompositePagedResponse<ItemResponse, BidResponse> getUserActivity(Long userId, UserDetailsImpl currentUser,
-                                                                             int page, int size) {
+    public CompositePagedResponse<ItemResponse, BidResponse> getUserActivity(Long userId, int page, int size) {
         // safe check the ids
+        /*
         if (!userId.equals(currentUser.getId())) {
             throw new AppException("Error on activity, path doesn't match with the logged in user.");
         }
-
+        */
+        User currentUser = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
         return new CompositePagedResponse<>(itemService.getSellerItems(currentUser, page, size),
                                             bidService.getUserBids(currentUser, page, size));
     }

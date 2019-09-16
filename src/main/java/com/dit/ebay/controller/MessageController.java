@@ -79,4 +79,9 @@ public class MessageController {
                                                    @Valid @CurrentUser UserDetailsImpl currentUser) {
         return messageService.deleteReceivedMessage(messageId, currentUser);
     }
+
+    @GetMapping("/unseen")
+    public Long getNotificationsOfMessages(@Valid @CurrentUser UserDetailsImpl currentUser) {
+        return messageService.getNotificationsOfMessages(currentUser);
+    }
 }

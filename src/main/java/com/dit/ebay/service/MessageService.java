@@ -173,4 +173,8 @@ public class MessageService {
         return ResponseEntity.ok().body(new ApiResponse(true, "Message Deleted Successfully."));
     }
 
+    public Long getNotificationsOfMessages(UserDetailsImpl currentUser) {
+        return messageRepository.countUnseenMessages(currentUser.getId());
+    }
+
 }

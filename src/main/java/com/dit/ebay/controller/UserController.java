@@ -60,9 +60,9 @@ public class UserController {
 
 
     // Given an Id of a user
-    // Admin gets his profile
+    // Gets his profile
     @GetMapping("/users/{userId}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    //@PreAuthorize("hasRole('ROLE_ADMIN')")
     public User getUserById(@PathVariable(value = "userId") Long userId,
                             @Valid @CurrentUser UserDetailsImpl currentUser) {
         return userService.getUserById(userId);
@@ -99,11 +99,9 @@ public class UserController {
      * Activity returns paginated bids and items of user seller/bidder
      */
     @GetMapping(path = "/users/{userId}/activity", params = {"page", "size"})
-    @PreAuthorize("hasAnyRole('ROLE_SELLER', 'ROLE_BIDDER')")
     public CompositePagedResponse<ItemResponse, BidResponse> getUserActivity(@RequestParam(value = "page", defaultValue = PaginationConstants.DEFAULT_PAGE) int page,
                                                                              @RequestParam(value = "size", defaultValue = PaginationConstants.DEFAULT_SIZE) int size,
-                                                                             @PathVariable(value = "userId") Long userId,
-                                                                             @Valid @CurrentUser UserDetailsImpl currentUser) {
-        return userService.getUserActivity(userId, currentUser, page, size);
+                                                                             @PathVariable(value = "userId") Long userId) {
+        return userService.getUserActivity(userId, page, size);
     }
 }

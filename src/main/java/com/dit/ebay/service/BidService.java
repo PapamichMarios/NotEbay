@@ -161,6 +161,15 @@ public class BidService {
     }
 
     //@Transactional
+    // overlaod
+    public PagedResponse<BidResponse> getUserBids(User currentUser, int page, int size) {
+        validatePageParametersService.validate(page, size);
+
+        Page<Bid> bidsPaged = bidRepository.findByUserId(currentUser.getId(), PageRequest.of(page, size, Sort.by("id").descending()));
+        return createPagedResponse(bidsPaged);
+    }
+
+    //@Transactional
     public PagedResponse<BidResponse> getBids(Long itemId, UserDetailsImpl currentUser, int page, int size) {
 
         // safe check here

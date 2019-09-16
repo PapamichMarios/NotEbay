@@ -132,6 +132,15 @@ public class ItemService {
     }
 
     //@Transactional
+    // overload
+    public PagedResponse<ItemResponse> getSellerItems(User currentUser, int page, int size) {
+        validatePageParametersService.validate(page, size);
+
+        Page<Item> itemsPaged = itemRepository.findByUserId(currentUser.getId(), PageRequest.of(page, size, Sort.by("id").descending()));
+        return createPagedResponse(itemsPaged);
+    }
+
+    //@Transactional
     public OwnerItemResponse getSellerItemById(Long itemId, UserDetailsImpl currentUser) {
 
         // safe check here
