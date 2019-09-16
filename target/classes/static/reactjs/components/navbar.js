@@ -130,12 +130,16 @@ class NavBar extends React.Component{
 
                     <Dropdown.Divider />
 
-                    <Dropdown.Item
-                        onClick={() => { this.props.history.push('/categories')} }
-                        className="text-primary"
-                    >
-                        <b>Click here to see all the categories!</b>
-                    </Dropdown.Item>
+                    <Row>
+                        <Col>
+                            <Dropdown.Item
+                                onClick={() => { this.props.history.push('/categories')} }
+                                className="text-primary text-center"
+                            >
+                                <b>Click here to see all the categories!</b>
+                            </Dropdown.Item>
+                        </Col>
+                    </Row>
                 </Dropdown.Menu>
             </Dropdown>
         );
@@ -148,7 +152,21 @@ class NavBar extends React.Component{
               </NavItem>
 
               <NavItem>
-                <Form inline>
+                <Form
+                    inline
+                    onSubmit={ (e) => {
+                        e.preventDefault();
+
+                        //redirect to searchResults
+                        this.props.history.push({
+                            pathname: '/searchResults?name=' + this.state.search,
+                            state: {
+                                name: this.state.search
+                            }
+                        })
+
+                    }}
+                >
                     <Form.Control
                         type="text"
                         name="search"
@@ -159,17 +177,7 @@ class NavBar extends React.Component{
 
                     <Button
                         variant="outline-success"
-                        onClick={ () => {
-
-                            //redirect to searchResults
-                            this.props.history.push({
-                                pathname: '/searchResults?name=' + this.state.search,
-                                state: {
-                                    name: this.state.search
-                                }
-                            })
-
-                        }}
+                        type="submit"
                     >
                         <b> Search </b>
                         <FaSearch style={{verticalAlign: 'baseline'}}/>

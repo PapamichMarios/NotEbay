@@ -132,7 +132,7 @@ export default class SearchResult extends React.Component {
 
     //search an item name
     searchName(pageNum, name) {
-
+        console.log(name);
         this.setState({loading: true});
 
         //make the request
@@ -217,7 +217,9 @@ export default class SearchResult extends React.Component {
                                     <Col md="9">
                                         <Row>
                                             <Col className="body-text">
-                                                <b> {item.name} </b>
+                                                <Link to={'/auctions/' + item.id}>
+                                                    <b> {item.name} </b>
+                                                </Link>
                                             </Col>
                                         </Row>
 
@@ -249,7 +251,7 @@ export default class SearchResult extends React.Component {
                                                     </Col>
 
                                                     <Col className="body-text" md="8">
-                                                        {item.location} <br/>
+                                                        {item.location}, {item.country} <br/>
                                                         to put seller <br/>
                                                         {timeDecoder(item.timeEnds) + ', ' + dateDecoder(item.timeEnds)} <br/>
                                                     </Col>
