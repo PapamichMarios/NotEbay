@@ -2,10 +2,10 @@ package com.dit.ebay.service;
 
 import com.dit.ebay.exception.AppException;
 import com.dit.ebay.exception.BadRequestException;
-import com.dit.ebay.model.Role;
-import com.dit.ebay.model.RoleName;
-import com.dit.ebay.model.User;
+import com.dit.ebay.model.*;
+import com.dit.ebay.repository.BidderRatingRepository;
 import com.dit.ebay.repository.RoleRepository;
+import com.dit.ebay.repository.SellerRatingRepository;
 import com.dit.ebay.repository.UserRepository;
 import com.dit.ebay.request.EnableRequest;
 import com.dit.ebay.request.SignInRequest;
@@ -13,6 +13,9 @@ import com.dit.ebay.request.SignUpRequest;
 import com.dit.ebay.response.*;
 import com.dit.ebay.util.JsonGeoPoint;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,7 +32,10 @@ import com.dit.ebay.security.UserDetailsImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.math.BigDecimal;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -58,6 +64,12 @@ public class UserService {
 
     @Autowired
     private BidService bidService;
+
+    @Autowired
+    private SellerRatingRepository sellerRatingRepository;
+
+    @Autowired
+    private BidderRatingRepository bidderRatingRepository;
 
     @Autowired
     private JwtTokenProvider tokenProvider;
@@ -162,15 +174,45 @@ public class UserService {
                                             bidService.getUserBids(currentUser, page, size));
     }
 
+    //@Transactional
+    // constructs paged response
+    // will only be used inside this class
+    public PagedResponse<User> createPagedResponse(Page<User> usersPaged) {
+        if (usersPaged.getNumberOfElements() == 0) {
+            return new PagedResponse<>(Collections.emptyList(), usersPaged.getNumber(),
+                    usersPaged.getSize(), usersPaged.getTotalElements(),
+                    usersPaged.getTotalPages(), usersPaged.isLast());
+        }
+
+        List<User> usersResponses = new ArrayList<>();
+        for (User user : usersPaged) {
+            usersResponses.add(user);
+        }
+
+        return new PagedResponse<>(usersResponses, usersPaged.getNumber(),
+                usersPaged.getSize(), usersPaged.getTotalElements(),
+                usersPaged.getTotalPages(), usersPaged.isLast());
+    }
+
     /*
      * ADMIN : get all the users
      */
-    public List<User> getAllUsers(Long adminId) {
-        return userRepository.findAllUsersAdmin(adminId);
+    public PagedResponse<User> getAllUsers(Long adminId, int page, int size) {
+        validatePageParametersService.validate(page, size);
+        Page<User> pagedUsers = userRepository.findAllUsersAdmin(adminId, PageRequest.of(page, size, Sort.by("id").descending()));
+        return createPagedResponse(pagedUsers);
     }
 
-    public User getUserById(Long userId) {
-        return userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+    public ProfileResponse getUserById(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+
+        Long sellerRating = sellerRatingRepository.reputationRatingByUserId(userId).orElse(null);
+        BigDecimal avgRatingSeller = sellerRatingRepository.avgRatingByUserId(userId).orElse(null);
+
+        Long bidderRating = bidderRatingRepository.reputationRatingByUserId(userId).orElse(null);
+        BigDecimal avgRatingBidder = bidderRatingRepository.avgRatingByUserId(userId).orElse(null);
+
+        return new ProfileResponse(user, sellerRating, avgRatingSeller, bidderRating, avgRatingBidder);
     }
 
     public User updateUserEnableById(Long userId, EnableRequest enableRequest) {

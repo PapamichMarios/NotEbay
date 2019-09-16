@@ -4,6 +4,7 @@ import com.dit.ebay.request.EnableRequest;
 import com.dit.ebay.response.BidResponse;
 import com.dit.ebay.response.CompositePagedResponse;
 import com.dit.ebay.response.ItemResponse;
+import com.dit.ebay.response.PagedResponse;
 import com.dit.ebay.util.PaginationConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,19 +55,10 @@ public class UserController {
     // Maybe change it from /users/all => /users
     @GetMapping("/users/all")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public List<User> getAllUsers(@Valid @CurrentUser UserDetailsImpl currentUser) {
-        return userService.getAllUsers(currentUser.getId());
-    }
-
-
-    // Given an Id of a user
-    // Gets his profile
-    @GetMapping("/users/{userId}")
-    //@PreAuthorize("hasRole('ROLE_ADMIN')")
-    public User getUserById(@PathVariable(value = "userId") Long userId,
-                            @Valid @CurrentUser UserDetailsImpl currentUser) {
-        return userService.getUserById(userId);
-
+    public PagedResponse<User> getAllUsers(@RequestParam(value = "page", defaultValue = PaginationConstants.DEFAULT_PAGE) int page,
+                                           @RequestParam(value = "size", defaultValue = PaginationConstants.DEFAULT_SIZE) int size,
+                                           @Valid @CurrentUser UserDetailsImpl currentUser) {
+        return userService.getAllUsers(currentUser.getId(), page, size);
     }
 
     // Given an Id
@@ -88,12 +80,24 @@ public class UserController {
         return userService.deleteUserById(userId);
     }
 
+    /*
     @GetMapping("/users/profile")
     //@PreAuthorize("hasRole('ROLE_SELLER')") //every user is seller & bidder here we check for one role only
     @PreAuthorize("hasAnyRole('ROLE_SELLER', 'ROLE_BIDDER')")
     public User getLoggedInUserProfile(@Valid @CurrentUser UserDetailsImpl currentUser) {
         return userService.getLoggedInUserProfile(currentUser.getId());
     }
+    */
+    // Given an Id of a user
+    // Gets his profile
+    @GetMapping("/users/{userId}")
+    //@PreAuthorize("hasRole('ROLE_ADMIN')")
+    public User getUserById(@PathVariable(value = "userId") Long userId,
+                            @Valid @CurrentUser UserDetailsImpl currentUser) {
+        return userService.getUserById(userId);
+
+    }
+
 
     /*
      * Activity returns paginated bids and items of user seller/bidder

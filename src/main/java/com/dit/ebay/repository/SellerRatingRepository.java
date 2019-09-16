@@ -17,4 +17,7 @@ public interface SellerRatingRepository extends JpaRepository<SellerRating, Long
 
     @Query("select avg(sl.rating) from SellerRating sl where sl.userSeller.id = :userId")
     Optional<BigDecimal> avgRatingByUserId(@Param("userId") Long userId);
+
+    @Query("select count(sl.id) from SellerRating sl where sl.userSeller.id = :userId")
+    Optional<Long> reputationRatingByUserId(@Param("userId") Long userId);
 }
