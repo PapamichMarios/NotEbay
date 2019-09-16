@@ -51,6 +51,16 @@ public class Item {
     @JoinColumn(name = "best_bid_id")
     private Bid bestBid; // may be null
 
+    /*
+    @JsonIgnore
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "item")
+    private SellerRating sellerRating;
+
+    @JsonIgnore
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "item")
+    private BidderRating bidderRating;
+    */
+
     @Column(name = "name")
     private String name;
 

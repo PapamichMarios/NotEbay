@@ -68,7 +68,6 @@ public class BidService {
 
                 // Create bid
                 bid.setUser(user);
-                bid.setItem(item);
                 item.setBestBid(bid);
 
                 // Update counter
@@ -76,8 +75,8 @@ public class BidService {
                 item.updateTimeEnds();
                 // Auto finish the bids
                 item.setActive(false);
-                itemRepository.save(item);
-
+                Item resItem = itemRepository.save(item);
+                bid.setItem(resItem);
                 Bid bidRes = bidRepository.save(bid);
                 URI uri = ServletUriComponentsBuilder
                         .fromCurrentContextPath().path("/{bidId}")

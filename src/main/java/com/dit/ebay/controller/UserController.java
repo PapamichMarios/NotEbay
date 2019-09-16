@@ -2,6 +2,8 @@ package com.dit.ebay.controller;
 
 import com.dit.ebay.request.EnableRequest;
 import com.dit.ebay.response.*;
+import com.dit.ebay.service.BidderRatingService;
+import com.dit.ebay.service.SellerRatingService;
 import com.dit.ebay.util.PaginationConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +29,12 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private SellerRatingService sellerRatingService;
+
+    @Autowired
+    private BidderRatingService bidderRatingService;
 
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
@@ -103,5 +111,19 @@ public class UserController {
                                                                              @RequestParam(value = "size", defaultValue = PaginationConstants.DEFAULT_SIZE) int size,
                                                                              @PathVariable(value = "userId") Long userId) {
         return userService.getUserActivity(userId, page, size);
+    }
+
+    @GetMapping("/users/{userId}/sellerRatings")
+    public PagedResponse<RatingResponse> getSellerRatings(@RequestParam(value = "page", defaultValue = PaginationConstants.DEFAULT_PAGE) int page,
+                                                    @RequestParam(value = "size", defaultValue = PaginationConstants.DEFAULT_SIZE) int size,
+                                                    @PathVariable(value = "userId") Long userId) {
+        return sellerRatingService.getRatings(userId, page, size);
+    }
+
+    @GetMapping("/users/{userId}/bidderRatings")
+    public PagedResponse<RatingResponse> getBidderRatings(@RequestParam(value = "page", defaultValue = PaginationConstants.DEFAULT_PAGE) int page,
+                                                    @RequestParam(value = "size", defaultValue = PaginationConstants.DEFAULT_SIZE) int size,
+                                                    @PathVariable(value = "userId") Long userId) {
+        return bidderRatingService.getRatings(userId, page, size);
     }
 }

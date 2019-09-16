@@ -42,11 +42,9 @@ public class SellerRating {
     /*
      * Has 1 fk on the best bid
      */
-    /*
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "item_id", nullable = false)
-    private Item item; // may be null
-    */
+    private Item item;
 
     public SellerRating(byte rating, String comment) {
         this.rating = rating;
@@ -115,4 +113,11 @@ public class SellerRating {
         this.userSeller = userSeller;
     }
 
+    public Item getItem() {
+        return item;
+    }
+
+    public void setItem(Item item) {
+        this.item = item;
+    }
 }

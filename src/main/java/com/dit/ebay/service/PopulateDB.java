@@ -25,6 +25,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PopulateDB {
@@ -82,7 +83,7 @@ public class PopulateDB {
     /*
      * Only admin will be created here
      */
-    //@Transactional
+    @Transactional
     public void createAdmin() throws AppException {
         // if admin exists just return
         if (userRepository.findByUsername("ADM").orElse(null) != null) {
@@ -98,7 +99,7 @@ public class PopulateDB {
         userRepository.save(admin);
     }
 
-    //@Transactional
+    @Transactional
     public void populateUsers() throws IOException,AppException {
         try (Reader reader = Files.newBufferedReader(Paths.get(USERS_DATA_FILE))) {
             CsvToBean<CsvUser> csvToBean = new CsvToBeanBuilder(reader)
@@ -133,7 +134,7 @@ public class PopulateDB {
         }
     }
 
-    //@Transactional
+    @Transactional
     public void populateItems() throws IOException {
         try (Reader reader = Files.newBufferedReader(Paths.get(ITEMS_DATA_FILE))) {
             CsvToBean<CsvItem> csvToBean = new CsvToBeanBuilder(reader)
@@ -175,7 +176,7 @@ public class PopulateDB {
         return levelsCategories;
     }
 
-    //@Transactional
+    @Transactional
     public void populateItemsEnded() throws IOException {
         try (Reader reader = Files.newBufferedReader(Paths.get(ITEMS_ENDED_DATA_FILE))) {
             CsvToBean<CsvItemEnded> csvToBean = new CsvToBeanBuilder(reader)
@@ -203,7 +204,7 @@ public class PopulateDB {
         }
     }
 
-    //@Transactional
+    @Transactional
     public void populateBids() throws IOException {
         try (Reader reader = Files.newBufferedReader(Paths.get(BIDS_DATA_FILE))) {
             CsvToBean<CsvBid> csvToBean = new CsvToBeanBuilder(reader)
@@ -244,7 +245,7 @@ public class PopulateDB {
         }
     }
 
-    //@Transactional
+    @Transactional
     public void populateBidsEnded() throws IOException {
         try (Reader reader = Files.newBufferedReader(Paths.get(BIDS_ENDED_DATA_FILE))) {
             CsvToBean<CsvBidEnded> csvToBean = new CsvToBeanBuilder(reader)
@@ -285,7 +286,7 @@ public class PopulateDB {
         }
     }
 
-    //@Transactional
+    @Transactional
     public void populateRatings() throws IOException {
         try (Reader reader = Files.newBufferedReader(Paths.get(RATINGS_DATA_FILE))) {
             CsvToBean<CsvRating> csvToBean = new CsvToBeanBuilder(reader)
@@ -303,20 +304,25 @@ public class PopulateDB {
                 User bidder = userRepository.findByUsername(csvRating.getBidderUsername()).orElse(null);
                 if (bidder == null) continue;
 
+                Item itemRes = itemRepository.findByName(csvRating.getItemName()).orElse(null);
+                if (itemRes == null) continue;
+
                 BidderRating bidderRating = new BidderRating(csvRating);
                 bidderRating.setUserSeller(seller);
                 bidderRating.setUserBidder(bidder);
+                bidderRating.setItem(itemRes);
                 bidderRatingRepository.save(bidderRating);
 
                 SellerRating sellerRating = new SellerRating(csvRating);
                 sellerRating.setUserSeller(seller);
                 sellerRating.setUserBidder(bidder);
+                sellerRating.setItem(itemRes);
                 sellerRatingRepository.save(sellerRating);
             }
         }
     }
 
-    //@Transactional
+    @Transactional
     public void populateMessages() throws IOException {
         try (Reader reader = Files.newBufferedReader(Paths.get(MESSAGES_DATA_FILE))) {
             CsvToBean<CsvMessage> csvToBean = new CsvToBeanBuilder(reader)

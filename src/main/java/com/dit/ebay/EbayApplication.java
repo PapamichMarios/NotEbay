@@ -24,44 +24,44 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 //@EnableScheduling // uncomment for cron operations
 public class EbayApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(EbayApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(EbayApplication.class, args);
+    }
 
-	// Create admin on the fly
-	@Component
-	public class CommandLineAppStartupRunner implements CommandLineRunner {
+    // Create admin on the fly
+    @Component
+    public class CommandLineAppStartupRunner implements CommandLineRunner {
 
-		@Autowired
-		PopulateDB populateDB;
+        @Autowired
+        PopulateDB populateDB;
 
-		@Autowired
-		XmlService xmlService;
+        @Autowired
+        XmlService xmlService;
 
-		@Override
-		public void run(String... args) throws Exception {
-			// Warning must always execute the above function
-			populateDB.populateStaticRoles();
-			populateDB.createAdmin();
+        @Override
+        public void run(String... args) throws Exception {
+            // Warning must always execute the above function
+            populateDB.populateStaticRoles();
+            populateDB.createAdmin();
 
-			//xmlService.XmlCategoriesImport();
-			populateDB.populateUsers();
-			populateDB.populateItems();
-			populateDB.populateItemsEnded();
-			populateDB.populateBids();
-			populateDB.populateBidsEnded();
-			populateDB.populateRatings();
-			populateDB.populateMessages();
+            xmlService.XmlCategoriesImport();
+            populateDB.populateUsers();
+            populateDB.populateItems();
+            populateDB.populateItemsEnded();
+            populateDB.populateBids();
+            populateDB.populateBidsEnded();
+            populateDB.populateRatings();
+            populateDB.populateMessages();
 
-			// for testing
-			//Object o = xmlService.getXmlItems(new Long(2));
+            // for testing
+            //Object o = xmlService.getXmlItems(new Long(2));
 
-			// uncomment when lsh is finished
-			//xmlService.XmlImport(); // import for lsh
-		}
-	}
+            // uncomment when lsh is finished
+            //xmlService.XmlImport(); // import for lsh
+        }
+    }
 
-	// In case we want to redirect http to https
+    // In case we want to redirect http to https
 	/*
 	@Bean
 	public ServletWebServerFactory servletContainer() {

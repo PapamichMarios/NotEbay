@@ -1,6 +1,9 @@
 package com.dit.ebay.repository;
 
+import com.dit.ebay.model.BidderRating;
 import com.dit.ebay.model.SellerRating;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -20,4 +23,13 @@ public interface SellerRatingRepository extends JpaRepository<SellerRating, Long
 
     @Query("select count(sl.id) from SellerRating sl where sl.userSeller.id = :userId")
     Optional<Long> reputationRatingByUserId(@Param("userId") Long userId);
+
+    @Query("select sl from SellerRating sl where sl.userBidder.id = :bidderId and sl.userSeller.id = :sellerId " +
+            " and sl.item.id = :itemId ")
+    Optional<SellerRating> findAlreadyRating(@Param("sellerId") Long sellerId,
+                                             @Param("bidderId") Long bidderId,
+                                             @Param("itemId") Long itemId);
+
+    @Query("select sl from SellerRating sl where sl.userSeller.id = :sellerId")
+    Page<SellerRating> findBySellerId(@Param("sellerId") Long sellerId, Pageable pageable);
 }

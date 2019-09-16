@@ -21,6 +21,9 @@ public class CsvRating {
     @CsvBindByName(column = "comment")
     private String comment;
 
+    @CsvBindByName(column = "itemName")
+    private String itemName;
+
     public CsvRating() {
 
     }
@@ -57,4 +60,11 @@ public class CsvRating {
         this.comment = comment;
     }
 
+    public String getItemName() {
+        return itemName;
+    }
+
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
+    }
 }

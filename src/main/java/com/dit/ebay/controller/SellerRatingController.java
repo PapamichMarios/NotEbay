@@ -26,4 +26,13 @@ public class SellerRatingController {
         return sellerRatingService.createSellerRating(userId, currentUser, ratingRequest);
     }
 
+    @GetMapping("/ratedAlready")
+    @PreAuthorize("hasRole('ROLE_BIDDER')")
+    public boolean getRatedAlready(@PathVariable(value = "userId") Long userId,
+                                   @RequestParam Long itemId,
+                                   @Valid @CurrentUser UserDetailsImpl currentUser) {
+        return sellerRatingService.getRatedAlready(userId, currentUser, itemId);
+    }
+
+
 }

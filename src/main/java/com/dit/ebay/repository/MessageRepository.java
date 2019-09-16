@@ -34,7 +34,7 @@ public interface MessageRepository extends PagingAndSortingRepository<Message, L
     @Query("select m from Message m where m.userReceiver.id = :receiverId and m.messageDeleteState != 'DEL_REC'")
     Page<Message> findReceivedByUserId(@Param("receiverId") Long receiverId, Pageable pageable);
 
-    @Query("select count(i.id) from Items i where i.userReceiver.id = :receiverId and m.messageDeleteState != 'DEL_REC" +
-            " and i.seen = false")
+    @Query("select count(m.id) from Message m where m.userReceiver.id = :receiverId and m.messageDeleteState != 'DEL_REC' " +
+            " and m.seen = false")
     Long countUnseenMessages(@Param("receiverId") Long receiverId);
 }
