@@ -115,6 +115,13 @@ public class ItemService {
             List<Category> categories = categoryService.getCategoriesReversed(item);
             itemResponse.setCategories(categories);
             itemResponse.setRating(sellerRatingRepository.avgRatingByUserId(item.getUser().getId()).orElse(null));
+            boolean finished = item.itemIsFinished();
+            if (finished && item.isActive()) {
+                item.setActive(false);
+                itemResponse.setActive(false);
+                itemRepository.save(item);
+            }
+            itemResponse.setFinished(finished);
             itemResponses.add(itemResponse);
         }
 
