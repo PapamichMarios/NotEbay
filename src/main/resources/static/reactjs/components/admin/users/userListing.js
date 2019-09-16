@@ -1,57 +1,11 @@
 import React    from 'react';
 
-import ExportAuction from '../auction/exportAuction';
+import UserItem from './userItem';
 
-import { Container, Table, Card } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import { FaExternalLinkAlt, FaUserCheck, FaUserTimes } from 'react-icons/fa';
+import { Container, Table, Card, Button } from 'react-bootstrap';
+import { Link, withRouter } from 'react-router-dom';
 
-function UserItem(props) {
-
-    if (props.value.enabled) {
-        return (
-            <tr>
-                <td>
-                    <Link to={`/users/${props.value.id}`} >
-                        <FaExternalLinkAlt />
-                    </Link>
-                </td>
-                <td> <ExportAuction format='json' id={props.value.id} /> </td>
-                <td> <ExportAuction format='xml'  id={props.value.id} /> </td>
-                <td> {props.value.username} #{props.value.id}</td>
-                <td> {props.value.firstName} </td>
-                <td> {props.value.lastName} </td>
-                <td> {props.value.email} </td>
-                <td> {props.value.phone} </td>
-                <td> {props.value.streetAddress} </td>
-                <td> {props.value.city} </td>
-                <td> {props.value.country} </td>
-                <td style={{textAlign: 'center'}}> <FaUserCheck /> </td>
-            </tr>
-        );
-    } else {
-        return (
-            <tr style={{color: 'red'}}>
-                <td>
-                    <Link to={`/applications/${props.value.id}`} >
-                        <FaExternalLinkAlt />
-                    </Link>
-                </td>
-                <td> {props.value.username} #{props.value.id} </td>
-                <td> {props.value.firstName} </td>
-                <td> {props.value.lastName} </td>
-                <td> {props.value.email} </td>
-                <td> {props.value.phone} </td>
-                <td> {props.value.streetAddress} </td>
-                <td> {props.value.city} </td>
-                <td> {props.value.country} </td>
-                <td style={{textAlign: 'center'}}> <FaUserTimes /> </td>
-            </tr>
-        )
-    }
-}
-
-export default class UserListing extends React.Component {
+class UserListing extends React.Component {
     constructor(props) {
         super(props);
     }
@@ -72,8 +26,6 @@ export default class UserListing extends React.Component {
                                     <th> First Name </th>
                                     <th> Last Name </th>
                                     <th> Email  </th>
-                                    <th> Phone </th>
-                                    <th> Street Address </th>
                                     <th> City </th>
                                     <th> Country </th>
                                     <th> Approved </th>
@@ -81,7 +33,7 @@ export default class UserListing extends React.Component {
                             </thead>
 
                             <tbody>
-                                    {this.props.users.map(user => <UserItem key={user.id} value={user} />)}
+                                    {this.props.users.map(user => <UserItem key={user.id} value={user}/>)}
                             </tbody>
                         </Table>
                     </Card.Body>
@@ -90,3 +42,5 @@ export default class UserListing extends React.Component {
        );
     }
 }
+
+export default withRouter(UserListing);

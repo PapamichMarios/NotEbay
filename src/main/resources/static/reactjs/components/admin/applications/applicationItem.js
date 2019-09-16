@@ -51,9 +51,14 @@ class ApplicationItem extends React.Component {
             return (
                 <tr>
                     <td>
-                        <Link to={`/applications/${this.props.value.id}`} >
-                            <FaExternalLinkAlt />
-                        </Link>
+                        <Button
+                            size="sm"
+                            style={{borderWidth:'0px'}}
+                            variant="outline-primary"
+                            onClick={ () => this.props.history.push('/applications/' + this.props.value.id)}
+                        >
+                            <FaExternalLinkAlt style={{verticalAlign: 'baseline'}}/>
+                        </Button>
                     </td>
                     <td> {this.props.value.username} #{this.props.value.id} </td>
                     <td> {this.props.value.firstName} </td>
@@ -66,13 +71,13 @@ class ApplicationItem extends React.Component {
 
                     <td style={{textAlign: 'center'}}>
                         <Button size="sm" variant="outline-success" onClick={this.approve} style={{borderWidth:'0px'}}>
-                            <FaCheck />
+                            <FaCheck style={{verticalAlign: 'baseline'}}/>
                         </Button>
                     </td>
 
                     <td style={{textAlign: 'center'}}>
                         <Button size="sm" variant="outline-danger" onClick={this.deny} style={{borderWidth:'0px'}}>
-                            <FaTimes />
+                            <FaTimes style={{verticalAlign: 'baseline'}}/>
                         </Button>
                     </td>
                 </tr>
