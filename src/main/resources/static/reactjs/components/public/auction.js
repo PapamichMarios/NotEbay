@@ -65,11 +65,6 @@ class AuctionPublic extends React.Component {
             const endTime = decodeTime(this.state.bid.timeEnds);
             const endDate = decodeDate(this.state.bid.timeEnds);
 
-            let lastBidder = false;
-            if(this.state.bid.bestBid !== null) {
-                lastBidder = (this.state.bid.bestBid.username === localStorage.getItem('username') ? true : false);
-            }
-
             let breadcrumbs = [];
             breadcrumbs.push(
                 <Breadcrumb.Item
@@ -182,7 +177,7 @@ class AuctionPublic extends React.Component {
                                                                 />
                                                                 <span>
                                                                     by &nbsp;
-                                                                    <Link to='#'>
+                                                                    <Link to={'/profile/' + this.state.bid.bestBidder.id}>
                                                                         <b>{this.state.bid.bestBidder.username} </b>
                                                                     </Link>
                                                                 </span>
@@ -265,12 +260,15 @@ class AuctionPublic extends React.Component {
                                                     <Form.Group as={Row}>
                                                         <Form.Label column md="5"> <b> Seller: </b> </Form.Label>
                                                         <Col>
-                                                            <Form.Control
-                                                                plaintext
-                                                                readOnly
-                                                                defaultValue= {this.state.bid.owner.username}
-                                                                className="col-user"
-                                                            />
+                                                            <Link to={'/profile/' + this.state.bid.owner.id}>
+                                                                <Form.Control
+                                                                    plaintext
+                                                                    readOnly
+                                                                    defaultValue= {this.state.bid.owner.username}
+                                                                    className="col-user text-primary"
+                                                                    style={{cursor: 'pointer'}}
+                                                                />
+                                                            </Link>
                                                         </Col>
                                                     </Form.Group>
 

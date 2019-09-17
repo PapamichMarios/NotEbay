@@ -2,6 +2,8 @@ import React from 'react';
 
 import Logged from './logged';
 
+import InfoCarousel from './carousel/infoCarousel';
+
 import isAuthenticated from '../utils/authentication/isLoggedIn';
 import LoadingButton from '../utils/loading/loadingButton';
 import * as Constants from '../utils/constants';
@@ -16,6 +18,7 @@ export default class Home extends React.Component {
     }
 
     render() {
+
         let welcomeMsg;
         if(isAuthenticated()) {
             welcomeMsg = (
@@ -33,8 +36,12 @@ export default class Home extends React.Component {
         }
 
         return (
-            <Container>
+            <Container className="navbar-margin">
                 {welcomeMsg}
+
+                <br />
+
+                <InfoCarousel />
             </Container>
         );
     }

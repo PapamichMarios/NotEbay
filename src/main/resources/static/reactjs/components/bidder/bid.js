@@ -396,7 +396,7 @@ class Bid extends React.Component {
                                                                 />
                                                                 <span>
                                                                     by &nbsp;
-                                                                    <Link to='#'>
+                                                                    <Link to={'/profile/' + this.state.bid.bestBidder.id}>
                                                                         <b>{this.state.bid.bestBidder.username} </b>
                                                                     </Link>
                                                                 </span>
@@ -479,12 +479,15 @@ class Bid extends React.Component {
                                                     <Form.Group as={Row}>
                                                         <Form.Label column md="5"> <b> Seller: </b> </Form.Label>
                                                         <Col>
-                                                            <Form.Control
-                                                                plaintext
-                                                                readOnly
-                                                                defaultValue= {this.state.bid.userSeller.username}
-                                                                className="col-user"
-                                                            />
+                                                            <Link to={'/profile/' + this.state.bid.userSeller.id}>
+                                                                <Form.Control
+                                                                    plaintext
+                                                                    readOnly
+                                                                    defaultValue= {this.state.bid.userSeller.username}
+                                                                    className="col-user text-primary"
+                                                                    style={{cursor: 'pointer'}}
+                                                                />
+                                                            </Link>
                                                         </Col>
                                                     </Form.Group>
 

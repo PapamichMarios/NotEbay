@@ -82,92 +82,92 @@ export default class Logged extends React.Component {
 
     render() {
       return (
-        <Container className="navbar-margin">
-            <Row>
-                <Col>
-                    <Card>
-                        <Card.Body>
-                            <Row>
-                                <Col className="text-center" md={{span:4, offset:1}}>
-                                    <Card.Title as="h3">
-                                        <FaUserFriends style={{verticalAlign: 'sub'}} size="1.5em"/>
-                                        &nbsp;
-                                        Join our community!
-                                    </Card.Title>
+        <Row>
+            <Col>
+                <Card style={{width: '100%'}}>
+                    <Card.Body>
+                        <Row>
+                            <Col className="text-center" md={{span:4, offset:1}}>
+                                <Card.Title as="h3">
+                                    <FaUserFriends style={{verticalAlign: 'sub'}} size="1.5em"/>
+                                    &nbsp;
+                                    Join our community!
+                                </Card.Title>
 
-                                    <Card.Title as="h4">
-                                        Register <Link to="/signup"> <b>NOW</b> </Link>
-                                    </Card.Title>
-                                </Col>
+                                <br />
 
-                                <Col className="text-center" md="2">
-                                    <br />
-                                    <br />
-                                    <br />
-                                    <h3> <b>OR</b> </h3>
-                                </Col>
+                                <Card.Title as="h4">
+                                    Register <Link to="/signup"> <b>NOW</b> </Link>
+                                </Card.Title>
+                            </Col>
 
-                                <Col className="text-center" md={{span:4}}>
-                                    <Card.Title as="h3">
-                                        <FaSignInAlt style={{verticalAlign: 'sub'}} size="1.5em"/>
-                                        &nbsp;
-                                        Login
-                                    </Card.Title>
+                            <Col className="text-center" md="2">
+                                <br />
+                                <br />
+                                <br />
+                                <h3> <b>OR</b> </h3>
+                            </Col>
 
-                                    <Form id="login-form"
-                                      action={this.props.action}
-                                      method={this.props.method}
-                                      onSubmit={this.onSubmit}>
+                            <Col className="text-center" md={{span:4}}>
+                                <Card.Title as="h3">
+                                    <FaSignInAlt style={{verticalAlign: 'sub'}} size="1.5em"/>
+                                    &nbsp;
+                                    Login
+                                </Card.Title>
 
-                                      <Form.Group controlId="formUsername">
-                                        <InputGroup>
-                                          <InputGroup.Prepend>
-                                            <InputGroup.Text> <FaUser/> </InputGroup.Text>
-                                          </InputGroup.Prepend>
-                                          <Form.Control type="text" name="username" onChange={this.onChange} placeholder="Username" />
-                                        </InputGroup>
-                                      </Form.Group>
+                                <Form id="login-form"
+                                  action={this.props.action}
+                                  method={this.props.method}
+                                  onSubmit={this.onSubmit}>
 
-                                      <Form.Group controlId="formPassword">
-                                        <InputGroup>
-                                          <InputGroup.Prepend>
-                                            <InputGroup.Text> <FaLock/> </InputGroup.Text>
-                                          </InputGroup.Prepend>
-                                          <Form.Control type="password" name="password" onChange={this.onChange} placeholder="Password" />
-                                        </InputGroup>
-                                      </Form.Group>
+                                  <Form.Group controlId="formUsername">
+                                    <InputGroup>
+                                      <InputGroup.Prepend>
+                                        <InputGroup.Text> <FaUser/> </InputGroup.Text>
+                                      </InputGroup.Prepend>
+                                      <Form.Control type="text" name="username" onChange={this.onChange} placeholder="Username" />
+                                    </InputGroup>
+                                  </Form.Group>
+
+                                  <Form.Group controlId="formPassword">
+                                    <InputGroup>
+                                      <InputGroup.Prepend>
+                                        <InputGroup.Text> <FaLock/> </InputGroup.Text>
+                                      </InputGroup.Prepend>
+                                      <Form.Control type="password" name="password" onChange={this.onChange} placeholder="Password" />
+                                    </InputGroup>
+                                  </Form.Group>
 
 
-                                      { this.state.loading ? (
-                                        <Button type="submit" variant="dark" block disabled>
-                                          <b> Loading </b>
-                                          <LoadingButton />
-                                        </Button>
-                                      ) : (
-                                        <Button type="submit" variant="dark" block> <b> Submit </b> </Button>
-                                      )}
+                                  { this.state.loading ? (
+                                    <Button type="submit" variant="dark" block disabled>
+                                      <b> Loading </b>
+                                      <LoadingButton />
+                                    </Button>
+                                  ) : (
+                                    <Button type="submit" variant="dark" block> <b> Submit </b> </Button>
+                                  )}
 
-                                      { this.state.hasError ? (
-                                          <Form.Row>
-                                            <Col>
-                                              <br />
-                                              <Alert variant="danger">
-                                                  {this.state.errorMsg}
-                                              </Alert>
-                                            </Col>
-                                          </Form.Row>
-                                      ) : (
-                                           null
-                                      )}
+                                  { this.state.hasError ? (
+                                      <Form.Row>
+                                        <Col>
+                                          <br />
+                                          <Alert variant="danger">
+                                              {this.state.errorMsg}
+                                          </Alert>
+                                        </Col>
+                                      </Form.Row>
+                                  ) : (
+                                       null
+                                  )}
 
-                                    </Form>
-                                </Col>
-                            </Row>
-                        </Card.Body>
-                    </Card>
-                </Col>
-            </Row>
-        </Container>
+                                </Form>
+                            </Col>
+                        </Row>
+                    </Card.Body>
+                </Card>
+            </Col>
+        </Row>
       );
     }
 }

@@ -20,7 +20,7 @@ class UserItem extends React.Component {
                             size="sm"
                             style={{borderWidth:'0px'}}
                             variant="outline-primary"
-                            onClick={ () => this.props.history.push('/users/' + this.props.value.id)}
+                            onClick={ () => this.props.history.push('/profile/' + this.props.value.id)}
                         >
                             <FaExternalLinkAlt style={{verticalAlign: 'baseline'}} className="text-primary"/>
                         </Button>

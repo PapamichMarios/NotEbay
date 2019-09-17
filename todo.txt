@@ -1,37 +1,4 @@
 - need to optimize webpack
 
-categories (dropdown):
-    1. mono layer 0 kai layer 1
-    2. on click oles tupou skroutz
-    3. layer 0 lista on hover expand deksia
-
-submit-auction:
-    - categories
-
-my-auctions:
-    - categories
-
-profile:
-    - badges me basi ta ratings
-    - na balw ratings (seller kai bidder)
-
-bidder:
-    - sta bids, best bid by username to username na einai link
-
-auctions/id:
-    post ratings na elegxw an exei kanei pali
-
-seller:
-    post ratings na elegxw an exei kanei pali
-
-admin:
-    na ftiaksw ta profile pages
-    na ftiaksw ta application pages
-    export button for auction
-
 editAuction: change categories
-/users/{userId} - role admin:
-    1. Na gurnaei pagedResponse 1 & 2 opws sto /profile me to activity tou xristi.
-
-endpoint gia /auction/id - role admin
-auction: seller na kanei redirect se profile
+search: sidebar populate with data
