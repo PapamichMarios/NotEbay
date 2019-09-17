@@ -57,6 +57,8 @@ public class BidService {
         }
 
         BigDecimal buyPrice = item.getBuyPrice();
+        bidRequest.transformStrToBigDecimal();
+        //System.out.println("Buy Price = " + item.getBuyPrice() + " vs " + " bidAmmount =" + bidRequest.getBidAmount());
         if (buyPrice != null) {
             if (bidRequest.getBidAmount().equals(buyPrice)) {
                 // TODO : change duplicate code
@@ -68,15 +70,16 @@ public class BidService {
 
                 // Create bid
                 bid.setUser(user);
-                item.setBestBid(bid);
+                bid.setItem(item);
 
                 // Update counter
+                item.setBestBid(bid);
                 item.increaseNumOfBids();
                 item.updateTimeEnds();
-                // Auto finish the bids
                 item.setActive(false);
+
                 Item resItem = itemRepository.save(item);
-                bid.setItem(resItem);
+
                 Bid bidRes = bidRepository.save(bid);
                 URI uri = ServletUriComponentsBuilder
                         .fromCurrentContextPath().path("/{bidId}")
@@ -99,10 +102,6 @@ public class BidService {
 
         Bid bid = new Bid(bidRequest.getBidAmount());
 
-        // Create bid
-        bid.setUser(user);
-        bid.setItem(item);
-
         // check dates
         boolean finished = item.itemIsFinished();
         if (finished) {
@@ -113,8 +112,11 @@ public class BidService {
             throw new AppException("Sorry, Time for bidding on this Item has passed.");
         }
 
-        Bid bidRes = bidRepository.save(bid);
+        // Create bid
+        bid.setUser(user);
         Bid bestBid = itemRepository.findBestBidByItemId(item.getId()).orElse(null);
+        bid.setItem(item);
+        Bid bidRes = bidRepository.save(bid);
 
         if (bestBid == null || bid.getBidAmount().compareTo(bestBid.getBidAmount()) > 0) {
             item.setBestBid(bidRes);
@@ -122,7 +124,7 @@ public class BidService {
 
         // Update counter
         item.increaseNumOfBids();
-        itemRepository.save(item);
+        Item itemRes = itemRepository.save(item);
 
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentContextPath().path("/{bidId}")
