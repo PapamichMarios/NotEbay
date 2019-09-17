@@ -15,7 +15,7 @@ class BidsWon extends React.Component {
 
         this.state = {
             activePage: 1,
-            loadingBidsWon: false,
+            loadingBidsWon: true,
             paging: '',
             bids: []
         }

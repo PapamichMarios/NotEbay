@@ -1,5 +1,8 @@
 import React from 'react';
 
+import PresentResult from './search/presentResult';
+import PresentSidebar from './search/presentResultSidebar';
+
 import Paging from './utils/paging';
 import getRequestUnauth from './utils/requests/getRequestUnauthorized';
 import Loading from './utils/loading/loading';
@@ -141,7 +144,7 @@ class Categories extends React.Component {
             this.getLocationProps(this.props.location);
 
             //get items in the current category
-            if(this.props.location.state !== undefined) {
+            if(this.props.location.state != null) {
                 this.getItems(this.state.activePage);
             }
 
@@ -150,7 +153,6 @@ class Categories extends React.Component {
 
     componentDidMount() {
 
-        console.log(this.props.location);
         //get children subcategories
         this.getLocationProps(this.props.location);
 
@@ -237,74 +239,6 @@ class Categories extends React.Component {
                 );
             });
 
-            //handle items for each category
-            let items = [];
-            if (this.state.items.length > 0 ) {
-                this.state.items.map( item => {
-                    items.push (
-                        <div key={item.id}>
-                            <Card border="black" style={{width: '100%'}} >
-                                <Card.Body>
-                                    <Row>
-                                        <Col md="3">
-                                            to put image
-                                        </Col>
-
-                                        <Col md="9">
-                                            <Row>
-                                                <Col className="body-text">
-                                                    <Link to={'/auctions/' + item.id}>
-                                                        <b> {item.name} </b>
-                                                    </Link>
-                                                </Col>
-                                            </Row>
-
-                                            <br/>
-
-                                            <Row>
-                                                <Col md="4">
-                                                    <Row>
-                                                        <Col className="header" md="6">
-                                                            Bids: <br/>
-                                                            Best Bid: <br/>
-                                                            Buy Price: <br/>
-                                                        </Col>
-
-                                                        <Col className="body-text" md="6">
-                                                            {item.numOfBids} <br/>
-                                                            { item.bestBid ? item.bestBid.bidAmount + '$' : '--' } <br/>
-                                                            { item.buyPrice ? item.buyPrice + '$' : '--' } <br/>
-                                                        </Col>
-                                                    </Row>
-                                                </Col>
-
-                                                <Col md="8">
-                                                    <Row>
-                                                        <Col className="header" md="4">
-                                                            Location: <br/>
-                                                            Seller: <br/>
-                                                            Time Ending: <br/>
-                                                        </Col>
-
-                                                        <Col className="body-text" md="8">
-                                                            {item.location} <br/>
-                                                            to put seller <br/>
-                                                            {timeDecoder(item.timeEnds) + ', ' + dateDecoder(item.timeEnds)} <br/>
-                                                        </Col>
-                                                    </Row>
-                                                </Col>
-                                            </Row>
-                                        </Col>
-                                    </Row>
-                                </Card.Body>
-                            </Card>
-
-                            <br/>
-                        </div>
-                    );
-                });
-            }
-
             return (
                 <Container className="navbar-margin">
                     <Row>
@@ -340,10 +274,10 @@ class Categories extends React.Component {
                             <br />
 
                             {/* items for each category */}
-                            {items.length > 0 && (
+                            {this.state.items.length > 0 && (
                                 <Row>
                                     <Col>
-                                        {items}
+                                        <PresentResult items={this.state.items} />
 
                                         <Paging
                                             totalPages={this.state.paging.totalPages}

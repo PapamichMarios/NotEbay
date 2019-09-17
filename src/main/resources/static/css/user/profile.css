@@ -4,6 +4,12 @@
     font-size: 15px;
 }
 
+.body-text-rating {
+    font-weight: bold;
+    color: SandyBrown;
+    font-size: 15px;
+}
+
 .header {
     font-weight: bold;
 }

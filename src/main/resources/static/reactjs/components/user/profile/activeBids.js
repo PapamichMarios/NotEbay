@@ -19,7 +19,7 @@ class ActiveBids extends React.Component {
             activePage: 1,
             paging: '',
             bids: [],
-            loadingActiveBids: false
+            loadingActiveBids: true
         };
 
         this.changeActivePage = this.changeActivePage.bind(this);

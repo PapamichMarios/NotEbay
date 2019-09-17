@@ -2,12 +2,13 @@ import React from 'react';
 
 import '../../../css/user/profile.css';
 
+import PresentResult from './presentResult';
+import PresentSidebar from './presentResultSidebar';
+
 import getRequestUnauth from '../utils/requests/getRequestUnauthorized';
 import Loading from '../utils/loading/loading';
 import * as Constants from '../utils/constants';
 import Paging from '../utils/paging';
-import dateDecoder from '../utils/decoders/dateDecoder';
-import timeDecoder from '../utils/decoders/timeDecoder';
 
 import { Container, Row, Col, Card, Nav, Form } from 'react-bootstrap';
 import { Link, withRouter } from 'react-router-dom';
@@ -59,7 +60,6 @@ export default class SearchResult extends React.Component {
         (state.city !== ''        ) ? (url += '&loc=' + state.city)          : null;
         (state.description !== '' ) ? (url += '&descr=' + state.description) : null;
 
-        console.log(url);
         //make the request
         getRequestUnauth(url)
         .then(items => {
@@ -212,118 +212,20 @@ export default class SearchResult extends React.Component {
             return <Loading />
         } else {
 
-            //each item is represented by a card
-            let results = [];
-            this.state.items.map( item => {
-                results.push (
-                    <div key={item.id}>
-                        <Card border="black" style={{width: '100%'}} >
-                            <Card.Body>
-                                <Row>
-                                    <Col md="3">
-                                        to put image
-                                    </Col>
-
-                                    <Col md="9">
-                                        <Row>
-                                            <Col className="body-text">
-                                                <Link to={'/auctions/' + item.id}>
-                                                    <b> {item.name} </b>
-                                                </Link>
-                                            </Col>
-                                        </Row>
-
-                                        <br/>
-
-                                        <Row>
-                                            <Col md="4">
-                                                <Row>
-                                                    <Col className="header" md="6">
-                                                        Bids: <br/>
-                                                        Best Bid: <br/>
-                                                        Buy Price: <br/>
-                                                    </Col>
-
-                                                    <Col className="body-text" md="6">
-                                                        {item.numOfBids} <br/>
-                                                        { item.bestBid ? item.bestBid.bidAmount + '$' : '--' } <br/>
-                                                        { item.buyPrice ? item.buyPrice + '$' : '--' } <br/>
-                                                    </Col>
-                                                </Row>
-                                            </Col>
-
-                                            <Col md="8">
-                                                <Row>
-                                                    <Col className="header" md="4">
-                                                        Location: <br/>
-                                                        Seller: <br/>
-                                                        Time Ending: <br/>
-                                                    </Col>
-
-                                                    <Col className="body-text" md="8">
-                                                        {item.location}, {item.country} <br/>
-                                                        to put seller <br/>
-                                                        {timeDecoder(item.timeEnds) + ', ' + dateDecoder(item.timeEnds)} <br/>
-                                                    </Col>
-                                                </Row>
-                                            </Col>
-                                        </Row>
-                                    </Col>
-                                </Row>
-                            </Card.Body>
-                        </Card>
-
-                        <br/>
-                    </div>
-                );
-            });
-
             return (
                 <Container fluid>
                     <Row>
 
                         {/* sidebar */}
                         <Col md={2} style={{paddingLeft: '0px'}}>
-                            <Card border="light">
-                                <ul style={{listStyleType: 'none', height:'100vh'}}>
-                                    <Nav.Link disabled className="text-center">
-                                        <b> Category </b>
-                                    </Nav.Link>
-
-                                    <li className='my-list'>
-                                        <Nav.Link style={{fontSize: '15px', color: 'Black'}} className="text-center">
-
-                                        </Nav.Link>
-                                    </li>
-
-                                    <Nav.Link disabled className="text-center">
-                                        <b> Item Location </b>
-                                    </Nav.Link>
-
-                                    <li className='my-list'>
-                                        <Nav.Link style={{fontSize: '15px', color: 'Black'}} >
-
-                                        </Nav.Link>
-                                    </li>
-
-                                    <Nav.Link disabled className="text-center">
-                                        <b> Price Range </b>
-                                    </Nav.Link>
-
-                                    <li className='my-list'>
-                                        <Nav.Link style={{fontSize: '15px', color: 'Black'}} >
-
-                                        </Nav.Link>
-                                    </li>
-                                </ul>
-                            </Card>
+                            <PresentSidebar />
                         </Col>
 
 
                         {/* item representation */}
                         <Col md="9" className="navbar-margin">
 
-                            {results}
+                            <PresentResult items={this.state.items} />
 
                             <br />
 

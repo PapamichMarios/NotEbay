@@ -6,7 +6,7 @@ const ReactDOM = require('react-dom');
 import ExportAuction from './admin/auction/exportAuction';
 
 import { NavLink, Link, withRouter } from "react-router-dom";
-import { Container, Row, Col, Navbar, Nav, NavItem, NavDropdown, Form, FormControl, Button, InputGroup, DropdownButton, Dropdown } from 'react-bootstrap';
+import { Container, Row, Col, Navbar, Nav, Badge, NavItem, NavDropdown, Form, FormControl, Button, InputGroup, DropdownButton, Dropdown } from 'react-bootstrap';
 import { FaSearch, FaHome, FaUser, FaComments, FaDatabase, FaSignInAlt, FaSignOutAlt, FaTasks, FaPlus, FaFileExport } from 'react-icons/fa';
 import { MdPlaylistAddCheck, MdGavel } from 'react-icons/md';
 
@@ -187,7 +187,7 @@ class NavBar extends React.Component{
 
               <NavItem className="button-margin-left">
                 <Link to="/advanced-search">
-                    <Button title="Advanced Search" variant="dark">
+                    <Button title="Advanced Search" variant="dark" style={{borderRadius: '12px'}}>
                         Advanced Search
                     </Button>
                 </Link>
@@ -239,7 +239,7 @@ class NavBar extends React.Component{
 
                           <NavItem className="button-margin">
                             <NavLink to="/home">
-                              <Button title="Home" variant="dark" style={{borderRadius: '50%'}}>
+                              <Button title="Home" variant="dark" style={{borderRadius: '12px'}}>
                                 <FaHome style={{verticalAlign: 'baseline'}} />
                               </Button>
                             </NavLink>
@@ -255,14 +255,14 @@ class NavBar extends React.Component{
                         <Nav className="justify-content-end">
                             <NavItem className="button-margin">
                                 <NavLink to="/home">
-                                  <Button title="Home" variant="dark" style={{borderRadius: '50%'}}>
+                                  <Button title="Home" variant="dark" style={{borderRadius: '12px'}}>
                                     <FaHome style={{verticalAlign: 'baseline'}} />
                                   </Button>
                                 </NavLink>
                             </NavItem>
 
                             <NavItem className="button-margin">
-                              <DropdownButton title={<FaUser style={{verticalAlign: 'baseline'}}/>} variant="dark" style={{borderRadius: '50px'}}>
+                              <DropdownButton title={<FaUser style={{verticalAlign: 'baseline'}}/>} variant="dark">
 
                                 <Dropdown.Item as={Link} to="/profile" className="text-center">
                                     <b style={{color: '#20A5CA'}}> {localStorage.getItem('username')} </b>
@@ -285,8 +285,15 @@ class NavBar extends React.Component{
 
                             <NavItem className="button-margin">
                               <NavLink to="/messages/inbox">
-                                  <Button title="Messages" variant="dark" style={{borderRadius: '50%'}}>
+                                  <Button title="Messages" variant="dark" style={{borderRadius: '12px'}}>
                                     <FaComments style={{verticalAlign: 'baseline'}} />
+
+                                    {(this.props.notifications > 0) && (
+                                        <Badge pill variant="danger">
+                                            {this.props.notifications}
+                                        </Badge>
+                                    )}
+
                                   </Button>
                               </NavLink>
                             </NavItem>
@@ -316,7 +323,7 @@ class NavBar extends React.Component{
                     <Nav className="justify-content-end">
                         <NavItem className="button-margin">
                           <NavLink to="/home">
-                              <Button title="Home" variant="dark" style={{borderRadius: '50%'}}>
+                              <Button title="Home" variant="dark" style={{borderRadius: '12px'}}>
                                 <FaHome style={{verticalAlign: 'baseline'}} />
                               </Button>
                           </NavLink>

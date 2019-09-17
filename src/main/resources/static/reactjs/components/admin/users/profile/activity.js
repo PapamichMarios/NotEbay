@@ -1,13 +1,13 @@
 import React from 'react';
 
-import Loading from '../../utils/loading/loading';
-import * as Constants from '../../utils/constants';
-import getRequest from '../../utils/requests/getRequest';
-import Paging from '../../utils/paging';
-import dateDecoder from '../../utils/decoders/dateDecoder';
-import timeDecoder from '../../utils/decoders/timeDecoder';
+import Loading from '../../../utils/loading/loading';
+import * as Constants from '../../../utils/constants';
+import getRequest from '../../../utils/requests/getRequest';
+import Paging from '../../../utils/paging';
+import dateDecoder from '../../../utils/decoders/dateDecoder';
+import timeDecoder from '../../../utils/decoders/timeDecoder';
 
-import '../../../../css/user/profile.css';
+import '../../../../../css/user/profile.css';
 
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
@@ -76,8 +76,7 @@ export default class Activity extends React.Component {
             () =>
                 setTimeout(() => {
                   this.setState({loadingItems: false})
-                }, Constants.TIMEOUT_DURATION)
-            );
+                }, Constants.TIMEOUT_DURATION));
 
         })
         .catch(error => console.error('Error:', error));
@@ -146,8 +145,6 @@ export default class Activity extends React.Component {
                     <Row>
                         <Col>
                             <h4 className="text-center"> <b>Bids Bet</b> </h4>
-                            <hr />
-
                             {this.state.loadingBids ? (
                                 <Loading />
                             ) : (
@@ -159,8 +156,6 @@ export default class Activity extends React.Component {
 
                         <Col>
                             <h4 className="text-center"> <b>Items Submitted</b> </h4>
-                            <hr />
-
                             {this.state.loadingItems ? (
                                 <Loading />
                             ) : (

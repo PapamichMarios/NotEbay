@@ -1,12 +1,14 @@
 import React from 'react';
 
-import Loading from '../../utils/loading/loading';
-import * as Constants from '../../utils/constants';
-import getRequest from '../../utils/requests/getRequest';
-import OpenStreetMap from '../../utils/maps/openStreetMap';
+import Activity from './activity';
 
-import '../../../../css/utils/map.css';
-import '../../../../css/user/profile.css';
+import Loading from '../../../utils/loading/loading';
+import * as Constants from '../../../utils/constants';
+import getRequest from '../../../utils/requests/getRequest';
+import OpenStreetMap from '../../../utils/maps/openStreetMap';
+
+import '../../../../../css/utils/map.css';
+import '../../../../../css/user/profile.css';
 
 import { Container, Row, Col, Card, Table, Tabs, Tab, Form, Button, Alert } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
@@ -181,8 +183,11 @@ class User extends React.Component {
                                                 </Col>
                                             </Row>
                                         </Tab>
-                                      <Tab eventKey="activity" title="Activity" disabled> </Tab>
-                                      <Tab eventKey="bidsWon" title="Bids Won" disabled> </Tab>
+
+                                        <Tab eventKey="activity" title="Activity" >
+                                            <br />
+                                            <Activity id={this.state.userData.id} />
+                                        </Tab>
                                     </Tabs>
                                 </Card.Body>
                             </Card>

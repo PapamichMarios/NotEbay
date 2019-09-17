@@ -4,6 +4,8 @@ import { Container, Row, Col, Card, Table, Tabs, Tab, Form } from 'react-bootstr
 import Activity from './activity';
 import BidsWon from './bidsWon';
 import ActiveBids from './activeBids';
+import Ratings from './ratings';
+import RatingsReceived from './ratingsReceived/ratingsReceived';
 
 import Loading from '../../utils/loading/loading';
 import * as Constants from '../../utils/constants';
@@ -28,10 +30,12 @@ export default class Profile extends React.Component {
         .then((data) => {
             this.setState({
                 userData: data
-            }, () =>
-            setTimeout(() => {
-                this.setState({loading: false});
-            }, Constants.TIMEOUT_DURATION));
+            },
+            () => {
+                setTimeout(() => {
+                    this.setState({loading: false});
+                }, Constants.TIMEOUT_DURATION)
+            });
         })
         .catch(error => console.error('Error:', error));
     }
@@ -47,7 +51,7 @@ export default class Profile extends React.Component {
                             <Card className="full-vertical" border="light">
                                 <Card.Body>
                                     <Card.Title as="h5" className="text-center highlight">
-                                        <b> {this.state.userData.username + ' #' + this.state.userData.id} </b>
+                                        <b> {this.state.userData.user.username + ' #' + this.state.userData.user.id} </b>
                                     </Card.Title>
 
                                     <Table borderless size="sm">
@@ -59,7 +63,7 @@ export default class Profile extends React.Component {
 
                                         <tbody>
                                             <tr>
-                                                <td className="body-text"> {this.state.userData.firstName + ' ' + this.state.userData.lastName} </td>
+                                                <td className="body-text"> {this.state.userData.user.firstName + ' ' + this.state.userData.user.lastName} </td>
                                             </tr>
                                         </tbody>
                                     </Table>
@@ -73,10 +77,17 @@ export default class Profile extends React.Component {
 
                                         <tbody>
                                             <tr>
-                                                <td className="body-text"> {this.state.userData.email} </td>
+                                                <td className="body-text"> {this.state.userData.user.email} </td>
                                             </tr>
                                         </tbody>
                                     </Table>
+
+                                    <Ratings
+                                        sellerRating={this.state.userData.avgSellerRating}
+                                        sellerReputation={this.state.userData.reputationSeller}
+                                        bidderRating={this.state.userData.bidderRating}
+                                        bidderReputation={this.state.userData.reputationBidder}
+                                    />
                                 </Card.Body>
                             </Card>
                         </Col>
@@ -96,7 +107,7 @@ export default class Profile extends React.Component {
                                                            <Form.Control
                                                                 plaintext
                                                                 readOnly
-                                                                defaultValue={this.state.userData.streetAddress}
+                                                                defaultValue={this.state.userData.user.streetAddress}
                                                                 className="col-user"
                                                            />
                                                          </Col>
@@ -108,7 +119,7 @@ export default class Profile extends React.Component {
                                                            <Form.Control
                                                                 plaintext
                                                                 readOnly
-                                                                defaultValue={this.state.userData.city}
+                                                                defaultValue={this.state.userData.user.city}
                                                                 className="col-user"
                                                            />
                                                          </Col>
@@ -120,7 +131,7 @@ export default class Profile extends React.Component {
                                                            <Form.Control
                                                                 plaintext
                                                                 readOnly
-                                                                defaultValue={this.state.userData.postalCode}
+                                                                defaultValue={this.state.userData.user.postalCode}
                                                                 className="col-user"
                                                            />
                                                          </Col>
@@ -132,7 +143,7 @@ export default class Profile extends React.Component {
                                                            <Form.Control
                                                                 plaintext
                                                                 readOnly
-                                                                defaultValue={this.state.userData.country}
+                                                                defaultValue={this.state.userData.user.country}
                                                                 className="col-user"
                                                            />
                                                          </Col>
@@ -144,7 +155,7 @@ export default class Profile extends React.Component {
                                                            <Form.Control
                                                                 plaintext
                                                                 readOnly
-                                                                defaultValue={this.state.userData.phone}
+                                                                defaultValue={this.state.userData.user.phone}
                                                                 className="col-user"
                                                            />
                                                          </Col>
@@ -156,7 +167,7 @@ export default class Profile extends React.Component {
                                                            <Form.Control
                                                                 plaintext
                                                                 readOnly
-                                                                defaultValue={this.state.userData.tin}
+                                                                defaultValue={this.state.userData.user.tin}
                                                                 className="col-user"
                                                            />
                                                          </Col>
@@ -166,7 +177,7 @@ export default class Profile extends React.Component {
 
                                                 <Col>
                                                     <div className="leaflet">
-                                                        <OpenStreetMap lat={this.state.userData.geoLat} lng={this.state.userData.geoLong} />
+                                                        <OpenStreetMap lat={this.state.userData.user.geoLat} lng={this.state.userData.user.geoLong} />
                                                     </div>
                                                 </Col>
                                             </Row>
@@ -174,7 +185,7 @@ export default class Profile extends React.Component {
 
                                         <Tab eventKey={1} title="Activity">
                                             <br/>
-                                            <Activity id={this.state.userData.id} />
+                                            <Activity id={this.state.userData.user.id} />
                                         </Tab>
 
                                         <Tab eventKey={2} title="Active Bids">
@@ -185,6 +196,11 @@ export default class Profile extends React.Component {
                                         <Tab eventKey={3} title="Bids Won">
                                             <br />
                                             <BidsWon />
+                                        </Tab>
+
+                                        <Tab eventKey={4} title="Ratings">
+                                            <br />
+                                            <RatingsReceived id={this.state.userData.user.id} />
                                         </Tab>
                                     </Tabs>
                                 </Card.Body>

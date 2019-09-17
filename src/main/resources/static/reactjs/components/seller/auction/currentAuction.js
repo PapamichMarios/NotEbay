@@ -22,7 +22,7 @@ class CurrentAuction extends React.Component {
 
     rate() {
         //redirect to rating
-        this.props.history.push('/my-auctions/'+ this.props.auction.bestBidder.id + '/rating');
+        this.props.history.push('/my-auctions/'+ this.props.auction.id + '/rating/' + this.props.auction.bestBidder.id);
     }
 
     messageBuyer() {
@@ -50,16 +50,27 @@ class CurrentAuction extends React.Component {
             </Breadcrumb.Item>
         );
 
-        this.props.auction.categories.map(category => {
+        this.props.auction.categories.map( (category, index) => {
+            //handle the parents ones
+            let breadcrumbsParents = [];
+            for(let i=0; i<=index; i++){
+                breadcrumbsParents.push({
+                    name: this.props.auction.categories[i].name,
+                    id: this.props.auction.categories[i].id
+                });
+            }
+
+            //push breadcrumbs
             breadcrumbs.push(
                 <Breadcrumb.Item
                     key={category.id}
                     onClick={ () => {
                         this.props.history.push({
-                            pathname: '/searchResults?category=' + category.id,
+                            pathname: '/categories',
                             state: {
-                                category: category.name,
-                                id: category.id
+                                name: category.name,
+                                id: category.id,
+                                breadcrumbs: breadcrumbsParents
                             }
                         });
                     }}
