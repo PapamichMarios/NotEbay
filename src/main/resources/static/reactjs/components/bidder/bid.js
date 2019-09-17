@@ -63,7 +63,7 @@ class Bid extends React.Component {
 
         const url = this.props.action + this.props.match.params.id + '/bids';
         const bodyObj = {
-            bidAmount: this.state.bid.buyPrice.toString()
+            bidAmountStr: this.state.bid.buyPrice.toString()
         };
 
         postRequest(url, bodyObj)
