@@ -1,40 +1,37 @@
 import React from 'react';
 
-import postRequest from './utils/requests/postRequest';
-import getRequest from './utils/requests/getRequest';
-import Loading from './utils/loading/loading';
-import LoadingButton from './utils/loading/loadingButton.js';
-import * as Constants from './utils/constants';
-import decodeTime from './utils/decoders/timeDecoder';
-import decodeDate from './utils/decoders/dateDecoder';
-import OpenStreetMap from './utils/maps/openStreetMapLarge';
+import getRequestUnauth from '../utils/requests/getRequestUnauthorized';
+import Loading from '../utils/loading/loading';
+import * as Constants from '../utils/constants';
+import decodeTime from '../utils/decoders/timeDecoder';
+import decodeDate from '../utils/decoders/dateDecoder';
+import OpenStreetMap from '../utils/maps/openStreetMapLarge';
 
-import '../../css/utils/map.css';
-import '../../css/signup/confirmation.css';
+import '../../../css/utils/map.css';
+import '../../../css/signup/confirmation.css';
 
 import StarRatings from 'react-star-ratings';
+
 import { Container, Row, Col, Form, Button, Card, ButtonToolbar, Alert, Tabs, Tab, Breadcrumb, ListGroup, InputGroup } from 'react-bootstrap';
 import { Link, withRouter } from 'react-router-dom';
 
-class AuctionReadOnly extends React.Component {
+class AuctionPublic extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
             loading: true,
             bid: '',
+            breadcrumbs: []
         }
     }
 
-    onChange(e) {
-        this.setState({
-            [e.target.name]: e.target.value
-        });
-    }
-
     componentDidMount() {
-        getRequest(this.props.action + this.props.match.params.id)
+
+        getRequestUnauth(this.props.action + this.props.match.params.id)
         .then(response => {
+            console.log(response);
+
             if(response.error) {
                 if(response.status === 500) {
                     this.props.history.push('/internal-server-error');
@@ -45,7 +42,8 @@ class AuctionReadOnly extends React.Component {
                 }
             } else {
                 this.setState({
-                    bid: response
+                    bid: response,
+                    breadcrumbs: response.categories
                 },
                 () =>
                     //set loading
@@ -67,6 +65,11 @@ class AuctionReadOnly extends React.Component {
             const endTime = decodeTime(this.state.bid.timeEnds);
             const endDate = decodeDate(this.state.bid.timeEnds);
 
+            let lastBidder = false;
+            if(this.state.bid.bestBid !== null) {
+                lastBidder = (this.state.bid.bestBid.username === localStorage.getItem('username') ? true : false);
+            }
+
             let breadcrumbs = [];
             breadcrumbs.push(
                 <Breadcrumb.Item
@@ -77,16 +80,28 @@ class AuctionReadOnly extends React.Component {
                 </Breadcrumb.Item>
             );
 
-            this.state.bid.categories.map(category => {
+            this.state.bid.categories.map( (category, index) => {
+
+                //handle breadcrumbs before
+                let breadcrumbsParents = [];
+                for(let i=0; i<=index; i++){
+                    breadcrumbsParents.push({
+                        name: this.state.breadcrumbs[i].name,
+                        id: this.state.breadcrumbs[i].id
+                    });
+                }
+
+                //link to categories
                 breadcrumbs.push(
                     <Breadcrumb.Item
                         key={category.id}
                         onClick={ () => {
                             this.props.history.push({
-                                pathname: '/searchResults?category=' + category.id,
+                                pathname: '/categories',
                                 state: {
-                                    category: category.name,
-                                    id: category.id
+                                    name: category.name,
+                                    id: category.id,
+                                    breadcrumbs: breadcrumbsParents
                                 }
                             });
                         }}
@@ -253,7 +268,7 @@ class AuctionReadOnly extends React.Component {
                                                             <Form.Control
                                                                 plaintext
                                                                 readOnly
-                                                                defaultValue= {this.state.bid.userSeller.username}
+                                                                defaultValue= {this.state.bid.owner.username}
                                                                 className="col-user"
                                                             />
                                                         </Col>
@@ -298,7 +313,7 @@ class AuctionReadOnly extends React.Component {
                                                             <Form.Control
                                                                 plaintext
                                                                 readOnly
-                                                                defaultValue= {this.state.bid.userSeller.country}
+                                                                defaultValue= {this.state.bid.owner.country}
                                                                 className="col-user"
                                                             />
                                                         </Col>
@@ -306,18 +321,17 @@ class AuctionReadOnly extends React.Component {
                                                 </Tab>
                                             </Tabs>
 
-                                            { this.state.bid.bestBid === null && this.state.bid.userSeller.username !== localStorage.getItem('username') ? (
+                                            { this.state.bid.bestBid === null && this.state.bid.owner.username !== localStorage.getItem('username') && (
                                               <Row>
                                                 <Col>
                                                   <br />
                                                   <Alert variant="info">
-                                                      No one has placed a bid on this item yet!
+                                                      Do you fancy it? Create an account and buy it now!
                                                   </Alert>
                                                 </Col>
                                               </Row>
-                                            ) : (
-                                               null
                                             )}
+
                                         </Col>
                                     </Row>
                                 </Card.Body>
@@ -330,4 +344,8 @@ class AuctionReadOnly extends React.Component {
     }
 }
 
-export default withRouter(AuctionReadOnly);
+AuctionPublic.defaultProps = {
+    action: '/app/search/items/'
+};
+
+export default withRouter(AuctionPublic);

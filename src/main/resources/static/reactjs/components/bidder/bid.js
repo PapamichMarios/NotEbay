@@ -502,7 +502,7 @@ class Bid extends React.Component {
                                                                   starSpacing="2px"
                                                                 />
                                                                 <br />
-                                                                (<b style={{fontSize: '17.5px'}}>{this.state.bid.rating}</b>/<span style={{color:'SteelBlue'}}>5</span>)
+                                                                [<b style={{fontSize: '17.5px'}}>{this.state.bid.rating}</b> out of <span style={{color:'SteelBlue'}}>5</span>]
                                                             </Col>
                                                         ) : (
                                                             <Col>

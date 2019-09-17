@@ -35,23 +35,23 @@ export default class PresentResult extends React.Component {
                                     </Row>
 
                                     <Row>
-                                        <Col md="4">
+                                        <Col md="5">
                                             <Row>
                                                 <Col className="header" md="6">
                                                     Bids: <br/>
-                                                    Best Bid: <br/>
+                                                    { item.bestBid ? 'Best Bid:' : 'Starting Bid:' }<br/>
                                                     Buy Price: <br/>
                                                 </Col>
 
                                                 <Col className="body-text" md="6">
                                                     {item.numOfBids} <br/>
-                                                    { item.bestBid ? item.bestBid.bidAmount + '$' : '--' } <br/>
+                                                    { item.bestBid ? item.bestBid.bidAmount + '$' : item.firstBid + '$' } <br/>
                                                     { item.buyPrice ? item.buyPrice + '$' : '--' } <br/>
                                                 </Col>
                                             </Row>
                                         </Col>
 
-                                        <Col md="8">
+                                        <Col md="7">
                                             <Row>
                                                 <Col className="header" md="4">
                                                     Location: <br/>

@@ -1,13 +1,13 @@
 import React from 'react';
 
-import Loading from '../../../utils/loading/loading';
-import * as Constants from '../../../utils/constants';
-import getRequest from '../../../utils/requests/getRequest';
-import Paging from '../../../utils/paging';
-import dateDecoder from '../../../utils/decoders/dateDecoder';
-import timeDecoder from '../../../utils/decoders/timeDecoder';
+import Loading from '../../utils/loading/loading';
+import * as Constants from '../../utils/constants';
+import getRequest from '../../utils/requests/getRequest';
+import Paging from '../../utils/paging';
+import dateDecoder from '../../utils/decoders/dateDecoder';
+import timeDecoder from '../../utils/decoders/timeDecoder';
 
-import '../../../../../css/user/profile.css';
+import '../../../../css/user/profile.css';
 
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
@@ -99,12 +99,13 @@ export default class Activity extends React.Component {
         if(this.state.loadingActivity) {
             return <Loading />;
         } else {
-            const bidList = [];
+
+            let bidList = [];
             this.state.pagingBids.content.map(bid => {
                 bidList.push(
                     <div key={bid.bidTime}>
                         <li className='my-list'>
-                            You have placed a bid of <b>{bid.bidAmount} <span>&#36;</span></b> on &nbsp;
+                            User <b>{this.props.username}</b> has placed a bid of <b>{bid.bidAmount} <span>&#36;</span></b> on &nbsp;
                             <Link to={`/auctions/${bid.itemId}`}>
                                 <b>{bid.itemName} #{bid.itemId}</b>
                             </Link>.
@@ -119,12 +120,12 @@ export default class Activity extends React.Component {
                 );
             });
 
-            const itemList = [];
+            let itemList = [];
             this.state.pagingItems.content.map(item => {
                 itemList.push(
                     <div key={item.timeStarted}>
                         <li className='my-list'>
-                            You have submitted item
+                            User <b>{this.props.username}</b> has submitted item
                             <Link to={`/my-auctions/${item.id}`}>
                                 <b> {item.name} </b>
                             </Link>

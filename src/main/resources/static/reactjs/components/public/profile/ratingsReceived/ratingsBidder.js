@@ -64,11 +64,12 @@ export default class BidderRatings extends React.Component {
         } else {
 
             let bidderRatings = [];
+            console.log(this.state.bidderRatings);
             this.state.bidderRatings.map( rating => {
                 bidderRatings.push(
                     <div key={rating.itemId}>
                         <li className='my-list' >
-                            You have received a rating of <b style={{color: 'SandyBrown'}}>{rating.rating}</b> from &nbsp;
+                            User <b>{this.props.username}</b> has received a rating of <b style={{color: 'SandyBrown'}}>{rating.rating}</b> from &nbsp;
                             <Link to={'/'}>
                                 <b>{rating.username}</b>
                             </Link>

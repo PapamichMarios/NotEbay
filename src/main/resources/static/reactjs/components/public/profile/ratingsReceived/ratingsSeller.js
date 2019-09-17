@@ -8,19 +8,19 @@ import Paging from '../../../utils/paging';
 import { Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-export default class BidderRatings extends React.Component {
+export default class SellerRatings extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            loadingBidderRatings : true,
+            loadingSellerRatings : true,
+            sellerRatings : [],
             paging: '',
-            bidderRatings: [],
             activePage: 1
         }
 
         this.changeActivePage = this.changeActivePage.bind(this);
-        this.getBidderRatings = this.getBidderRatings.bind(this);
+        this.getSellerRatings = this.getSellerRatings.bind(this);
     }
 
     changeActivePage(pageNum) {
@@ -29,11 +29,11 @@ export default class BidderRatings extends React.Component {
         });
     }
 
-    getBidderRatings(pageNum) {
+    getSellerRatings(pageNum) {
 
-        this.setState({ loadingBidderRatings: true });
+        this.setState({ loadingSellerRatings: true });
 
-        const url = this.props.action + this.props.id + '/bidderRatings'
+        const url = this.props.action + this.props.id + '/sellerRatings'
             + '?page=' + (pageNum-1) + '&size=10';
 
         getRequest(url)
@@ -41,34 +41,33 @@ export default class BidderRatings extends React.Component {
             console.log(ratings);
 
             this.setState({
-                bidderRatings: ratings.content,
+                sellerRatings: ratings.content,
                 paging: ratings
             },
             () => {
                 setTimeout(() => {
-                  this.setState({loadingBidderRatings: false})
+                  this.setState({loadingSellerRatings: false})
                 }, Constants.TIMEOUT_DURATION)
             });
         })
         .catch(error => console.error('Error:', error));
-
     }
 
     componentDidMount() {
-        this.getBidderRatings(this.state.activePage);
+        this.getSellerRatings(this.state.activePage);
     }
 
     render() {
-        if(this.state.loadingBidderRatings) {
+        if(this.state.loadingSellerRatings) {
             return <Loading />
         } else {
 
-            let bidderRatings = [];
-            this.state.bidderRatings.map( rating => {
-                bidderRatings.push(
+            let sellerRatings = [];
+            this.state.sellerRatings.map( rating => {
+                sellerRatings.push(
                     <div key={rating.itemId}>
                         <li className='my-list' >
-                            You have received a rating of <b style={{color: 'SandyBrown'}}>{rating.rating}</b> from &nbsp;
+                            User <b>{this.props.username}</b> has received a rating of <b style={{color: 'SandyBrown'}}>{rating.rating}</b> from &nbsp;
                             <Link to={'/'}>
                                 <b>{rating.username}</b>
                             </Link>
@@ -79,7 +78,6 @@ export default class BidderRatings extends React.Component {
                         </li>
 
                         <br/>
-
                     </div>
                 );
             })
@@ -88,17 +86,17 @@ export default class BidderRatings extends React.Component {
                 <Row>
                     <Col>
 
-                        <h4 className="text-center"> <b>Ratings received from sellers</b> </h4>
+                        <h4 className="text-center"> <b>Ratings received from bidders</b> </h4>
                         <hr />
                         <ul style={{listStyleType: 'none'}}>
-                            {bidderRatings}
+                            {sellerRatings}
                         </ul>
 
                         <br />
 
                         <Paging
                             totalPages={this.state.paging.totalPages}
-                            getData={this.getBidderRatings}
+                            getData={this.getSellerRatings}
                             activePage={this.state.activePage}
                             changeActivePage={this.changeActivePage}
                         />
@@ -109,6 +107,6 @@ export default class BidderRatings extends React.Component {
     }
 }
 
-BidderRatings.defaultProps = {
+SellerRatings.defaultProps = {
     action: '/app/users/'
 }

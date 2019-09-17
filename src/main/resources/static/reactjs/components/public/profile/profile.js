@@ -1,14 +1,16 @@
 import React from 'react';
 
 import Activity from './activity';
+import Ratings from '../../user/profile/ratings';
+import RatingsReceived from './ratingsReceived/ratingsReceived';
 
-import Loading from '../../../utils/loading/loading';
-import * as Constants from '../../../utils/constants';
-import getRequest from '../../../utils/requests/getRequest';
-import OpenStreetMap from '../../../utils/maps/openStreetMap';
+import Loading from '../../utils/loading/loading';
+import * as Constants from '../../utils/constants';
+import getRequestUnauth from '../../utils/requests/getRequestUnauthorized';
+import OpenStreetMap from '../../utils/maps/openStreetMap';
 
-import '../../../../../css/utils/map.css';
-import '../../../../../css/user/profile.css';
+import '../../../../css/utils/map.css';
+import '../../../../css/user/profile.css';
 
 import { Container, Row, Col, Card, Table, Tabs, Tab, Form, Button, Alert } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
@@ -23,17 +25,21 @@ class User extends React.Component {
     }
 
     componentDidMount() {
-        getRequest(this.props.action + this.props.match.params.id)
+
+        getRequestUnauth(this.props.action + this.props.match.params.id)
         .then((data) => {
             if (!data.error) {
+
                 this.setState({
                     userData: data
+                } ,
+                () => {
+                    //set loading
+                    setTimeout(() => {
+                      this.setState({loading: false})
+                    }, Constants.TIMEOUT_DURATION);
                 });
 
-                //set loading
-                setTimeout(() => {
-                  this.setState({loading: false})
-                }, Constants.TIMEOUT_DURATION)
             } else {
                 if(data.status === 500) {
                     this.props.history.push('/internal-server-error');
@@ -45,6 +51,7 @@ class User extends React.Component {
             }
         })
         .catch(error => console.error('Error:', error));
+
     }
 
     render() {
@@ -59,7 +66,7 @@ class User extends React.Component {
                             <Card className="full-vertical" border="light">
                                 <Card.Body>
                                     <Card.Title as="h5" className="text-center highlight">
-                                        <b> {this.state.userData.username + ' #' + this.state.userData.id} </b>
+                                        <b> {this.state.userData.user.username + ' #' + this.state.userData.user.id} </b>
                                     </Card.Title>
 
                                     <Table borderless size="sm">
@@ -71,7 +78,7 @@ class User extends React.Component {
 
                                         <tbody>
                                             <tr>
-                                                <td className="body-text"> {this.state.userData.firstName + ' ' + this.state.userData.lastName} </td>
+                                                <td className="body-text"> {this.state.userData.user.firstName + ' ' + this.state.userData.user.lastName} </td>
                                             </tr>
                                         </tbody>
                                     </Table>
@@ -85,10 +92,17 @@ class User extends React.Component {
 
                                         <tbody>
                                             <tr>
-                                                <td className="body-text"> {this.state.userData.email} </td>
+                                                <td className="body-text"> {this.state.userData.user.email} </td>
                                             </tr>
                                         </tbody>
                                     </Table>
+
+                                    <Ratings
+                                        sellerRating={this.state.userData.avgSellerRating}
+                                        sellerReputation={this.state.userData.reputationSeller}
+                                        bidderRating={this.state.userData.bidderRating}
+                                        bidderReputation={this.state.userData.reputationBidder}
+                                    />
                                 </Card.Body>
                             </Card>
                         </Col>
@@ -108,7 +122,7 @@ class User extends React.Component {
                                                            <Form.Control
                                                                 plaintext
                                                                 readOnly
-                                                                defaultValue={this.state.userData.streetAddress}
+                                                                defaultValue={this.state.userData.user.streetAddress}
                                                                 className="col-user"
                                                            />
                                                          </Col>
@@ -120,7 +134,7 @@ class User extends React.Component {
                                                            <Form.Control
                                                                 plaintext
                                                                 readOnly
-                                                                defaultValue={this.state.userData.city}
+                                                                defaultValue={this.state.userData.user.city}
                                                                 className="col-user"
                                                            />
                                                          </Col>
@@ -132,7 +146,7 @@ class User extends React.Component {
                                                            <Form.Control
                                                                 plaintext
                                                                 readOnly
-                                                                defaultValue={this.state.userData.postalCode}
+                                                                defaultValue={this.state.userData.user.postalCode}
                                                                 className="col-user"
                                                            />
                                                          </Col>
@@ -144,7 +158,7 @@ class User extends React.Component {
                                                            <Form.Control
                                                                 plaintext
                                                                 readOnly
-                                                                defaultValue={this.state.userData.country}
+                                                                defaultValue={this.state.userData.user.country}
                                                                 className="col-user"
                                                            />
                                                          </Col>
@@ -156,7 +170,7 @@ class User extends React.Component {
                                                            <Form.Control
                                                                 plaintext
                                                                 readOnly
-                                                                defaultValue={this.state.userData.phone}
+                                                                defaultValue={this.state.userData.user.phone}
                                                                 className="col-user"
                                                            />
                                                          </Col>
@@ -168,7 +182,7 @@ class User extends React.Component {
                                                            <Form.Control
                                                                 plaintext
                                                                 readOnly
-                                                                defaultValue={this.state.userData.tin}
+                                                                defaultValue={this.state.userData.user.tin}
                                                                 className="col-user"
                                                            />
                                                          </Col>
@@ -178,15 +192,23 @@ class User extends React.Component {
 
                                                 <Col>
                                                     <div className="leaflet">
-                                                        <OpenStreetMap lat={this.state.userData.geoLat} lng={this.state.userData.geoLong} />
+                                                        <OpenStreetMap lat={this.state.userData.user.geoLat} lng={this.state.userData.user.geoLong} />
                                                     </div>
                                                 </Col>
                                             </Row>
                                         </Tab>
 
-                                        <Tab eventKey="activity" title="Activity" >
+                                        <Tab eventKey="activity" title="Activity">
                                             <br />
-                                            <Activity id={this.state.userData.id} />
+                                            <Activity
+                                                id={this.state.userData.user.id}
+                                                username={this.state.userData.user.username}
+                                            />
+                                        </Tab>
+
+                                        <Tab eventKey="ratings" title="Ratings">
+                                            <br/>
+                                            <RatingsReceived id={this.state.userData.user.id} />
                                         </Tab>
                                     </Tabs>
                                 </Card.Body>

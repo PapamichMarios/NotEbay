@@ -69,11 +69,11 @@ export default class SellerRatings extends React.Component {
                         <li className='my-list' >
                             You have received a rating of <b style={{color: 'SandyBrown'}}>{rating.rating}</b> from &nbsp;
                             <Link to={'/'}>
-                                {rating.username}
+                                <b>{rating.username}</b>
                             </Link>
                             &nbsp; for item: &nbsp;
                             <Link to={'/auctions/' + rating.itemId}>
-                                to put item
+                                <b>to put item</b>
                             </Link>
                         </li>
 

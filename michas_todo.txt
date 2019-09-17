@@ -1,8 +1,13 @@
 /profile:
     1. bidderRating panta gurnaei undefined
-
-/users/{userId}:
-    1. Na mporei enas bidder i seller na blepei to profile allou xristi, opws o admin px.
+    2. bidderRatings einai to username tou profile kai oxi tou bidder
 
 /auction
     1. mazi me to rating tou seller na gurnaei kai to number twn ratings apo allous buyers
+    2. otan kaneis buy price, sto bids bet gurnaei duo fores to idio status
+
+/ratings
+    1. na checkaroume an douleuoun
+
+/search
+    1. na gurnane ta categories tou kathe item

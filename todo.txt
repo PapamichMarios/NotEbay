@@ -34,3 +34,4 @@ editAuction: change categories
     1. Na gurnaei pagedResponse 1 & 2 opws sto /profile me to activity tou xristi.
 
 endpoint gia /auction/id - role admin
+auction: seller na kanei redirect se profile

@@ -14,7 +14,7 @@ import SearchResult         from './search/searchResult';
 
 import Auction              from './seller/auction/auction';
 import AuctionsHomepage     from './seller/myAuctions';
-import AuctionReadOnly      from './auctionReadOnly.js';
+import AuctionPublic        from './public/auction.js';
 import SellerRating         from './seller/rating';
 import SubmitAuction        from './seller/createAuction';
 import BidList              from './seller/bidders';
@@ -23,7 +23,7 @@ import Bid                  from './bidder/bid';
 import BidderRating         from './bidder/rating';
 
 import Users                from './admin/users/users';
-import User                 from './admin/users/profile/userProfile';
+import User                 from './public/profile/profile';
 
 import Applications         from './admin/applications/applications';
 import Application          from './admin/applications/applicationProfile';
@@ -157,7 +157,9 @@ class App extends React.Component {
       if(this.state.loading) {
         return <Loading />;
       } else {
+
         let categories = JSON.parse(localStorage.getItem('categories'));
+
         return (
             <div className="App">
                 <div>
@@ -168,6 +170,7 @@ class App extends React.Component {
                   />
 
                   <Switch>
+
                     {/* public */}
                     <Route exact path="/"                                 render={ (props) => <Home {...props} onLogin={this.handleLogin} /> } />
                     <Route exact path="/welcome"                          render={ (props) => <Home {...props} onLogin={this.handleLogin} /> } />
@@ -182,23 +185,24 @@ class App extends React.Component {
                     <Route exact path="/login"                            render={ (props) => !isAuthenticated() ? <Login {...props} onLogin={this.handleLogin} /> : <Redirect to="/" />} />
                     <Route exact path="/signup"                           render={ () => !isAuthenticated() ? <Signup /> : <Redirect to="/" /> } />
 
+                    <Route exact path="/profile/:id"                      render={User} />
+
                     {/* admin */}
                     <Route exact path="/users"                            render={ () => isAdmin() ? <Users />        : <Redirect to="/unauthorized" /> } />
-                    <Route exact path="/users/:id"                        render={ () => isAdmin() ? <User />         : <Redirect to="/unauthorized" /> } />
                     <Route exact path="/applications"                     render={ () => isAdmin() ? <Applications /> : <Redirect to="/unauthorized" /> } />
                     <Route exact path="/applications/:id"                 render={ () => isAdmin() ? <Application />  : <Redirect to="/unauthorized" /> } />
 
                     {/* authenticated */}
-                    <Route exact path="/profile"                          render={ () => isAuthenticated() ? <Profile />          : <Redirect to="/unauthorized" /> } />
+                    <Route exact path="/profile"                          render={ () => isAuthenticated() ? <Profile />          : <Redirect to="/profile-not-found" /> } />
 
+                    <Route exact path="/submit-auction"                   render={ () => isAuthenticated() ? <SubmitAuction />    : <Redirect to="/unauthorized" /> } />
                     <Route exact path="/my-auctions"                      render={ () => isAuthenticated() ? <AuctionsHomepage /> : <Redirect to="/unauthorized" /> } />
                     <Route exact path="/my-auctions/:id"                  render={ () => isAuthenticated() ? <Auction />          : <Redirect to="/unauthorized" /> } />
                     <Route exact path="/my-auctions/:id/bids"             render={ () => isAuthenticated() ? <BidList />          : <Redirect to="/unauthorized" /> } />
                     <Route exact path="/my-auctions/:itemId/rating/:userId"
                                                                           render={ () => isAuthenticated() ? <SellerRating />     : <Redirect to="/unauthorized" /> } />
-                    <Route exact path="/submit-auction"                   render={ () => isAuthenticated() ? <SubmitAuction />    : <Redirect to="/unauthorized" /> } />
 
-                    <Route exact path="/auctions/:id"                     render={ () => isAuthenticated() ? <Bid />              : <Redirect to="/unauthorized" /> } />
+                    <Route exact path="/auctions/:id"                     render={ () => isAuthenticated() ? <Bid />              : <AuctionPublic /> } />
                     <Route exact path="/auctions/:itemId/rating/:userId"  render={ () => isAuthenticated() ? <BidderRating />     : <Redirect to="/unauthorized" /> } />
 
                     <Route exact path="/messages"                         render={ () => isAuthenticated() ? <Inbox />            : <Redirect to="/unauthorized" /> } />
@@ -212,6 +216,7 @@ class App extends React.Component {
                     <Route exact path="/unauthorized"                     component={Page401} />
                     <Route exact path="/internal-server-error"            component={Page500} />
                     <Route component={Page404} />
+
                   </Switch>
                 </div>
             </div>
