@@ -141,7 +141,9 @@ class SubmitAuction extends React.Component {
 
     createItem() {
 
-        const bodyObj = {
+        var formData = new FormData();
+
+        const itemRequest = {
             name: this.state.name,
             description: this.state.description,
             timeEnds: this.state.dateEnds + ' ' + this.state.timeEnds + ':00',
@@ -158,8 +160,19 @@ class SubmitAuction extends React.Component {
             lastCategoryId: this.state.categories[this.state.categories.length-1].value
         };
 
-        postRequest(this.props.action, bodyObj)
+        formData.append('itemRequest', JSON.stringify(itemRequest))
+        formData.append('file', this.state.pictures);
+
+        fetch(this.props.action, {
+            header: {
+                'Authorization': Constants.ACCESS_TOKEN
+            },
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
         .then(response => {
+            console.log(response);
             if (response.error){
                 this.setState({
                     hasError: true,
@@ -171,7 +184,7 @@ class SubmitAuction extends React.Component {
                 this.props.history.push('/my-auctions/' + response.object.id);
             }
         })
-        .catch(error => console.error('Error:', error));
+        .catch(error => console.error('Error', error));
     }
 
     onSubmit(e){

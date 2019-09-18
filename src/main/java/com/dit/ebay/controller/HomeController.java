@@ -10,7 +10,7 @@ public class HomeController {
     @RequestMapping(value = { "/welcome", "/home", "/", "/signup", "/login", "/users", "/users/**",
                               "/applications", "/applications/**","/profile/**", "/inbox", "/my-auctions/**",
                               "/submit-auction", "auctions/**", "/categories", "/messages/**", "/advanced-search",
-                              "/searchResults/**", "/download", "/upload" }
+                              "/searchResults/**" }
                               , method = RequestMethod.GET )
     public String index() {
         return "index";
