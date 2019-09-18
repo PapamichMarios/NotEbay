@@ -18,7 +18,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/app/items/{itemId}/photos")
+@RequestMapping("/app/items/{itemId}/images")
 public class FileController {
 
     @Autowired

@@ -3,17 +3,16 @@ package com.dit.ebay.service;
 import com.dit.ebay.exception.AppException;
 import com.dit.ebay.exception.ResourceNotFoundException;
 import com.dit.ebay.model.Category;
+import com.dit.ebay.model.Image;
 import com.dit.ebay.model.Item;
-import com.dit.ebay.repository.CategoryRepository;
-import com.dit.ebay.repository.SellerRatingRepository;
+import com.dit.ebay.repository.*;
 import com.dit.ebay.request.ItemActiveRequest;
 import com.dit.ebay.response.*;
 import com.dit.ebay.security.UserDetailsImpl;
 import com.dit.ebay.util.JsonGeoPoint;
 import com.dit.ebay.model.User;
-import com.dit.ebay.repository.ItemRepository;
-import com.dit.ebay.repository.UserRepository;
 import com.dit.ebay.request.ItemRequest;
+import net.bytebuddy.asm.Advice;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +21,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.math.BigDecimal;
@@ -57,6 +57,12 @@ public class ItemService {
     @Autowired
     private CategoryService categoryService;
 
+    @Autowired
+    private FileService fileService;
+
+    @Autowired
+    private ImageRepository imageRepository;
+
     private static final Logger logger = LoggerFactory.getLogger(ItemService.class);
 
     //@Transactional
@@ -80,7 +86,6 @@ public class ItemService {
         // Get lat and long of item
         JsonGeoPoint jgp = itemRequest.getJgp();
 
-        // TODO : image-path
         Item item = new Item(itemRequest);
 
         item.setUser(user);
@@ -92,6 +97,15 @@ public class ItemService {
             item.setCategory(lastCategory);
         }
         Item result = itemRepository.save(item);
+
+        // insert photos
+        for (MultipartFile image : itemRequest.getImages()) {
+            String imageName = fileService.store(image);
+            Image imageIn = new Image(imageName);
+            imageIn.setItem(item);
+            imageRepository.save(imageIn);
+        }
+
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentContextPath().path("/{itemId}")
                 .buildAndExpand(item.getId()).toUri();
