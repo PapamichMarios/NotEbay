@@ -275,7 +275,7 @@ class AuctionPublic extends React.Component {
                                                     <Form.Group as={Row}>
                                                         <Form.Label column md="5"> <b> Rating: </b> </Form.Label>
 
-                                                        {this.state.bid.rating !== null ? (
+                                                        {this.state.bid.rating != null && this.state.bid.rating > 0? (
                                                             <Col>
                                                                 <StarRatings
                                                                   name="sellerRating"
@@ -286,7 +286,9 @@ class AuctionPublic extends React.Component {
                                                                   starSpacing="2px"
                                                                 />
                                                                 <br />
-                                                                (<b style={{fontSize: '17.5px'}}>{this.state.bid.rating}</b>/<span style={{color:'SteelBlue'}}>5</span>)
+                                                                <b>[{this.state.bid.rating} out of <span style={{color:'SteelBlue'}}>5</span>]</b>
+                                                                <br />
+                                                                <b style={{color:'DimGray'}}> {this.state.bid.reputation} reputation </b>
                                                             </Col>
                                                         ) : (
                                                             <Col>

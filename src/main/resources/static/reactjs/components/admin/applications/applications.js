@@ -9,30 +9,58 @@ export default class Applications extends React.Component {
         super(props);
         this.state = {
             users: [],
-            loading: true
+            paging: '',
+            loading: true,
+            activePage: 1
         }
+
+        this.changeActivePage = this.changeActivePage.bind(this);
+        this.getUsers = this.getUsers.bind(this);
     }
 
-    componentDidMount() {
-        getRequest(this.props.action)
-        .then((data) => {
+    //paging
+    changeActivePage(pageNum) {
+        this.setState({
+            activePage: pageNum
+        });
+    }
+
+    getUsers(pageNum) {
+        this.setState({loading: true});
+        const url = this.props.action + '?page=' + (pageNum-1) + '&size=10';
+
+        getRequest(url)
+        .then(data => {
             this.setState({
-                users: data
+                users: data.content,
+                paging: data
+            },
+            () => {
+                setTimeout(() => {
+                  this.setState({loading: false})
+                }, Constants.TIMEOUT_DURATION)
             });
         })
         .catch(error => console.error('Error:', error));
+    }
 
-        //set loading
-        setTimeout(() => {
-          this.setState({loading: false})
-        }, Constants.TIMEOUT_DURATION)
+    componentDidMount() {
+        this.getUsers(this.state.activePage);
     }
 
     render() {
       if (this.state.loading) {
         return <Loading />
       } else {
-        return <ApplicationListing users={this.state.users} />
+        return (
+            <ApplicationListing
+                users={this.state.users}
+                paging={this.state.paging}
+                activePage={this.state.activePage}
+                getData={this.getUsers}
+                changeActivePage={this.changeActivePage}
+            />
+        );
       }
     }
 }

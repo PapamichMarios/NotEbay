@@ -1,7 +1,10 @@
 import React    from 'react';
-import { Container, Table, Card, Button } from 'react-bootstrap';
 
 import ApplicationItem from './applicationItem.js';
+import Paging from '../../utils/paging';
+
+import { Container, Table, Card, Button } from 'react-bootstrap';
+import { Link, withRouter } from 'react-router-dom';
 
 export default class ApplicationListing extends React.Component {
     constructor(props) {
@@ -38,6 +41,13 @@ export default class ApplicationListing extends React.Component {
                                                                    />)}
                             </tbody>
                         </Table>
+
+                        <Paging
+                            totalPages={this.props.paging.totalPages}
+                            getData={this.props.getData}
+                            activePage={this.props.activePage}
+                            changeActivePage={this.props.changeActivePage}
+                        />
                     </Card.Body>
             </Card>
         </Container>
