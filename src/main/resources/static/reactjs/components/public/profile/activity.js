@@ -146,6 +146,8 @@ export default class Activity extends React.Component {
                     <Row>
                         <Col>
                             <h4 className="text-center"> <b>Bids Bet</b> </h4>
+                            <hr />
+
                             {this.state.loadingBids ? (
                                 <Loading />
                             ) : (
@@ -157,6 +159,8 @@ export default class Activity extends React.Component {
 
                         <Col>
                             <h4 className="text-center"> <b>Items Submitted</b> </h4>
+                            <hr />
+
                             {this.state.loadingItems ? (
                                 <Loading />
                             ) : (

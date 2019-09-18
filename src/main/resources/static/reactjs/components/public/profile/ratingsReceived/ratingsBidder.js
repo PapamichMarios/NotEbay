@@ -75,7 +75,7 @@ export default class BidderRatings extends React.Component {
                             </Link>
                             &nbsp; for item: &nbsp;
                             <Link to={'/auctions/' + rating.itemId}>
-                                <b>to put item</b>
+                                <b>{rating.itemName}</b>
                             </Link>
                         </li>
 
