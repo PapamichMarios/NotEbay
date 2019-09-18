@@ -1,2 +1,2 @@
-/auction
-    2. otan kaneis buy price, sto bids bet gurnaei duo fores to idio status
+/edit auction
+    den allazei to category

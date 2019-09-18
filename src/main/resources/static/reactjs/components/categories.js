@@ -174,7 +174,7 @@ class Categories extends React.Component {
                     key='00'
                     onClick={ () => {this.props.history.push('/categories')} }
                 >
-                    All
+                    All Categories
                 </Breadcrumb.Item>
             );
 
@@ -259,7 +259,7 @@ class Categories extends React.Component {
                                     <Card>
                                         <Card.Body>
                                             <Card.Title as='h4'>
-                                                Category: <b> {this.props.location.state !== undefined ? this.props.location.state.name : 'All'} </b>
+                                                Category: <b> {this.props.location.state !== undefined ? this.props.location.state.name : 'All Categories'} </b>
                                             </Card.Title>
 
                                             <Row>
