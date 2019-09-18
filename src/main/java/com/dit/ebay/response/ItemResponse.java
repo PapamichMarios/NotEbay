@@ -5,6 +5,7 @@ import com.dit.ebay.model.Category;
 import com.dit.ebay.model.Item;
 import com.dit.ebay.model.User;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.core.io.Resource;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -52,6 +53,8 @@ public class ItemResponse {
 
     protected boolean finished;
 
+    protected List<Resource> images;
+
     public ItemResponse() {
 
     }
@@ -74,6 +77,15 @@ public class ItemResponse {
         this.active = item.isActive();
         this.bestBid = item.getBestBid(); // maybe null
     }
+
+    public List<Resource> getImages() {
+        return images;
+    }
+
+    public void setImages(List<Resource> images) {
+        this.images = images;
+    }
+
 
     public Long getReputation() {
         return reputation;

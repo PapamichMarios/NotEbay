@@ -4,6 +4,7 @@ import com.dit.ebay.model.Bid;
 import com.dit.ebay.model.Category;
 import com.dit.ebay.model.Item;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.core.io.Resource;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -41,6 +42,8 @@ public class SearchResponse {
 
     private Long reputation;
 
+    protected List<Resource> images;
+
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private List<Category> categories = new ArrayList<>();
 
@@ -59,6 +62,10 @@ public class SearchResponse {
         this.sellerName = item.getUser().getUsername();
         this.sellerId = item.getUser().getId();
     }
+
+    public List<Resource> getImages() { return images; }
+
+    public void setImages(List<Resource> images) { this.images = images; }
 
     public String getSellerName() {
         return sellerName;

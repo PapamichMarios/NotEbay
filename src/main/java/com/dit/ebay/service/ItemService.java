@@ -12,7 +12,6 @@ import com.dit.ebay.security.UserDetailsImpl;
 import com.dit.ebay.util.JsonGeoPoint;
 import com.dit.ebay.model.User;
 import com.dit.ebay.request.ItemRequest;
-import net.bytebuddy.asm.Advice;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +25,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.math.BigDecimal;
 import java.net.URI;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -58,7 +56,7 @@ public class ItemService {
     private CategoryService categoryService;
 
     @Autowired
-    private FileService fileService;
+    private ImageService imageService;
 
     @Autowired
     private ImageRepository imageRepository;
@@ -100,7 +98,7 @@ public class ItemService {
 
         // insert photos
         for (MultipartFile image : itemRequest.getImages()) {
-            String imageName = fileService.store(image);
+            String imageName = imageService.store(image);
             Image imageIn = new Image(imageName);
             imageIn.setItem(item);
             imageRepository.save(imageIn);
@@ -129,6 +127,7 @@ public class ItemService {
             List<Category> categories = categoryService.getCategoriesReversed(item);
             itemResponse.setCategories(categories);
             itemResponse.setRating(sellerRatingRepository.avgRatingByUserId(item.getUser().getId()).orElse(null));
+            itemResponse.setImages(imageService.getImageResourcesFirst(item));
             boolean finished = item.itemIsFinished();
             if (finished && item.isActive()) {
                 item.setActive(false);
@@ -172,6 +171,8 @@ public class ItemService {
         List<Category> categories = categoryService.getCategoriesReversed(item);
         OwnerItemResponse ownerItemResponse = new OwnerItemResponse(item);
         ownerItemResponse.setCategories(categories);
+        ownerItemResponse.setImages(imageService.getImageResources(item));
+
 
         // check dates
         // maybe remove it WARNING
@@ -254,7 +255,7 @@ public class ItemService {
         }
         bidderItemResponse.setRating(sellerRating);
         bidderItemResponse.setReputation(sellerRatingRepository.reputationRatingByUserId(item.getUser().getId()).orElse(null));
-
+        bidderItemResponse.setImages(imageService.getImageResources(item));
         // check dates
         // maybe remove it WARNING
         boolean finished = item.itemIsFinished();

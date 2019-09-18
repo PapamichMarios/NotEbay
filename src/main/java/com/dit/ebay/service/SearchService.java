@@ -56,6 +56,9 @@ public class SearchService {
     @Autowired
     private ValidatePageParametersService validatePageParametersService;
 
+    @Autowired
+    private ImageService imageService;
+
     //@Transactional
     // constructs paged response
     // will only be used inside this class
@@ -70,6 +73,7 @@ public class SearchService {
         for (Item item : itemsPaged) {
             SearchResponse searchResponse = new SearchResponse(item);
             searchResponse.setCategories(categoryService.getCategoriesReversed(item));
+            searchResponse.setImages(imageService.getImageResourcesFirst(item));
             searchResponses.add(searchResponse);
         }
 
@@ -280,6 +284,7 @@ public class SearchService {
         searchItemResponse.setRating(sellerRating);
         searchItemResponse.setReputation(sellerRatingRepository
                 .reputationRatingByUserId(item.getUser().getId()).orElse(null));
+        searchItemResponse.setImages(imageService.getImageResources(item));
         return searchItemResponse;
     }
 }

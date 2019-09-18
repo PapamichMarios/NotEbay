@@ -4,7 +4,11 @@ package com.dit.ebay.service;
 import com.dit.ebay.StorageProperties;
 import com.dit.ebay.exception.FileNotFoundException;
 import com.dit.ebay.exception.StorageException;
+import com.dit.ebay.model.Image;
+import com.dit.ebay.model.Item;
+import com.dit.ebay.repository.ImageRepository;
 import com.dit.ebay.repository.ItemRepository;
+import com.dit.ebay.util.ImageConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -21,16 +25,22 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
-public class FileService {
+public class ImageService {
 
     private final Path rootLocation;
 
+    @Autowired
     private ItemRepository itemRepository;
 
     @Autowired
-    public FileService(StorageProperties properties) {
+    private ImageRepository imageRepository;
+
+    @Autowired
+    public ImageService(StorageProperties properties) {
         this.rootLocation = Paths.get(properties.getLocation());
     }
 
@@ -104,5 +114,29 @@ public class FileService {
 
     public void deleteAll() {
         FileSystemUtils.deleteRecursively(rootLocation.toFile());
+    }
+
+    public List<Resource> getImageResources(Item item) {
+        List<Image> images = imageRepository.findByItemId(item.getId());
+        List<Resource> imageResources = new ArrayList<>();
+        for (Image image : images) {
+            imageResources.add(loadFileAsResource(image.getPath()));
+        }
+        if (imageResources.isEmpty()) {
+            imageResources.add(loadFileAsResource(ImageConstants.noImage));
+        }
+        return imageResources;
+    }
+
+    public List<Resource> getImageResourcesFirst(Item item) {
+        List<Image> images = imageRepository.findByItemId(item.getId());
+        List<Resource> imageResources = new ArrayList<>();
+        if (!images.isEmpty()) {
+            imageResources.add(loadFileAsResource(images.get(0).getPath()));
+        }
+        if (imageResources.isEmpty()) {
+            imageResources.add(loadFileAsResource(ImageConstants.noImage));
+        }
+        return imageResources;
     }
 }

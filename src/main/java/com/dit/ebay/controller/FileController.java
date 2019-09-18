@@ -1,11 +1,10 @@
 package com.dit.ebay.controller;
 
 import com.dit.ebay.exception.ResourceNotFoundException;
-import com.dit.ebay.model.Image;
 import com.dit.ebay.model.Item;
 import com.dit.ebay.repository.ItemRepository;
 import com.dit.ebay.response.FileResponse;
-import com.dit.ebay.service.FileService;
+import com.dit.ebay.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -14,15 +13,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.util.List;
-
 
 @RestController
 @RequestMapping("/app/items/{itemId}/images")
 public class FileController {
 
     @Autowired
-    private FileService fileService;
+    private ImageService imageService;
 
     @Autowired
     private ItemRepository itemRepository;
@@ -38,7 +35,7 @@ public class FileController {
                     .notFound()
                     .build();
         }*/
-        Resource resource = fileService.loadAsResource(fileName);
+        Resource resource = imageService.loadAsResource(fileName);
         if (resource == null) {
             return ResponseEntity
                     .notFound()
@@ -56,11 +53,11 @@ public class FileController {
                                    @RequestParam("image") MultipartFile file) {
         Item item = itemRepository.findById(itemId)
                 .orElseThrow(() -> new ResourceNotFoundException("Item", "id", itemId));
-        String name = fileService.store(file);
+        String name = imageService.store(file);
        // item.setImagePath(name);
         itemRepository.save(item);
         String uri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/download/")
+                .path("/images/")
                 .path(name)
                 .toUriString();
         return new FileResponse(name, uri, file.getContentType(), file.getSize());
