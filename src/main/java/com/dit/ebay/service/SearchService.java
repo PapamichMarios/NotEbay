@@ -84,6 +84,9 @@ public class SearchService {
 
     public PagedResponse<SearchResponse> searchByItemName(SearchNameRequest searchNameRequest, int page, int size) {
         validatePageParametersService.validate(page, size);
+        if (searchNameRequest.getName() != null && searchNameRequest.getName().isEmpty()) {
+            return createPagedResponse(Page.empty());
+        }
         Page<Item> itemsPaged = itemRepository.findItemsByName(searchNameRequest.getName(), PageRequest.of(page, size));
         return createPagedResponse(itemsPaged);
     }
@@ -153,7 +156,9 @@ public class SearchService {
             count++;
         }
 
-        Query query = entityManager.createQuery(hqlQuery, Item.class);
+        Query query;
+        if (count != 0) query = entityManager.createQuery(hqlQuery, Item.class);
+        else query = entityManager.createQuery("select i from Item i", Item.class);
 
         // set params
         if (categoryId != null) {
@@ -199,11 +204,6 @@ public class SearchService {
             //    System.out.println(item);
             //}
             itemsPaged = new PageImpl<>(query.getResultList(), PageRequest.of(page,size), query.getResultList().size());
-        } else {
-            Query queryAll = entityManager.createQuery("select i from Item i");
-            queryAll.setFirstResult(page * size);
-            queryAll.setMaxResults(size);
-            itemsPaged = new PageImpl<>(queryAll.getResultList(), PageRequest.of(page,size), queryAll.getResultList().size());
         }
         return createPagedResponse(itemsPaged);
     }

@@ -133,10 +133,10 @@ export default class SearchResult extends React.Component {
     //search an item name
     searchName(pageNum, name) {
         this.setState({loading: true});
-
+        //console.log("dfafsfafafer23");
         //make the request
         const url = '/app/search/itemName?page=' + (pageNum-1) + '&size=10' + '&name=' + name;
-
+        console.log(url);
         getRequestUnauth(url)
         .then(items =>  {
             if(items.error) {
