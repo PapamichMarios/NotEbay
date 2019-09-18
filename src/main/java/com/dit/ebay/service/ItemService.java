@@ -234,7 +234,12 @@ public class ItemService {
         List<Category> categories = categoryService.getCategoriesReversed(item);
         BidderItemResponse bidderItemResponse = new BidderItemResponse(item);
         bidderItemResponse.setCategories(categories);
-        bidderItemResponse.setRating(sellerRatingRepository.avgRatingByUserId(item.getUser().getId()).orElse(null));
+        BigDecimal sellerRating = sellerRatingRepository.avgRatingByUserId(item.getUser().getId()).orElse(null);
+        if (sellerRating == null) {
+            sellerRating = new BigDecimal("0");
+        }
+        bidderItemResponse.setRating(sellerRating);
+        bidderItemResponse.setReputation(sellerRatingRepository.reputationRatingByUserId(item.getUser().getId()).orElse(null));
 
         // check dates
         // maybe remove it WARNING

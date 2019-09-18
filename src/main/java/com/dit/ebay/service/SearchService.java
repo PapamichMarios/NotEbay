@@ -1,11 +1,8 @@
 package com.dit.ebay.service;
 
 import com.dit.ebay.exception.ResourceNotFoundException;
-import com.dit.ebay.model.Bid;
-import com.dit.ebay.model.Category;
-import com.dit.ebay.model.Item;
+import com.dit.ebay.model.*;
 import com.dit.ebay.model.MetaModel.Item_;
-import com.dit.ebay.model.User;
 import com.dit.ebay.repository.CategoryRepository;
 import com.dit.ebay.repository.ItemRepository;
 import com.dit.ebay.repository.SellerRatingRepository;
@@ -31,6 +28,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.persistence.metamodel.EntityType;
 import javax.persistence.metamodel.Metamodel;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -274,7 +272,13 @@ public class SearchService {
         User bestBidder = item.getBestBid() != null ? item.getBestBid().getUser() : null;
         SearchItemResponse searchItemResponse = new SearchItemResponse(item, item.getUser(), bestBidder);
         searchItemResponse.setCategories(categories);
-        searchItemResponse.setRating(sellerRatingRepository.avgRatingByUserId(item.getUser().getId()).orElse(null));
+        BigDecimal sellerRating = sellerRatingRepository.avgRatingByUserId(item.getUser().getId()).orElse(null);
+        if (sellerRating != null) {
+            sellerRating = new BigDecimal("0");
+        }
+        searchItemResponse.setRating(sellerRating);
+        searchItemResponse.setReputation(sellerRatingRepository
+                .reputationRatingByUserId(item.getUser().getId()).orElse(null));
         return searchItemResponse;
     }
 }

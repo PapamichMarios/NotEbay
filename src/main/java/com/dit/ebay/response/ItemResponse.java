@@ -48,6 +48,8 @@ public class ItemResponse {
 
     protected BigDecimal rating; //aggregated may be null
 
+    protected Long reputation;
+
     protected boolean finished;
 
     public ItemResponse() {
@@ -71,6 +73,14 @@ public class ItemResponse {
         this.geoLong = item.getGeoLong();
         this.active = item.isActive();
         this.bestBid = item.getBestBid(); // maybe null
+    }
+
+    public Long getReputation() {
+        return reputation;
+    }
+
+    public void setReputation(Long reputation) {
+        this.reputation = reputation;
     }
 
     public List<Category> getCategories() { return categories; }
