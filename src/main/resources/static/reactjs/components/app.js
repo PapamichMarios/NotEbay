@@ -36,9 +36,6 @@ import Message              from './user/messages/message';
 import isAuthenticated      from './utils/authentication/isLoggedIn';
 import isAdmin              from './utils/authentication/isAdmin';
 
-import TestDownload         from './downloadImage';
-import TestUpload           from './uploadImage';
-
 import getRequestUnauth     from './utils/requests/getRequestUnauthorized';
 import getRequest           from './utils/requests/getRequest';
 import Loading              from './utils/loading/loading';
@@ -175,11 +172,6 @@ class App extends React.Component {
                   <Switch>
 
                     {/* public */}
-                    <Route exact path="/download"                             component={TestDownload} />
-                    <Route exact path="/upload"                             component={TestUpload} />
-
-
-
                     <Route exact path="/"                                 render={ (props) => <Home {...props} onLogin={this.handleLogin} /> } />
                     <Route exact path="/welcome"                          render={ (props) => <Home {...props} onLogin={this.handleLogin} /> } />
                     <Route exact path="/home"                             render={ (props) => <Home {...props} onLogin={this.handleLogin} /> } />

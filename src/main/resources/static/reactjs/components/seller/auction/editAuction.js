@@ -3,6 +3,7 @@ import React from 'react';
 import AsyncSelect from 'react-select/async';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+import ImageUploader from 'react-images-upload';
 
 import putRequest from '../../utils/requests/putRequest';
 
@@ -44,10 +45,11 @@ class EditAuction extends React.Component {
                 country: this.props.user.country,
                 location: this.props.user.location,
                 buyPrice: '',
+                images: [],
 
                 categories: defaultOptions,
-                currId: '',
-                root: true
+                currId: this.props.user.categories[this.props.user.categories.length-1].id,
+                root: false
             };
         } else {
             this.state = {
@@ -63,20 +65,28 @@ class EditAuction extends React.Component {
                 country: this.props.user.country,
                 location: this.props.user.location,
                 buyPrice: this.props.user.buyPrice,
+                images: [],
 
                 categories: defaultOptions,
-                currId: '',
-                root: true
+                currId: this.props.user.categories[this.props.user.categories.length-1].id,
+                root: false
             };
         }
 
         this.handleChange = this.handleChange.bind(this);
         this.getOptions = this.getOptions.bind(this);
         this.mapOptionsToValues = this.mapOptionsToValues.bind(this);
+        this.onDrop = this.onDrop.bind(this);
 
         this.onChange = this.onChange.bind(this);
         this.back = this.back.bind(this);
         this.save = this.save.bind(this);
+    }
+
+    onDrop(picture) {
+        this.setState({
+            images: picture,
+        });
     }
 
     //categories
@@ -178,6 +188,8 @@ class EditAuction extends React.Component {
                 geoLat: this.props.user.lat,
                 geoLong: this.props.user.lng
             },
+            active: false,
+            lastCategoryId: this.state.categories[this.state.categories.length-1].value
         };
 
         putRequest(this.props.action + this.props.match.params.id, bodyObj)
@@ -195,6 +207,10 @@ class EditAuction extends React.Component {
             }
         })
         .catch(error => console.error('Error:', error));
+    }
+
+    componentDidMount() {
+
     }
 
     render() {
@@ -308,14 +324,14 @@ class EditAuction extends React.Component {
                                       <AsyncSelect
                                           key={JSON.stringify(this.state.currId)}
                                           isMulti
-                                          isDisabled
                                           cacheOptions
                                           options={this.state.categories}
                                           loadOptions={this.getOptions}
+                                          defaultOptions
                                           value={values.categories}
                                           onChange={value => {
-                                            setFieldValue("categories", value);
-                                            this.handleChange(value);
+                                              setFieldValue("categories", value);
+                                              this.handleChange(value);
                                             }
                                           }
                                           placeholder='Select Categories...'
@@ -467,6 +483,24 @@ class EditAuction extends React.Component {
                                           isInvalid={errors.country && touched.country}
                                       />
                                       <Form.Control.Feedback type="invalid"> {errors.country}</Form.Control.Feedback>
+                                    </Col>
+                                  </Form.Group>
+
+                                  <Form.Group as={Row} controlId="formImages">
+                                    <Col md={3}>
+                                        <Form.Label >
+                                            <b> Add more images: </b>
+                                        </Form.Label>
+                                    </Col>
+                                    <Col>
+                                        <ImageUploader
+                                            withIcon={true}
+                                            withPreview={true}
+                                            buttonText='Choose images'
+                                            onChange={this.onDrop}
+                                            imgExtension={['.jpg', '.gif', '.png', '.gif']}
+                                            maxFileSize={5242880}
+                                        />
                                     </Col>
                                   </Form.Group>
                               </Col>

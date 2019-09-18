@@ -3,6 +3,7 @@ import React from 'react';
 import AsyncSelect from 'react-select/async';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+import ImageUploader from 'react-images-upload';
 
 import GetTomorrowDate from '../utils/date/getTomorrowDate';
 import LoadingButton from '../utils/loading/loadingButton.js';
@@ -30,6 +31,7 @@ class SubmitAuction extends React.Component {
             location: '',
             lat: '',
             lng: '',
+            images: [],
 
             categories: [],
             currId: '',
@@ -45,10 +47,17 @@ class SubmitAuction extends React.Component {
         this.getOptions = this.getOptions.bind(this);
         this.mapOptionsToValues = this.mapOptionsToValues.bind(this);
 
+        this.onDrop = this.onDrop.bind(this);
         this.fetchAgain = this.fetchAgain.bind(this);
         this.createItem = this.createItem.bind(this);
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+    }
+
+    onDrop(picture) {
+        this.setState({
+            images: picture,
+        });
     }
 
     //categories
@@ -491,6 +500,24 @@ class SubmitAuction extends React.Component {
                                       <Form.Control.Feedback type="invalid"> {errors.country}</Form.Control.Feedback>
                                     </Col>
                                   </Form.Group>
+
+                                  <Form.Group as={Row} controlId="formImages">
+                                    <Col md={3}>
+                                        <Form.Label>
+                                            <b> Images: </b>
+                                        </Form.Label>
+                                    </Col>
+                                    <Col>
+                                      <ImageUploader
+                                          withIcon={true}
+                                          withPreview={true}
+                                          buttonText='Choose images'
+                                          onChange={this.onDrop}
+                                          imgExtension={['.jpg', '.gif', '.png', '.gif']}
+                                          maxFileSize={5242880}
+                                      />
+                                    </Col>
+                                  </Form.Group>
                               </Col>
                           </Form.Row>
 
@@ -503,7 +530,7 @@ class SubmitAuction extends React.Component {
                             <Button type="submit" variant="dark" block> <b> Submit </b> </Button>
                           )}
 
-                          { this.state.hasError ? (
+                          { this.state.hasError && (
                               <Form.Row>
                                 <Col>
                                   <br />
@@ -512,8 +539,6 @@ class SubmitAuction extends React.Component {
                                   </Alert>
                                 </Col>
                               </Form.Row>
-                          ) : (
-                               null
                           )}
 
                         </Form>

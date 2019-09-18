@@ -71,7 +71,7 @@ class AuctionPublic extends React.Component {
                     key='home'
                     onClick={ () => this.props.history.push('/categories') }
                 >
-                    All Categories
+                    All
                 </Breadcrumb.Item>
             );
 
