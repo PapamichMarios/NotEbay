@@ -40,7 +40,7 @@ public class ItemResponse {
 
     protected String location;
 
-    protected String imagePath;
+    //protected String imagePath;
 
     protected boolean active;
 
@@ -68,7 +68,7 @@ public class ItemResponse {
         this.numOfBids = item.getNumOfBids();
         this.country = item.getCountry();
         this.location = item.getLocation();
-        this.imagePath = item.getImagePath(); // TODO : Download on file system store hashed location of imageP
+        //this.imagePath = item.getImagePath(); // TODO : Download on file system store hashed location of imageP
         this.geoLat = item.getGeoLat();
         this.geoLong = item.getGeoLong();
         this.active = item.isActive();
@@ -173,14 +173,6 @@ public class ItemResponse {
 
     public void setLocation(String location) {
         this.location = location;
-    }
-
-    public String getImagePath() {
-        return imagePath;
-    }
-
-    public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
     }
 
     public boolean isActive() {

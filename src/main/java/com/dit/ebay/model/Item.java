@@ -36,6 +36,10 @@ public class Item {
     @JoinColumn(name = "category_id")
     private Category category;
 
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "item", cascade = CascadeType.ALL)
+    private Set<Image> images = new HashSet<>();
+
     /*
      * User, owns item
      */
@@ -95,9 +99,6 @@ public class Item {
     @Column(name = "location")
     private String location;
 
-    @Column(name = "image_path")
-    private String imagePath;
-
     @Column(name = "active")
     private boolean active;
 
@@ -124,7 +125,7 @@ public class Item {
         this.numOfBids = 0;
         this.country = csvItem.getCountry();
         this.location = csvItem.getLocation();
-        this.imagePath = csvItem.getImagePath(); // TODO : Download on file system store hashed location of imageP
+        //this.imagePath = csvItem.getImagePath(); // TODO : Download on file system store hashed location of imageP
         this.geoLat = csvItem.getGeoLat();
         this.geoLong = csvItem.getGeoLong();
         this.active = csvItem.isActive();
@@ -142,7 +143,7 @@ public class Item {
         this.numOfBids = 0;
         this.country = itemRequest.getCountry();
         this.location = itemRequest.getLocation();
-        this.imagePath = itemRequest.getImagePath(); // TODO : Download on file system store hashed location of imageP
+        //this.imagePath = itemRequest.getImagePath(); // TODO : Download on file system store hashed location of imageP
         // avoid null pointer ex
         if (itemRequest.getJgp() != null) {
             this.geoLat = itemRequest.getJgp().getGeoLat();
@@ -256,14 +257,6 @@ public class Item {
         this.location = location;
     }
 
-    public String getImagePath() {
-        return imagePath;
-    }
-
-    public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
-    }
-
     public BigDecimal getGeoLat() {
         return geoLat;
     }
@@ -359,5 +352,13 @@ public class Item {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public Set<Image> getImages() {
+        return images;
+    }
+
+    public void setImages(Set<Image> images) {
+        this.images = images;
     }
 }

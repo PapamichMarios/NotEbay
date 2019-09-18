@@ -1,6 +1,7 @@
 package com.dit.ebay.controller;
 
 import com.dit.ebay.exception.ResourceNotFoundException;
+import com.dit.ebay.model.Image;
 import com.dit.ebay.model.Item;
 import com.dit.ebay.repository.ItemRepository;
 import com.dit.ebay.response.FileResponse;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/app/items/{itemId}/photos")
@@ -24,17 +27,18 @@ public class FileController {
     @Autowired
     private ItemRepository itemRepository;
 
-    @GetMapping
+    @GetMapping("/{fileName}")
     public ResponseEntity<Resource> downloadFile(@PathVariable(value = "itemId") Long itemId,
-                                                 @PathVariable String filename) {
-        Item item = itemRepository.findById(itemId)
-                .orElseThrow(() -> new ResourceNotFoundException("Item", "id", itemId));
+                                                 @PathVariable(value = "fileName") String fileName) {
+        //Item item = itemRepository.findById(itemId)
+         //       .orElseThrow(() -> new ResourceNotFoundException("Item", "id", itemId));
+        /*
         if (item.getImagePath() == null) {
             return ResponseEntity
                     .notFound()
                     .build();
-        }
-        Resource resource = fileService.loadAsResource(item.getImagePath());
+        }*/
+        Resource resource = fileService.loadAsResource(fileName);
         if (resource == null) {
             return ResponseEntity
                     .notFound()
@@ -53,7 +57,7 @@ public class FileController {
         Item item = itemRepository.findById(itemId)
                 .orElseThrow(() -> new ResourceNotFoundException("Item", "id", itemId));
         String name = fileService.store(file);
-        item.setImagePath(name);
+       // item.setImagePath(name);
         itemRepository.save(item);
         String uri = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/download/")

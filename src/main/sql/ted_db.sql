@@ -38,7 +38,6 @@ CREATE TABLE IF NOT EXISTS `ted_db`.`users` (
   `password` VARCHAR(150) NOT NULL,
   `first_name` VARCHAR(80) NULL,
   `last_name` VARCHAR(80) NULL,
-  `phone` VARCHAR(45) NULL,
   `tin` VARCHAR(80) NULL,
   `street_address` VARCHAR(150) NULL,
   `email` VARCHAR(80) NOT NULL,
@@ -48,6 +47,7 @@ CREATE TABLE IF NOT EXISTS `ted_db`.`users` (
   `postal_code` VARCHAR(45) NULL,
   `geo_lat` DECIMAL(10,6) NULL,
   `geo_long` DECIMAL(10,6) NULL,
+  `phone` VARCHAR(60) NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `username_UNIQUE` (`username` ASC),
   UNIQUE INDEX `password_UNIQUE` (`password` ASC),
@@ -266,6 +266,25 @@ CREATE TABLE IF NOT EXISTS `ted_db`.`messages` (
   CONSTRAINT `fk_mesages_users2`
     FOREIGN KEY (`receiver_id`)
     REFERENCES `ted_db`.`users` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `ted_db`.`images`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `ted_db`.`images` ;
+
+CREATE TABLE IF NOT EXISTS `ted_db`.`images` (
+  `id` BIGINT NOT NULL,
+  `path` VARCHAR(200) NOT NULL,
+  `item_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_images_items1_idx` (`item_id` ASC),
+  CONSTRAINT `fk_images_items1`
+    FOREIGN KEY (`item_id`)
+    REFERENCES `ted_db`.`items` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

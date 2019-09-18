@@ -27,7 +27,7 @@ public class SearchResponse {
     
     private String location;
 
-    private String imagePath;
+    //private String imagePath;
 
     private boolean active;
 
@@ -53,7 +53,7 @@ public class SearchResponse {
         this.timeEnds = item.getTimeEnds();
         this.country = item.getCountry();
         this.location = item.getLocation();
-        this.imagePath = item.getImagePath();
+        //this.imagePath = item.getImagePath();
         this.active = item.isActive();
         this.bestBid = item.getBestBid();
         this.sellerName = item.getUser().getUsername();
@@ -146,14 +146,6 @@ public class SearchResponse {
 
     public void setLocation(String location) {
         this.location = location;
-    }
-
-    public String getImagePath() {
-        return imagePath;
-    }
-
-    public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
     }
 
     public boolean isActive() {
