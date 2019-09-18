@@ -35,6 +35,7 @@ import Message              from './user/messages/message';
 
 import isAuthenticated      from './utils/authentication/isLoggedIn';
 import isAdmin              from './utils/authentication/isAdmin';
+import Test                 from './test';
 
 import getRequestUnauth     from './utils/requests/getRequestUnauthorized';
 import getRequest           from './utils/requests/getRequest';
@@ -172,6 +173,7 @@ class App extends React.Component {
                   <Switch>
 
                     {/* public */}
+                    <Route exact path="/test"                             component={Test} />
                     <Route exact path="/"                                 render={ (props) => <Home {...props} onLogin={this.handleLogin} /> } />
                     <Route exact path="/welcome"                          render={ (props) => <Home {...props} onLogin={this.handleLogin} /> } />
                     <Route exact path="/home"                             render={ (props) => <Home {...props} onLogin={this.handleLogin} /> } />

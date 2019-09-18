@@ -28,3 +28,11 @@ html, body {
     margin-top: -200px;
     clear: both;
 }
+
+.breadcrumb {
+    background-color: transparent;
+}
+
+ol.breadcrumb {
+    padding-left: 0px;
+}

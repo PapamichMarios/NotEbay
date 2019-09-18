@@ -225,7 +225,9 @@ export default class SearchResult extends React.Component {
                         {/* item representation */}
                         <Col md="9" className="navbar-margin">
 
-                            <PresentResult items={this.state.items} />
+                            <PresentResult
+                                items={this.state.items}
+                            />
 
                             <br />
 
