@@ -562,15 +562,18 @@ class Bid extends React.Component {
                                               </Row>
                                             )}
 
-                                            { this.state.bid.bestBid === null && this.state.bid.userSeller.username !== localStorage.getItem('username') && (
-                                              <Row>
-                                                <Col>
-                                                  <br />
-                                                  <Alert variant="info">
-                                                      Do you fancy it? Be the first one to place a bid or buy this item!
-                                                  </Alert>
-                                                </Col>
-                                              </Row>
+                                            { this.state.bid.bestBid == null
+                                                && this.state.bid.userSeller.username !== localStorage.getItem('username')
+                                                && !this.state.bid.finished
+                                                && (
+                                                  <Row>
+                                                    <Col>
+                                                      <br />
+                                                      <Alert variant="info">
+                                                          Do you fancy it? Be the first one to place a bid or buy this item!
+                                                      </Alert>
+                                                    </Col>
+                                                  </Row>
                                             )}
 
                                         </Col>

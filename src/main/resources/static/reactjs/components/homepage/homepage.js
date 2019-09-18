@@ -24,8 +24,16 @@ export default class Home extends React.Component {
             welcomeMsg = (
                 <Row>
                     <Col>
-                        <br/>
-                        <h4> Welcome, <b className="text-primary">{localStorage.getItem('username')}</b> </h4>
+                       <Card>
+                          <Card.Body>
+                            <h4>
+                                Welcome, &nbsp;
+                                <Link to='/profile'>
+                                    <b>{localStorage.getItem('username')}</b>
+                                </Link>
+                            </h4>
+                          </Card.Body>
+                       </Card>
                     </Col>
                 </Row>
             );

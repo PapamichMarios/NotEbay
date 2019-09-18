@@ -35,7 +35,7 @@ export default class InfoCarousel extends React.Component {
                             </div>
 
                             <Carousel.Caption>
-                                <h3 style={{textShadow: 'black 1px 1px 12px'}}> Eliminate Scamming </h3>
+                                <h3 style={{textShadow: 'black 1px 1px 12px'}}> Scam-free </h3>
                                 <p style={{textShadow: 'black 1px 1px 12px'}}> All users using the platform are first reviewed from our admin staff </p>
                             </Carousel.Caption>
                         </Carousel.Item>

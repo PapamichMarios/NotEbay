@@ -319,15 +319,18 @@ class AuctionPublic extends React.Component {
                                                 </Tab>
                                             </Tabs>
 
-                                            { this.state.bid.bestBid === null && this.state.bid.owner.username !== localStorage.getItem('username') && (
-                                              <Row>
-                                                <Col>
-                                                  <br />
-                                                  <Alert variant="info">
-                                                      Do you fancy it? Create an account and buy it now!
-                                                  </Alert>
-                                                </Col>
-                                              </Row>
+                                            { this.state.bid.bestBid == null
+                                                && this.state.bid.owner.username !== localStorage.getItem('username')
+                                                && !this.state.bid.finished
+                                                && (
+                                                  <Row>
+                                                    <Col>
+                                                      <br />
+                                                      <Alert variant="info">
+                                                          Do you fancy it? Create an account and buy it now!
+                                                      </Alert>
+                                                    </Col>
+                                                  </Row>
                                             )}
 
                                         </Col>

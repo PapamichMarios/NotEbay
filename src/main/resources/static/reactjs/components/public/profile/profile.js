@@ -65,7 +65,7 @@ class User extends React.Component {
                         <Col md={2}>
                             <Card className="full-vertical" border="light">
                                 <Card.Body>
-                                    <Card.Title as="h5" className="text-center highlight">
+                                    <Card.Title as="h5" className="text-center text-info">
                                         <b> {this.state.userData.user.username + ' #' + this.state.userData.user.id} </b>
                                     </Card.Title>
 
