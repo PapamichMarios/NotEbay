@@ -208,10 +208,16 @@ public class UserService {
 
         Long sellerRating = sellerRatingRepository.reputationRatingByUserId(userId).orElse(null);
         BigDecimal avgRatingSeller = sellerRatingRepository.avgRatingByUserId(userId).orElse(null);
-
+        if (avgRatingSeller == null) {
+            avgRatingSeller = new BigDecimal("0");
+        }
+        //System.out.println("going to execute");
         Long bidderRating = bidderRatingRepository.reputationRatingByUserId(userId).orElse(null);
         BigDecimal avgRatingBidder = bidderRatingRepository.avgRatingByUserId(userId).orElse(null);
-
+        if (avgRatingBidder == null) {
+            avgRatingBidder = new BigDecimal("0");
+        }
+        //System.out.println("After repRating = " + bidderRating + ", avgRating = " + avgRatingBidder);
         return new ProfileResponse(user, sellerRating, avgRatingSeller, bidderRating, avgRatingBidder);
     }
 

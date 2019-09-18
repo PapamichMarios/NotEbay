@@ -14,3 +14,4 @@ build
 target/*
 ebay-data/*
 photos/*
+node_modules/*

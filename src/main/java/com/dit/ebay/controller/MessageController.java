@@ -81,6 +81,7 @@ public class MessageController {
     }
 
     @GetMapping("/unseen")
+    @PreAuthorize("hasAnyRole('ROLE_SELLER', 'ROLE_BIDDER')")
     public Long getNotificationsOfMessages(@Valid @CurrentUser UserDetailsImpl currentUser) {
         return messageService.getNotificationsOfMessages(currentUser);
     }

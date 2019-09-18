@@ -115,15 +115,15 @@ public class UserController {
 
     @GetMapping("/users/{userId}/sellerRatings")
     public PagedResponse<RatingResponse> getSellerRatings(@RequestParam(value = "page", defaultValue = PaginationConstants.DEFAULT_PAGE) int page,
-                                                    @RequestParam(value = "size", defaultValue = PaginationConstants.DEFAULT_SIZE) int size,
-                                                    @PathVariable(value = "userId") Long userId) {
+                                                          @RequestParam(value = "size", defaultValue = PaginationConstants.DEFAULT_SIZE) int size,
+                                                          @PathVariable(value = "userId") Long userId) {
         return sellerRatingService.getRatings(userId, page, size);
     }
 
     @GetMapping("/users/{userId}/bidderRatings")
     public PagedResponse<RatingResponse> getBidderRatings(@RequestParam(value = "page", defaultValue = PaginationConstants.DEFAULT_PAGE) int page,
-                                                    @RequestParam(value = "size", defaultValue = PaginationConstants.DEFAULT_SIZE) int size,
-                                                    @PathVariable(value = "userId") Long userId) {
+                                                          @RequestParam(value = "size", defaultValue = PaginationConstants.DEFAULT_SIZE) int size,
+                                                          @PathVariable(value = "userId") Long userId) {
         return bidderRatingService.getRatings(userId, page, size);
     }
 }
