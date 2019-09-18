@@ -157,13 +157,17 @@ class NavBar extends React.Component{
                     onSubmit={ (e) => {
                         e.preventDefault();
 
-                        //redirect to searchResults
-                        this.props.history.push({
-                            pathname: '/searchResults/name=' + this.state.search,
-                            state: {
-                                name: this.state.search
-                            }
-                        })
+                        {this.state.search !== '' ? (
+                            //redirect to searchResults
+                            this.props.history.push({
+                                pathname: '/searchResults/name=' + this.state.search,
+                                state: {
+                                    name: this.state.search
+                                }
+                            })
+                        ) : (
+                            this.props.history.push('/categories')
+                        )}
 
                     }}
                 >

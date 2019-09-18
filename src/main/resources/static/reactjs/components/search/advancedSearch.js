@@ -124,7 +124,9 @@ export default class AdvancedSearch extends React.Component {
         });
     }
 
-    onSubmit(){
+    onSubmit(e){
+        e.preventDefault();
+
         //set loading
         this.setState({loading: true});
 
@@ -290,13 +292,13 @@ export default class AdvancedSearch extends React.Component {
                                           <LoadingButton />
                                         </Button>
                                       ) : (
-                                        <Button variant="dark" block onClick={this.onSubmit}> <b> Search it! </b> </Button>
+                                        <Button variant="dark" type="submit" block onClick={this.onSubmit}> <b> Search it! </b> </Button>
                                       )}
                                     </Form.Row>
 
                                     <br />
 
-                                    {this.state.hasError ? (
+                                    {this.state.hasError && (
                                         <Form.Row>
                                             <Col>
                                                 <Alert variant="danger">
@@ -306,8 +308,6 @@ export default class AdvancedSearch extends React.Component {
                                                 </Alert>
                                             </Col>
                                         </Form.Row>
-                                    ) : (
-                                        null
                                     )}
 
                                 </Form>

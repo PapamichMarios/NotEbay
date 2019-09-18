@@ -43,6 +43,7 @@
     "react-country-region-selector": "^1.4.3",
     "react-dom": "^16.9.0",
     "react-icons": "^3.7.0",
+    "react-images-upload": "^1.2.7",
     "react-leaflet": "^2.4.0",
     "react-router": "^5.0.1",
     "react-router-dom": "^5.0.1",

@@ -64,15 +64,24 @@ export default class PresentSidebar extends React.Component {
                         <b> Item Location </b>
                     </Nav.Link>
 
-                    {locationsRender}
+                    {locationsRender.length > 0 ? (
+                        locationsRender
+                    ) : (
+                        <li className='my-list text-center'> No Location </li>
+                    )}
 
                     <Nav.Link disabled className="text-center">
                         <b> Price Range </b>
                     </Nav.Link>
 
-                    <li className='my-list text-center'>
-                        <b>From:</b> {minPrice} <b>To:</b> {maxPrice}
-                    </li>
+                    {minPrice === Number.MAX_SAFE_INTEGER ? (
+                        <li className='my-list text-center'> No Range </li>
+                    ) : (
+                        <li className='my-list text-center'>
+                            <b>From:</b> {minPrice} <b>To:</b> {maxPrice}
+                        </li>
+                    )}
+
                 </ul>
             </Card>
         );
