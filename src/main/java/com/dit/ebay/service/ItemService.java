@@ -207,6 +207,8 @@ public class ItemService {
             throw new AppException("Sorry, You can't update an Item which has at least 1 bid.");
         }
 
+        Category category = categoryRepository.findById(itemRequest.getLastCategoryId()).orElse(null);
+        if (category != null) item.setCategory(category);
         item.updateItemFields(itemRequest);
 
         return itemRepository.save(item);
