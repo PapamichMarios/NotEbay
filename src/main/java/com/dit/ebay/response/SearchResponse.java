@@ -1,10 +1,14 @@
 package com.dit.ebay.response;
 
 import com.dit.ebay.model.Bid;
+import com.dit.ebay.model.Category;
 import com.dit.ebay.model.Item;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SearchResponse {
     private Long id;
@@ -29,6 +33,17 @@ public class SearchResponse {
 
     private Bid bestBid; // may be null
 
+    private Long sellerId;
+
+    private String sellerName;
+
+    private BigDecimal rating;
+
+    private Long reputation;
+
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private List<Category> categories = new ArrayList<>();
+
     public SearchResponse(Item item) {
         this.id = item.getId();
         this.name = item.getName();
@@ -41,6 +56,32 @@ public class SearchResponse {
         this.imagePath = item.getImagePath();
         this.active = item.isActive();
         this.bestBid = item.getBestBid();
+        this.sellerName = item.getUser().getUsername();
+        this.sellerId = item.getUser().getId();
+    }
+
+    public String getSellerName() {
+        return sellerName;
+    }
+
+    public void setSellerName(String sellerName) {
+        this.sellerName = sellerName;
+    }
+
+    public BigDecimal getRating() {
+        return rating;
+    }
+
+    public void setRating(BigDecimal rating) {
+        this.rating = rating;
+    }
+
+    public Long getReputation() {
+        return reputation;
+    }
+
+    public void setReputation(Long reputation) {
+        this.reputation = reputation;
     }
 
     public Long getId() {
@@ -131,4 +172,19 @@ public class SearchResponse {
         this.bestBid = bestBid;
     }
 
+    public Long getSellerId() {
+        return sellerId;
+    }
+
+    public void setSellerId(Long sellerId) {
+        this.sellerId = sellerId;
+    }
+
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
+    }
 }
