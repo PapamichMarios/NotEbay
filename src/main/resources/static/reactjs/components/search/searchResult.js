@@ -218,7 +218,9 @@ export default class SearchResult extends React.Component {
 
                         {/* sidebar */}
                         <Col md={2} style={{paddingLeft: '0px'}}>
-                            <PresentSidebar />
+                            <PresentSidebar
+                                items={this.state.items}
+                            />
                         </Col>
 
 
