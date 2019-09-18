@@ -13,7 +13,6 @@ export default class Ratings extends React.Component {
     }
 
     render() {
-        console.log(this.props);
         return (
             <div>
                 <Table borderless size="sm">
@@ -26,7 +25,7 @@ export default class Ratings extends React.Component {
                     <tbody>
                         <tr className="body-text">
 
-                            {this.props.sellerRating != null ? (
+                            {this.props.sellerRating != null && this.props.sellerReputation > 0 ? (
                                 <td>
                                     <StarRatings
                                       name="sellerRating"
@@ -70,7 +69,7 @@ export default class Ratings extends React.Component {
                     <tbody>
                         <tr className="body-text">
 
-                            {this.props.bidderRating != null ? (
+                            {this.props.bidderRating != null && this.props.bidderReputation > 0 ? (
                                 <td>
                                     <StarRatings
                                       name="sellerRating"

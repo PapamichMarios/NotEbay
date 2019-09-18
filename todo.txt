@@ -2,3 +2,6 @@
 
 editAuction: change categories
 search: sidebar populate with data
+
+/admin
+    users paging

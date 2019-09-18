@@ -111,7 +111,7 @@ class App extends React.Component {
         if (JSON.stringify(nextProps.location) !== JSON.stringify(this.props.location)) {
 
               //check for notifications
-              if(isAuthenticated()) {
+              if(isAuthenticated() && !isAdmin()) {
                 this.getNotifications();
 
                 //set loading
@@ -135,7 +135,7 @@ class App extends React.Component {
       }
 
       //check for notifications
-      if(isAuthenticated()) {
+      if(isAuthenticated() && !isAdmin()) {
         this.getNotifications();
       }
 

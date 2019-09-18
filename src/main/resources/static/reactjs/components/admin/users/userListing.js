@@ -1,6 +1,7 @@
 import React    from 'react';
 
 import UserItem from './userItem';
+import Paging from '../../utils/paging';
 
 import { Container, Table, Card, Button } from 'react-bootstrap';
 import { Link, withRouter } from 'react-router-dom';
@@ -33,9 +34,16 @@ class UserListing extends React.Component {
                             </thead>
 
                             <tbody>
-                                    {this.props.users.map(user => <UserItem key={user.id} value={user}/>)}
+                                {this.props.users.map(user => <UserItem key={user.id} value={user}/>)}
                             </tbody>
                         </Table>
+
+                        <Paging
+                            totalPages={this.props.paging.totalPages}
+                            getData={this.props.getData}
+                            activePage={this.props.activePage}
+                            changeActivePage={this.props.changeActivePage}
+                        />
                     </Card.Body>
             </Card>
         </Container>

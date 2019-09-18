@@ -85,7 +85,7 @@ export default class Profile extends React.Component {
                                     <Ratings
                                         sellerRating={this.state.userData.avgSellerRating}
                                         sellerReputation={this.state.userData.reputationSeller}
-                                        bidderRating={this.state.userData.bidderRating}
+                                        bidderRating={this.state.userData.avgBidderRating}
                                         bidderReputation={this.state.userData.reputationBidder}
                                     />
                                 </Card.Body>
