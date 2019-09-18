@@ -55,7 +55,7 @@ public class SellerRatingService {
         User userSeller = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
 
-        Item item = itemRepository.findById(currentUser.getId())
+        Item item = itemRepository.findById(ratingRequest.getItemId())
                 .orElseThrow(() -> new ResourceNotFoundException("Item", "id", ratingRequest.getItemId()));
 
         SellerRating sellerRating = new SellerRating(ratingRequest);
@@ -78,7 +78,12 @@ public class SellerRatingService {
         }
         Item item = itemRepository.findById(itemId)
                 .orElseThrow(() -> new ResourceNotFoundException("Item", "id", itemId));
-        return sellerRatingRepository.findAlreadyRating(userId, currentUser.getId(), itemId).orElse(null) != null;
+        //System.out.println("Rating : sellerId = " + userId + " , bidderId = " + currentUser.getId() + " , itemId = " + itemId);
+        SellerRating sellerRating = sellerRatingRepository.findAlreadyRating(userId, currentUser.getId(), itemId).orElse(null);
+        //if (sellerRating != null) {
+        //    System.out.println("ALready foundddddddddddd");
+        //}
+        return sellerRating != null;
     }
 
     private PagedResponse<RatingResponse> createPagedResponse(Page<SellerRating> sellerRatingPaged) {
