@@ -81,30 +81,17 @@ class App extends React.Component {
     }
 
     saveCategories() {
-
         //get root categories
-        getRequestUnauth('/app/categories/rootSubs')
-        .then(categories => {
-            localStorage.setItem('categories', JSON.stringify(categories));
-        })
-        .catch(error => console.error('Error', error));
-
+        return getRequestUnauth('/app/categories/rootSubs');
     }
 
     getNotifications() {
-
         //make request
-        getRequest('/app/messages/unseen')
-        .then( notifications => {
+        return getRequest('/app/messages/unseen');
+    }
 
-            if(this._isMounted) {
-                this.setState({
-                    notifications: notifications
-                });
-            }
-
-        })
-        .catch(error => console.error('Error', error));
+    getNotificationsAndCategories() {
+        return Promise.all([getNotifications(), saveCategories()]);
     }
 
     componentDidUpdate(nextProps) {
@@ -112,16 +99,13 @@ class App extends React.Component {
 
               //check for notifications
               if(isAuthenticated() && !isAdmin()) {
-                this.getNotifications();
-
-                //set loading
-                if(this._isMounted) {
-                    setTimeout(() => {
-                      this.setState({
-                        loading: false
-                      })
-                    }, Constants.TIMEOUT_DURATION);
-                }
+                this.getNotifications()
+                .then(notifications => {
+                    this.setState({
+                        notifications: notifications
+                    });
+                })
+                .catch(error => console.error('Error:', error));
               }
         }
     }
@@ -129,14 +113,40 @@ class App extends React.Component {
     componentDidMount() {
       this._isMounted = true;
 
-      //save the categories in the session
-      if(localStorage.getItem('categories') == null) {
-        this.saveCategories();
-      }
+      //check for both the notifications and categories
+      if(localStorage.getItem('categories') == null && isAuthenticated() && !isAdmin()){
 
-      //check for notifications
-      if(isAuthenticated() && !isAdmin()) {
-        this.getNotifications();
+        this.getNotificationsAndCategories()
+        .then(([notifications, categories]) => {
+            localStorage.setItem('categories', JSON.stringify(categories));
+            this.setState({
+                notifications: notifications
+            });
+        })
+        .catch(error => console.error('Error:', error));
+
+      } else {
+
+          //save categories
+          if(localStorage.getItem('categories') == null) {
+            this.saveCategories()
+            .then(categories => {
+                localStorage.setItem('categories', JSON.stringify(categories));
+            })
+            .catch(error => console.error('Error:', error));
+          }
+
+          //check for notifications
+          if(isAuthenticated() && !isAdmin()) {
+            this.getNotifications()
+            .then(notifications => {
+                this.setState({
+                    notifications: notifications
+                });
+            })
+            .catch(error => console.error('Error:', error));
+          }
+
       }
 
       //set loading
