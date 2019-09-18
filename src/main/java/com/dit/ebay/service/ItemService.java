@@ -64,7 +64,7 @@ public class ItemService {
     private static final Logger logger = LoggerFactory.getLogger(ItemService.class);
 
     //@Transactional
-    public ResponseEntity<?> createItem(UserDetailsImpl currentUser, ItemRequest itemRequest) {
+    public ResponseEntity<?> createItem(UserDetailsImpl currentUser, ItemRequest itemRequest, List<MultipartFile> images) {
 
         if (itemRequest.getName() == null) {
             throw new AppException("Sorry, You can't create an item without providing a name");
@@ -97,7 +97,7 @@ public class ItemService {
         Item result = itemRepository.save(item);
 
         // insert photos
-        for (MultipartFile image : itemRequest.getImages()) {
+        for (MultipartFile image : images) {
             String imageName = imageService.store(image);
             Image imageIn = new Image(imageName);
             imageIn.setItem(item);

@@ -8,6 +8,7 @@ import com.dit.ebay.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -48,14 +49,11 @@ public class FileController {
                 .body(resource);
     }
 
-    @PutMapping("/upload")
+    //@PutMapping("/upload")
+    @PutMapping(value = "/upload")                                                                                                                 // 4.3
     public FileResponse uploadFile(@PathVariable(value = "itemId") Long itemId,
-                                   @RequestParam("image") MultipartFile file) {
-        Item item = itemRepository.findById(itemId)
-                .orElseThrow(() -> new ResourceNotFoundException("Item", "id", itemId));
+                                   @RequestParam("file") MultipartFile file) {
         String name = imageService.store(file);
-       // item.setImagePath(name);
-        itemRepository.save(item);
         String uri = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/images/")
                 .path(name)

@@ -15,15 +15,24 @@ import com.dit.ebay.service.JsonService;
 import com.dit.ebay.service.XmlService;
 import com.dit.ebay.util.PaginationConstants;
 import com.dit.ebay.xml_model.XmlItems;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.util.Converter;
+import lombok.SneakyThrows;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
+import java.util.List;
 
 /*
  * Only for users with role SELLER and Bidder
@@ -43,6 +52,9 @@ public class ItemController {
     @Autowired
     private JsonService jsonService;
 
+    @Autowired
+    ObjectMapper objectMapper;
+
     private static final Logger logger = LoggerFactory.getLogger(ItemController.class);
 
     /*
@@ -50,9 +62,12 @@ public class ItemController {
      */
     @PostMapping(path = "/items")
     @PreAuthorize("hasRole('ROLE_SELLER')")
-    public ResponseEntity<?> createItem(@Valid @RequestBody ItemRequest itemRequest,
-                                        @Valid @CurrentUser UserDetailsImpl currentUser) {
-        return itemService.createItem(currentUser, itemRequest);
+    public ResponseEntity<?> createItem(@RequestParam("itemRequest") String itemRequest,
+                                        @RequestParam("file") List<MultipartFile> files,
+                                        @Valid @CurrentUser UserDetailsImpl currentUser)
+            throws JsonParseException, JsonMappingException, IOException {
+        ItemRequest itemRequestReal = objectMapper.readValue(itemRequest, ItemRequest.class);
+        return itemService.createItem(currentUser, itemRequestReal, files);
     }
 
     // Get items (auctions) of current logged in user

@@ -21,6 +21,16 @@ public class Image {
     @Column(name = "path", nullable = false)
     private String path;
 
+    public Image() {
+
+    }
+
+    public Image(Long id, Item item, String path) {
+        this.id = id;
+        this.item = item;
+        this.path = path;
+    }
+
     public Image(String path) {
         this.path = path;
     }

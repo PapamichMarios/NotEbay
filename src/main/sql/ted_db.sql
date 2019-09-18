@@ -277,7 +277,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `ted_db`.`images` ;
 
 CREATE TABLE IF NOT EXISTS `ted_db`.`images` (
-  `id` BIGINT NOT NULL,
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
   `path` VARCHAR(200) NOT NULL,
   `item_id` BIGINT NOT NULL,
   PRIMARY KEY (`id`),

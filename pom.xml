@@ -10,7 +10,6 @@
 	<name>ebay</name>
 	<description>Ted-Ebay Project</description>
 
-
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
@@ -40,7 +39,6 @@
 			<artifactId>jjwt</artifactId>
 			<version>${jjwt.version}</version>
 		</dependency>
-
 		<!-- Views -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

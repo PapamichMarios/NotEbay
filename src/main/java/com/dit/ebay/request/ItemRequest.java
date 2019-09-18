@@ -2,6 +2,7 @@ package com.dit.ebay.request;
 
 import com.dit.ebay.util.JsonGeoPoint;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
 import org.apache.commons.collections.list.AbstractListDecorator;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -10,6 +11,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+@Data
 public class ItemRequest {
 
     private String name;
@@ -29,15 +31,13 @@ public class ItemRequest {
 
     private String location;
 
-    private String imagePath;
-
     private JsonGeoPoint jgp;
 
     private boolean active;
 
     private Long lastCategoryId;
 
-    private List<MultipartFile> images = new ArrayList<>();
+    //private List<MultipartFile> images = new ArrayList<>();
 
     public BigDecimal getFirstBid() {
         return firstBid;
@@ -103,10 +103,6 @@ public class ItemRequest {
 
     public void setActive(boolean active) { this.active = active; }
 
-    public String getImagePath() { return imagePath; }
-
-    public void setImagePath(String imagePath) { this.imagePath = imagePath; }
-
     public Long getLastCategoryId() {
         return lastCategoryId;
     }
@@ -114,13 +110,30 @@ public class ItemRequest {
     public void setLastCategoryId(Long lastCategoryId) {
         this.lastCategoryId = lastCategoryId;
     }
-
+    /*
     public List<MultipartFile> getImages() {
         return images;
     }
 
     public void setImages(List<MultipartFile> images) {
         this.images = images;
+    }
+    */
+
+    @Override
+    public String toString() {
+        return "ItemRequest{" +
+                "name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", timeEnds=" + timeEnds +
+                ", firstBid=" + firstBid +
+                ", buyPrice=" + buyPrice +
+                ", country='" + country + '\'' +
+                ", location='" + location + '\'' +
+                ", jgp=" + jgp +
+                ", active=" + active +
+                ", lastCategoryId=" + lastCategoryId +
+                '}';
     }
 }
 
