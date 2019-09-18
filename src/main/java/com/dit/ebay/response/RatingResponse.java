@@ -35,8 +35,8 @@ public class RatingResponse {
     }
 
     public RatingResponse(SellerRating sellerRating) {
-        this.userId = sellerRating.getUserSeller().getId();
-        this.username = sellerRating.getUserSeller().getUsername();
+        this.userId = sellerRating.getUserBidder().getId();
+        this.username = sellerRating.getUserBidder().getUsername();
         this.itemId = sellerRating.getItem().getId();
         this.itemName = sellerRating.getItem().getName();
         this.rating = sellerRating.getRating();
@@ -73,5 +73,13 @@ public class RatingResponse {
 
     public void setRating(Byte rating) {
         this.rating = rating;
+    }
+
+    public String getItemName() {
+        return itemName;
+    }
+
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
     }
 }
