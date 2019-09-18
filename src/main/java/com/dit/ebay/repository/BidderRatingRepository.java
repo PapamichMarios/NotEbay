@@ -19,7 +19,7 @@ public interface BidderRatingRepository extends PagingAndSortingRepository<Bidde
     @Query("select avg(bd.rating) from BidderRating bd where bd.userBidder.id = :userId")
     Optional<BigDecimal> avgRatingByUserId(@Param("userId") Long userId);
 
-    @Query("select count(bd.id) from BidderRating bd where bd.userBidder.id = :userId")
+    @Query("select count(*) from BidderRating bd where bd.userBidder.id = :userId")
     Optional<Long> reputationRatingByUserId(@Param("userId") Long userId);
 
     @Query("select bd from BidderRating bd where bd.userBidder.id = :bidderId and bd.userSeller.id = :sellerId" +

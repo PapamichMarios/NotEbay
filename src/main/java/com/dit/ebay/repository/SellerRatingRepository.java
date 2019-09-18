@@ -22,7 +22,7 @@ public interface SellerRatingRepository extends PagingAndSortingRepository<Selle
     @Query("select avg(sl.rating) from SellerRating sl where sl.userSeller.id = :userId")
     Optional<BigDecimal> avgRatingByUserId(@Param("userId") Long userId);
 
-    @Query("select count(sl.id) from SellerRating sl where sl.userSeller.id = :userId")
+    @Query("select count(*) from SellerRating sl where sl.userSeller.id = :userId")
     Optional<Long> reputationRatingByUserId(@Param("userId") Long userId);
 
     @Query("select sl from SellerRating sl where sl.userBidder.id = :bidderId and sl.userSeller.id = :sellerId " +
