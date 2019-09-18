@@ -12,19 +12,12 @@ export default class TestUpload extends React.Component {
         super(props);
          this.state = {
             pictures: [],
-            image: ''
+            image: '',
+            selectedFile: ''
          };
 
-         this.onChange= this.onChange.bind(this);
          this.onSubmit = this.onSubmit.bind(this);
          this.onDrop = this.onDrop.bind(this);
-    }
-
-    onChange(e){
-        console.log(this.state.image)
-        this.setState({
-            [e.target.name]: e.target.value
-        });
     }
 
     onDrop(picture) {
@@ -36,13 +29,11 @@ export default class TestUpload extends React.Component {
     onSubmit() {
         var formData = new FormData();
 
-        formData.append('image', this.state.pictures[0].name);
+        formData.append('image', this.state.pictures[0]);
 
         fetch('/app/items/1/images/upload', {
             method: 'PUT',
-            body: {
-                image: formData
-            }
+            body: formData
         })
         .then(response => response.json())
         .then(response => {
@@ -76,13 +67,6 @@ export default class TestUpload extends React.Component {
                                     imgExtension={['.jpg', '.gif', '.png', '.gif']}
                                     maxFileSize={5242880}
                                 />
-
-                              <Form.Control
-                                type="file"
-                                accept="image/*"
-                                name="image"
-                                onChange={this.onChange}
-                              />
 
                                 <Button onClick={this.onSubmit}>
                                     Submit
