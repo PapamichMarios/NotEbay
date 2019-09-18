@@ -69,11 +69,6 @@ public class SearchService {
         List<SearchResponse> searchResponses = new ArrayList<>();
         for (Item item : itemsPaged) {
             SearchResponse searchResponse = new SearchResponse(item);
-            BigDecimal sellerRating = sellerRatingRepository.avgRatingByUserId(item.getUser().getId()).orElse(null);
-            if (sellerRating == null) {
-                sellerRating = new BigDecimal("0");
-            }
-            searchResponse.setRating(sellerRating);
             searchResponse.setCategories(categoryService.getCategoriesReversed(item));
             searchResponses.add(searchResponse);
         }
