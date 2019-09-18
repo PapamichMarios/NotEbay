@@ -273,7 +273,7 @@ public class SearchService {
         SearchItemResponse searchItemResponse = new SearchItemResponse(item, item.getUser(), bestBidder);
         searchItemResponse.setCategories(categories);
         BigDecimal sellerRating = sellerRatingRepository.avgRatingByUserId(item.getUser().getId()).orElse(null);
-        if (sellerRating != null) {
+        if (sellerRating == null) {
             sellerRating = new BigDecimal("0");
         }
         searchItemResponse.setRating(sellerRating);
