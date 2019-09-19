@@ -1,8 +1,1 @@
 - need to optimize webpack
-
-editAuction: change categories
-search: sidebar populate with data
-searchADvanced: empty
-
-/admin
-    users paging

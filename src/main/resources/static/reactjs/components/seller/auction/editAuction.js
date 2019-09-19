@@ -71,7 +71,6 @@ class EditAuction extends React.Component {
         this.handleChange = this.handleChange.bind(this);
         this.getOptions = this.getOptions.bind(this);
         this.mapOptionsToValues = this.mapOptionsToValues.bind(this);
-        this.onDrop = this.onDrop.bind(this);
 
         this.onChange = this.onChange.bind(this);
         this.back = this.back.bind(this);
