@@ -20,6 +20,8 @@ import org.springframework.stereotype.Component;
 import com.dit.ebay.service.PopulateDB;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+import java.io.File;
+
 
 @SpringBootApplication
 //@EnableScheduling // uncomment for cron operations
@@ -45,7 +47,6 @@ public class EbayApplication {
             // Warning must always execute the above function
             populateDB.populateStaticRoles();
             populateDB.createAdmin();
-
             //xmlService.XmlCategoriesImport();
             populateDB.populateUsers();
             populateDB.populateItems();

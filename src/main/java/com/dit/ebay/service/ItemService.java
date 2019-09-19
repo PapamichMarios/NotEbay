@@ -12,6 +12,7 @@ import com.dit.ebay.security.UserDetailsImpl;
 import com.dit.ebay.util.JsonGeoPoint;
 import com.dit.ebay.model.User;
 import com.dit.ebay.request.ItemRequest;
+import org.eclipse.persistence.tools.file.FileUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +24,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.io.File;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 @Service
 //@Transactional
@@ -239,6 +242,11 @@ public class ItemService {
     public ResponseEntity<?> deleteSellerItemById(Long itemId) {
         Item item = itemRepository.findById(itemId)
                 .orElseThrow(() -> new ResourceNotFoundException("Item", "id", itemId));
+        List<Image> images = item.getImages();
+        for (Image image : images) {
+            File imageFile = new File("images/" + image.getPath());
+            FileUtil.delete(imageFile);
+        }
         itemRepository.delete(item);
 
         return ResponseEntity.ok().body(new ApiResponse(true, "Item Deleted Successfully."));
