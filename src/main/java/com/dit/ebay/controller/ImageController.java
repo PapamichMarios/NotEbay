@@ -44,7 +44,7 @@ public class ImageController {
         return imageService.getImage(itemId, imageId);
     }
 
-    @PostMapping("/multiUpload")
+    @PutMapping("/multiUpload")
     @PreAuthorize("hasRole('ROLE_SELLER')")
     public Item multiUploadImages(@RequestParam("file") List<MultipartFile> files,
                                   @PathVariable(value = "itemId") Long itemId,

@@ -53,7 +53,7 @@ public class ItemController {
     private JsonService jsonService;
 
     @Autowired
-    ObjectMapper objectMapper;
+    private ObjectMapper objectMapper;
 
     private static final Logger logger = LoggerFactory.getLogger(ItemController.class);
 
@@ -72,7 +72,7 @@ public class ItemController {
 
     // Get items (auctions) of current logged in user
     // Note don't need to transform Page<Item> => PagedResponse<Item> (did it to be more simple for the json response)
-    @GetMapping(path = "/items", params = {"page", "size"})
+    @GetMapping("/items")
     //@GetMapping
     @PreAuthorize("hasRole('ROLE_SELLER')")
     public PagedResponse<ItemResponse> getSellerItems(@RequestParam(value = "page", defaultValue = PaginationConstants.DEFAULT_PAGE) int page,

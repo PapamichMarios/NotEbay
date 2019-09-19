@@ -160,6 +160,15 @@ public class ImageService {
     }
 
     public Item multiUploadImages(Long itemId, List<MultipartFile> files, UserDetailsImpl currentUser) {
-        return null;
+        Item item = itemRepository.findById(itemId)
+                .orElseThrow(() -> new ResourceNotFoundException("Item", "id", itemId));
+        // insert photos
+        for (MultipartFile image : files) {
+            String imageName = store(image);
+            Image imageIn = new Image(imageName);
+            imageIn.setItem(item);
+            imageRepository.save(imageIn);
+        }
+        return item;
     }
 }
