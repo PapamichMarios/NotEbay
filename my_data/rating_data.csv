@@ -1,9 +1,9 @@
 sellerUsername,bidderUsername,rating,comment,itemName
-papas1,papas2,1,comment12,item1
-papas1,papas3,2,comment13,item2
-papas4,papas6,3,comment46,item6
-papas6,papas5,5,comment65,item6
-papas5,papas3,2,comment53,item7
-papas2,papas3,4,comment23,item4
-papas4,papas1,3,comment41,item1
-papas5,papas1,5,comment51,item1
+liszt,sergei,1,comment12,item1
+liszt,claude,2,comment13,item2
+schubert,tesus,3,comment46,item6
+tesus,vlad,5,comment65,item6
+vlad,claude,2,comment53,item7
+sergei,claude,4,comment23,item4
+schubert,liszt,3,comment41,item1
+vlad,liszt,5,comment51,item1
