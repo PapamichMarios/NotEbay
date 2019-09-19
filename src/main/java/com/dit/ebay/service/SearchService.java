@@ -73,7 +73,7 @@ public class SearchService {
         for (Item item : itemsPaged) {
             SearchResponse searchResponse = new SearchResponse(item);
             searchResponse.setCategories(categoryService.getCategoriesReversed(item));
-            searchResponse.setImages(imageService.getImageResourcesFirst(item));
+            searchResponse.setImageId(imageService.getImageResourcesFirst(item));
             searchResponses.add(searchResponse);
         }
 

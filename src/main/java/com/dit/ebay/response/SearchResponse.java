@@ -42,7 +42,7 @@ public class SearchResponse {
 
     private Long reputation;
 
-    protected List<Resource> images;
+    protected Long imageId;
 
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private List<Category> categories = new ArrayList<>();
@@ -63,9 +63,13 @@ public class SearchResponse {
         this.sellerId = item.getUser().getId();
     }
 
-    public List<Resource> getImages() { return images; }
+    public Long getImageId() {
+        return imageId;
+    }
 
-    public void setImages(List<Resource> images) { this.images = images; }
+    public void setImageId(Long imageId) {
+        this.imageId = imageId;
+    }
 
     public String getSellerName() {
         return sellerName;

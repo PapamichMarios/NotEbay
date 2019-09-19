@@ -3,6 +3,7 @@ package com.dit.ebay.service;
 
 import com.dit.ebay.StorageProperties;
 import com.dit.ebay.exception.FileNotFoundException;
+import com.dit.ebay.exception.ResourceNotFoundException;
 import com.dit.ebay.exception.StorageException;
 import com.dit.ebay.model.Image;
 import com.dit.ebay.model.Item;
@@ -116,27 +117,34 @@ public class ImageService {
         FileSystemUtils.deleteRecursively(rootLocation.toFile());
     }
 
-    public List<Resource> getImageResources(Item item) {
+    public List<Long> getImageResources(Item item) {
         List<Image> images = imageRepository.findByItemId(item.getId());
-        List<Resource> imageResources = new ArrayList<>();
+        List<Long> imageResources = new ArrayList<>();
         for (Image image : images) {
-            imageResources.add(loadFileAsResource(image.getPath()));
+            imageResources.add(image.getId());
         }
         if (imageResources.isEmpty()) {
-            imageResources.add(loadFileAsResource(ImageConstants.noImage));
+            imageResources.add((long) 0);
         }
         return imageResources;
     }
 
-    public List<Resource> getImageResourcesFirst(Item item) {
+    public Long getImageResourcesFirst(Item item) {
         List<Image> images = imageRepository.findByItemId(item.getId());
-        List<Resource> imageResources = new ArrayList<>();
+        Long imageId = (long) 0;
         if (!images.isEmpty()) {
-            imageResources.add(loadFileAsResource(images.get(0).getPath()));
+            imageId = images.get(0).getId();
         }
-        if (imageResources.isEmpty()) {
-            imageResources.add(loadFileAsResource(ImageConstants.noImage));
+        return imageId;
+    }
+
+    public Resource getImage(Long itemId, Long imageId) {
+        Item item = itemRepository.findById(itemId)
+                .orElseThrow(() -> new ResourceNotFoundException("Item", "id", itemId));
+        Image image = imageRepository.findById(imageId).orElse(null);
+        if (image == null) {
+            return loadFileAsResource(ImageConstants.noImage);
         }
-        return imageResources;
+        return loadFileAsResource(image.getPath());
     }
 }

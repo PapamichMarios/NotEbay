@@ -127,7 +127,7 @@ public class ItemService {
             List<Category> categories = categoryService.getCategoriesReversed(item);
             itemResponse.setCategories(categories);
             itemResponse.setRating(sellerRatingRepository.avgRatingByUserId(item.getUser().getId()).orElse(null));
-            itemResponse.setImages(imageService.getImageResourcesFirst(item));
+            itemResponse.setImageId(imageService.getImageResourcesFirst(item));
             boolean finished = item.itemIsFinished();
             if (finished && item.isActive()) {
                 item.setActive(false);

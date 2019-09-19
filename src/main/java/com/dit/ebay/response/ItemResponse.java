@@ -53,10 +53,20 @@ public class ItemResponse {
 
     protected boolean finished;
 
-    protected List<Resource> images;
+    protected List<Long> images;
+
+    protected Long imageId;
 
     public ItemResponse() {
 
+    }
+
+    public Long getImageId() {
+        return imageId;
+    }
+
+    public void setImageId(Long imageId) {
+        this.imageId = imageId;
     }
 
     public ItemResponse(Item item) {
@@ -78,14 +88,13 @@ public class ItemResponse {
         this.bestBid = item.getBestBid(); // maybe null
     }
 
-    public List<Resource> getImages() {
+    public List<Long> getImages() {
         return images;
     }
 
-    public void setImages(List<Resource> images) {
+    public void setImages(List<Long> images) {
         this.images = images;
     }
-
 
     public Long getReputation() {
         return reputation;
