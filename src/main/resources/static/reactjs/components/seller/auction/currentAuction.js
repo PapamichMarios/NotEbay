@@ -8,7 +8,7 @@ import '../../../../css/utils/map.css';
 import '../../../../css/signup/confirmation.css';
 
 import { Container, Row, Col, Form, Button, Card, Carousel, ButtonToolbar, Alert, Tabs, Tab, Breadcrumb, ListGroup, Nav } from 'react-bootstrap';
-import { FaEdit, FaSearchDollar, FaTrash, FaHourglassStart, FaStar, FaEnvelope } from 'react-icons/fa';
+import { FaEdit, FaFileImage, FaSearchDollar, FaTrash, FaHourglassStart, FaStar, FaEnvelope } from 'react-icons/fa';
 import { withRouter, Link } from 'react-router-dom';
 
 class CurrentAuction extends React.Component {
@@ -84,9 +84,9 @@ class CurrentAuction extends React.Component {
         let carouselBody = [];
         this.props.auction.images.map( image => {
             carouselBody.push(
-                <Carousel.Item key={image.filename}>
+                <Carousel.Item key={image}>
                     <div className="text-center">
-                        <img src={image.file} width='300' height= '300'/>
+                        <img src={'/app/items/' + this.props.auction.id + '/images/' + image} width='450' height= '350'/>
                     </div>
                 </Carousel.Item>
             );
@@ -110,6 +110,14 @@ class CurrentAuction extends React.Component {
                                                 <FaEdit style={{verticalAlign: 'middle'}} size={25} />
                                                 <span> &nbsp; &nbsp; </span>
                                                 Edit
+                                            </Nav.Link>
+                                        </li>
+
+                                        <li className='my-list'>
+                                            <Nav.Link style={{fontSize: '15px', color: 'Black'}} onClick={this.props.uploadPhotos}>
+                                                <FaFileImage style={{verticalAlign: 'middle'}} size={25} />
+                                                <span> &nbsp; &nbsp; </span>
+                                                Upload Photos
                                             </Nav.Link>
                                         </li>
 
@@ -172,6 +180,8 @@ class CurrentAuction extends React.Component {
                                                 </Carousel>
                                             </Col>
                                         </Row>
+
+                                        <br />
 
                                         <Row>
                                             <Col>
