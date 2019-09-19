@@ -158,7 +158,6 @@ public class ItemService {
     // overload
     public PagedResponse<ItemResponse> getSellerItems(User currentUser, int page, int size) {
         validatePageParametersService.validate(page, size);
-        //System.out.println("fdasfasdfasdfasdfasdfasdfsdfsdfwetr23523423");
 
         Page<Item> itemsPaged = itemRepository.findByUserId(currentUser.getId(), PageRequest.of(page, size, Sort.by("id").descending()));
         return createPagedResponse(itemsPaged);

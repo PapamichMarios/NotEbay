@@ -86,21 +86,25 @@ class AuctionsHomepage extends React.Component {
                                 <tbody>
                                     {this.state.myAuctions.map(myAuction =>
                                         <tr
-                                            key={myAuction.id.toString()}
+                                            key={myAuction.id}
                                             className="clickable"
                                             onClick={ () => this.props.history.push('/my-auctions/' + myAuction.id)}
                                         >
                                             <td> <FaExternalLinkAlt style={{verticalAlign: 'baseline'}} className="text-primary"/> </td>
-                                            <td> {myAuction.id.toString()} </td>
+                                            <td> {myAuction.id} </td>
                                             <td> {myAuction.name} </td>
                                             { myAuction.bestBid !== null? (
-                                                <td> {myAuction.bestBid.bidAmount.toString()} </td>
+                                                <td> {myAuction.bestBid.bidAmount} </td>
                                             ) : (
                                                 <td> -- </td>
                                             )}
-                                            <td> {myAuction.buyPrice.toString()} </td>
+                                           { myAuction.buyPrice  != null? (
+                                            <td> {myAuction.buyPrice} </td>
+                                              ) : (
+                                             <td> -- </td>
+                                            )}
                                             <td> {decodeTime(myAuction.timeEnds) + ' ' + decodeDate(myAuction.timeEnds)} </td>
-                                            <td> {myAuction.numOfBids.toString()} </td>
+                                            <td> {myAuction.numOfBids} </td>
 
                                             {myAuction.active && (
                                                 <td className="text-success"> Active </td>
