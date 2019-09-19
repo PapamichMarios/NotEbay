@@ -7,7 +7,7 @@ import OpenStreetMap from '../../utils/maps/openStreetMapLarge';
 import '../../../../css/utils/map.css';
 import '../../../../css/signup/confirmation.css';
 
-import { Container, Row, Col, Form, Button, Card, ButtonToolbar, Alert, Tabs, Tab, Breadcrumb, ListGroup, Nav } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button, Card, Carousel, ButtonToolbar, Alert, Tabs, Tab, Breadcrumb, ListGroup, Nav } from 'react-bootstrap';
 import { FaEdit, FaSearchDollar, FaTrash, FaHourglassStart, FaStar, FaEnvelope } from 'react-icons/fa';
 import { withRouter, Link } from 'react-router-dom';
 
@@ -79,6 +79,8 @@ class CurrentAuction extends React.Component {
                 </Breadcrumb.Item>
             );
         });
+
+        let carouselBody = [];
 
         return(
             <Container fluid>
@@ -155,7 +157,9 @@ class CurrentAuction extends React.Component {
                                     <Col md={6}>
                                         <Row>
                                             <Col>
-                                                <h3> To put Image </h3>
+                                                <Carousel fade style={{backgroundColor: 'DimGray'}}>
+                                                    {carouselBody}
+                                                </Carousel>
                                             </Col>
                                         </Row>
 

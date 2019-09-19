@@ -160,7 +160,7 @@ class SubmitAuction extends React.Component {
         };
 
         formData.append('itemRequest', JSON.stringify(itemRequest))
-        formData.append('file', this.state.pictures);
+        formData.append('file', this.state.images);
 
         fetch(this.props.action, {
             headers: {
