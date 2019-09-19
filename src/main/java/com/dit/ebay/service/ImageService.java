@@ -9,10 +9,13 @@ import com.dit.ebay.model.Image;
 import com.dit.ebay.model.Item;
 import com.dit.ebay.repository.ImageRepository;
 import com.dit.ebay.repository.ItemRepository;
+import com.dit.ebay.security.UserDetailsImpl;
 import com.dit.ebay.util.ImageConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.util.StringUtils;
@@ -138,13 +141,25 @@ public class ImageService {
         return imageId;
     }
 
-    public Resource getImage(Long itemId, Long imageId) {
+    public ResponseEntity<?> getImage(Long itemId, Long imageId) {
         Item item = itemRepository.findById(itemId)
                 .orElseThrow(() -> new ResourceNotFoundException("Item", "id", itemId));
         Image image = imageRepository.findById(imageId).orElse(null);
         if (image == null) {
-            return loadFileAsResource(ImageConstants.noImage);
+            Resource resource = loadAsResource(ImageConstants.noImage);
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION,
+                            "attachment; filename=\"" + resource.getFilename() + "\"")
+                    .body(resource);
         }
-        return loadFileAsResource(image.getPath());
+        Resource resource = loadAsResource(image.getPath());
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=\"" + resource.getFilename() + "\"")
+                .body(resource);
+    }
+
+    public Item multiUploadImages(Long itemId, List<MultipartFile> files, UserDetailsImpl currentUser) {
+        return null;
     }
 }
