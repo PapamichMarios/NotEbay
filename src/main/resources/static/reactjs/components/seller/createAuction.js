@@ -151,7 +151,6 @@ class SubmitAuction extends React.Component {
             buyPrice: this.state.buyPrice,
             country: this.state.country,
             location: this.state.location,
-            imagePath: '',
             jgp: {
                 geoLat: this.state.lat,
                 geoLong: this.state.lng
@@ -164,7 +163,7 @@ class SubmitAuction extends React.Component {
         formData.append('file', this.state.pictures);
 
         fetch(this.props.action, {
-            header: {
+            headers: {
                 'Authorization': Constants.ACCESS_TOKEN
             },
             method: 'POST',
