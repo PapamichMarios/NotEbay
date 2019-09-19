@@ -67,7 +67,9 @@ class PresentResult extends React.Component {
                         <Card.Body>
                             <Row>
                                 <Col md="3">
-                                    to put image
+                                    <div className="text-center">
+                                        <img src={'/app/items/' + item.id + '/images/' + item.imageId} width='225' height= '200'/>
+                                    </div>
                                 </Col>
 
                                 <Col md="9">

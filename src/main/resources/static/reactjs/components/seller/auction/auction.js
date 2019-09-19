@@ -2,6 +2,7 @@ import React from 'react';
 
 import CurrentAuction from './currentAuction';
 import EditAuction from './editAuction';
+import UploadPhotos from './uploadPhotos';
 
 import Loading from '../../utils/loading/loading';
 import * as Constants from '../../utils/constants';
@@ -22,6 +23,7 @@ class Auction extends React.Component{
         this.state = {
             loading: true,
             edit: false,
+            upload: false,
 
             auction: '',
 
@@ -46,6 +48,7 @@ class Auction extends React.Component{
         this.undoEditAuction = this.undoEditAuction.bind(this);
         this.editAuction = this.editAuction.bind(this);
         this.deleteAuction = this.deleteAuction.bind(this);
+        this.uploadPhotos = this.uploadPhotos.bind(this);
     }
 
     //=====================================begin auction
@@ -108,6 +111,18 @@ class Auction extends React.Component{
         }
     }
 
+    //=====================================upload images
+    uploadPhotos() {
+        if(this.state.auction.active) {
+            alert('Cannot upload images after someone has placed a bid.');
+        } else {
+            this.setState({
+                upload: true
+            });
+        }
+    }
+
+
     //=========================================get info on the item
     componentDidMount() {
         getRequest(this.props.action + this.props.match.params.id)
@@ -162,6 +177,12 @@ class Auction extends React.Component{
                         undoEditAuction={this.undoEditAuction}
                     />
                 );
+            } else if(this.state.upload && !this.state.auction.active) {
+                return (
+                    <UploadPhotos
+                        id={this.state.auction.id}
+                    />
+                );
             } else {
                 return (
                     <CurrentAuction
@@ -170,6 +191,7 @@ class Auction extends React.Component{
                         deleteAuction={this.deleteAuction}
                         checkBidders={this.checkBidders}
                         beginAuction={this.beginAuction}
+                        uploadPhotos={this.uploadPhotos}
                     />
                );
             }

@@ -159,7 +159,6 @@ class SubmitAuction extends React.Component {
             lastCategoryId: this.state.categories[this.state.categories.length-1].value
         };
 
-        console.log(this.state.images);
         formData.append('itemRequest', JSON.stringify(itemRequest))
 
         this.state.images.map( image => {

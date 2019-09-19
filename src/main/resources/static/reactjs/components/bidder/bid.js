@@ -13,7 +13,7 @@ import '../../../css/utils/map.css';
 import '../../../css/signup/confirmation.css';
 
 import StarRatings from 'react-star-ratings';
-import { Container, Row, Col, Form, Button, Card, ButtonToolbar, Alert, Tabs, Tab, Breadcrumb, ListGroup, InputGroup } from 'react-bootstrap';
+import { Container, Row, Col, Form, Carousel, Button, Card, ButtonToolbar, Alert, Tabs, Tab, Breadcrumb, ListGroup, InputGroup } from 'react-bootstrap';
 import { FaDollarSign, FaEnvelope, FaStar } from 'react-icons/fa';
 import { Link, withRouter } from 'react-router-dom';
 
@@ -325,6 +325,18 @@ class Bid extends React.Component {
                 );
             });
 
+            //handle images
+            let carouselBody = [];
+            this.state.bid.images.map( image => {
+                carouselBody.push(
+                    <Carousel.Item key={image}>
+                        <div className="text-center">
+                            <img src={'/app/items/' + this.state.bid.id + '/images/' + image} width='450' height= '350'/>
+                        </div>
+                    </Carousel.Item>
+                );
+            });
+
             return (
                 <Container fluid className="navbar-margin">
                     <Row>
@@ -345,9 +357,13 @@ class Bid extends React.Component {
                                         <Col md={6}>
                                             <Row>
                                                 <Col>
-                                                    <h3> To put Image</h3>
+                                                    <Carousel fade style={{backgroundColor: 'DimGray'}}>
+                                                        {carouselBody}
+                                                    </Carousel>
                                                 </Col>
                                             </Row>
+
+                                            <br />
 
                                             <Row>
                                                 <Col>

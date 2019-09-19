@@ -1,9 +1,8 @@
 import React from 'react';
 
-import AsyncSelect from 'react-select/async';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import ImageUploader from 'react-images-upload';
+import AsyncSelect from 'react-select/async';
 
 import putRequest from '../../utils/requests/putRequest';
 
@@ -20,8 +19,6 @@ class EditAuction extends React.Component {
 
     constructor(props) {
         super(props);
-
-        console.log(this.props.user);
 
         let defaultOptions = [];
         this.props.user.categories.map( category => {
@@ -45,7 +42,6 @@ class EditAuction extends React.Component {
                 country: this.props.user.country,
                 location: this.props.user.location,
                 buyPrice: '',
-                images: [],
 
                 categories: defaultOptions,
                 currId: this.props.user.categories[this.props.user.categories.length-1].id,
@@ -65,7 +61,6 @@ class EditAuction extends React.Component {
                 country: this.props.user.country,
                 location: this.props.user.location,
                 buyPrice: this.props.user.buyPrice,
-                images: [],
 
                 categories: defaultOptions,
                 currId: this.props.user.categories[this.props.user.categories.length-1].id,
@@ -81,12 +76,6 @@ class EditAuction extends React.Component {
         this.onChange = this.onChange.bind(this);
         this.back = this.back.bind(this);
         this.save = this.save.bind(this);
-    }
-
-    onDrop(picture) {
-        this.setState({
-            images: picture,
-        });
     }
 
     //categories
@@ -207,10 +196,6 @@ class EditAuction extends React.Component {
             }
         })
         .catch(error => console.error('Error:', error));
-    }
-
-    componentDidMount() {
-
     }
 
     render() {
@@ -486,23 +471,6 @@ class EditAuction extends React.Component {
                                     </Col>
                                   </Form.Group>
 
-                                  <Form.Group as={Row} controlId="formImages">
-                                    <Col md={3}>
-                                        <Form.Label >
-                                            <b> Add more images: </b>
-                                        </Form.Label>
-                                    </Col>
-                                    <Col>
-                                        <ImageUploader
-                                            withIcon={true}
-                                            withPreview={true}
-                                            buttonText='Choose images'
-                                            onChange={this.onDrop}
-                                            imgExtension={['.jpg', '.gif', '.png', '.gif']}
-                                            maxFileSize={5242880}
-                                        />
-                                    </Col>
-                                  </Form.Group>
                               </Col>
                           </Form.Row>
 
@@ -520,7 +488,7 @@ class EditAuction extends React.Component {
                                 <Col md={{offset:8, span:2}}>
                                   <ButtonToolbar size="lg">
                                     <Button variant="dark" disabled block>
-                                        <b> Loading... </b>
+                                        <b> Loading </b>
                                         <LoadingButton />
                                     </Button>
                                   </ButtonToolbar>
@@ -548,7 +516,7 @@ class EditAuction extends React.Component {
                             </Form.Row>
                           )}
 
-                          { this.state.hasError ? (
+                          { this.state.hasError && (
                               <Form.Row>
                                 <Col>
                                   <br />
@@ -557,8 +525,6 @@ class EditAuction extends React.Component {
                                   </Alert>
                                 </Col>
                               </Form.Row>
-                          ) : (
-                               null
                           )}
 
                         </Form>
