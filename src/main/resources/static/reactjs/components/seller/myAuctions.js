@@ -42,7 +42,6 @@ class AuctionsHomepage extends React.Component {
 
         getRequest(url)
         .then(data => {
-            console.log(data);
             this.setState({
                 myAuctions: data.content,
                 paging: data
@@ -67,7 +66,7 @@ class AuctionsHomepage extends React.Component {
             return(
                 <Container className="navbar-margin">
                     <Card style={{width:'100%'}} border="dark">
-                        <Card.Header as="h4" className="text-center bg-dark" style={{color:'white'}}> My Auctions </Card.Header>
+                        <Card.Header as="h3" className="text-center bg-dark" style={{color:'white'}}> My Auctions </Card.Header>
                         <Card.Body>
                             <Table striped hover>
                                 <thead>

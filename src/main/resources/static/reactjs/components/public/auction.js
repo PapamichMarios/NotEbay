@@ -6,6 +6,7 @@ import * as Constants from '../utils/constants';
 import decodeTime from '../utils/decoders/timeDecoder';
 import decodeDate from '../utils/decoders/dateDecoder';
 import OpenStreetMap from '../utils/maps/openStreetMapLarge';
+import isAdmin from '../utils/authentication/isAdmin';
 
 import '../../../css/utils/map.css';
 import '../../../css/signup/confirmation.css';
@@ -30,7 +31,6 @@ class AuctionPublic extends React.Component {
 
         getRequestUnauth(this.props.action + this.props.match.params.id)
         .then(response => {
-            console.log(response);
 
             if(response.error) {
                 if(response.status === 500) {
@@ -52,6 +52,7 @@ class AuctionPublic extends React.Component {
                     }, Constants.TIMEOUT_DURATION)
                 );
             }
+
         })
         .catch(error => console.error('Error:', error));
     }
@@ -338,6 +339,7 @@ class AuctionPublic extends React.Component {
                                             </Tabs>
 
                                             { this.state.bid.bestBid == null
+                                                && !isAdmin()
                                                 && this.state.bid.owner.username !== localStorage.getItem('username')
                                                 && !this.state.bid.finished
                                                 && (

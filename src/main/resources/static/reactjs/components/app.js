@@ -212,7 +212,8 @@ class App extends React.Component {
                     <Route exact path="/my-auctions/:itemId/rating/:userId"
                                                                           render={ () => isAuthenticated() ? <SellerRating />     : <Redirect to="/unauthorized" /> } />
 
-                    <Route exact path="/auctions/:id"                     render={ () => isAuthenticated() ? <Bid />              : <AuctionPublic /> } />
+                    <Route exact path="/auctions/:id"                     render={ () => isAuthenticated() && !isAdmin()
+                                                                                                           ? <Bid />              : <AuctionPublic /> } />
                     <Route exact path="/auctions/:itemId/rating/:userId"  render={ () => isAuthenticated() ? <BidderRating />     : <Redirect to="/unauthorized" /> } />
 
                     <Route exact path="/messages"                         render={ () => isAuthenticated() ? <Inbox />            : <Redirect to="/unauthorized" /> } />

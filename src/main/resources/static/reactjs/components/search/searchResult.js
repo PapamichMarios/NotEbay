@@ -40,7 +40,6 @@ export default class SearchResult extends React.Component {
 
     //advanced search
     multiSearch(pageNum, state) {
-        console.log(state);
         this.setState({loading: true});
 
         let url = '/app/search';
@@ -63,7 +62,6 @@ export default class SearchResult extends React.Component {
         //make the request
         getRequestUnauth(url)
         .then(items => {
-            console.log(items);
             if(items.error) {
 
                 if(items.status === 500) {
@@ -150,7 +148,6 @@ export default class SearchResult extends React.Component {
 
             } else {
 
-                console.log(items);
                 this.setState({
                     items: items.content,
                     paging: items

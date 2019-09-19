@@ -106,7 +106,7 @@ class Sent extends React.Component{
             sentOrLoading = (
                 <Card>
                     <Card.Body>
-                        <Card.Title as="h3" className="text-center"> Sent </Card.Title>
+                        <Card.Title as="h3" className="text-center"> <b>Sent</b> </Card.Title>
                         <Table striped hover size="sm">
                             <thead>
                                 <tr>

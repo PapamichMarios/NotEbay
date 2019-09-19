@@ -59,13 +59,15 @@ class Application extends React.Component {
         .then((data) => {
             if (!data.error) {
                 this.setState({
-                    userData: data
+                    userData: data.user
+                },
+                () => {
+                    //set loading
+                    setTimeout(() => {
+                      this.setState({loading: false})
+                    }, Constants.TIMEOUT_DURATION)
                 });
 
-                //set loading
-                setTimeout(() => {
-                  this.setState({loading: false})
-                }, Constants.TIMEOUT_DURATION)
             } else {
                 if(data.status === 500) {
                     this.props.history.push('/internal-server-error');

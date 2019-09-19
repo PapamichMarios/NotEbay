@@ -172,7 +172,7 @@ export default class AdvancedSearch extends React.Component {
                 <Row>
                     <Col>
                         <Card>
-                            <Card.Header as="h4" className="text-center bg-dark" style={{color:'white' }}> Advanced Search </Card.Header>
+                            <Card.Header as="h3" className="text-center bg-dark" style={{color:'white' }}> Advanced Search </Card.Header>
                             <Card.Body>
                                 <Form
                                     action={this.props.action}

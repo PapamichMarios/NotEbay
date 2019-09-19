@@ -114,7 +114,6 @@ class Bid extends React.Component {
     componentDidMount() {
         getRequest(this.props.action + this.props.match.params.id)
         .then(response => {
-            console.log(response);
             if(response.error) {
                 if(response.status === 500) {
                     this.props.history.push('/internal-server-error');
@@ -224,7 +223,7 @@ class Bid extends React.Component {
                                     ) : (
                                         <Button variant="dark" onClick={this.placeBid}>
                                           <b> Submit </b>
-                                          <FaDollarSign style={{verticalAlign: 'baseline'}} />
+                                          <b><FaDollarSign style={{verticalAlign: 'baseline'}} /></b>
                                         </Button>
                                     )}
 

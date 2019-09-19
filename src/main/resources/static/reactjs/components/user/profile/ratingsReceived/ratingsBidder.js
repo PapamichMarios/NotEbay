@@ -38,7 +38,6 @@ export default class BidderRatings extends React.Component {
 
         getRequest(url)
         .then(ratings => {
-            console.log(ratings);
 
             this.setState({
                 bidderRatings: ratings.content,

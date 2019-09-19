@@ -32,15 +32,22 @@
     "@babel/preset-env": "^7.5.5",
     "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.6",
-    "bootstrap-less": "^3.3.8",
     "css-loader": "^3.2.0",
     "file-loader": "^4.2.0",
-    "formik": "^1.5.8",
     "jquery": "^3.4.1",
+    "style-loader": "^1.0.0",
+    "url-loader": "^2.1.0",
+    "webpack": "^4.39.1",
+    "webpack-cli": "^3.3.6",
+    "webpack-dev-server": "^3.8.0"
+  },
+  "dependencies": {
+    "bootstrap-less": "^3.3.8",
+    "formik": "^1.5.8",
     "leaflet": "^1.5.1",
     "react": "^16.9.0",
-    "react-bootstrap": "^1.0.0-beta.11",
-    "react-country-region-selector": "^1.4.3",
+    "react-bootstrap": "^1.0.0-beta.12",
+    "react-country-region-selector": "^1.4.4",
     "react-dom": "^16.9.0",
     "react-icons": "^3.7.0",
     "react-images-upload": "^1.2.7",
@@ -50,11 +57,6 @@
     "react-select": "^3.0.4",
     "react-spinners": "^0.5.13",
     "react-star-ratings": "^2.3.0",
-    "style-loader": "^1.0.0",
-    "url-loader": "^2.1.0",
-    "webpack": "^4.39.1",
-    "webpack-cli": "^3.3.6",
-    "webpack-dev-server": "^3.8.0",
     "yup": "^0.27.0"
   }
 }

@@ -174,7 +174,6 @@ class SubmitAuction extends React.Component {
         })
         .then(response => response.json())
         .then(response => {
-            console.log(response);
             if (response.error){
                 this.setState({
                     hasError: true,

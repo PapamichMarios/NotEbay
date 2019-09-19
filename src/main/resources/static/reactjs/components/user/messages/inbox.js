@@ -121,7 +121,7 @@ class Inbox extends React.Component{
             inboxOrLoading = (
                 <Card>
                     <Card.Body>
-                        <Card.Title as="h3" className="text-center"> Inbox </Card.Title>
+                        <Card.Title as="h3" className="text-center"> <b>Inbox</b> </Card.Title>
                         <Table striped hover size="sm">
                             <thead>
                                 <tr>

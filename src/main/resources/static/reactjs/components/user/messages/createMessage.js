@@ -110,7 +110,7 @@ class CreateMessage extends React.Component {
 
                         <Col className="navbar-margin">
                             <Card>
-                                <Card.Header as="h3" className="text-center bg-dark" style={{color:'white'}}> Send Message </Card.Header>
+                                <Card.Header as="h3" className="text-center bg-dark" style={{color:'white'}}> <b>Send Message</b> </Card.Header>
                                 <Card.Body>
                                     <Formik
                                         initialValues= {{

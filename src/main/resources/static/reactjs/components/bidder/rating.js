@@ -79,7 +79,6 @@ class BidderRating extends React.Component {
 
         postRequest(url, bodyObj)
         .then( response => {
-            console.log(response)
             if(response.error) {
                 this.setState({
                     hasError: true,
@@ -117,7 +116,6 @@ class BidderRating extends React.Component {
 
         getRequest(url)
         .then(response => {
-            console.log(response);
             if(response.error) {
                 this.setState({
                     hasError: true,

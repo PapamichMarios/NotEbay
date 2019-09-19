@@ -38,7 +38,6 @@ export default class BidderRatings extends React.Component {
 
         getRequest(url)
         .then(ratings => {
-            console.log(ratings);
 
             this.setState({
                 bidderRatings: ratings.content,
@@ -64,7 +63,6 @@ export default class BidderRatings extends React.Component {
         } else {
 
             let bidderRatings = [];
-            console.log(this.state.bidderRatings);
             this.state.bidderRatings.map( rating => {
                 bidderRatings.push(
                     <div key={rating.itemId}>
