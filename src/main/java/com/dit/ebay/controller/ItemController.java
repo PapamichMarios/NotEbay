@@ -63,11 +63,11 @@ public class ItemController {
     @PostMapping(path = "/items")
     @PreAuthorize("hasRole('ROLE_SELLER')")
     public ResponseEntity<?> createItem(@RequestParam("itemRequest") String itemRequest,
-                                        @RequestParam("file") List<MultipartFile> files,
+                                        @RequestParam("file") List<MultipartFile> file,
                                         @Valid @CurrentUser UserDetailsImpl currentUser)
             throws JsonParseException, JsonMappingException, IOException {
         ItemRequest itemRequestReal = objectMapper.readValue(itemRequest, ItemRequest.class);
-        return itemService.createItem(currentUser, itemRequestReal, files);
+        return itemService.createItem(currentUser, itemRequestReal, file);
     }
 
     // Get items (auctions) of current logged in user

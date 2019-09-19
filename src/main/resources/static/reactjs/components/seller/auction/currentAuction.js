@@ -80,7 +80,17 @@ class CurrentAuction extends React.Component {
             );
         });
 
+        //handle images
         let carouselBody = [];
+        this.props.auction.images.map( image => {
+            carouselBody.push(
+                <Carousel.Item key={image.filename}>
+                    <div className="text-center">
+                        <img src={image.file} width='300' height= '300'/>
+                    </div>
+                </Carousel.Item>
+            );
+        });
 
         return(
             <Container fluid>
