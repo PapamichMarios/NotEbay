@@ -25,7 +25,7 @@ public class RecommendationService {
     public void Recommendaiton(User user) {
         List<User> usersList = userRepository.findAllExceptUserId(user.getId());
         List<Item> userItem = itemRepository.findAllByUserId(user.getId());
-        List<Item> itemsList = itemRepository.findAllItems();
+        List<Item> itemsList = itemRepository.findAlllItems();
 
 
     }

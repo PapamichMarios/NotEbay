@@ -19,8 +19,8 @@ import java.util.Optional;
 @Repository
 public interface ItemRepository extends PagingAndSortingRepository<Item, Long> {
 
-    @Query("select i from Item")
-    List<Item> findAllItems();
+    @Query("select i from Item i")
+    List<Item> findAlllItems();
 
     // Returns the id of item's owner (with role of SELLER)
     @Query("select u.id " +
