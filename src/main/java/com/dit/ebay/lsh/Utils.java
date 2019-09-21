@@ -12,7 +12,7 @@ public class Utils {
         double length2 =0.0;
         double length_product = 0.0;
 
-        for(int i=0; i<u.length; i++) {
+        for(int i = 0; i < u.length; i++) {
             dot_product += u[i] * v[i];
             length1 += u[i] * u[i];
             length2 += v[i] * v[i];

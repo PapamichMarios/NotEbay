@@ -11,7 +11,7 @@ public class G_Function {
 
         //construct the array of hyperplanes
         this.h_array = new Hyperplane[k];
-        for(int i=0; i<k; i++) {
+        for (int i=0; i<k; i++) {
             this.h_array[i] = new Hyperplane(dim);
         }
     }
@@ -19,7 +19,7 @@ public class G_Function {
     public int G_Function_HashValue(double[] x) {
         String hash_val = "";
 
-        for(int i=0; i<this.k; i++) {
+        for (int i=0; i < this.k; i++) {
             hash_val += String.valueOf(this.h_array[i].Hyperplane_ComputeH(x));
         }
 

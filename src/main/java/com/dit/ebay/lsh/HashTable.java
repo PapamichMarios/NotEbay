@@ -1,5 +1,7 @@
 package com.dit.ebay.lsh;
 
+import com.dit.ebay.util.LshConstants;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -9,6 +11,7 @@ public class HashTable {
     private HashNode[] table;
     private int tableSize;
     private G_Function hash_function;
+    private final static int CN = LshConstants.CN;
 
     public HashTable(int tableSize, int k, int dimensions) {
         this.table = new HashNode[tableSize];
@@ -25,7 +28,7 @@ public class HashTable {
 
         HashNode prev = null;
         HashNode entry = this.table[hash_val];
-        while(entry != null) {
+        while (entry != null) {
             prev = entry;
             entry = entry.getNext();
         }
@@ -34,7 +37,7 @@ public class HashTable {
         entry = new HashNode(key, String.valueOf(hash_val), id);
 
         //check if the bucket is null
-        if(prev == null) {
+        if (prev == null) {
             //assign as first in the bucket
             this.table[hash_val] = entry;
         } else {
@@ -49,10 +52,10 @@ public class HashTable {
         int hash_val = this.hash_function.G_Function_HashValue(key);
 
         //iterate to bucket
-        ArrayList<Neighbour> neighbours = new ArrayList<Neighbour>();
+        ArrayList<Neighbour> neighbours = new ArrayList<>();
 
         HashNode entry = this.table[hash_val];
-        while(entry != null) {
+        while (entry != null) {
 
             double distance = Utils.cosineDistance(entry.getKey(), key);
             neighbours.add(new Neighbour(entry.getId(),
@@ -64,12 +67,15 @@ public class HashTable {
 
         //sort neighbourhood
         Collections.sort(neighbours, new NeighbourComparator());
+        // debug print
+        for (Neighbour neighbour : neighbours) {
+            System.out.println(neighbour.getDistance());
+        }
+        //return the CN closest neighbours
+        if (neighbours.size() > CN) {
 
-        //return the 50 closest neighbours
-        if(neighbours.size() > 50) {
-
-            ArrayList<Neighbour> neighbourhood = new ArrayList<Neighbour>();
-            for(int i=0; i<50; i++)
+            ArrayList<Neighbour> neighbourhood = new ArrayList<>();
+            for (int i = 0; i < CN; i++)
                 neighbourhood.add(neighbours.get(i));
 
             return neighbourhood;

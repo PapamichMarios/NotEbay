@@ -1,17 +1,21 @@
 package com.dit.ebay.service;
 
 import com.dit.ebay.lsh.HashTable;
+import com.dit.ebay.lsh.Neighbour;
+import com.dit.ebay.lsh.Recommendation;
 import com.dit.ebay.model.Bid;
 import com.dit.ebay.model.Item;
 import com.dit.ebay.model.User;
 import com.dit.ebay.repository.BidRepository;
 import com.dit.ebay.repository.ItemRepository;
 import com.dit.ebay.repository.UserRepository;
+import com.dit.ebay.util.LshConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -26,9 +30,16 @@ public class RecommendationService {
     @Autowired
     private BidRepository bidRepository;
 
-    private final static int K = 5; // hyperplanes
-    private final static int L = 4; // number of hashtables
+    private final static int K = LshConstants.K; // hyperplanes
+    private final static int L = LshConstants.L; // number of hash-tables
 
+    public double[] computeRecommendation(HashTable[] lsh, double[] userVector) {
+        ArrayList<Neighbour> htNeighbours = new ArrayList<>();
+        for (int i = 0; i < L; i++) {
+            htNeighbours.addAll(lsh[i].HashTable_GetNeighbourhood(userVector));
+        }
+        return Recommendation.predictItem(Recommendation.getRecommendationNeighbours(htNeighbours), userVector);
+    }
 
     public void Recommendation(User user) {
         int tableSize = (int) Math.pow(2, K);
@@ -67,26 +78,32 @@ public class RecommendationService {
             lsh[i].HashTable_Put(userVector, user.getId());
         }
 
+        double[] userVectorTemp = new double[itemNumber];
+        // init array with zeroes
+        for (int i = 0; i < itemNumber; i++) {
+            userVectorTemp[i] = 0;
+        }
+
         // for each user
         for (int i = 0; i < usersList.size(); i++) {
             // create vectors
             for (int j = 0; j < itemsList.size(); j++) {
                 // if is inactive then skip it
                 if (!itemsList.get(j).isActive()) {
-                    userVector[j] = 0;
+                    userVectorTemp[j] = 0;
                     continue;
                 }
 
                 // find if user has bid on current item
                 List<Bid> userBidItemList = bidRepository.findByItemIdBidderId(itemsList.get(j).getId(), user.getId());
-                userVector[j] = !userBidItemList.isEmpty() ? 1 : 0;
+                userVectorTemp[j] = !userBidItemList.isEmpty() ? 1 : 0;
             }
             // insert in hashtables
             for (int p = 0; p < L; p++) {
-                lsh[p].HashTable_Put(userVector, usersList.get(i).getId());
+                lsh[p].HashTable_Put(userVectorTemp, usersList.get(i).getId());
             }
-            return;
         }
+        return;
     }
 
     public void Recommendation (Long userId){
@@ -143,25 +160,53 @@ public class RecommendationService {
             lsh[i].HashTable_Put(userVector, user.getId());
         }
 
+        double[] userVectorTemp = new double[itemNumber];
+        // init array with zeroes
+        for (int i = 0; i < itemNumber; i++) {
+            userVectorTemp[i] = 0;
+        }
+
         // for each user
         for (int i = 0; i < usersList.size(); i++) {
             // create vectors
             for (int j = 0; j < itemsList.size(); j++) {
                 // if is inactive then skip it
                 if (!itemsList.get(j).isActive()) {
-                    userVector[j] = 0;
+                    userVectorTemp[j] = 0;
                     continue;
                 }
 
                 // find if user has bid on current item
                 List<Bid> userBidItemList = bidRepository.findByItemIdBidderId(itemsList.get(j).getId(), user.getId());
-                userVector[j] = !userBidItemList.isEmpty() ? 1 : 0;
+                userVectorTemp[j] = !userBidItemList.isEmpty() ? 1 : 0;
             }
+            System.out.println("Vector of User {" + usersList.get(i).getId() + "," + usersList.get(i).getUsername() + "} : ");
+            System.out.print("| ");
+            // insert in hashtables
+            for (int l = 0; l < itemNumber; l++) {
+                System.out.print("{" + userVectorTemp[l] +" ," + itemsList.get(l).getName() + "} | ");
+            }
+            System.out.println("\n size of vector : " + itemNumber);
             // insert in hashtables
             for (int p = 0; p < L; p++) {
-                lsh[p].HashTable_Put(userVector, usersList.get(i).getId());
+                lsh[p].HashTable_Put(userVectorTemp, usersList.get(i).getId());
             }
         }
+
+        double[] userPredVector = computeRecommendation(lsh, userVector);
+        for (double pred : userPredVector) {
+            System.out.print(pred + "|");
+        }
+        System.out.println();
+
+        System.out.println("Vector of User {" + user.getUsername() + "," + user.getId() + "} we want to recommend : ");
+        System.out.print("| ");
+        // insert in hashtables
+        for (int l = 0; l < itemNumber; l++) {
+            System.out.print("{" + userVector[l] +" ," + itemsList.get(l).getName() + "} | ");
+        }
+        System.out.println("\n size of vector : " + itemNumber);
+
     }
 
 }
