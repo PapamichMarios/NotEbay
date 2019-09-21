@@ -1,4 +1,4 @@
-package lsh;
+package com.dit.ebay.lsh;
 
 public class HashNode {
     private int[] key;
