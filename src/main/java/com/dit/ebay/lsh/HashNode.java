@@ -4,9 +4,9 @@ public class HashNode {
     private int[] key;
     private String G;
     private HashNode next;
-    private String id;
+    private Long id;
 
-    public HashNode(int[] key, String G, String id) {
+    public HashNode(int[] key, String G, Long id) {
         this.key = key;
         this.G = G;
         this.id = id;
@@ -37,11 +37,11 @@ public class HashNode {
         this.next = next;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 }

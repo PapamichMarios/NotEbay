@@ -21,6 +21,6 @@ public interface UserRepository extends PagingAndSortingRepository<User, Long> {
     @Query("select u from User u where u.id != :adminId")
     Page<User> findAllUsersAdmin(@Param("adminId") Long adminId, Pageable pageable);
 
-    @Query("select u from User u where u.id != :userId")
+    @Query("select u from User u where u.id != :userId and u.id != 1")
     List<User> findAllExceptUserId(@Param("userId") Long userId);
 }

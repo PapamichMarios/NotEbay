@@ -6,6 +6,7 @@ import com.dit.ebay.model.Item;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
@@ -20,7 +21,7 @@ import java.util.Optional;
 public interface ItemRepository extends PagingAndSortingRepository<Item, Long> {
 
     @Query("select i from Item i")
-    List<Item> findAlllItems();
+    List<Item> findAlllItems(Sort sort);
 
     // Returns the id of item's owner (with role of SELLER)
     @Query("select u.id " +

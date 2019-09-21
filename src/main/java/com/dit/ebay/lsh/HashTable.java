@@ -16,7 +16,7 @@ public class HashTable {
         this.hash_function = new G_Function(k, dimensions);
     }
 
-    public void HashTable_Put(int[] key, String id){
+    public void HashTable_Put(int[] key, Long id){
 
         //find the hash value
         int hash_val = this.hash_function.G_Function_HashValue(key);

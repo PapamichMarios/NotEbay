@@ -10,6 +10,7 @@ import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
 */
 
+import com.dit.ebay.service.RecommendationService;
 import com.dit.ebay.service.XmlService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -37,10 +38,13 @@ public class EbayApplication {
     public class CommandLineAppStartupRunner implements CommandLineRunner {
 
         @Autowired
-        PopulateDB populateDB;
+        private PopulateDB populateDB;
 
         @Autowired
-        XmlService xmlService;
+        private XmlService xmlService;
+
+        @Autowired
+        private RecommendationService recommendationService;
 
         @Override
         public void run(String... args) throws Exception {
@@ -55,6 +59,8 @@ public class EbayApplication {
             populateDB.populateBidsEnded();
             populateDB.populateRatings();
             populateDB.populateMessages();
+
+            recommendationService.Recommendation((long) 2);
 
             // for testing
             //Object o = xmlService.getXmlItems(new Long(2));
