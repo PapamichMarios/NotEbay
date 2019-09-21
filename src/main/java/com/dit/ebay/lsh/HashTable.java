@@ -68,9 +68,12 @@ public class HashTable {
         //sort neighbourhood
         Collections.sort(neighbours, new NeighbourComparator());
         // debug print
+        /*
         for (Neighbour neighbour : neighbours) {
             System.out.println(neighbour.getDistance());
         }
+        */
+
         //return the CN closest neighbours
         if (neighbours.size() > CN) {
 
