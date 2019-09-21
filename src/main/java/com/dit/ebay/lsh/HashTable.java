@@ -1,6 +1,8 @@
 package com.dit.ebay.lsh;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class HashTable {
 
@@ -16,7 +18,7 @@ public class HashTable {
         this.hash_function = new G_Function(k, dimensions);
     }
 
-    public void HashTable_Put(int[] key, Long id){
+    public void HashTable_Put(double[] key, Long id){
 
         //find the hash value
         int hash_val = this.hash_function.G_Function_HashValue(key);
@@ -42,22 +44,39 @@ public class HashTable {
 
     }
 
-    public void HashTable_GetNeighbourhood(int []key) {
+    public ArrayList<Neighbour> HashTable_GetNeighbourhood(double []key) {
         //find the hash value
         int hash_val = this.hash_function.G_Function_HashValue(key);
 
         //iterate to bucket
-        ArrayList<int[]> neighbours = new ArrayList<int[]>();
-        ArrayList<Double> distances = new ArrayList<Double>();
+        ArrayList<Neighbour> neighbours = new ArrayList<Neighbour>();
 
         HashNode entry = this.table[hash_val];
         while(entry != null) {
 
-            neighbours.add(entry.getKey());
-            //calculate cosine distance with the neighbour
-
+            double distance = Utils.cosineDistance(entry.getKey(), key);
+            neighbours.add(new Neighbour(entry.getId(),
+                                         entry.getKey(),
+                                         distance));
 
             entry = entry.getNext();
+        }
+
+        //sort neighbourhood
+        Collections.sort(neighbours, new NeighbourComparator());
+
+        //return the 50 closest neighbours
+        if(neighbours.size() > 50) {
+
+            ArrayList<Neighbour> neighbourhood = new ArrayList<Neighbour>();
+            for(int i=0; i<50; i++)
+                neighbourhood.add(neighbours.get(i));
+
+            return neighbourhood;
+
+        } else {
+
+            return neighbours;
         }
     }
 

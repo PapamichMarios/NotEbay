@@ -16,7 +16,7 @@ public class G_Function {
         }
     }
 
-    public int G_Function_HashValue(int[] x) {
+    public int G_Function_HashValue(double[] x) {
         String hash_val = "";
 
         for(int i=0; i<this.k; i++) {

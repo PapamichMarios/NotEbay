@@ -37,7 +37,7 @@ public class RecommendationService {
 
         //find out number of items from db [dimensions]
         int itemNumber = itemsList.size();
-        int[] userVector = new int[itemNumber];
+        double[] userVector = new double[itemNumber];
 
         //create LSH
         HashTable[] lsh = new HashTable[L];
@@ -49,6 +49,7 @@ public class RecommendationService {
         for (int i = 0; i < itemNumber; i++) {
             userVector[i] = 0;
         }
+
         // current user vector
         for (int j = 0; j < itemsList.size(); j++) {
             // if is inactive then skip it
@@ -102,7 +103,7 @@ public class RecommendationService {
 
         //find out number of items from db [dimensions]
         int itemNumber = itemsList.size();
-        int[] userVector = new int[itemNumber];
+        double[] userVector = new double[itemNumber];
 
         //create LSH
         HashTable[] lsh = new HashTable[L];

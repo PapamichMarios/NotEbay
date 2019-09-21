@@ -1,8 +1,11 @@
 package com.dit.ebay.lsh;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 public class Utils {
 
-    public double cosineDistance(int[] u, int[] v){
+    public static double cosineDistance(double[] u, double[] v){
 
         double dot_product = 0.0;
         double length1 = 0.0;
@@ -22,4 +25,5 @@ public class Utils {
           ==*/
         return (1 - dot_product/length_product);
     }
+
 }

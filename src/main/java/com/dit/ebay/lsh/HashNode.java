@@ -1,23 +1,23 @@
 package com.dit.ebay.lsh;
 
 public class HashNode {
-    private int[] key;
+    private double[] key;
     private String G;
     private HashNode next;
     private Long id;
 
-    public HashNode(int[] key, String G, Long id) {
+    public HashNode(double[] key, String G, Long id) {
         this.key = key;
         this.G = G;
         this.id = id;
         this.next = null;
     }
 
-    public int[] getKey() {
+    public double[] getKey() {
         return key;
     }
 
-    public void setKey(int[] key) {
+    public void setKey(double[] key) {
         this.key = key;
     }
 

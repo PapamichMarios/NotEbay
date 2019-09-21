@@ -15,7 +15,7 @@ public class Hyperplane {
         }
     }
 
-    public int Hyperplane_ComputeH(int[] p) {
+    public int Hyperplane_ComputeH(double[] p) {
         double dot_product=0;
 
         for(int i=0; i<p.length; i++) {
