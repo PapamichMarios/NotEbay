@@ -1,8 +1,12 @@
 package com.dit.ebay.controller;
 
+import com.dit.ebay.lsh.Recommendation;
+import com.dit.ebay.model.Item;
+import com.dit.ebay.repository.UserRepository;
 import com.dit.ebay.request.EnableRequest;
 import com.dit.ebay.response.*;
 import com.dit.ebay.service.BidderRatingService;
+import com.dit.ebay.service.RecommendationService;
 import com.dit.ebay.service.SellerRatingService;
 import com.dit.ebay.util.PaginationConstants;
 import org.slf4j.Logger;
@@ -35,6 +39,9 @@ public class UserController {
 
     @Autowired
     private BidderRatingService bidderRatingService;
+
+    @Autowired
+    private RecommendationService recommendationService;
 
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
@@ -125,5 +132,12 @@ public class UserController {
                                                           @RequestParam(value = "size", defaultValue = PaginationConstants.DEFAULT_SIZE) int size,
                                                           @PathVariable(value = "userId") Long userId) {
         return bidderRatingService.getRatings(userId, page, size);
+    }
+
+    //------------Recommendation
+    @GetMapping("/recommend")
+    @PreAuthorize("hasAnyRole('ROLE_SELLER', 'ROLE_BIDDER')")
+    public List<Item> recommendation(@Valid @CurrentUser UserDetailsImpl currentUser) {
+        return recommendationService.Recommendation(currentUser.getId());
     }
 }
