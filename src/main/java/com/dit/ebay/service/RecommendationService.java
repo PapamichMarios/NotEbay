@@ -125,17 +125,11 @@ public class RecommendationService {
         System.out.println("\n size of vector : " + itemNumber);
         */
 
-        for (int i = 0; i < L; i++) {
-            lsh[i].HashTable_Put(userVector, user.getId());
-        }
-
         double[] userVectorTemp = new double[itemNumber];
-
         // init array with zeroes
         for (int i = 0; i < itemNumber; i++) {
             userVectorTemp[i] = 0;
         }
-
         // for each user
         for (int i = 0; i < usersList.size(); i++) {
             // create vectors
