@@ -51,6 +51,7 @@ public class EbayApplication {
             // Warning must always execute the above function
             populateDB.populateStaticRoles();
             populateDB.createAdmin();
+
             //xmlService.XmlCategoriesImport();
             populateDB.populateUsers();
             populateDB.populateItems();

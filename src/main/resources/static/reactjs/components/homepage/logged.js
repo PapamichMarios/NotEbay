@@ -148,7 +148,7 @@ export default class Logged extends React.Component {
                                     <Button type="submit" variant="dark" block> <b> Submit </b> </Button>
                                   )}
 
-                                  { this.state.hasError ? (
+                                  { this.state.hasError && (
                                       <Form.Row>
                                         <Col>
                                           <br />
@@ -157,8 +157,6 @@ export default class Logged extends React.Component {
                                           </Alert>
                                         </Col>
                                       </Form.Row>
-                                  ) : (
-                                       null
                                   )}
 
                                 </Form>

@@ -1,12 +1,14 @@
 import React from 'react';
 
 import Logged from './logged';
+import Recommendation from './recommendation';
 
 import InfoCarousel from './carousel/infoCarousel';
 
 import isAuthenticated from '../utils/authentication/isLoggedIn';
 import LoadingButton from '../utils/loading/loadingButton';
 import * as Constants from '../utils/constants';
+import isAdmin  from '../utils/authentication/isAdmin';
 
 import { Container, Card, Row, Col, Button, Form, InputGroup, Alert } from 'react-bootstrap';
 import { FaUserFriends, FaSignInAlt, FaLock, FaUser } from 'react-icons/fa';
@@ -19,8 +21,9 @@ export default class Home extends React.Component {
 
     render() {
 
-        let welcomeMsg;
+        let welcomeMsg, recommendation;
         if(isAuthenticated()) {
+
             welcomeMsg = (
                 <Row>
                     <Col>
@@ -37,6 +40,13 @@ export default class Home extends React.Component {
                     </Col>
                 </Row>
             );
+
+            if(!isAdmin()) {
+                recommendation = (
+                    <Recommendation />
+                );
+            }
+
         } else {
             welcomeMsg = (
                 <Logged onLogin={this.props.onLogin} />
@@ -46,6 +56,10 @@ export default class Home extends React.Component {
         return (
             <Container className="navbar-margin">
                 {welcomeMsg}
+
+                <br />
+
+                {recommendation}
 
                 <br />
 
