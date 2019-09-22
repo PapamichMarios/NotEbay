@@ -20,5 +20,6 @@ claude,item5,item1description,100,25.5,2021-11-13 17:00:00,France,48.856440,2.35
 schubert,item6,item6description,60000,60,2021-11-13 17:00:00,Austria,48.203024,16.375596,Wien,item6image,true,111
 vlad,item7,item7description,2500,1500,2022-11-13 17:00:00,Russia,56.166527,40.455652,Vladimir,item1image,true,200
 vlad,item8,item1description,100,25.5,2021-11-13 17:00:00,Russia,56.166527,40.455652,Vladimir,item1image,true,100
-vlad,item100,item1description,100,25.5,2021-11-13 17:00:00,Germany,48.132315,11.570615,Munich,item1image,true,8
-vlad,item200,item1description,100,25.5,2021-11-13 17:00:00,Germany,48.132315,11.570615,Munich,item1image,true,8
+vlad,item100,item1description,1000,25.5,2021-11-13 17:00:00,Germany,48.132315,11.570615,Munich,item1image,true,8
+vlad,item200,item1description,2000,25.5,2021-11-13 17:00:00,Germany,48.132315,11.570615,Munich,item1image,true,8
+vlad,item300,item1description,3000,25.5,2021-11-13 17:00:00,Germany,48.132315,11.570615,Munich,item1image,true,8

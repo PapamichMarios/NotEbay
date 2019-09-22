@@ -137,7 +137,7 @@ public class UserController {
     //------------Recommendation
     @GetMapping("/recommend")
     @PreAuthorize("hasAnyRole('ROLE_SELLER', 'ROLE_BIDDER')")
-    public List<Item> recommendation(@Valid @CurrentUser UserDetailsImpl currentUser) {
+    public List<ItemResponse> recommendation(@Valid @CurrentUser UserDetailsImpl currentUser) {
         return recommendationService.Recommendation(currentUser.getId());
     }
 }
