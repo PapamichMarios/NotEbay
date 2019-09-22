@@ -2,6 +2,8 @@ user_name,item_name,bid_amount,accepted
 liszt,item2,100,true
 liszt,item2,200,true
 liszt,item2,300,true
+liszt,item100,300,true
+liszt,item200,300,true
 sergei,item2,400,true
 claude,item2,500,true
 schubert,item2,600,true

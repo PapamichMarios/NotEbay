@@ -146,6 +146,7 @@ public class RecommendationService {
                 userVectorTemp[j] = !userBidItemList.isEmpty() ? 1 : 0;
             }
 
+            /*
             System.out.println("Vector of User {" + usersList.get(i).getId() + "," + usersList.get(i).getUsername() + "} : ");
             System.out.print("| ");
             // insert in hashtables
@@ -153,6 +154,7 @@ public class RecommendationService {
                 System.out.print("{" + userVectorTemp[l] +" ," + itemsList.get(l).getName() + "} | ");
             }
             System.out.println("\n size of vector : " + itemNumber);
+            */
 
             // insert in hasht-ables
             for (int p = 0; p < L; p++) {
@@ -161,7 +163,7 @@ public class RecommendationService {
         }
 
         double[] userPredVector = computeRecommendation(lsh, userVector);
-
+        //System.out.println(userPredVector.length + " | total items : " + itemNumber);
         /*
         for (double pred : userPredVector) {
             System.out.print(pred + "|");
@@ -178,14 +180,18 @@ public class RecommendationService {
         */
 
         PredictedVector[] predictedVectors = new PredictedVector[itemNumber];
+
         for (int i = 0; i < itemNumber; i++) {
             predictedVectors[i] = new PredictedVector(itemsList.get(i).getId(), userPredVector[i]);
         }
         Arrays.sort(predictedVectors, (a, b) -> Double.compare(b.getPredVal(), a.getPredVal()));
 
+        /*
+        System.out.println("size of pred res : " + predictedVectors.length);
         for (PredictedVector pred : predictedVectors) {
             System.out.println(pred.getItemId() + "|" + pred.getPredVal());
         }
+        */
 
         /*
         for (int i = 0; i < predictedVectors.length; i++) {
@@ -202,7 +208,7 @@ public class RecommendationService {
             Item itemFound = itemRepository.findById(predictedVectors[i].getItemId()).orElse(null);
             if (count == LshConstants.CN)
                 break;
-            if ((Double.compare(predictedVectors[i].getPredVal(),1.0)) < 0 && itemFound != null) {
+            if (itemFound != null) {
                 itemsReco.add(itemFound);
                 count++;
             }
