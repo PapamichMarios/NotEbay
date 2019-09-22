@@ -39,8 +39,23 @@ public class RecommendationService {
 
     public double[] computeRecommendation(HashTable[] lsh, double[] userVector) {
         ArrayList<Neighbour> htNeighbours = new ArrayList<>();
+        // TODO : we will use CN max 5 so i avoided to built hash index on neighbours
         for (int i = 0; i < L; i++) {
-            htNeighbours.addAll(lsh[i].HashTable_GetNeighbourhood(userVector));
+            ArrayList<Neighbour> nFound = lsh[i].HashTable_GetNeighbourhood(userVector);
+            boolean found;
+            for (Neighbour n : nFound) {
+                found = false;
+                for (int j = 0; j < htNeighbours.size(); j++) {
+                    if (n.getKey().equals(htNeighbours.get(j).getKey())) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) htNeighbours.addAll(lsh[i].HashTable_GetNeighbourhood(userVector));
+            }
+        }
+        for (Neighbour n : htNeighbours) {
+            System.out.println(n);
         }
         return Recommendation.predictItem(Recommendation.getRecommendationNeighbours(htNeighbours), userVector);
     }
@@ -51,7 +66,7 @@ public class RecommendationService {
 
         List<Bid> userBids = bidRepository.findAllByBidderId(user.getId());
         if (userBids.isEmpty()) {
-            List<Item> itemsList = itemRepository.findAlllItems(Sort.by(Sort.Direction.DESC, "numOfBids"));
+            List<Item> itemsList = itemRepository.findAllItemsExUser(user.getId(), Sort.by(Sort.Direction.DESC, "numOfBids"));
             List<Item> itemsReco = new ArrayList<>();
             for (int c = 0; c < LshConstants.CN && c < itemsList.size(); c++) {
                 itemsReco.add(itemsList.get(c));
@@ -62,7 +77,7 @@ public class RecommendationService {
 
         int tableSize = (int) Math.pow(2, K);
         List<User> usersList = userRepository.findAllExceptUserId(user.getId());
-        List<Item> itemsList = itemRepository.findAlllItems(Sort.by(Sort.Direction.ASC, "id"));
+        List<Item> itemsList = itemRepository.findAllItemsExUser(user.getId(), Sort.by(Sort.Direction.ASC, "id"));
 
         /*
         for (Item item : itemsList) {
@@ -88,10 +103,12 @@ public class RecommendationService {
         // current user vector
         for (int j = 0; j < itemsList.size(); j++) {
             // if is inactive then skip it
+            /*
             if (!itemsList.get(j).isActive()) {
                 userVector[j] = 0;
                 continue;
             }
+            */
 
             // find if user has bid on current item
             List<Bid> userBidItemList = bidRepository.findByItemIdBidderId(itemsList.get(j).getId(), user.getId());
@@ -124,17 +141,17 @@ public class RecommendationService {
             // create vectors
             for (int j = 0; j < itemsList.size(); j++) {
                 // if is inactive then skip it
+                /*
                 if (!itemsList.get(j).isActive()) {
                     userVectorTemp[j] = 0;
                     continue;
                 }
-
+                */
                 // find if user has bid on current item
-                List<Bid> userBidItemList = bidRepository.findByItemIdBidderId(itemsList.get(j).getId(), user.getId());
+                List<Bid> userBidItemList = bidRepository.findByItemIdBidderId(itemsList.get(j).getId(), usersList.get(i).getId());
                 userVectorTemp[j] = !userBidItemList.isEmpty() ? 1 : 0;
             }
 
-            /*
             System.out.println("Vector of User {" + usersList.get(i).getId() + "," + usersList.get(i).getUsername() + "} : ");
             System.out.print("| ");
             // insert in hashtables
@@ -142,7 +159,6 @@ public class RecommendationService {
                 System.out.print("{" + userVectorTemp[l] +" ," + itemsList.get(l).getName() + "} | ");
             }
             System.out.println("\n size of vector : " + itemNumber);
-            */
 
             // insert in hasht-ables
             for (int p = 0; p < L; p++) {
@@ -171,13 +187,11 @@ public class RecommendationService {
         for (int i = 0; i < itemNumber; i++) {
             predictedVectors[i] = new PredictedVector(itemsList.get(i).getId(), userPredVector[i]);
         }
-        Arrays.sort(predictedVectors, (a, b) -> Double.compare(a.getPredVal(), b.getPredVal()));
+        Arrays.sort(predictedVectors, (a, b) -> Double.compare(b.getPredVal(), a.getPredVal()));
 
-        /*
         for (PredictedVector pred : predictedVectors) {
-            System.out.println(pred.getPredVal());
+            System.out.println(pred.getItemId() + "|" + pred.getPredVal());
         }
-        */
 
         /*
         for (int i = 0; i < predictedVectors.length; i++) {
@@ -191,14 +205,17 @@ public class RecommendationService {
         List<Item> itemsReco = new ArrayList<>();
         // TODO :  we could use binary search instead of reading to main memory
         for (int i = 0; i < itemNumber; i++) {
+            Item itemFound = itemRepository.findById(predictedVectors[i].getItemId()).orElse(null);
             if (count == LshConstants.CN)
                 break;
-            if (Double.compare(predictedVectors[i].getPredVal(),1.0) < 0) {
-                itemsReco.add(itemRepository.findById(predictedVectors[i].getItemId()).orElse(null));
+            if ((Double.compare(predictedVectors[i].getPredVal(),1.0)) < 0 && itemFound != null) {
+                itemsReco.add(itemFound);
                 count++;
             }
         }
-
+        for (Item item : itemsReco) {
+            System.out.println(item.getName() + " | " + item.getId());
+        }
         return itemsReco;
     }
 

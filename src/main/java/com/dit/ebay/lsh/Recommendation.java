@@ -37,9 +37,6 @@ public class Recommendation {
 
     public static double[] predictItem(ArrayList<Neighbour> neighbours, double[] user) {
 
-        //items already seen
-        int[] itemsBid = new int[user.length];
-
         //turn cosine distances into similarities
         for (int i = 0; i < neighbours.size(); i++)
             neighbours.get(i).setDistance(1-neighbours.get(i).getDistance());
@@ -55,8 +52,10 @@ public class Recommendation {
         for (int i=0; i<user.length; i++) {
 
             //skip already seen items
-            if(itemsBid[i] == 1)
+            if(Double.compare(user[i],1.0) == 0) {
+                user[i] = -1.0;
                 continue;
+            }
 
             double similarity_factor = 0;
             for (int j = 0; j < neighbours.size(); j++)

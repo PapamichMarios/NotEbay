@@ -20,8 +20,8 @@ import java.util.Optional;
 @Repository
 public interface ItemRepository extends PagingAndSortingRepository<Item, Long> {
 
-    @Query("select i from Item i")
-    List<Item> findAlllItems(Sort sort);
+    @Query("select i from Item i where i.user.id != :userId")
+    List<Item> findAllItemsExUser(@Param("userId") Long userId, Sort sort);
 
     // Returns the id of item's owner (with role of SELLER)
     @Query("select u.id " +

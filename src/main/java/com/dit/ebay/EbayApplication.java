@@ -60,7 +60,7 @@ public class EbayApplication {
             populateDB.populateRatings();
             populateDB.populateMessages();
 
-            recommendationService.Recommendation((long) 2);
+            recommendationService.Recommendation((long) 3);
 
             // for testing
             //Object o = xmlService.getXmlItems(new Long(2));
