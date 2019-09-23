@@ -89,7 +89,7 @@ export default class ExportAuction extends React.Component {
     render() {
         if(this.props.all) {
             return (
-               <Button size="sm" onClick={this.exportAuctionAll} style={{borderWidth:'0px'}} variant="outline-primary">
+               <Button onClick={this.exportAuctionAll} style={{borderWidth:'0px'}} variant="outline-primary">
                     <FaFileExport style={{verticalAlign: 'baseline'}} />
                </Button>
             );

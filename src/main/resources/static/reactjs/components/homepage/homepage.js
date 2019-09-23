@@ -30,7 +30,7 @@ export default class Home extends React.Component {
                        <Card>
                           <Card.Body>
                             <h4>
-                                Welcome, &nbsp;
+                                <b>Welcome,</b> &nbsp;
                                 <Link to='/profile'>
                                     <b>{localStorage.getItem('username')}</b>
                                 </Link>

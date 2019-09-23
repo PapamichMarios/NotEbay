@@ -227,7 +227,7 @@ class NavBar extends React.Component{
 
                           <NavItem className="button-margin">
                             <NavLink to="/users">
-                              <Button title="User Database" style={{borderWidth:'0px', borderRadius: '50%'}} variant="outline-primary">
+                              <Button title="User Database" style={{borderWidth:'0px'}} variant="outline-primary">
                                 <FaDatabase style={{verticalAlign: 'baseline'}} />
                               </Button>
                             </NavLink>
@@ -235,7 +235,7 @@ class NavBar extends React.Component{
 
                           <NavItem className="button-margin">
                             <NavLink to="/applications">
-                              <Button title="Applications" style={{borderWidth:'0px', borderRadius: '50%'}} variant="outline-primary">
+                              <Button title="Applications" style={{borderWidth:'0px'}} variant="outline-primary">
                                 <FaTasks style={{verticalAlign: 'baseline'}} />
                               </Button>
                             </NavLink>
