@@ -13,6 +13,20 @@ A Spring Data REST &amp; ReactJs project for the purpose of making an auction ty
 - Webpack
 - Various NPM dependencies (package.json)
 
+# How to run
+- Import project as Maven project in IntelliJ
+- Run in the project folder the commands : 
+
+```
+sudo npm install
+sudo npm run build
+```
+
+- Start from IntelliJ and you should be able to browse it from:
+```
+https://localhost:8443/welcome
+```
+
 # Easy Sign Up
 You can apply to our platform in a matter of seconds through our 5 step registration:
 
