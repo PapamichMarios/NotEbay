@@ -173,7 +173,7 @@ class Message extends React.Component{
                                                         </Col>
 
                                                         {inbox ? (
-                                                            <Col md={2}>
+                                                            <Col md={5}>
                                                                 {this.state.message.header}
                                                                 <br/>
                                                                 {this.state.message.otherUser.email} [{this.state.message.otherUser.username}]
@@ -183,7 +183,7 @@ class Message extends React.Component{
                                                                 {timeDecoder(this.state.message.timeSent)} - {dateDecoder(this.state.message.timeSent)}
                                                             </Col>
                                                         ) : (
-                                                            <Col md={2}>
+                                                            <Col md={5}>
                                                                 {this.state.message.header}
                                                                 <br/>
                                                                 Me
@@ -194,7 +194,7 @@ class Message extends React.Component{
                                                             </Col>
                                                         )}
 
-                                                        <Col md={{offset:7}}>
+                                                        <Col md={{offset:4}}>
                                                             <ul style={{listStyleType: 'none'}}>
                                                                 <li>
                                                                     <span className='clickable' onClick={this.replyMsg}>
