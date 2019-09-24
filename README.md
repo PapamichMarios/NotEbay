@@ -15,7 +15,8 @@ A Spring Data REST &amp; ReactJs project for the purpose of making an auction ty
 
 # How to run
 - Import project as Maven project in IntelliJ
-- Run in the project folder the commands : 
+- Make sure there is a directory called ```ebay-data``` with the XML files so the project can import the item categories.
+- Run in the project folder the commands: 
 
 ```
 sudo npm install

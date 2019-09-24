@@ -52,7 +52,7 @@ public class EbayApplication {
             populateDB.populateStaticRoles();
             populateDB.createAdmin();
 
-            //xmlService.XmlCategoriesImport();
+            xmlService.XmlCategoriesImport();
             populateDB.populateUsers();
             populateDB.populateItems();
             populateDB.populateItemsEnded();
