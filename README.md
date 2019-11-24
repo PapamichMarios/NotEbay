@@ -1,5 +1,5 @@
 # Bid It
-A Spring Data REST &amp; ReactJs project for the purpose of making an auction type web application.
+A Spring Boot &amp; ReactJs project for the purpose of making an auction type web application.
 
 # Authors
 - [Georgios Michas](https://github.com/geooo109)
@@ -38,26 +38,20 @@ Every user needs to be reviewed from one of our admin staff after signing up. Th
 # Become a seller
 
 - Create an auction in a matter of seconds, by submitting any number of images.
-
 ![alt text](Wiki%20Photos/create_item.png "Create Auction")
 
 - Review your auctions
-
 ![alt text](Wiki%20Photos/my_auctions.png "My Auctions")
 
 - Edit your auction or take a last peak before submitting.
-
 ![alt text](Wiki%20Photos/start_auction.png "Start Auction")
 
 - Start it and let the bids begin.
-
 ![alt text](Wiki%20Photos/start_auction_pressed.png "Start Auction")
 
 # Elastic Search & Advanced Search
 Search for everything that comes to mind! We 'll take care of the rest.
-
 ![alt text](Wiki%20Photos/advanced_search.png "Advanced Search")
-
 ![alt text](Wiki%20Photos/search_auction.png "Search Result")
 
 # Bid the auction
@@ -71,38 +65,29 @@ Search for everything that comes to mind! We 'll take care of the rest.
 
 # Profile
 Every user has a profile page showing information about 
-
 ![alt text](Wiki%20Photos/profile.png "Profile")
 
 # Communication
 - Sellers and buyers can communicate through messages. 
-
 ![alt text](Wiki%20Photos/message_to_seller.png "Message Seller")
 
 - The users are notified of new messages at any time.
-
 ![alt text](Wiki%20Photos/message_received.png "Message Received")
 
 # Rating
 Rate your buyer or seller for the thriving of the application. You can rate the buyer or seller of the auction only once for the specific item they are selling or buying. High ratings on users make them more trustworthy.
-
 ![alt text](Wiki%20Photos/rate_buyer.png "Rate Buyer")
-
 ![alt text](Wiki%20Photos/rate_seller.png "Rate Seller")
 
 # Admin Supervision
 - Accepting the users applying to sign up to the platform.
-
 ![alt text](Wiki%20Photos/application.png "Application")
-
 ![alt text](Wiki%20Photos/application_accept_deny.png "Application Accept Deny")
 
 - Browsing the list of users. You can export their auctions in XML or JSON or visit their profiles.
-
 ![alt text](Wiki%20Photos/users.png "Users")
 
 
 # Recommendation
 Recommending new products to the ones you have visited using state-of-the-art algorithms, without violating your privacy or selling any of your information to third parties.
-
 ![alt text](Wiki%20Photos/recommendation.png "Recommendation")
